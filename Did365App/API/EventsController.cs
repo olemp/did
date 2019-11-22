@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Did365App.Models;
 using System.Linq;
 using System;
+using System.Net.Http;
 
 namespace Did365App.API
 {
@@ -13,24 +14,26 @@ namespace Did365App.API
     {
         [Authorize]
         [HttpGet]
-        public async Task<IEnumerable<Event>> Get()
+        public async Task<IEnumerable<Event>> Get(HttpRequestMessage request)
         {
-            var outlook_events = await GraphService.GetOutlookEventsAsync();
-            TableService approvedTimeEntriesService = new TableService("ApprovedTimeEntries");
-            TableService projectsService = new TableService("Projects");
-            var entries = approvedTimeEntriesService.GetTable().ExecuteQuery(new TableQuery<ApprovedTimeEntry>() { TakeCount = 100 }).ToList();
-            var projects = projectsService.GetTable().ExecuteQuery(new TableQuery<Project>() { TakeCount = 100 }).ToList();
+            var weekNumber = int.Parse(request.GetQueryNameValuePairs().Where(p => p.Key.Equals("weekNumber")).FirstOrDefault().Value);
+            var outlook_events = await GraphService.GetOutlookEventsAsync(weekNumber);
+            var entries = new ApprovedTimeEntriesService().Get();
+            var projects = new ProjectsService().Get();
             var events = outlook_events.Select(e =>
             {
                 var project = projects.Where(p => e.Body.Content.Contains(p.Key) || e.Categories.Contains(p.Key)).FirstOrDefault();
-
+                var startTime = DateTime.Parse(e.Start.DateTime);
+                var endTime = DateTime.Parse(e.End.DateTime);
                 return new Event()
                 {
                     EventId = e.Id,
                     Subject = e.Subject,
-                    StartTime = DateTime.Parse(e.Start.DateTime),
-                    EndTime = DateTime.Parse(e.End.DateTime),
-                    Project = project
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    Project = project,
+                    WebLink = e.WebLink,
+                    Duration = ((endTime - startTime) as TimeSpan?).Value.TotalMinutes
                 };
             }); ;
             return events;

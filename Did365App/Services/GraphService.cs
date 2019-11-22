@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System;
+using Did365App.Helpers;
 
 namespace Did365App.Services
 {
@@ -33,13 +34,19 @@ namespace Did365App.Services
             return await client.Me.Request().GetAsync();
         }
 
-        public static async Task<IEnumerable<Event>> GetOutlookEventsAsync()
+        public static async Task<IEnumerable<Event>> GetOutlookEventsAsync(int weekNumber)
         {
             var client = GetAuthenticatedClient();
-            var events = await client.Me.Events.Request()
-                .Select("id,subject,body,organizer,start,end,categories")
-                .OrderBy("createdDateTime DESC")
-                .Filter($"start/dateTime ge '2019-11-18 00:00:00' and end/dateTime le '2019-11-24T00:00:00'")
+            var start = DateHelpers.FirstDateOfWeek(2019, weekNumber);
+            List<Option> options = new List<Option>
+            {
+                new QueryOption("startDateTime", start.ToString("o")),
+                new QueryOption("endDateTime", start.AddDays(7).ToString("o"))
+            };
+            var events = await client.Me.Calendar.CalendarView.Request(options)
+                .Select("id,subject,body,organizer,start,end,categories,webLink")
+                .OrderBy("start/dateTime ASC")
+                .Top(100)
                 .GetAsync();
             return events.CurrentPage;
         }

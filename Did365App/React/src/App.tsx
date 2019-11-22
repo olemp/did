@@ -1,10 +1,13 @@
 
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Week } from './Components/Week';
-import { Projects } from './Components/Projects';
-import { Customers } from './Components/Customers';
+import { WeekView } from './components/WeekView';
+import { Projects } from './components/Projects';
+import { Customers } from './components/Customers';
+import { initializeIcons } from '@uifabric/icons';
 
-if (document.getElementById('app-week') !== null) ReactDom.render(<Week />, document.getElementById('app-week'));
+initializeIcons();
+
+if (document.getElementById('app-week') !== null) ReactDom.render(<WeekView weeksToShow={10} />, document.getElementById('app-week'));
 if (document.getElementById('app-projects') !== null) ReactDom.render(<Projects />, document.getElementById('app-projects'));
 if (document.getElementById('app-customers') !== null) ReactDom.render(<Customers />, document.getElementById('app-customers'));
