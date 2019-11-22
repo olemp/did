@@ -10,6 +10,7 @@ namespace Did365App
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            ConfigureApi(app);
         }
     }
 }
