@@ -9,6 +9,16 @@ namespace Did365App.Controllers
             ViewBag.Title = "Home";
             return View();
         }
+        public ActionResult Projects()
+        {
+            ViewBag.Title = "Projects";
+            return View();
+        }
+        public ActionResult Customers()
+        {
+            ViewBag.Title = "Customers";
+            return View();
+        }
 
         public ActionResult About()
         {
