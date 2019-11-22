@@ -15,6 +15,7 @@ namespace Did365App.API
     public class ProjectsController : ApiController
     {
         [Authorize]
+        [HttpGet]
         public IEnumerable<Project> Get()
         {
             using (TableService tableService = new TableService("Projects"))
@@ -24,6 +25,7 @@ namespace Did365App.API
         }
 
         [Authorize]
+        [HttpGet]
         public string Get(int id)
         {
             return "value";
@@ -39,16 +41,6 @@ namespace Did365App.API
                 Project project = JsonConvert.DeserializeObject<Project>(content);
                 return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(project));
             }
-        }
-
-        [Authorize]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        [Authorize]
-        public void Delete(int id)
-        {
         }
     }
 }

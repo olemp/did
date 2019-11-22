@@ -438,6 +438,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -453,6 +454,7 @@
     <Content Include="Views\Events\Week.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\EventsController.cs" />
     <Compile Include="API\ProjectsController.cs" />
     <Compile Include="API\TimeEntriesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

@@ -1,6 +1,4 @@
-﻿using Did365App.Services;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Did365App.Controllers
@@ -14,19 +12,9 @@ namespace Did365App.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> Week()
+        public ActionResult Week()
         {
-            var events = await GraphService.GetEventsAsync();
-
-            foreach (var ev in events)
-            {
-                ev.Start.DateTime = DateTime.Parse(ev.Start.DateTime).ToLocalTime().ToString();
-                ev.Start.TimeZone = TimeZoneInfo.Local.Id;
-                ev.End.DateTime = DateTime.Parse(ev.End.DateTime).ToLocalTime().ToString();
-                ev.End.TimeZone = TimeZoneInfo.Local.Id;
-            }
-
-            return View(events);
+            return View();
         }
     }
 }
