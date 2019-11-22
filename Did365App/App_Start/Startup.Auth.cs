@@ -37,7 +37,7 @@ namespace Did365App
                     PostLogoutRedirectUri = redirectUri,
                     TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
                     },
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {

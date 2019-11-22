@@ -33,11 +33,11 @@ namespace Did365App.Services
             return await client.Me.Request().GetAsync();
         }
 
-        public static async Task<IEnumerable<Event>> GetEventsAsync()
+        public static async Task<IEnumerable<Event>> GetOutlookEventsAsync()
         {
             var client = GetAuthenticatedClient();
             var events = await client.Me.Events.Request()
-                .Select("subject,organizer,start,end")
+                .Select("id,subject,body,organizer,start,end,categories")
                 .OrderBy("createdDateTime DESC")
                 .Filter($"start/dateTime ge '2019-11-18 00:00:00' and end/dateTime le '2019-11-24T00:00:00'")
                 .GetAsync();

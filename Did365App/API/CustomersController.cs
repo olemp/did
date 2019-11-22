@@ -16,22 +16,18 @@ namespace Did365App.API
         [HttpGet]
         public IEnumerable<Customer> Get()
         {
-            using (TableService tableService = new TableService("Customers"))
-            {
-                return tableService.GetTable().ExecuteQuery(new TableQuery<Customer>()).ToList();
-            }
+            TableService tableService = new TableService("Customers");
+            return tableService.GetTable().ExecuteQuery(new TableQuery<Customer>()).ToList();
         }
 
         [HttpPost]
         [Authorize]
         public async Task<TableResult> Post(HttpRequestMessage request)
         {
-            using (TableService tableService = new TableService("Customers"))
-            {
-                string content = await request.Content.ReadAsStringAsync();
-                Customer customer = JsonConvert.DeserializeObject<Customer>(content);
-                return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(customer));
-            }
+            TableService customertTableService = new TableService("Customers");
+            string content = await request.Content.ReadAsStringAsync();
+            Customer customer = JsonConvert.DeserializeObject<Customer>(content);
+            return await customertTableService.GetTable().ExecuteAsync(TableOperation.Insert(customer));
         }
     }
 }

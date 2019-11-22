@@ -33,6 +33,7 @@ export class Projects extends React.Component<{}, any> {
                     { key: 'projectKey', fieldName: 'projectKey', name: 'Project Key', minWidth: 100 },
                     { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
                 ]} items={this.state.projects} />
+                <TextField onChange={(_, newValue) => this.setState({ customerKey: newValue })} placeholder='Customer Key' />
                 <TextField onChange={(_, newValue) => this.setState({ projectKey: newValue })} placeholder='Project Key' />
                 <TextField onChange={(_, newValue) => this.setState({ name: newValue })} placeholder='Project Name' />
                 <DefaultButton text='Add' onClick={this._onAddProject.bind(this)} />
@@ -48,7 +49,11 @@ export class Projects extends React.Component<{}, any> {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ projectKey: this.state.projectKey, name: this.state.name }),
+            body: JSON.stringify({
+                customerKey: this.state.customerKey,
+                projectKey: this.state.projectKey,
+                name: this.state.name,
+            }),
         });
     }
 }

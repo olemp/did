@@ -18,14 +18,13 @@ namespace Did365App.TokenStorage
     {
         private static readonly ReaderWriterLockSlim sessionLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
-        private HttpContext httpContext = null;
-        private string tokenCacheKey = string.Empty;
-        private string userCacheKey = string.Empty;
+        private HttpContext HttpContext { get; set; }
+        private string UserCacheKey { get; set; }
+        public string TokenCacheKey { get; set; }
 
         public SessionTokenStore(ITokenCache tokenCache, HttpContext context, ClaimsPrincipal user)
         {
-            httpContext = context;
-
+            HttpContext = context;
             if (tokenCache != null)
             {
                 tokenCache.SetBeforeAccess(BeforeAccessNotification);
@@ -33,14 +32,13 @@ namespace Did365App.TokenStorage
             }
 
             var userId = GetUsersUniqueId(user);
-            tokenCacheKey = $"{userId}_TokenCache";
-            userCacheKey = $"{userId}_UserCache";
+            TokenCacheKey = $"{userId}_TokenCache";
+            UserCacheKey = $"{userId}_UserCache";
         }
 
         public bool HasData()
         {
-            return (httpContext.Session[tokenCacheKey] != null &&
-                ((byte[])httpContext.Session[tokenCacheKey]).Length > 0);
+            return (HttpContext.Session[TokenCacheKey] != null && ((byte[])HttpContext.Session[TokenCacheKey]).Length > 0);
         }
 
         public void Clear()
@@ -49,7 +47,7 @@ namespace Did365App.TokenStorage
 
             try
             {
-                httpContext.Session.Remove(tokenCacheKey);
+                HttpContext.Session.Remove(TokenCacheKey);
             }
             finally
             {
@@ -64,7 +62,7 @@ namespace Did365App.TokenStorage
             try
             {
                 // Load the cache from the session
-                args.TokenCache.DeserializeMsalV3((byte[])httpContext.Session[tokenCacheKey]);
+                args.TokenCache.DeserializeMsalV3((byte[])HttpContext.Session[TokenCacheKey]);
             }
             finally
             {
@@ -81,7 +79,7 @@ namespace Did365App.TokenStorage
                 try
                 {
                     // Store the serialized cache in the session
-                    httpContext.Session[tokenCacheKey] = args.TokenCache.SerializeMsalV3();
+                    HttpContext.Session[TokenCacheKey] = args.TokenCache.SerializeMsalV3();
                 }
                 finally
                 {
@@ -94,22 +92,20 @@ namespace Did365App.TokenStorage
         {
 
             sessionLock.EnterWriteLock();
-            httpContext.Session[userCacheKey] = JsonConvert.SerializeObject(user);
+            HttpContext.Session[UserCacheKey] = JsonConvert.SerializeObject(user);
             sessionLock.ExitWriteLock();
         }
 
         public CachedUser GetUserDetails()
         {
             sessionLock.EnterReadLock();
-            var cachedUser = JsonConvert.DeserializeObject<CachedUser>((string)httpContext.Session[userCacheKey]);
+            var cachedUser = JsonConvert.DeserializeObject<CachedUser>((string)HttpContext.Session[UserCacheKey]);
             sessionLock.ExitReadLock();
             return cachedUser;
         }
 
         private string GetUsersUniqueId(ClaimsPrincipal user)
         {
-            // Combine the user's object ID with their tenant ID
-
             if (user != null)
             {
                 var userObjectId = user.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value ??

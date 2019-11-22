@@ -18,10 +18,8 @@ namespace Did365App.API
         [HttpGet]
         public IEnumerable<Project> Get()
         {
-            using (TableService tableService = new TableService("Projects"))
-            {
-                return tableService.GetTable().ExecuteQuery(new TableQuery<Project>()).ToList();
-            }
+            TableService tableService = new TableService("Projects");
+            return tableService.GetTable().ExecuteQuery(new TableQuery<Project>()).ToList();
         }
 
         [Authorize]
@@ -35,12 +33,10 @@ namespace Did365App.API
         [Authorize]
         public async Task<TableResult> Post(HttpRequestMessage request)
         {
-            using (TableService tableService = new TableService("Projects"))
-            {
-                string content = await request.Content.ReadAsStringAsync();
-                Project project = JsonConvert.DeserializeObject<Project>(content);
-                return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(project));
-            }
+            TableService tableService = new TableService("Projects");
+            string content = await request.Content.ReadAsStringAsync();
+            Project project = JsonConvert.DeserializeObject<Project>(content);
+            return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(project));
         }
     }
 }

@@ -7,7 +7,7 @@ using Did365App.Models;
 
 namespace Did365App.Services
 {
-    public class TableService : IDisposable
+    public class TableService
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["AzureTableStorage"].ConnectionString;
         private CloudTable table;
@@ -39,11 +39,6 @@ namespace Did365App.Services
         public CloudTable GetTable()
         {
             return table;
-        }
-
-        void IDisposable.Dispose()
-        {
-            
         }
     }
 }
