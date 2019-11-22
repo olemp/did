@@ -24,15 +24,24 @@
                     <li>
                         <a href="/">Home</a>
                     </li>
-                    <li>
-                        <a href="/Events/Week">Week</a>
-                    </li>
-                    <li>
-                        <a href="/Home/About">About</a>
-                    </li>
-                    <li>
-                        <a href="/Home/Contact">Contact</a>
-                    </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="/Events/Week">Week</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About">About</a>
+                        </li>
+                        <li>
+                            <a href="/Home/Contact">Contact</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/Account/SignIn">Sign in</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

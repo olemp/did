@@ -7,8 +7,11 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Owin;
 using System.Configuration;
+using System.Net.Http.Formatting;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,6 +30,13 @@ namespace Did365App
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.JsonFormatter.SerializerSettings =
+            new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
             app.UseWebApi(config);
         }
     }

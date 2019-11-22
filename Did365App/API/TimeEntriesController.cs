@@ -1,5 +1,7 @@
-﻿using Did365App.Services;
+﻿using Did365App.Models;
+using Did365App.Services;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +16,22 @@ namespace Did365App.API
     {
         [Authorize]
         [HttpGet]
-        public async Task<string> Get()
+        public IEnumerable<TimeEntry> Get()
         {
             using (TableService tableService = new TableService("TimeEntries"))
             {
-                return await tableService.Add();
+                return  tableService.GetTable().ExecuteQuery(new TableQuery<TimeEntry>()).ToList();
             }
         }
+
+
+        //[HttpPost]
+        //public async Task<string> Post([FromBody]string content)
+        //{
+        //    using (TableService tableService = new TableService("TimeEntries"))
+        //    {
+            
+        //    }
+        //}
     }
 }

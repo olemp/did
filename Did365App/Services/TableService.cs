@@ -36,10 +36,9 @@ namespace Did365App.Services
             }
         }
 
-        public async Task<string> Add()
+        public CloudTable GetTable()
         {
-            TableResult result = await table.ExecuteAsync(TableOperation.Insert(new TimeEntry()));
-            return result.Etag;
+            return table;
         }
 
         void IDisposable.Dispose()
