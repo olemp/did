@@ -8,7 +8,13 @@ namespace Did365App.Controllers
     public class EventsController : BaseController
     {
         [Authorize]
-        public async Task<ActionResult> Index()
+        public  ActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Week()
         {
             var events = await GraphService.GetEventsAsync();
 

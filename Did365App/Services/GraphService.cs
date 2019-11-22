@@ -2,12 +2,14 @@
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Did365App.TokenStorage;
+using Did365App.Extensions;
 using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System;
 
 namespace Did365App.Services
 {
@@ -37,6 +39,7 @@ namespace Did365App.Services
             var events = await client.Me.Events.Request()
                 .Select("subject,organizer,start,end")
                 .OrderBy("createdDateTime DESC")
+                .Filter($"start/dateTime ge '2019-11-18 00:00:00' and end/dateTime le '2019-11-24T00:00:00'")
                 .GetAsync();
             return events.CurrentPage;
         }
