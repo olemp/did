@@ -14,6 +14,7 @@ namespace Did365App.Controllers
         [Authorize]
         public ActionResult Week()
         {
+            ViewBag.Title = "Week";
             return View();
         }
     }

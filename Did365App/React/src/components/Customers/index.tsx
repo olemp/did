@@ -4,9 +4,12 @@ import { DetailsList } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { ICustomersState } from './ICustomersState';
 
-export class Customers extends React.Component<{}, any> {
-    constructor(props) {
+export class Customers extends React.Component<{}, ICustomersState> {
+    private _columns = [{ key: 'name', fieldName: 'name', name: 'Name', minWidth: 100, maxWidth: 200 }];
+
+    constructor(props: {}) {
         super(props);
         this.state = { isLoading: true, customers: [] };
     }
@@ -29,9 +32,11 @@ export class Customers extends React.Component<{}, any> {
         }
         return (
             <div>
-                <DetailsList columns={[{ key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }]} items={this.state.customers} />
-                <TextField onChange={(_, newValue) => this.setState({ name: newValue })} placeholder='Customer name' />
-                <DefaultButton text='Add' onClick={this._onAddCustomer.bind(this)} />
+                <DetailsList columns={this._columns} items={this.state.customers} />
+                <div hidden={true}>
+                    <TextField onChange={(_, newValue) => this.setState({ name: newValue })} placeholder='Customer name' />
+                    <DefaultButton text='Add' onClick={this._onAddCustomer.bind(this)} />
+                </div>
             </div>
         );
     }

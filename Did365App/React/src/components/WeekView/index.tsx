@@ -34,30 +34,33 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         if (this.state.isLoading) {
             return <Spinner label='Loading your week....' />;
         }
+
         return (
-            <div>
+            <>
                 <Actions onConfirmWeek={this._onConfirmWeek.bind(this)} />
                 <WeekConfirmedMessage hidden={!this.state.isConfirmed} totalDuration={this.state.totalDuration} />
                 <div hidden={!this.state.isConfirming}>
                     <Spinner label='Confirming the week....' />
                 </div>
                 <Pivot defaultSelectedKey={`${this.state.weekNumber}`} onLinkClick={this._onChangeWeek.bind(this)}>
-                    {Array.from(Array(10).keys()).map(i => {
-                        let wn = weekNumber() - 9 + i;
+                    {Array.from(Array(this.props.weeksToShow).keys()).map(i => {
+                        let wn = weekNumber() - (this.props.weeksToShow - 1) + i;
                         return (
                             <PivotItem
                                 key={i}
                                 itemKey={`${wn}`}
                                 headerText={`Week ${wn}`}>
-                                <div hidden={this.state.isConfirmed || this.state.isConfirming || wn !== this.state.weekNumber}>
-                                    <WeekStatusBar totalDuration={this.state.totalDuration} />
-                                    <EventList events={this.state.events} />
-                                </div>
+                                {wn === this.state.weekNumber && (
+                                    <div hidden={this.state.isConfirmed || this.state.isConfirming}>
+                                        <WeekStatusBar totalDuration={this.state.totalDuration} matchedDuration={this.state.matchedDuration} />
+                                        <EventList events={this.state.events} />
+                                    </div>
+                                )}
                             </PivotItem>
                         )
                     })}
                 </Pivot>
-            </div>
+            </>
         );
     }
 

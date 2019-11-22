@@ -1,12 +1,18 @@
 
 import * as React from 'react';
-import { DetailsList } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { IProjectsState } from './IProjectsState';
 
-export class Projects extends React.Component<{}, any> {
-    constructor(props) {
+export class Projects extends React.Component<{}, IProjectsState> {
+    private _columns: IColumn[] = [
+        { key: 'projectKey', fieldName: 'projectKey', name: 'Project Key', minWidth: 100, maxWidth: 100, },
+        { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
+    ];
+
+    constructor(props: {}) {
         super(props);
         this.state = { isLoading: true, projects: [] };
     }
@@ -29,14 +35,13 @@ export class Projects extends React.Component<{}, any> {
         }
         return (
             <div>
-                <DetailsList columns={[
-                    { key: 'projectKey', fieldName: 'projectKey', name: 'Project Key', minWidth: 100 },
-                    { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
-                ]} items={this.state.projects} />
-                <TextField onChange={(_, newValue) => this.setState({ customerKey: newValue })} placeholder='Customer Key' />
-                <TextField onChange={(_, newValue) => this.setState({ projectKey: newValue })} placeholder='Project Key' />
-                <TextField onChange={(_, newValue) => this.setState({ name: newValue })} placeholder='Project Name' />
-                <DefaultButton text='Add' onClick={this._onAddProject.bind(this)} />
+                <DetailsList columns={this._columns} items={this.state.projects} />
+                <div hidden={true}>
+                    <TextField onChange={(_, newValue) => this.setState({ customerKey: newValue })} placeholder='Customer Key' />
+                    <TextField onChange={(_, newValue) => this.setState({ projectKey: newValue })} placeholder='Project Key' />
+                    <TextField onChange={(_, newValue) => this.setState({ name: newValue })} placeholder='Project Name' />
+                    <DefaultButton text='Add' onClick={this._onAddProject.bind(this)} />
+                </div>
             </div>
         );
     }
