@@ -6,20 +6,19 @@ namespace Did365App.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Title = "Home";
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.Title = "About";
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
+            ViewBag.Title = "Contact";
             return View();
         }
 

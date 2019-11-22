@@ -20,7 +20,7 @@ namespace Did365App.Services
 
         public static async Task<User> GetUserDetailsAsync(string accessToken)
         {
-            var graphClient = new GraphServiceClient(
+            var client = new GraphServiceClient(
                 new DelegateAuthenticationProvider(
                     async (requestMessage) =>
                     {
@@ -28,18 +28,16 @@ namespace Did365App.Services
                             new AuthenticationHeaderValue("Bearer", accessToken);
                     }));
 
-            return await graphClient.Me.Request().GetAsync();
+            return await client.Me.Request().GetAsync();
         }
 
         public static async Task<IEnumerable<Event>> GetEventsAsync()
         {
-            var graphClient = GetAuthenticatedClient();
-
-            var events = await graphClient.Me.Events.Request()
+            var client = GetAuthenticatedClient();
+            var events = await client.Me.Events.Request()
                 .Select("subject,organizer,start,end")
                 .OrderBy("createdDateTime DESC")
                 .GetAsync();
-
             return events.CurrentPage;
         }
 
@@ -53,12 +51,9 @@ namespace Did365App.Services
                             .WithRedirectUri(redirectUri)
                             .WithClientSecret(clientSecret)
                             .Build();
-
                         var tokenStore = new SessionTokenStore(idClient.UserTokenCache,
                             HttpContext.Current, ClaimsPrincipal.Current);
-
                         var accounts = await idClient.GetAccountsAsync();
-
                         var scopes = graphScopes.Split(' ');
                         var result = await idClient.AcquireTokenSilent(scopes, accounts.FirstOrDefault())
                             .ExecuteAsync();
