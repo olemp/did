@@ -30,8 +30,20 @@ namespace Did365App.API
         //{
         //    using (TableService tableService = new TableService("TimeEntries"))
         //    {
-            
+
         //    }
         //}
+
+        [HttpPost]
+        [Authorize]
+        public async Task<TableResult> Post(HttpRequestMessage request)
+        {
+            using (TableService tableService = new TableService("TimeEntries"))
+            {
+                string content = await request.Content.ReadAsStringAsync();
+                TimeEntry timeEntry = JsonConvert.DeserializeObject<TimeEntry>(content);
+                return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(timeEntry));
+            }
+        }
     }
 }

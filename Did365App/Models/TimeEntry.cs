@@ -6,6 +6,8 @@ namespace Did365App.Models
 {
     public class TimeEntry : TableEntity
     {
+        [JsonProperty(PropertyName = "eventId", NullValueHandling = NullValueHandling.Ignore)]
+        public string EventId { get; set; }
         [JsonProperty(PropertyName = "subject", NullValueHandling = NullValueHandling.Ignore)]
         public string Subject { get; set; }
 
@@ -16,10 +18,11 @@ namespace Did365App.Models
             RowKey = Guid.NewGuid().ToString();
         }
 
-        public TimeEntry(string subject)
+        public TimeEntry(string eventId, string subject)
         {
             PartitionKey = "Default";
             RowKey = Guid.NewGuid().ToString();
+            EventId = eventId;
             Subject = subject;
         }
     }
