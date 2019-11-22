@@ -18,25 +18,18 @@ namespace Did365App.API
         [HttpGet]
         public IEnumerable<Project> Get()
         {
-            TableService tableService = new TableService("Projects");
-            return tableService.GetTable().ExecuteQuery(new TableQuery<Project>()).ToList();
-        }
-
-        [Authorize]
-        [HttpGet]
-        public string Get(int id)
-        {
-            return "value";
+            var projects = new ProjectsService().Get();
+            return projects;
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<TableResult> Post(HttpRequestMessage request)
+        public async Task<object> Post(HttpRequestMessage request)
         {
-            TableService tableService = new TableService("Projects");
             string content = await request.Content.ReadAsStringAsync();
             Project project = JsonConvert.DeserializeObject<Project>(content);
-            return await tableService.GetTable().ExecuteAsync(TableOperation.Insert(project));
+            new ProjectsService().Add(project);
+            return Ok();
         }
     }
 }

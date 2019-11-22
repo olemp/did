@@ -42,7 +42,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
                 <div hidden={!this.state.isConfirming}>
                     <Spinner label='Confirming the week....' />
                 </div>
-                <Pivot defaultSelectedKey={`${this.state.weekNumber}`} onLinkClick={this._onChangeWeek.bind(this)}>
+                <Pivot styles={{ root: { display: 'flex', flexWrap: 'wrap' } }} defaultSelectedKey={`${this.state.weekNumber}`} onLinkClick={item => this._onChangeWeek(parseInt(item.props.itemKey))}>
                     {Array.from(Array(this.props.weeksToShow).keys()).map(i => {
                         let wn = weekNumber() - (this.props.weeksToShow - 1) + i;
                         return (
@@ -64,12 +64,19 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         );
     }
 
-    private async _onChangeWeek(item: PivotItem) {
-        let weekNumber = parseInt(item.props.itemKey);
+    /**
+     * On change week
+     * 
+     * @param {number} weekNumber Week number
+     */
+    private async _onChangeWeek(weekNumber: number) {
         let { events, totalDuration, matchedDuration } = await this._getEvents(weekNumber);
-        this.setState({ events, totalDuration, matchedDuration, weekNumber });
+        this.setState({ events, totalDuration, matchedDuration, weekNumber, isConfirmed: false });
     }
 
+    /**
+     * On confirm week
+     */
     private _onConfirmWeek() {
         this.setState({ isConfirming: true });
         window.setTimeout(() => {
@@ -77,6 +84,11 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         }, 7000);
     }
 
+    /**
+     * Get events for week number
+     * 
+     * @param {number} weekNumber Week number
+     */
     private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
         let events: ICalEvent[] = await (await fetch(`/api/events?weekNumber=${weekNumber}`, {
             method: 'GET',
@@ -86,10 +98,11 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
                 'Content-Type': 'application/json'
             },
         })).json();
+        let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
         return {
             events,
-            matchedDuration: events.filter(e => e.project).reduce((total: number, e: any) => total + e.duration, 0),
-            totalDuration: events.reduce((total: number, e: any) => total + e.duration, 0),
+            matchedDuration: events.filter(e => e.project).reduce(calcDuration, 0),
+            totalDuration: events.reduce(calcDuration, 0),
         }
     }
 }

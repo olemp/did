@@ -1,4 +1,5 @@
 dependencies:
+  moment: 2.24.0
   office-ui-fabric-react: 7.64.1_b14b87ba80ab4777e51b40d63b590612
   react: 16.12.0
   react-dom: 16.12.0_react@16.12.0
@@ -1249,7 +1250,7 @@ packages:
       browserify-rsa: 4.0.1
       create-hash: 1.2.0
       create-hmac: 1.1.7
-      elliptic: 6.5.1
+      elliptic: 6.5.2
       inherits: 2.0.4
       parse-asn1: 5.1.5
     dev: true
@@ -1264,7 +1265,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30001011
-      electron-to-chromium: 1.3.310
+      electron-to-chromium: 1.3.311
     dev: true
     hasBin: true
     resolution:
@@ -1623,7 +1624,7 @@ packages:
   /create-ecdh/4.0.3:
     dependencies:
       bn.js: 4.11.8
-      elliptic: 6.5.1
+      elliptic: 6.5.2
     dev: true
     resolution:
       integrity: sha512-GbEHQPMOswGpKXM9kCWVrremUcBmjteUaQ01T9rkKCPDXfUHX0IoP9LpHYo2NPFampa4e+/pFDc3jQdxrxQLaw==
@@ -1894,11 +1895,11 @@ packages:
     dev: true
     resolution:
       integrity: sha1-OoOpBOVDUyh4dMVkt1SThoSamMk=
-  /electron-to-chromium/1.3.310:
+  /electron-to-chromium/1.3.311:
     dev: true
     resolution:
-      integrity: sha512-ixvxy46JrDv5c8k1+th66Z+xDZD8zShNs6oh7hgyMpNZUgaoRBisXgFZKAyyhQTAj7oU2Y/uZ0AAsj/TY4N0tA==
-  /elliptic/6.5.1:
+      integrity: sha512-7GH6RKCzziLzJ9ejmbiBEdzHZsc6C3eRpav14dmRfTWMpNgMqpP1ukw/FU/Le2fR+ep642naq7a23xNdmh2s+A==
+  /elliptic/6.5.2:
     dependencies:
       bn.js: 4.11.8
       brorand: 1.1.0
@@ -1909,7 +1910,7 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: true
     resolution:
-      integrity: sha512-xvJINNLbTeWQjrl6X+7eQCrIy/YPv5XCpKW6kB5mKvtnGILoLDcySuwomfdzt0BMdLNVnuRNTuzKNHj0bva1Cg==
+      integrity: sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
   /emoji-regex/7.0.3:
     dev: true
     resolution:
@@ -3358,6 +3359,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
+  /moment/2.24.0:
+    dev: false
+    resolution:
+      integrity: sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
   /move-concurrently/1.0.1:
     dependencies:
       aproba: 1.2.0
@@ -5456,6 +5461,7 @@ specifiers:
   babel-preset-env: ^1.7.0
   babel-preset-es2015: ^6.24.1
   fibers: ^4.0.2
+  moment: ^2.24.0
   node-sass: ^4.13.0
   npm-watch: ^0.6.0
   office-ui-fabric-react: ^7.64.0

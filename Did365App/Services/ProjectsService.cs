@@ -1,8 +1,4 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Configuration;
-using System.Threading.Tasks;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 using Did365App.Models;
 using System.Linq;
 using System.Collections.Generic;
@@ -18,7 +14,16 @@ namespace Did365App.Services
 
         public IEnumerable<Project> Get()
         {
-            return GetTable().ExecuteQuery(new TableQuery<Project>() { TakeCount = 100 }).ToList();
+            var query = new TableQuery<Project>() {
+                TakeCount = 100
+            };
+            return GetTable().ExecuteQuery(query).ToList();
+        }
+
+
+        public TableResult Add(Project project)
+        {
+            return GetTable().Execute(TableOperation.Insert(project));
         }
     }
 }

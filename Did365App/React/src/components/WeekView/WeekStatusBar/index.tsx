@@ -6,7 +6,7 @@ import { getDurationDisplay } from '../../../helpers';
 export const WeekStatusBar = ({ totalDuration, matchedDuration }) => {
     return (
         <div>
-            <div>
+            <div style={{ marginTop: 10 }}>
                 <MessageBar messageBarType={MessageBarType.info} messageBarIconProps={{ iconName: 'ReminderTime' }}>
                     {getDurationDisplay(totalDuration)}
                 </MessageBar>

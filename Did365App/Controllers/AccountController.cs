@@ -14,9 +14,7 @@ namespace Did365App.Controllers
         {
             if (!Request.IsAuthenticated)
             {
-                Request.GetOwinContext().Authentication.Challenge(
-                    new AuthenticationProperties { RedirectUri = "/" },
-                    OpenIdConnectAuthenticationDefaults.AuthenticationType);
+                Request.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" }, OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }
         }
 
@@ -24,13 +22,11 @@ namespace Did365App.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                var tokenStore = new SessionTokenStore(null,
-                    System.Web.HttpContext.Current, ClaimsPrincipal.Current);
+                var tokenStore = new SessionTokenStore(null, System.Web.HttpContext.Current, ClaimsPrincipal.Current);
 
                 tokenStore.Clear();
 
-                Request.GetOwinContext().Authentication.SignOut(
-                    CookieAuthenticationDefaults.AuthenticationType);
+                Request.GetOwinContext().Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             }
 
             return RedirectToAction("Index", "Home");

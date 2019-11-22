@@ -44,7 +44,7 @@ namespace Did365App.Services
                 new QueryOption("endDateTime", start.AddDays(7).ToString("o"))
             };
             var events = await client.Me.Calendar.CalendarView.Request(options)
-                .Select("id,subject,body,organizer,start,end,categories,webLink")
+                .Select("id,subject,body,organizer,start,end,categories,webLink,iscancelled,isallday")
                 .OrderBy("start/dateTime ASC")
                 .Top(100)
                 .GetAsync();

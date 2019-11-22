@@ -481,6 +481,7 @@
     <Compile Include="Services\ProjectsService.cs" />
     <Compile Include="Services\GraphService.cs" />
     <Compile Include="Services\ApprovedTimeEntriesService.cs" />
+    <Compile Include="Services\CustomersService.cs" />
     <Compile Include="Services\TableService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="TokenStorage\SessionTokenStore.cs" />

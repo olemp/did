@@ -1,8 +1,9 @@
 
-import { DetailsList, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
-
+import * as moment from 'moment';
+require('moment/locale/en-gb');
 
 
 function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
@@ -10,7 +11,7 @@ function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderDate(item: ICalEvent, _index: number, col: IColumn) {
-    return new Date(item[col.fieldName]).toDateString();
+    return moment(new Date(item[col.fieldName])).format('dddd HH:mm')
 }
 
 function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
@@ -25,8 +26,8 @@ function renderProject(item: ICalEvent) {
 
 const Columns: IColumn[] = [
     { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
-    { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 150 },
-    { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 150 },
+    { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140 },
+    { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140 },
     { key: 'duration', fieldName: 'duration', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];
@@ -37,6 +38,8 @@ export const EventList = ({ events }) => {
         <DetailsList
             columns={Columns}
             items={events}
-            selectionMode={SelectionMode.none} />
+            selectionMode={SelectionMode.none}
+            constrainMode={ConstrainMode.horizontalConstrained}
+            layoutMode={DetailsListLayoutMode.justified} />
     );
 }
