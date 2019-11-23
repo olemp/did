@@ -12,9 +12,7 @@ import './style.scss';
 
 const App = () => (
   <div className="app-wrapper">
-    <Helmet
-      titleTemplate="%s - Did 365"
-      defaultTitle="Did 365">
+    <Helmet titleTemplate="%s - Did 365" defaultTitle="Did 365">
       <meta name="description" content="A React.js Boilerplate application" />
     </Helmet>
     <Header />
