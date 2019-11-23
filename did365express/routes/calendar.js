@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var tokens = require('../tokens.js');
-var graph = require('../graph.js');
+var graph = require('../api/graph.js');
 
 /* GET /calendar */
 router.get('/',
