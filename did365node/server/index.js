@@ -73,7 +73,8 @@ passport.use(new OIDCStrategy(
     clientSecret: process.env.OAUTH_APP_PASSWORD,
     validateIssuer: false,
     passReqToCallback: false,
-    scope: process.env.OAUTH_SCOPES.split(' ')
+    scope: process.env.OAUTH_SCOPES.split(' '),
+    loggingLevel: 'info'
   },
   signInComplete
 ));
