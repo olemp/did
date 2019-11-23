@@ -8,7 +8,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require('passport');
 var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-var graph = require('./graph');
+var graph = require('./api/graph');
 
 // Configure simple-oauth2
 const oauth2 = require('simple-oauth2').create({
