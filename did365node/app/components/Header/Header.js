@@ -10,6 +10,7 @@ const Header = () => (
       <Link className="router-link" to="/week_view">Week</Link>
       <Link className="router-link" to="/customers">Customers</Link>
       <Link className="router-link" to="/projects">Projects</Link>
+      <a className="router-link" href="/auth/signin">Sign in</a>
     </div>
   </div>
 );
