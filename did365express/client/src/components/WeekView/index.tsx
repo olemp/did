@@ -9,6 +9,8 @@ import { IWeekViewProps } from './IWeekViewProps';
 import { IWeekViewState } from './IWeekViewState';
 import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
+import * as moment from 'moment';
+require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     constructor(props: IWeekViewProps) {
@@ -17,11 +19,12 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
             isLoading: true,
             events: [],
             weekNumber: weekNumber(),
+            startOfWeek: moment().startOf('week'),
         };
     }
 
     public async componentDidMount(): Promise<void> {
-        let { events, totalDuration, matchedDuration } = await this._getEvents(this.state.weekNumber);
+        let { events, totalDuration, matchedDuration } = await this._getEvents(this.state.startOfWeek);
         this.setState({
             events,
             totalDuration,
@@ -70,8 +73,19 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _onChangeWeek(weekNumber: number) {
-        let { events, totalDuration, matchedDuration } = await this._getEvents(weekNumber);
-        this.setState({ events, totalDuration, matchedDuration, weekNumber, isConfirmed: false });
+        let weekDiff = weekNumber - this.state.weekNumber;
+        if (weekDiff === 0) return;
+        let startOfWeek = this.state.startOfWeek.add(7 * weekDiff, 'days').startOf('week');
+        let { events, totalDuration, matchedDuration } = await this._getEvents(startOfWeek);
+        console.log(weekNumber, startOfWeek, totalDuration, matchedDuration);
+        this.setState({
+            events,
+            totalDuration,
+            matchedDuration,
+            weekNumber,
+            startOfWeek,
+            isConfirmed: false,
+        });
     }
 
     /**
@@ -87,10 +101,10 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     /**
      * Get events for week number
      * 
-     * @param {number} weekNumber Week number
+     * @param {moment.Moment} startOfWeek Start of week
      */
-    private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        let events: ICalEvent[] = await (await fetch(`/api/events?weekNumber=${weekNumber}`, {
+    private async _getEvents(startOfWeek: moment.Moment): Promise<Partial<IWeekViewState>> {
+        let events: ICalEvent[] = await (await fetch(`/api/events/${startOfWeek.toISOString()}`, {
             method: 'GET',
             credentials: 'include',
             headers: {

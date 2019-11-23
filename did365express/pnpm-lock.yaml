@@ -1,5 +1,6 @@
 dependencies:
   '@microsoft/microsoft-graph-client': 1.7.0
+  azure-storage: 2.10.3
   connect-flash: 0.1.1
   cookie-parser: 1.4.4
   debug: 2.6.9
@@ -131,6 +132,24 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
+  /azure-storage/2.10.3:
+    dependencies:
+      browserify-mime: 1.2.9
+      extend: 3.0.2
+      json-edm-parser: 0.1.2
+      md5.js: 1.3.4
+      readable-stream: 2.0.6
+      request: 2.88.0
+      underscore: 1.8.3
+      uuid: 3.3.3
+      validator: 9.4.1
+      xml2js: 0.2.8
+      xmlbuilder: 9.0.7
+    dev: false
+    engines:
+      node: '>= 0.8.26'
+    resolution:
+      integrity: sha512-IGLs5Xj6kO8Ii90KerQrrwuJKexLgSwYC4oLWmc11mzKe7Jt2E5IVg+ZQ8K53YWZACtVTMBNO3iGuA+4ipjJxQ==
   /balanced-match/1.0.0:
     dev: false
     optional: true
@@ -189,6 +208,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
+  /browserify-mime/1.2.9:
+    dev: false
+    resolution:
+      integrity: sha1-rrGvKN5sDXpqLOQK22j/GEIq8x8=
   /buffer-equal-constant-time/1.0.1:
     dev: false
     resolution:
@@ -563,6 +586,15 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-sNvOCzEQNr/qrvJgc3UG/kD4QtlHycrzwS+6mfTrrSq97BvaYcPZZI1ZSqGSPR73Cxn4LKTD4PttRwfU7jWq5g==
+  /hash-base/3.0.4:
+    dependencies:
+      inherits: 2.0.4
+      safe-buffer: 5.2.0
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-X8hoaEfs1zSZQDMZprCj8/auSRg=
   /hash.js/1.1.7:
     dependencies:
       inherits: 2.0.4
@@ -658,6 +690,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
+  /isarray/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
   /isomorphic-fetch/2.2.1:
     dependencies:
       node-fetch: 1.7.3
@@ -673,6 +709,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
+  /json-edm-parser/0.1.2:
+    dependencies:
+      jsonparse: 1.2.0
+    dev: false
+    resolution:
+      integrity: sha1-HmCw/vG8CvZ7wNFG393lSGzWFbQ=
   /json-schema-traverse/0.4.1:
     dev: false
     resolution:
@@ -685,6 +727,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
+  /jsonparse/1.2.0:
+    dev: false
+    engines:
+      '0': node >= 0.2.0
+    resolution:
+      integrity: sha1-XAxWhRBxYOcv50ib3eoLRMK8Z70=
   /jsprim/1.4.1:
     dependencies:
       assert-plus: 1.0.0
@@ -730,6 +778,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tcvwFVbBaWb+vlTO7A+03JDfbCg=
+  /md5.js/1.3.4:
+    dependencies:
+      hash-base: 3.0.4
+      inherits: 2.0.4
+    dev: false
+    resolution:
+      integrity: sha1-6b296UogpawYsENA/Fdk1bCdkB0=
   /media-typer/0.3.0:
     dev: false
     engines:
@@ -963,6 +1018,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
+  /process-nextick-args/1.0.7:
+    dev: false
+    resolution:
+      integrity: sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M=
   /proxy-addr/2.0.5:
     dependencies:
       forwarded: 0.1.2
@@ -1019,6 +1078,17 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-9esiElv1BrZoI3rCDuOuKCBRbuApGGaDPQfjSflGxdy4oyzqghxu6klEkkVIvBje+FF0BX9coEv8KqW6X/7njw==
+  /readable-stream/2.0.6:
+    dependencies:
+      core-util-is: 1.0.2
+      inherits: 2.0.4
+      isarray: 1.0.0
+      process-nextick-args: 1.0.7
+      string_decoder: 0.10.31
+      util-deprecate: 1.0.2
+    dev: false
+    resolution:
+      integrity: sha1-j5A0HmilPMySh4jaz80Rs265t44=
   /request/2.88.0:
     dependencies:
       aws-sign2: 0.7.0
@@ -1071,6 +1141,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
+  /sax/0.5.8:
+    dev: false
+    resolution:
+      integrity: sha1-1HLbIo6zMcJQaw6MFVJK25OdEsE=
   /send/0.16.2:
     dependencies:
       debug: 2.6.9
@@ -1151,6 +1225,10 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /string_decoder/0.10.31:
+    dev: false
+    resolution:
+      integrity: sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=
   /tough-cookie/2.4.3:
     dependencies:
       psl: 1.4.0
@@ -1202,6 +1280,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
+  /underscore/1.8.3:
+    dev: false
+    resolution:
+      integrity: sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
   /unpipe/1.0.0:
     dev: false
     engines:
@@ -1214,6 +1296,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
+  /util-deprecate/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
   /utils-merge/1.0.1:
     dev: false
     engines:
@@ -1229,6 +1315,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-HBRHm0DxOXp1eC8RXkCGRHQzogA=
+  /validator/9.4.1:
+    dev: false
+    engines:
+      node: '>= 0.10'
+    resolution:
+      integrity: sha512-YV5KjzvRmSyJ1ee/Dm5UED0G+1L4GZnLN3w6/T+zZm8scVua4sOhYKWTUrKa0H/tMiJyO9QLHMPN+9mB/aMunA==
   /vary/1.1.2:
     dev: false
     engines:
@@ -1266,12 +1358,25 @@ packages:
     optional: true
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+  /xml2js/0.2.8:
+    dependencies:
+      sax: 0.5.8
+    dev: false
+    resolution:
+      integrity: sha1-m4FpCTFjH/CdGVdUn69U9PmAs8I=
+  /xmlbuilder/9.0.7:
+    dev: false
+    engines:
+      node: '>=4.0'
+    resolution:
+      integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
   /yallist/2.1.2:
     dev: false
     resolution:
       integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=
 specifiers:
   '@microsoft/microsoft-graph-client': ^1.7.0
+  azure-storage: ^2.10.3
   connect-flash: ^0.1.1
   cookie-parser: ~1.4.4
   debug: ~2.6.9
