@@ -65,8 +65,7 @@ router.post('/approve', async function (req, res) {
     for (let i = 0; i < events.length; i++) {
       await table.add('ApprovedTimeEntries', {
         PartitionKey: entGen.String(tenantId),
-        RowKey: entGen.String(uuidv1()),
-        EventId: entGen.String(events[i].id),
+        RowKey: entGen.String(events[i].id),
         Subject: entGen.String(events[i].subject),
         StartTime: entGen.DateTime(new Date(events[i].startTime)),
         EndTime: entGen.DateTime(new Date(events[i].endTime)),
