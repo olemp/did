@@ -5,7 +5,6 @@ import { getDurationDisplay } from '../../../helpers';
 import * as moment from 'moment';
 require('moment/locale/en-gb');
 
-
 function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
     return <a href={item.webLink}>{item[col.fieldName]}</a>;
 }
@@ -20,7 +19,7 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 
 function renderProject(item: ICalEvent) {
     if (!item.project) return null;
-    return <a href={`/Home/Projects?key=${item.project.projectKey}`}>{item.project.name}</a>;
+    return <a href={`/Home/Projects?key=${item.project.key}`}>{item.project.name}</a>;
 }
 
 

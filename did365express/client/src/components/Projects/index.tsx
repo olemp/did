@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
@@ -8,7 +8,7 @@ import { IProjectsState } from './IProjectsState';
 
 export class Projects extends React.Component<{}, IProjectsState> {
     private _columns: IColumn[] = [
-        { key: 'projectKey', fieldName: 'projectKey', name: 'Project Key', minWidth: 100, maxWidth: 100, },
+        { key: 'key', fieldName: 'key', name: 'Key', minWidth: 100, maxWidth: 100, },
         { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
     ];
 
@@ -35,7 +35,12 @@ export class Projects extends React.Component<{}, IProjectsState> {
         }
         return (
             <div>
-                <DetailsList columns={this._columns} items={this.state.projects} />
+                <DetailsList
+                    columns={this._columns}
+                    items={this.state.projects}
+                    selectionMode={SelectionMode.none}
+                    constrainMode={ConstrainMode.horizontalConstrained}
+                    layoutMode={DetailsListLayoutMode.justified} />
                 <div hidden={true}>
                     <TextField onChange={(_, newValue) => this.setState({ customerKey: newValue })} placeholder='Customer Key' />
                     <TextField onChange={(_, newValue) => this.setState({ projectKey: newValue })} placeholder='Project Key' />
