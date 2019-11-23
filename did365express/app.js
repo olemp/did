@@ -88,8 +88,6 @@ passport.use(new OIDCStrategy(
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
-var calendarRouter = require('./routes/calendar');
-var testRouter = require('./routes/test');
 
 var app = express();
 
