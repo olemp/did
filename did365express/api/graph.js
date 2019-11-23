@@ -14,12 +14,14 @@ module.exports = {
         startDateTime: moment(startOfWeek).toISOString(),
         endDateTime: moment(startOfWeek).add(7, 'days').toISOString(),
       })
-      .select('subject,body,start,end,webLink')
+      .select('subject,body,start,end,categories,webLink')
       .orderby('createdDateTime ASC')
       .get();
 
     return events.value.map(event => ({
       subject: event.subject,
+      body: event.body.content,
+      categories: event.categories,
       webLink: event.webLink,
       startTime: event.start.dateTime,
       endTime: event.end.dateTime,
