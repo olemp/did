@@ -90,7 +90,7 @@ app.use(function (req, res, next) {
 });
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-app.use('/auth', require('./api'));
+app.use('/api', require('./api'));
 app.use(function (req, res, next) {
   next(createError(404));
 });
