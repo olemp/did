@@ -59,11 +59,12 @@ router.get('/approved/:projectKey', async function (req, res) {
 });
 
 router.post('/approve', async function (req, res) {
+  const tenantId = tokens.getTenantId(req);
   const events = req.body;
   try {
     for (let i = 0; i < events.length; i++) {
       await table.add('ApprovedTimeEntries', {
-        PartitionKey: entGen.String('Default'),
+        PartitionKey: entGen.String(tenantId),
         RowKey: entGen.String(uuidv1()),
         EventId: entGen.String(events[i].id),
         Subject: entGen.String(events[i].subject),

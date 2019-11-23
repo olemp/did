@@ -23,9 +23,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 async function signInComplete(iss, sub, profile, accessToken, refreshToken, params, done) {
-  if (!profile.oid) {
-    return done(new Error("No OID found in user profile."), null);
-  }
+  if (!profile.oid) return done(new Error("No OID found in user profile."), null);
   try {
     const user = await graph.getUserDetails(accessToken);
 
