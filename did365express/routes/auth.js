@@ -9,13 +9,13 @@ router.get('/signin',
       {
         response: res,
         prompt: 'login',
-        failureRedirect: '/test',
+        failureRedirect: '/',
         failureFlash: true
       }
     )(req,res,next);
   },
   function(req, res) {
-    res.redirect('/test');
+    res.redirect('/');
   }
 );
 
@@ -24,13 +24,13 @@ router.post('/callback',
     passport.authenticate('azuread-openidconnect',
       {
         response: res,
-        failureRedirect: '/test',
+        failureRedirect: '/',
         failureFlash: true
       }
     )(req,res,next);
   },
   function(req, res) {
-    res.redirect('/test');
+    res.redirect('/');
   }
 );
 
