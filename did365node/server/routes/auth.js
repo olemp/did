@@ -4,41 +4,42 @@ const router = express.Router();
 
 /* GET auth callback. */
 router.get('/signin',
-    (req, res, next) => {
+    (request, response, next) => {
         passport.authenticate('azuread-openidconnect',
             {
-                response: res,
+                responseponse: response,
                 prompt: 'login',
                 failureRedirect: '/',
                 failureFlash: true
             },
-        )(req, res, next);
+        )(request, response, next);
     },
-    (req, res) => {
-        res.redirect('/');
+    (request, response) => {
+        response.redirect('/');
     }
 );
 
 router.post('/callback',
-    (req, res, next) => {
+    (request, response, next) => {
+        console.log(response);
         passport.authenticate('azuread-openidconnect',
             {
-                response: res,
+                response,
                 failureRedirect: '/',
                 failureFlash: true
             }
-        )(req, res, next);
+        )(request, response, next);
     },
-    (req, res) => {
-        res.redirect('/');
+    (request, response) => {
+        response.redirect('/');
     }
 );
 
 router.get('/signout',
-    (req, res) => {
-        req.session.destroy(function (err) {
-            req.logout();
-            res.redirect('/');
+    (request, response) => {
+        request.session.destroy(function (err) {
+            request.logout();
+            response.redirect('/');
         });
     }
 );

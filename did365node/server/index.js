@@ -2,9 +2,11 @@
 require('dotenv').config();
 const express = require('express');
 const { resolve } = require('path');
-const logger = require('./util//logger');
+const logger = require('./util/logger');
+const morgan = require('morgan');
 const argv = require('./util/argv');
 const port = require('./util//port');
+const cookieParser = require('cookie-parser');
 const setup = require('./middlewares/frontendMiddleware');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -79,8 +81,6 @@ passport.use(new OIDCStrategy(
   signInComplete
 ));
 
-
-
 const app = express();
 
 app.use(session({
@@ -97,6 +97,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(morgan('dev'));
+app.use(cookieParser());
 
 app.use('/auth', require('./routes/auth'));
 
