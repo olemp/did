@@ -14,7 +14,7 @@ router.get('/customers', async function (req, res) {
     new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'Name'),
   ));
   const customers = result.map(r => ({
-    key: r.CustomerKey,
+    key: r.CustomerKey._,
     name: r.Name._,
   }));
   res.json(customers);
@@ -30,6 +30,18 @@ router.get('/projects', async function (req, res) {
     name: r.Name._,
   }));
   res.json(projects);
+});
+
+router.get('/projects/:customerKey', async function (req, res) {
+  const result = (await table.query(
+    'Projects',
+    new TableQuery().top(50).where('CustomerKey eq ?', req.params.customerKey).select('CustomerKey', 'ProjectKey', 'Name'),
+  ));
+  const customers = result.map(r => ({
+    key: `${r.CustomerKey._} ${r.ProjectKey._}`,
+    name: r.Name._,
+  }));
+  res.json(customers);
 });
 
 router.get('/approved/:projectKey', async function (req, res) {

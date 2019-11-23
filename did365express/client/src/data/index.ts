@@ -18,9 +18,14 @@ export class DataAdapter {
     }
 
     /**
-     * Get all projects
+     * Get projects
+     * 
+     * @param {string} customerKey Customer key
      */
-    public async getAllProjects(): Promise<IProject[]> {
+    public async getProjects(customerKey?: string): Promise<IProject[]> {
+        if (customerKey) {
+            return (await this._instance.get(`projects/${customerKey}`, { withCredentials: true })).data;
+        }
         return (await this._instance.get('projects', { withCredentials: true })).data;
     }
 
