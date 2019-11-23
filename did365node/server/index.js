@@ -12,7 +12,6 @@ const passport = require('passport');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./graph');
 
-// Configure simple-oauth2
 const oauth2 = require('simple-oauth2').create({
   client: {
     id: process.env.OAUTH_APP_ID,
@@ -83,9 +82,6 @@ passport.use(new OIDCStrategy(
 
 const app = express();
 
-// Session middleware
-// NOTE: Uses default in-memory session store, which is not
-// suitable for production
 app.use(session({
   secret: 'your_secret_value_here',
   resave: false,
