@@ -11,6 +11,7 @@ import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
 import * as moment from 'moment';
 import { ICalEvent } from '../../models';
+import { DataAdapter } from '../../data';
 require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
@@ -19,7 +20,8 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         this.state = {
             isLoading: true,
             events: [],
-            weekNumber: document.location.hash === '' ? weekNumber() : parseInt(document.location.hash.substring(1)),
+            weekNumber: weekNumber(),
+            // weekNumber: document.location.hash === '' ? weekNumber() : parseInt(document.location.hash.substring(1)),
             startOfWeek: moment().startOf('week'),
         };
     }
@@ -50,7 +52,10 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
                 <div hidden={!this.state.isConfirming}>
                     <Spinner label='Confirming the week....' />
                 </div>
-                <Pivot styles={{ root: { display: 'flex', flexWrap: 'wrap' } }} defaultSelectedKey={`${this.state.weekNumber}`} onLinkClick={item => this._onChangeWeek(parseInt(item.props.itemKey))}>
+                <Pivot
+                    styles={{ root: { display: 'flex', flexWrap: 'wrap' } }}
+                    defaultSelectedKey={`${this.state.weekNumber}`}
+                    onLinkClick={item => this._onChangeWeek(parseInt(item.props.itemKey))}>
                     {Array.from(Array(this.props.weeksToShow).keys()).map(i => {
                         let wn = weekNumber() - (this.props.weeksToShow - 1) + i;
                         return (
@@ -95,11 +100,11 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     /**
      * On confirm week
      */
-    private _onConfirmWeek() {
+    private async _onConfirmWeek() {
         this.setState({ isConfirming: true });
-        window.setTimeout(() => {
-            this.setState({ isConfirming: false, isConfirmed: true });
-        }, 7000);
+        const approvedEvents = this.state.events.filter(e => e.project);
+        await new DataAdapter().approveEvents(approvedEvents);
+        window.setTimeout(() => { this.setState({ isConfirming: false, isConfirmed: true }); }, 2500);
     }
 
     /**
@@ -108,14 +113,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {moment.Moment} startOfWeek Start of week
      */
     private async _getEvents(startOfWeek: moment.Moment): Promise<Partial<IWeekViewState>> {
-        let events: ICalEvent[] = await (await fetch(`/api/events/${startOfWeek.toISOString()}`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })).json();
+        let events = await new DataAdapter().getEvents(startOfWeek);
         let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
         return {
             events,

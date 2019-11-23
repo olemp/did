@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const tokens = require('../tokens');
 const graph = require('./graph');
-const { TableQuery } = require('azure-storage');
+const uuidv1 = require('uuid/v1');
+const { TableQuery, TableUtilities } = require('azure-storage');
 const table = require('./table');
+const entGen = TableUtilities.entityGenerator;
+const moment = require('moment');
 
 router.get('/customers', async function (req, res) {
   const result = (await table.query(
@@ -27,6 +30,40 @@ router.get('/projects', async function (req, res) {
     name: r.Name._,
   }));
   res.json(projects);
+});
+
+router.get('/approved/:projectKey', async function (req, res) {
+  const result = await table.query(
+    'ApprovedTimeEntries',
+    new TableQuery().top(50).where('ProjectKey eq ?', req.params.projectKey)
+  );
+  const entries = result.map(r => ({
+    subject: r.Subject._,
+    startTime: r.StartTime._,
+    endTime: r.EndTime._,
+    duration: moment.duration(moment(r.EndTime._).diff(moment(r.StartTime._))).asMinutes(),
+  }));
+  res.json(entries);
+});
+
+router.post('/approve', async function (req, res) {
+  const events = req.body;
+  try {
+    for (let i = 0; i < events.length; i++) {
+      await table.add('ApprovedTimeEntries', {
+        PartitionKey: entGen.String('Default'),
+        RowKey: entGen.String(uuidv1()),
+        EventId: entGen.String(events[i].id),
+        Subject: entGen.String(events[i].subject),
+        StartTime: entGen.DateTime(new Date(events[i].startTime)),
+        EndTime: entGen.DateTime(new Date(events[i].endTime)),
+        ProjectKey: entGen.String(events[i].project.key),
+      })
+    }
+    res.json({ success: true });
+  } catch (error) {
+    res.json({ success: false });
+  }
 });
 
 router.get('/events/:startOfWeek', async function (req, res) {

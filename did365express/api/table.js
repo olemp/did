@@ -1,10 +1,10 @@
 const { createTableService } = require('azure-storage');
-const tableService = createTableService(process.env.AZURETABLESTORAGE);
+const azureTableService = createTableService(process.env.AZURETABLESTORAGE);
 
 module.exports = {
     query: (table, query) => {
         return new Promise((resolve, reject) => {
-            tableService.queryEntities(table, query, null, (error, result) => {
+            azureTableService.queryEntities(table, query, null, (error, result) => {
                 if (!error) {
                     return resolve(result.entries);
                 } else {
@@ -14,4 +14,15 @@ module.exports = {
         });
     },
 
+    add: (table, item) => {
+        return new Promise((resolve, reject) => {
+            azureTableService.insertEntity(table, item, (error, result) => {
+                if (!error) {
+                    return resolve(result['.metadata']);
+                } else {
+                    reject(error);
+                }
+            })
+        });
+    }
 }

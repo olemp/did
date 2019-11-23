@@ -11,7 +11,7 @@ function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderDate(item: ICalEvent, _index: number, col: IColumn) {
-    return moment(new Date(item[col.fieldName])).format('dddd HH:mm')
+    return moment(new Date(item[col.fieldName])).format(col.data.dateFormat);
 }
 
 function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
@@ -26,8 +26,8 @@ function renderProject(item: ICalEvent) {
 
 export const Columns: IColumn[] = [
     { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
-    { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140 },
-    { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140 },
+    { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
+    { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
     { key: 'duration', fieldName: 'duration', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];

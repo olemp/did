@@ -5,6 +5,7 @@ import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { ICustomersState } from './ICustomersState';
+import { DataAdapter } from '../../data';
 
 export class Customers extends React.Component<{}, ICustomersState> {
     private _columns: IColumn[] = [{ key: 'name', fieldName: 'name', name: 'Name', minWidth: 100, maxWidth: 200 }];
@@ -15,14 +16,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        let customers = await (await fetch('/api/customers', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })).json();
+        const customers = await new DataAdapter().getAllCustomers();
         this.setState({ customers, isLoading: false });
     }
 

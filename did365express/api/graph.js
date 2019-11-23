@@ -14,13 +14,14 @@ module.exports = {
     const { value: events } = await getAuthenticatedClient(accessToken)
       .api('/me/calendar/calendarView')
       .query({ startDateTime, endDateTime })
-      .select('subject,body,start,end,categories,webLink,isallday,iscancelled')
+      .select('id,subject,body,start,end,categories,webLink,isallday,iscancelled')
       .orderby('start/dateTime asc')
       .top(50)
       .get();
     return events
       .filter(event => !event.isCancelled && !event.isAllDay)
       .map(event => ({
+        id: event.id,
         subject: event.subject,
         body: event.body.content,
         categories: event.categories,

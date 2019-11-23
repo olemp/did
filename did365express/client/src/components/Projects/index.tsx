@@ -1,16 +1,15 @@
 
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { ConstrainMode, DetailsList, DetailsListLayoutMode, IColumn, IDetailsHeaderProps, SelectionMode, Selection } from 'office-ui-fabric-react/lib/DetailsList';
+import { ConstrainMode, DetailsList, DetailsListLayoutMode, IColumn, IDetailsHeaderProps, Selection, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
+import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
+import { DataAdapter } from '../../data';
+import { getUrlParameter } from '../../helpers';
 import { IProjectsState } from './IProjectsState';
 import { ProjectDetails } from './ProjectDetails';
-import { getUrlParameter } from '../../helpers';
 
 export class Projects extends React.Component<{}, IProjectsState> {
     private _selection: Selection;
@@ -23,25 +22,14 @@ export class Projects extends React.Component<{}, IProjectsState> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoading: true };
-        this._selection = new Selection({
-            onSelectionChanged: () => this.setState({ selected: this._selection.getSelection()[0] })
-        });
+        this._selection = new Selection({ onSelectionChanged: this._onSelectionChanged.bind(this) });
     }
 
     public async componentDidMount(): Promise<void> {
-        let projects = await (await fetch('/api/projects', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })).json();
+        const projects = await new DataAdapter().getAllProjects();
         this.setState({ projects, isLoading: false });
         let urlKey = getUrlParameter('key');
-        if (urlKey) {
-            this._selection.setKeySelected(urlKey, true, true);
-        }
+        if (urlKey) this._selection.setKeySelected(urlKey, true, true);
     }
 
     public render() {
@@ -62,7 +50,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
                             onRenderDetailsHeader={this._onRenderDetailsHeader.bind(this)} />
                     </ScrollablePane>
                 </div>
-                {this.state.selected && <ProjectDetails project={this.state.selected} entries={[]} />}
+                {this.state.selected && <ProjectDetails project={this.state.selected} entries={this.state.entries} />}
             </div >
         );
     }
@@ -74,5 +62,12 @@ export class Projects extends React.Component<{}, IProjectsState> {
                 {defaultRender(detailsHeaderProps)}
             </Sticky>
         );
+    }
+
+    private async _onSelectionChanged() {
+        const selected = this._selection.getSelection()[0];
+        const entries = await new DataAdapter().getApprovedEntriesForProject(selected.key as string);
+        console.log(entries);
+        this.setState({ selected, entries });
     }
 }
