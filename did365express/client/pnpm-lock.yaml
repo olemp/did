@@ -1,4 +1,5 @@
 dependencies:
+  '@uifabric/icons': 7.3.0_b14b87ba80ab4777e51b40d63b590612
   moment: 2.24.0
   office-ui-fabric-react: 7.64.1_b14b87ba80ab4777e51b40d63b590612
   react: 16.12.0
@@ -5456,6 +5457,7 @@ specifiers:
   '@types/react': ^16.9.11
   '@types/react-dom': ^16.9.4
   '@types/webpack-env': ^1.14.1
+  '@uifabric/icons': ^7.3.0
   babel-core: ^6.26.3
   babel-loader: ^8.0.6
   babel-preset-env: ^1.7.0
