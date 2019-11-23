@@ -21,10 +21,10 @@ namespace Did365App.API
             var entries = new ApprovedTimeEntriesService().Get();
             var projects = new ProjectsService().Get();
             var events = outlook_events
-                .Where(e  => !e.Body.Content.Contains("IGNORE") && !e.Categories.Contains("IGNORE") && !e.IsCancelled.Value && !e.IsAllDay.Value)
+                .Where(e => !e.Body.Content.Contains("IGNORE") && !e.Categories.Contains("IGNORE") && !e.IsCancelled.Value && !e.IsAllDay.Value)
                 .Select(e =>
             {
-                var project = projects.Where(p => e.Body.Content.Contains(p.Key) || e.Categories.Contains(p.Key)).FirstOrDefault();
+                var project = projects.Where(p => e.Subject.Contains(p.Key) || e.Body.Content.Contains(p.Key) || e.Categories.Contains(p.Key)).FirstOrDefault();
                 var startTime = DateTime.Parse(e.Start.DateTime);
                 var endTime = DateTime.Parse(e.End.DateTime);
                 return new Event()
