@@ -7,7 +7,7 @@ module.exports = {
     return user;
   },
 
-  getEvents: async function (accessToken) {
+  getCalendarView: async function (accessToken, startOfWeek) {
     const events = await getAuthenticatedClient(accessToken)
       .api('/me/calendar/calendarView')
       .query({
@@ -16,7 +16,6 @@ module.exports = {
       })
       .select('subject,body,start,end,webLink')
       .orderby('createdDateTime ASC')
-      .top(50)
       .get();
 
     return events.value.map(event => ({

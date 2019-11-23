@@ -30,8 +30,9 @@ router.get('/events/:startOfWeek', async function (req, res) {
 
     if (accessToken && accessToken.length > 0) {
       try {
-        const events = await graph.getEvents(accessToken, req.params.startOfWeek);
-        // const projects = await table.query('Projects', new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'));
+        const calendarView = await graph.getCalendarView(accessToken, req.params.startOfWeek);
+        const projects = await table.query('Projects', new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'));
+
         res.json(events)
       } catch (error) {
         console.log(error);
