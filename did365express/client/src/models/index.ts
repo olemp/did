@@ -1,4 +1,4 @@
-interface ICalEvent {
+export interface ICalEvent {
     project: IProject;
     webLink: string;
     duration: number;
@@ -7,7 +7,7 @@ interface ICalEvent {
     endTime: string;
 }
 
-interface IProject {
+export interface IProject {
     name: string;
     key: string;
 }

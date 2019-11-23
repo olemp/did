@@ -15,7 +15,7 @@ module.exports = {
       .api('/me/calendar/calendarView')
       .query({ startDateTime, endDateTime })
       .select('subject,body,start,end,categories,webLink,isallday,iscancelled')
-      .orderby('createdDateTime ASC')
+      .orderby('start/dateTime asc')
       .top(50)
       .get();
     return events

@@ -2,6 +2,7 @@
 import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
+import { ICalEvent } from '../../../models';
 import * as moment from 'moment';
 require('moment/locale/en-gb');
 
@@ -19,11 +20,11 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 
 function renderProject(item: ICalEvent) {
     if (!item.project) return null;
-    return <a href={`/Home/Projects?key=${item.project.key}`}>{item.project.name}</a>;
+    return <a href={`/projects?key=${item.project.key}`}>{item.project.name}</a>;
 }
 
 
-const Columns: IColumn[] = [
+export const Columns: IColumn[] = [
     { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
     { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140 },
     { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140 },

@@ -10,6 +10,7 @@ import { IWeekViewState } from './IWeekViewState';
 import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
 import * as moment from 'moment';
+import { ICalEvent } from '../../models';
 require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
@@ -18,9 +19,13 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         this.state = {
             isLoading: true,
             events: [],
-            weekNumber: weekNumber(),
+            weekNumber: document.location.hash === '' ? weekNumber() : parseInt(document.location.hash.substring(1)),
             startOfWeek: moment().startOf('week'),
         };
+    }
+
+    public componentWillUpdate(nextProps: IWeekViewProps, nextState: IWeekViewState) {
+        document.location.hash = `${nextState.weekNumber}`;
     }
 
     public async componentDidMount(): Promise<void> {
@@ -77,7 +82,6 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         if (weekDiff === 0) return;
         let startOfWeek = this.state.startOfWeek.add(7 * weekDiff, 'days').startOf('week');
         let { events, totalDuration, matchedDuration } = await this._getEvents(startOfWeek);
-        console.log(weekNumber, startOfWeek, totalDuration, matchedDuration);
         this.setState({
             events,
             totalDuration,

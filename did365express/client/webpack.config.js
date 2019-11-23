@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './lib/App.js',
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

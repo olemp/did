@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { ICalEvent } from 'models';
 require('moment/locale/en-gb');
 
 export interface IWeekViewState {

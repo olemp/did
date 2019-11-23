@@ -1,6 +1,9 @@
+import { IProject } from '../../models';
+
 export interface IProjectsState {
     isLoading: boolean;
-    projects?: any[];
+    projects?: IProject[];
+    selected?: any;
     customerKey?: string;
     projectKey?: string;
     name?: string;
