@@ -85,15 +85,8 @@ passport.use(new OIDCStrategy(
   signInComplete
 ));
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
-
 var app = express();
 
-// Session middleware
-// NOTE: Uses default in-memory session store, which is not
-// suitable for production
 app.use(session({
   secret: 'your_secret_value_here',
   resave: false,
@@ -101,32 +94,22 @@ app.use(session({
   unset: 'destroy'
 }));
 
-// Flash middleware
 app.use(flash());
 
-// Set up local vars for template layout
 app.use(function(req, res, next) {
-  // Read any flashed errors and save
-  // in the response locals
   res.locals.error = req.flash('error_msg');
-
-  // Check for simple error string and
-  // convert to layout's expected format
   var errs = req.flash('error');
   for (var i in errs){
     res.locals.error.push({message: 'An error occurred', debug: errs[i]});
   }
-
   next();
 });
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 var hbs = require('hbs');
 var moment = require('moment');
-// Helper to format date/time sent by Graph
 hbs.registerHelper('eventDateTime', function(dateTime){
   return moment(dateTime).format('M/D/YY h:mm A');
 });
@@ -137,24 +120,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function(req, res, next) {
-  // Set the authenticated user in the
-  // template locals
   if (req.user) {
     res.locals.user = req.user.profile;
   }
   next();
 });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', authRouter);
-app.use('/calendar', calendarRouter);
-app.use('/test', testRouter);
+app.use('/', require('./routes/index'));
+app.use('/auth', require('./routes/auth'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
