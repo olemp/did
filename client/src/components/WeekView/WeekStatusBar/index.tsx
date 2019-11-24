@@ -18,7 +18,7 @@ export const WeekStatusBar = ({ totalDuration, matchedDuration }) => {
             </div>
             <div style={{ marginTop: 10 }} hidden={totalDuration - matchedDuration > 0}>
                 <MessageBar messageBarType={MessageBarType.success} messageBarIconProps={{ iconName: 'BufferTimeBoth' }}>
-                    All you're hours are matched. Are you ready to confirm the week?
+                    All your hours are matched. Are you ready to confirm the week?
                 </MessageBar>
             </div>
         </div>
