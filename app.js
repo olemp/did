@@ -12,22 +12,11 @@ const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./config/oauth2');
+const app = express();
 
-
+//#region OIDCStrategy auth
 passport.serializeUser(function (user, done) { done(null, user); });
 passport.deserializeUser(function (user, done) { done(null, user); });
-
-/**
- * On verify signin
- * 
- * @param {*} _iss 
- * @param {*} _sub 
- * @param {*} profile 
- * @param {*} accessToken 
- * @param {*} _refreshToken 
- * @param {*} params 
- * @param {*} done 
- */
 async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
   if (!profile.oid) return done(new Error("No OID found in user profile."), null);
   if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
@@ -42,7 +31,6 @@ async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, p
   let { token } = oauth2.accessToken.create(params);
   return done(null, { profile, oauthToken: token });
 }
-
 passport.use(new OIDCStrategy(
   {
     identityMetadata: `${process.env.OAUTH_AUTHORITY}${process.env.OAUTH_ID_METADATA}`,
@@ -58,9 +46,7 @@ passport.use(new OIDCStrategy(
   },
   onVerifySignin
 ));
-
-const app = express();
-
+//#endregion
 
 //#region Setting up session using connect-azuretables
 app.use(session({
