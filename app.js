@@ -7,6 +7,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
+const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./oauth2');
@@ -73,6 +74,7 @@ app.use(function (req, res, next) {
 });
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(path.join(__dirname, 'views/partials'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
