@@ -6,8 +6,9 @@ const { TableQuery, TableUtilities } = require('azure-storage');
 const table = require('./table');
 const entGen = TableUtilities.entityGenerator;
 const moment = require('moment');
+const uuidv1 = require('uuid/v1');
 
-router.get('/customers', async function (req, res) {
+router.get('/customers', async function (_req, res) {
   const result = (await table.query(
     'Customers',
     new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'Name'),
@@ -19,7 +20,7 @@ router.get('/customers', async function (req, res) {
   res.json(customers);
 });
 
-router.get('/projects', async function (req, res) {
+router.get('/projects', async function (_req, res) {
   const result = (await table.query(
     'Projects',
     new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'),
@@ -29,6 +30,21 @@ router.get('/projects', async function (req, res) {
     name: r.Name._,
   }));
   res.json(projects);
+});
+
+router.post('/projects', async function (req, res) {
+  const project = req.body;
+  try {
+    await table.add('Projects', {
+      PartitionKey: entGen.String('Default'),
+      RowKey: entGen.String(uuidv1()),
+      CustomerKey: entGen.String(project.customerKey),
+      ProjectKey: entGen.String(project.projectKey),
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.json({ success: false });
+  }
 });
 
 router.get('/projects/:customerKey', async function (req, res) {
