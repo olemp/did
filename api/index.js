@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const tokens = require('../tokens');
 const graph = require('./graph');
-const uuidv1 = require('uuid/v1');
 const { TableQuery, TableUtilities } = require('azure-storage');
 const table = require('./table');
 const entGen = TableUtilities.entityGenerator;
