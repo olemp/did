@@ -9,9 +9,10 @@ const moment = require('moment');
 const uuidv1 = require('uuid/v1');
 
 router.get('/customers', async function (_req, res) {
+  const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
     'Customers',
-    new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'Name'),
+    new TableQuery().top(50).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'Name'),
   ));
   const customers = result.map(r => ({
     key: r.CustomerKey._,
@@ -21,10 +22,11 @@ router.get('/customers', async function (_req, res) {
 });
 
 router.post('/customers', async function (req, res) {
+  const partitionKey = tokens.getTenantId(req);
   const customer = req.body;
   try {
     await table.add('Customers', {
-      PartitionKey: entGen.String('Default'),
+      PartitionKey: entGen.String(partitionKey),
       RowKey: entGen.String(uuidv1()),
       CustomerKey: entGen.String(customer.key),
       Name: entGen.String(customer.name),
@@ -36,9 +38,10 @@ router.post('/customers', async function (req, res) {
 });
 
 router.get('/projects', async function (_req, res) {
+  const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
     'Projects',
-    new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'),
+    new TableQuery().top(50).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'ProjectKey', 'Name'),
   ));
   const projects = result.map(r => ({
     key: `${r.CustomerKey._} ${r.ProjectKey._}`,
@@ -48,10 +51,11 @@ router.get('/projects', async function (_req, res) {
 });
 
 router.post('/projects', async function (req, res) {
+  const partitionKey = tokens.getTenantId(req);
   const project = req.body;
   try {
     await table.add('Projects', {
-      PartitionKey: entGen.String('Default'),
+      PartitionKey: entGen.String(partitionKey),
       RowKey: entGen.String(uuidv1()),
       CustomerKey: entGen.String(project.customerKey),
       ProjectKey: entGen.String(project.projectKey),
@@ -90,12 +94,12 @@ router.get('/approved/:projectKey', async function (req, res) {
 });
 
 router.post('/approve', async function (req, res) {
-  const tenantId = tokens.getTenantId(req);
+  const partitionKey = tokens.getTenantId(req);
   const events = req.body;
   try {
     for (let i = 0; i < events.length; i++) {
       await table.add('ApprovedTimeEntries', {
-        PartitionKey: entGen.String(tenantId),
+        PartitionKey: entGen.String(partitionKey),
         RowKey: entGen.String(events[i].id),
         Subject: entGen.String(events[i].subject),
         StartTime: entGen.DateTime(new Date(events[i].startTime)),
