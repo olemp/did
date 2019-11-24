@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+const azureTablesStoreFactory = require('connect-azuretables')(session);
 const flash = require('connect-flash');
 const passport = require('passport');
 const hbs = require('hbs');
@@ -12,16 +13,8 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./config/oauth2');
 
-const users = {};
-
-passport.serializeUser(function (user, done) {
-  users[user.profile.oid] = user;
-  done(null, user.profile.oid);
-});
-
-passport.deserializeUser(function (id, done) {
-  done(null, users[id]);
-});
+passport.serializeUser(function (user, done) { done(null, user); });
+passport.deserializeUser(function (user, done) { done(null, user); });
 
 /**
  * On verify signin
@@ -39,16 +32,14 @@ async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, p
   if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
     const user = await graph.getUserDetails(accessToken);
-
     if (user) {
       profile['email'] = user.mail ? user.mail : user.userPrincipalName;
     }
   } catch (err) {
     done(err, null);
   }
-  let oauthToken = oauth2.accessToken.create(params);
-  users[profile.oid] = { profile, oauthToken };
-  return done(null, users[profile.oid]);
+  let { token } = oauth2.accessToken.create(params);
+  return done(null, { profile, oauthToken: token });
 }
 
 passport.use(new OIDCStrategy(
@@ -70,10 +61,12 @@ passport.use(new OIDCStrategy(
 const app = express();
 
 app.use(session({
-  secret: 'your_secret_value_here',
+  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
+  secret: process.env.SESSION_SIGNING_KEY,
   resave: false,
   saveUninitialized: false,
-  unset: 'destroy'
+  rolling: true,
+  cookie: { maxAge: 600000 },
 }));
 app.use(flash());
 app.use(function (req, res, next) {
