@@ -9,6 +9,7 @@ import * as React from 'react';
 import { DataAdapter } from '../../data';
 import { ICustomersState } from './ICustomersState';
 import { CustomerDetails } from './CustomerDetails';
+import { CustomerList } from './CustomerList';
 
 export class Customers extends React.Component<{}, ICustomersState> {
     private _selection: Selection;
@@ -25,7 +26,6 @@ export class Customers extends React.Component<{}, ICustomersState> {
 
     public async componentDidMount(): Promise<void> {
         const customers = await new DataAdapter().getAllCustomers();
-        console.log(customers);
         this.setState({ customers, isLoading: false });
 
     }
@@ -36,18 +36,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
         }
         return (
             <div>
-                <div style={{ position: 'relative', height: 300 }}>
-                    <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
-                        <DetailsList
-                            selection={this._selection}
-                            columns={this._columns}
-                            items={this.state.customers}
-                            selectionMode={SelectionMode.single}
-                            constrainMode={ConstrainMode.horizontalConstrained}
-                            layoutMode={DetailsListLayoutMode.justified}
-                            onRenderDetailsHeader={this._onRenderDetailsHeader.bind(this)} />
-                    </ScrollablePane>
-                </div>
+                <CustomerList customers={this.state.customers} selection={this._selection} height={300} />
                 {this.state.selected && <CustomerDetails customer={this.state.selected} projects={this.state.projects} />}
             </div>
         );
