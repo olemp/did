@@ -26,7 +26,6 @@ module.exports = {
       webLink: event.webLink,
       startTime: event.start.dateTime,
       endTime: event.end.dateTime,
-      duration: moment.duration(moment(event.end.dateTime).diff(moment(event.start.dateTime))).asMinutes(),
     }));
   }
 };

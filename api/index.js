@@ -72,7 +72,7 @@ router.post('/approve', async function (req, res) {
         StartTime: entGen.DateTime(new Date(events[i].startTime)),
         EndTime: entGen.DateTime(new Date(events[i].endTime)),
         ProjectKey: entGen.String(events[i].project.key),
-      })
+      });
     }
     res.json({ success: true });
   } catch (error) {
@@ -110,6 +110,7 @@ router.get('/events/:startOfWeek', async function (req, res) {
           .filter(event => event.categories.indexOf('IGNORE') === -1)
           .map(e => ({
             ...e,
+            duration: moment.duration(moment(e.endTime).diff(moment(e.startTime))).asMinutes(),
             project: projects.filter(p =>
               e.subject.indexOf(p.key) !== -1
               || e.body.indexOf(p.key) !== -1
