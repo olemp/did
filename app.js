@@ -13,15 +13,12 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./config/oauth2');
 
-const users = {};
-
 passport.serializeUser(function (user, done) {
-  users[user.profile.oid] = user;
-  done(null, user.profile.oid);
+  done(null, user);
 });
 
-passport.deserializeUser(function (id, done) {
-  done(null, users[id]);
+passport.deserializeUser(function (user, done) {
+  done(null, user);
 });
 
 /**
@@ -40,16 +37,14 @@ async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, p
   if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
     const user = await graph.getUserDetails(accessToken);
-
     if (user) {
       profile['email'] = user.mail ? user.mail : user.userPrincipalName;
     }
   } catch (err) {
     done(err, null);
   }
-  let oauthToken = oauth2.accessToken.create(params);
-  users[profile.oid] = { profile, oauthToken };
-  return done(null, users[profile.oid]);
+  let { token } = oauth2.accessToken.create(params);
+  return done(null, { profile, oauthToken: token, tenantId: profile._json.tid });
 }
 
 passport.use(new OIDCStrategy(
@@ -62,7 +57,7 @@ passport.use(new OIDCStrategy(
     allowHttpForRedirectUrl: true,
     clientSecret: process.env.OAUTH_APP_PASSWORD,
     validateIssuer: false,
-    passReqToCallback: false,
+    passReqToCallback: true,
     scope: process.env.OAUTH_SCOPES.split(' ')
   },
   onVerifySignin
@@ -70,7 +65,14 @@ passport.use(new OIDCStrategy(
 
 const app = express();
 
-app.use(session({ store: azureTablesStoreFactory.create({}), secret: 'keyboard cat' }));
+app.use(session({
+  store: azureTablesStoreFactory.create({ sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
+  secret: process.env.SESSION_SIGNING_KEY,
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: { maxAge: 600000 },
+}));
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.error = req.flash('error_msg');
