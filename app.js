@@ -23,8 +23,18 @@ passport.deserializeUser(function (id, done) {
   done(null, users[id]);
 });
 
-async function signInComplete(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
-  console.log(params);
+/**
+ * On verify signin
+ * 
+ * @param {*} _iss 
+ * @param {*} _sub 
+ * @param {*} profile 
+ * @param {*} accessToken 
+ * @param {*} _refreshToken 
+ * @param {*} params 
+ * @param {*} done 
+ */
+async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
   if (!profile.oid) return done(new Error("No OID found in user profile."), null);
   if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
@@ -54,7 +64,7 @@ passport.use(new OIDCStrategy(
     passReqToCallback: false,
     scope: process.env.OAUTH_SCOPES.split(' ')
   },
-  signInComplete
+  onVerifySignin
 ));
 
 const app = express();
