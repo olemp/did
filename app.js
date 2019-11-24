@@ -10,7 +10,7 @@ const passport = require('passport');
 const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
-const oauth2 = require('./oauth2');
+const oauth2 = require('./config/oauth2');
 
 const users = {};
 
