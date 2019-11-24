@@ -10,7 +10,7 @@ const passport = require('passport');
 const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
-const oauth2 = require('./oauth2');
+const oauth2 = require('./config/oauth2');
 
 const users = {};
 
@@ -23,8 +23,20 @@ passport.deserializeUser(function (id, done) {
   done(null, users[id]);
 });
 
-async function signInComplete(iss, sub, profile, accessToken, refreshToken, params, done) {
+/**
+ * On verify signin
+ * 
+ * @param {*} _iss 
+ * @param {*} _sub 
+ * @param {*} profile 
+ * @param {*} accessToken 
+ * @param {*} _refreshToken 
+ * @param {*} params 
+ * @param {*} done 
+ */
+async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
   if (!profile.oid) return done(new Error("No OID found in user profile."), null);
+  if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
     const user = await graph.getUserDetails(accessToken);
 
@@ -52,7 +64,7 @@ passport.use(new OIDCStrategy(
     passReqToCallback: false,
     scope: process.env.OAUTH_SCOPES.split(' ')
   },
-  signInComplete
+  onVerifySignin
 ));
 
 const app = express();
@@ -91,10 +103,10 @@ app.use(function (req, res, next) {
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./api'));
-app.use(function (req, res, next) {
+app.use(function (_req, _res, next) {
   next(createError(404));
 });
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res, _next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);

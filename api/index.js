@@ -146,10 +146,10 @@ router.get('/events/:startOfWeek', async function (req, res) {
     if (accessToken && accessToken.length > 0) {
       try {
         const calendarView = await graph.getCalendarView(accessToken, req.params.startOfWeek);
-        const result = (await table.query(
+        const result = await table.query(
           'Projects',
           new TableQuery().top(1000).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'ProjectKey', 'Name'),
-        ));
+        );
         const projects = result.map(r => ({
           key: `${r.CustomerKey._} ${r.ProjectKey._}`,
           name: r.Name._,
