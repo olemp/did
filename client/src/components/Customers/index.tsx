@@ -1,22 +1,17 @@
 
-import { ConstrainMode, DetailsList, DetailsListLayoutMode, IColumn, IDetailsHeaderProps, Selection, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
+import { IColumn, IDetailsHeaderProps, Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
 import { DataAdapter } from '../../data';
-import { ICustomersState } from './ICustomersState';
 import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
+import { ICustomersState } from './ICustomersState';
 
 export class Customers extends React.Component<{}, ICustomersState> {
     private _selection: Selection;
-    private _columns: IColumn[] = [
-        { key: 'key', fieldName: 'key', name: 'Key', minWidth: 100, maxWidth: 200 },
-        { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100, maxWidth: 200 },
-    ];
 
     constructor(props: {}) {
         super(props);
