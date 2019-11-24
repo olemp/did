@@ -10,7 +10,7 @@ import { IWeekViewState } from './IWeekViewState';
 import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
 import * as moment from 'moment';
-import { ICalEvent } from '../../models';
+import { ICalEvent } from "../../models";
 import { DataAdapter } from '../../data';
 require('moment/locale/en-gb');
 

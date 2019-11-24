@@ -31,11 +31,6 @@ module.exports = {
 };
 
 function getAuthenticatedClient(accessToken) {
-  const client = graph.Client.init({
-    authProvider: (done) => {
-      done(null, accessToken);
-    }
-  });
-
+  const client = graph.Client.init({ authProvider: (done) => { done(null, accessToken); } });
   return client;
 }
