@@ -13,13 +13,8 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./config/oauth2');
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
+passport.serializeUser(function (user, done) { done(null, user); });
+passport.deserializeUser(function (user, done) { done(null, user); });
 
 /**
  * On verify signin
@@ -44,7 +39,7 @@ async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, p
     done(err, null);
   }
   let { token } = oauth2.accessToken.create(params);
-  return done(null, { profile, oauthToken: token, tenantId: profile._json.tid });
+  return done(null, { profile, oauthToken: token });
 }
 
 passport.use(new OIDCStrategy(
@@ -57,7 +52,7 @@ passport.use(new OIDCStrategy(
     allowHttpForRedirectUrl: true,
     clientSecret: process.env.OAUTH_APP_PASSWORD,
     validateIssuer: false,
-    passReqToCallback: true,
+    passReqToCallback: false,
     scope: process.env.OAUTH_SCOPES.split(' ')
   },
   onVerifySignin
@@ -66,7 +61,7 @@ passport.use(new OIDCStrategy(
 const app = express();
 
 app.use(session({
-  store: azureTablesStoreFactory.create({ sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
+  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
   secret: process.env.SESSION_SIGNING_KEY,
   resave: false,
   saveUninitialized: false,
