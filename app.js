@@ -23,8 +23,10 @@ passport.deserializeUser(function (id, done) {
   done(null, users[id]);
 });
 
-async function signInComplete(iss, sub, profile, accessToken, refreshToken, params, done) {
+async function signInComplete(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
+  console.log(params);
   if (!profile.oid) return done(new Error("No OID found in user profile."), null);
+  if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
     const user = await graph.getUserDetails(accessToken);
 
@@ -91,10 +93,10 @@ app.use(function (req, res, next) {
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./api'));
-app.use(function (req, res, next) {
+app.use(function (_req, _res, next) {
   next(createError(404));
 });
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res, _next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
