@@ -64,7 +64,7 @@ const app = express();
 
 //#region Setting up session using connect-azuretables
 app.use(session({
-  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
+  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30 }),
   secret: process.env.SESSION_SIGNING_KEY,
   resave: false,
   saveUninitialized: false,
@@ -72,7 +72,6 @@ app.use(session({
   cookie: { maxAge: 600000 },
 }));
 //#endregion
-
 
 //#region Flash
 app.use(flash());
@@ -86,7 +85,7 @@ app.use(function (req, res, next) {
 });
 //#endregion
 
-//#region API setup
+//#region HBS views setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'views/partials'))
@@ -119,7 +118,6 @@ app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./api'));
 //#endregion
-
 
 //#region Error handling
 app.use(function (_req, _res, next) { next(createError(404)); });
