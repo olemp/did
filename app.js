@@ -10,7 +10,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const graph = require('./api/graph');
+const graph = require('./services/graph');
 const oauth2 = require('./config/oauth2');
 const app = express();
 
@@ -103,6 +103,7 @@ app.use(function (req, res, next) {
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./api'));
+app.use('/graphql', require('./middleware/graphql'));
 //#endregion
 
 //#region Error handling
