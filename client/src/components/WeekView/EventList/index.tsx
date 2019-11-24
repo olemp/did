@@ -4,6 +4,7 @@ import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
 import { ICalEvent } from '../../../models';
 import * as moment from 'moment';
+import { IEventListProps } from './IEventListProps';
 require('moment/locale/en-gb');
 
 function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
@@ -31,7 +32,7 @@ export const EventListColumns: IColumn[] = [
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];
 
-export const EventList = ({ events, hideColumns = [] }) => {
+export const EventList = ({ events, hideColumns = [] }: IEventListProps) => {
     return (
         <DetailsList
             columns={EventListColumns.filter(col => hideColumns.indexOf(col.key) === -1)}

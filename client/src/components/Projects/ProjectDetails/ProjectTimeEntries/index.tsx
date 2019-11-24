@@ -1,4 +1,3 @@
-import { ConstrainMode, DetailsList, DetailsListLayoutMode, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
 import * as React from 'react';
 import { EventList } from '../../../WeekView/EventList';
