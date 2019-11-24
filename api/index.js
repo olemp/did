@@ -50,7 +50,7 @@ router.get('/projects', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
     'Projects',
-    new TableQuery().top(50).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'ProjectKey', 'Name'),
+    new TableQuery().top(1000).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'ProjectKey', 'Name'),
   ));
   const projects = result.map(r => ({
     key: `${r.CustomerKey._} ${r.ProjectKey._}`,
@@ -141,19 +141,14 @@ router.get('/events/:startOfWeek', async function (req, res) {
   if (!req.isAuthenticated()) {
     res.json({ error: 'You are not authenticated.' })
   } else {
-    let accessToken;
-    try {
-      accessToken = await tokens.getAccessToken(req);
-    } catch (err) {
-      res.json({ error: 'Failed to retrieve access token.' })
-    }
-
+    const accessToken = await tokens.getAccessToken(req);
+    const partitionKey = tokens.getTenantId(req);
     if (accessToken && accessToken.length > 0) {
       try {
         const calendarView = await graph.getCalendarView(accessToken, req.params.startOfWeek);
         const result = (await table.query(
           'Projects',
-          new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'),
+          new TableQuery().top(1000).where('PartitionKey eq ?', partitionKey).select('CustomerKey', 'ProjectKey', 'Name'),
         ));
         const projects = result.map(r => ({
           key: `${r.CustomerKey._} ${r.ProjectKey._}`,
@@ -162,21 +157,20 @@ router.get('/events/:startOfWeek', async function (req, res) {
         const events = calendarView
           .filter(event => !event.isCancelled)
           .filter(event => !event.isAllDay)
-          .filter(event => event.subject.indexOf('IGNORE') === -1)
-          .filter(event => event.body.indexOf('IGNORE') === -1)
+          .filter(event => event.subject.toUpperCase().indexOf('IGNORE') === -1)
+          .filter(event => event.body.toUpperCase().indexOf('IGNORE') === -1)
           .filter(event => event.categories.indexOf('IGNORE') === -1)
           .map(e => ({
             ...e,
             duration: moment.duration(moment(e.endTime).diff(moment(e.startTime))).asMinutes(),
             project: projects.filter(p =>
-              e.subject.indexOf(p.key) !== -1
-              || e.body.indexOf(p.key) !== -1
+              e.subject.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
+              || e.body.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
               || e.categories.indexOf(p.key) !== -1
             )[0]
           }));
         res.json(events)
       } catch (error) {
-        console.log(error);
         res.json({ error })
       }
     }

@@ -1,9 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
-
+var mode = process.env.NODE_ENV.trim();
 
 module.exports = {
-  mode: 'production',
+  mode: mode,
   entry: './lib/App.js',
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

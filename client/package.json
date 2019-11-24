@@ -7,8 +7,9 @@
     "build": "tsc --build",
     "watch": "tsc --watch",
     "webpack": "webpack --config webpack.config.js",
-    "package": "npm run build && npm run webpack",
-    "watch-package": "npm-watch package"
+    "package:dev": "set NODE_ENV=development && npm run build && npm run webpack",
+    "package:prod": "set NODE_ENV=production && npm run build && npm run webpack",
+    "watch:package": "npm-watch package:dev"
   },
   "watch": {
     "package": {
