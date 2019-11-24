@@ -9,7 +9,6 @@ const entGen = TableUtilities.entityGenerator;
 const moment = require('moment');
 
 router.get('/customers', async function (req, res) {
-  const tenantId = tokens.getTenantId(req);
   const result = (await table.query(
     'Customers',
     new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'Name'),
@@ -22,7 +21,6 @@ router.get('/customers', async function (req, res) {
 });
 
 router.get('/projects', async function (req, res) {
-  const tenantId = tokens.getTenantId(req);
   const result = (await table.query(
     'Projects',
     new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'),
