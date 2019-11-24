@@ -28,6 +28,8 @@
   "dependencies": {
     "@uifabric/icons": "^7.3.0",
     "axios": "^0.19.0",
+    "highcharts": "^7.2.1",
+    "highcharts-react-official": "^2.2.2",
     "moment": "^2.24.0",
     "office-ui-fabric-react": "^7.64.0",
     "react": "^16.12.0",

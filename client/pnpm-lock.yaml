@@ -1,6 +1,8 @@
 dependencies:
   '@uifabric/icons': 7.3.0_ea25fa8afe5e866c631b9f4a7821efe0
   axios: 0.19.0
+  highcharts: 7.2.1
+  highcharts-react-official: 2.2.2_highcharts@7.2.1+react@16.12.0
   moment: 2.24.0
   office-ui-fabric-react: 7.64.1_ea25fa8afe5e866c631b9f4a7821efe0
   react: 16.12.0
@@ -16,10 +18,10 @@ devDependencies:
   webpack-cli: 3.3.10_webpack@4.41.2
 lockfileVersion: 5.1
 packages:
-  /@microsoft/load-themed-styles/1.10.22:
+  /@microsoft/load-themed-styles/1.10.23:
     dev: false
     resolution:
-      integrity: sha512-VP0wQ0QYsPdVbIR4pSoW+IapYm3A4H95Pw1DKIoguDESI5n+TgVZiV5EzIfNre7jB0k2iCUb2Ui9F9VWPN6zIQ==
+      integrity: sha512-SfbRsNSMoKD5HfmdsZ30H104CcJjPOycFL4dgcWGu3FiQ+P7i6WdBTWz4DfAXrA4pUTyNPxKlkS9h9BfAlbUnQ==
   /@types/es6-promise/3.3.0:
     dependencies:
       es6-promise: 4.2.8
@@ -109,7 +111,7 @@ packages:
       integrity: sha512-3mQp7gqPOqphwX74j+N/lJEFeivKPv8ryY9QFXUxVPnrXNwpIkDW9Wk6CPqArzgGvQngRRKYD/PcyP5iuHN52A==
   /@uifabric/styling/7.7.3_ea25fa8afe5e866c631b9f4a7821efe0:
     dependencies:
-      '@microsoft/load-themed-styles': 1.10.22
+      '@microsoft/load-themed-styles': 1.10.23
       '@uifabric/merge-styles': 7.8.1
       '@uifabric/set-version': 7.0.2
       '@uifabric/utilities': 7.6.0_ea25fa8afe5e866c631b9f4a7821efe0
@@ -1448,6 +1450,20 @@ packages:
     dev: true
     resolution:
       integrity: sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
+  /highcharts-react-official/2.2.2_highcharts@7.2.1+react@16.12.0:
+    dependencies:
+      highcharts: 7.2.1
+      react: 16.12.0
+    dev: false
+    peerDependencies:
+      highcharts: '>=5.0.0'
+      react: '>=16.0'
+    resolution:
+      integrity: sha512-Xj9JOOL20Vmbl8gjgF2jN89Fx5zqbonjaK6SqwiM4vCjC/ZwtwXEquk+LkymzIVcd4H9Wb/9ASKhBJn5fNtN4g==
+  /highcharts/7.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-/fSUZiONmM+x49IQJNf8XwZGiNGOPRmxEOcd0xdJP9Xc3OlG46ZiUWgSLfhYQ9Oyhmzc3V3SKYCLud8+rKLi+w==
   /hmac-drbg/1.0.1:
     dependencies:
       hash.js: 1.1.7
@@ -2207,7 +2223,7 @@ packages:
       integrity: sha1-h6EKxMFpS9Lhy/U1kaZhQftd10c=
   /office-ui-fabric-react/7.64.1_ea25fa8afe5e866c631b9f4a7821efe0:
     dependencies:
-      '@microsoft/load-themed-styles': 1.10.22
+      '@microsoft/load-themed-styles': 1.10.23
       '@types/react': 16.9.13
       '@types/react-dom': 16.9.4
       '@uifabric/foundation': 7.5.0_ea25fa8afe5e866c631b9f4a7821efe0
@@ -3385,6 +3401,8 @@ specifiers:
   '@types/webpack-env': ^1.14.1
   '@uifabric/icons': ^7.3.0
   axios: ^0.19.0
+  highcharts: ^7.2.1
+  highcharts-react-official: ^2.2.2
   moment: ^2.24.0
   npm-watch: ^0.6.0
   office-ui-fabric-react: ^7.64.0
