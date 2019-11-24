@@ -30,7 +30,7 @@ router.post('/callback',
     )(req, res, next);
   },
   (_req, res) => {
-    res.redirect('/ => ');
+    res.redirect('/');
   }
 );
 
