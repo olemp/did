@@ -8,6 +8,9 @@ const entGen = TableUtilities.entityGenerator;
 const moment = require('moment');
 const uuidv1 = require('uuid/v1');
 
+/**
+ * GET /customers
+ */
 router.get('/customers', async function (_req, res) {
   const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
@@ -21,6 +24,9 @@ router.get('/customers', async function (_req, res) {
   res.json(customers);
 });
 
+/**
+ * POST /customers
+ */
 router.post('/customers', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const customer = req.body;
@@ -37,6 +43,9 @@ router.post('/customers', async function (req, res) {
   }
 });
 
+/**
+ * GET /projects
+ */
 router.get('/projects', async function (_req, res) {
   const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
@@ -50,6 +59,9 @@ router.get('/projects', async function (_req, res) {
   res.json(projects);
 });
 
+/**
+ * POST /projects
+ */
 router.post('/projects', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const project = req.body;
@@ -67,6 +79,9 @@ router.post('/projects', async function (req, res) {
   }
 });
 
+/**
+ * GET /projects/:customerKey
+ */
 router.get('/projects/:customerKey', async function (req, res) {
   const result = (await table.query(
     'Projects',
@@ -79,6 +94,9 @@ router.get('/projects/:customerKey', async function (req, res) {
   res.json(customers);
 });
 
+/**
+ * GET /approved/:projectKey
+ */
 router.get('/approved/:projectKey', async function (req, res) {
   const result = await table.query(
     'ApprovedTimeEntries',
@@ -93,6 +111,9 @@ router.get('/approved/:projectKey', async function (req, res) {
   res.json(entries);
 });
 
+/**
+ * POST /approve
+ */
 router.post('/approve', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const events = req.body;
@@ -113,6 +134,9 @@ router.post('/approve', async function (req, res) {
   }
 });
 
+/**
+ * GET /events/:startOfWeek
+ */
 router.get('/events/:startOfWeek', async function (req, res) {
   if (!req.isAuthenticated()) {
     res.json({ error: 'You are not authenticated.' })
