@@ -13,6 +13,7 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./api/graph');
 const oauth2 = require('./config/oauth2');
 
+
 passport.serializeUser(function (user, done) { done(null, user); });
 passport.deserializeUser(function (user, done) { done(null, user); });
 
@@ -60,6 +61,8 @@ passport.use(new OIDCStrategy(
 
 const app = express();
 
+
+//#region Setting up session using connect-azuretables
 app.use(session({
   store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
   secret: process.env.SESSION_SIGNING_KEY,
@@ -68,6 +71,10 @@ app.use(session({
   rolling: true,
   cookie: { maxAge: 600000 },
 }));
+//#endregion
+
+
+//#region Flash
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.error = req.flash('error_msg');
@@ -77,33 +84,51 @@ app.use(function (req, res, next) {
   }
   next();
 });
+//#endregion
+
+//#region API setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 hbs.registerPartials(path.join(__dirname, 'views/partials'))
+//#endregion
+
+//#region API setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//#endregion
+
+//#region Passport
 app.use(passport.initialize());
 app.use(passport.session());
+//#endregion
+
+//#region Storing user
 app.use(function (req, res, next) {
   if (req.user) {
     res.locals.user = req.user.profile;
   }
   next();
 });
+//#endregion
+
+//#region Routes/APIs
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api', require('./api'));
-app.use(function (_req, _res, next) {
-  next(createError(404));
-});
+//#endregion
+
+
+//#region Error handling
+app.use(function (_req, _res, next) { next(createError(404)); });
 app.use(function (err, req, res, _next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   res.render('error');
 });
+//#endregion
 
 module.exports = app;
