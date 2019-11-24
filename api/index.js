@@ -11,7 +11,7 @@ const uuidv1 = require('uuid/v1');
 /**
  * GET /customers
  */
-router.get('/customers', async function (_req, res) {
+router.get('/customers', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
     'Customers',
@@ -46,7 +46,7 @@ router.post('/customers', async function (req, res) {
 /**
  * GET /projects
  */
-router.get('/projects', async function (_req, res) {
+router.get('/projects', async function (req, res) {
   const partitionKey = tokens.getTenantId(req);
   const result = (await table.query(
     'Projects',
