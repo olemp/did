@@ -23,8 +23,7 @@ function renderProject(item: ICalEvent) {
     return <a href={`/projects?key=${item.project.key}`}>{item.project.name}</a>;
 }
 
-
-export const Columns: IColumn[] = [
+export const EventListColumns: IColumn[] = [
     { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
     { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
     { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
@@ -32,11 +31,10 @@ export const Columns: IColumn[] = [
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];
 
-
-export const EventList = ({ events }) => {
+export const EventList = ({ events, hideColumns = [] }) => {
     return (
         <DetailsList
-            columns={Columns}
+            columns={EventListColumns.filter(col => hideColumns.indexOf(col.key) === -1)}
             items={events}
             selectionMode={SelectionMode.none}
             constrainMode={ConstrainMode.horizontalConstrained}

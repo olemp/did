@@ -10,8 +10,6 @@ export const ProjectListColumns: IColumn[] = [
     { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
 ];
 
-
-
 function _onRenderDetailsHeader(detailsHeaderProps: IDetailsHeaderProps, defaultRender: IRenderFunction<IDetailsHeaderProps>) {
     return (
         <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
