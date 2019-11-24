@@ -8,6 +8,7 @@
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
     "azure-storage": "2.10.3",
+    "connect-azuretables": "^1.0.20",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "2.6.9",

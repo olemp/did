@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+const azureTablesStoreFactory = require('connect-azuretables')(session);
 const flash = require('connect-flash');
 const passport = require('passport');
 const hbs = require('hbs');
@@ -69,12 +70,7 @@ passport.use(new OIDCStrategy(
 
 const app = express();
 
-app.use(session({
-  secret: 'your_secret_value_here',
-  resave: false,
-  saveUninitialized: false,
-  unset: 'destroy'
-}));
+app.use(session({ store: azureTablesStoreFactory.create({}), secret: 'keyboard cat' }));
 app.use(flash());
 app.use(function (req, res, next) {
   res.locals.error = req.flash('error_msg');

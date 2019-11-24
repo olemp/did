@@ -1,5 +1,5 @@
 const { createTableService } = require('azure-storage');
-const azureTableService = createTableService(process.env.AZURETABLESTORAGE);
+const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
 module.exports = {
     query: (table, query) => {
