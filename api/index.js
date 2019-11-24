@@ -21,9 +21,10 @@ router.get('/customers', async function (req, res) {
 });
 
 router.get('/projects', async function (req, res) {
+  const tenantId = tokens.getTenantId(req);
   const result = (await table.query(
     'Projects',
-    new TableQuery().top(50).where('PartitionKey eq ?', 'Default').select('CustomerKey', 'ProjectKey', 'Name'),
+    new TableQuery().top(50).where('PartitionKey eq ?', tenantId).select('CustomerKey', 'ProjectKey', 'Name'),
   ));
   const projects = result.map(r => ({
     key: `${r.CustomerKey._} ${r.ProjectKey._}`,
