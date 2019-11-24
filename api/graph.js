@@ -18,18 +18,16 @@ module.exports = {
       .orderby('start/dateTime asc')
       .top(50)
       .get();
-    return events
-      .filter(event => !event.isCancelled && !event.isAllDay)
-      .map(event => ({
-        id: event.id,
-        subject: event.subject,
-        body: event.body.content,
-        categories: event.categories,
-        webLink: event.webLink,
-        startTime: event.start.dateTime,
-        endTime: event.end.dateTime,
-        duration: moment.duration(moment(event.end.dateTime).diff(moment(event.start.dateTime))).asMinutes(),
-      }));
+    return events.map(event => ({
+      id: event.id,
+      subject: event.subject,
+      body: event.body.content,
+      categories: event.categories,
+      webLink: event.webLink,
+      startTime: event.start.dateTime,
+      endTime: event.end.dateTime,
+      duration: moment.duration(moment(event.end.dateTime).diff(moment(event.start.dateTime))).asMinutes(),
+    }));
   }
 };
 

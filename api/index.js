@@ -102,14 +102,20 @@ router.get('/events/:startOfWeek', async function (req, res) {
           key: `${r.CustomerKey._} ${r.ProjectKey._}`,
           name: r.Name._,
         }));
-        const events = calendarView.map(e => ({
-          ...e,
-          project: projects.filter(p =>
-            e.subject.indexOf(p.key) !== -1
-            || e.body.indexOf(p.key) !== -1
-            || e.categories.indexOf(p.key) !== -1
-          )[0]
-        }));
+        const events = calendarView
+          .filter(event => !event.isCancelled)
+          .filter(event => !event.isAllDay)
+          .filter(event => event.subject.indexOf('IGNORE') === -1)
+          .filter(event => event.body.indexOf('IGNORE') === -1)
+          .filter(event => event.categories.indexOf('IGNORE') === -1)
+          .map(e => ({
+            ...e,
+            project: projects.filter(p =>
+              e.subject.indexOf(p.key) !== -1
+              || e.body.indexOf(p.key) !== -1
+              || e.categories.indexOf(p.key) !== -1
+            )[0]
+          }));
         res.json(events)
       } catch (error) {
         console.log(error);
