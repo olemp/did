@@ -1,6 +1,7 @@
 dependencies:
   '@microsoft/microsoft-graph-client': 2.0.0
   azure-storage: 2.10.3
+  connect-azuretables: 1.0.20
   connect-flash: 0.1.1
   cookie-parser: 1.4.4
   debug: 2.6.9
@@ -46,7 +47,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
-  /@hapi/joi/16.1.7:
+  /@hapi/joi/16.1.8:
     dependencies:
       '@hapi/address': 2.1.4
       '@hapi/formula': 1.2.0
@@ -55,7 +56,7 @@ packages:
       '@hapi/topo': 3.1.6
     dev: false
     resolution:
-      integrity: sha512-anaIgnZhNooG3LJLrTFzgGALTiO97zRA1UkvQHm9KxxoSiIzCozB3RCNCpDnfhTJD72QlrHA8nwGmNgpFFCIeg==
+      integrity: sha512-wAsVvTPe+FwSrsAurNt5vkg3zo+TblvC5Bb1zMVK6SJzZqw9UrJnexxR+76cpePmtUZKHAPxcQ2Bf7oVHyahhg==
   /@hapi/pinpoint/1.0.2:
     dev: false
     resolution:
@@ -270,6 +271,13 @@ packages:
     optional: true
     resolution:
       integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
+  /connect-azuretables/1.0.20:
+    dependencies:
+      azure-storage: 2.10.3
+      cron: 1.3.0
+    dev: false
+    resolution:
+      integrity: sha512-UBdjkjE7oZqM6Wx0SSj4Pzr6a5Wlm1aBSHxmPUIwZQrZlG+DkzQGi840ffY+bgUXtEQ/XzAaiuBVrLjpYgfFcQ==
   /connect-flash/0.1.1:
     dev: false
     engines:
@@ -317,6 +325,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+  /cron/1.3.0:
+    dependencies:
+      moment-timezone: 0.5.27
+    dev: false
+    resolution:
+      integrity: sha512-K/SF7JlgMmNjcThWxkKvsHhey2EDB4CeOEWJ9aXWj3fbQJppsvTPIeyLdHfNq5IbbsMUUjRW1nr5dSO95f2E4w==
   /dashdash/1.14.1:
     dependencies:
       assert-plus: 1.0.0
@@ -828,6 +842,12 @@ packages:
     optional: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
+  /moment-timezone/0.5.27:
+    dependencies:
+      moment: 2.24.0
+    dev: false
+    resolution:
+      integrity: sha512-EIKQs7h5sAsjhPCqN6ggx6cEbs94GK050254TIJySD1bzoM5JTYDwAU1IoVOeTOL6Gm27kYJ51/uuvq1kIlrbw==
   /moment/2.24.0:
     dev: false
     resolution:
@@ -1162,7 +1182,7 @@ packages:
   /simple-oauth2/3.1.0:
     dependencies:
       '@hapi/hoek': 8.5.0
-      '@hapi/joi': 16.1.7
+      '@hapi/joi': 16.1.8
       '@hapi/wreck': 15.1.0
       date-fns: 2.8.1
       debug: 4.1.1
@@ -1352,6 +1372,7 @@ packages:
 specifiers:
   '@microsoft/microsoft-graph-client': 2.0.0
   azure-storage: 2.10.3
+  connect-azuretables: ^1.0.20
   connect-flash: ^0.1.1
   cookie-parser: ~1.4.4
   debug: 2.6.9
