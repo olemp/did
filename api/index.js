@@ -12,8 +12,8 @@ const uuidv1 = require('uuid/v1');
  */
 router.get('/customers', async function (req, res) {
   const result = (await table.query(
-    'Customers',
-    new TableQuery().top(50).where('PartitionKey eq ?', req.user.tenantId).select('CustomerKey', 'Name'),
+    process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME,
+    new TableQuery().top(50).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'Name'),
   ));
   const customers = result.map(r => ({
     key: r.CustomerKey._,
@@ -28,8 +28,8 @@ router.get('/customers', async function (req, res) {
 router.post('/customers', async function (req, res) {
   const customer = req.body;
   try {
-    await table.add('Customers', {
-      PartitionKey: entGen.String(req.user.tenantId),
+    await table.add(process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME, {
+      PartitionKey: entGen.String(req.user.profile._json.tid),
       RowKey: entGen.String(uuidv1()),
       CustomerKey: entGen.String(customer.key),
       Name: entGen.String(customer.name),
@@ -45,8 +45,8 @@ router.post('/customers', async function (req, res) {
  */
 router.get('/projects', async function (req, res) {
   const result = (await table.query(
-    'Projects',
-    new TableQuery().top(1000).where('PartitionKey eq ?', req.user.tenantId).select('CustomerKey', 'ProjectKey', 'Name'),
+    process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
+    new TableQuery().top(1000).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'),
   ));
   const projects = result.map(r => ({
     key: `${r.CustomerKey._} ${r.ProjectKey._}`,
@@ -61,8 +61,8 @@ router.get('/projects', async function (req, res) {
 router.post('/projects', async function (req, res) {
   const project = req.body;
   try {
-    await table.add('Projects', {
-      PartitionKey: entGen.String(req.user.tenantId),
+    await table.add(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, {
+      PartitionKey: entGen.String(req.user.profile._json.tid),
       RowKey: entGen.String(uuidv1()),
       CustomerKey: entGen.String(project.customerKey),
       ProjectKey: entGen.String(project.projectKey),
@@ -79,7 +79,7 @@ router.post('/projects', async function (req, res) {
  */
 router.get('/projects/:customerKey', async function (req, res) {
   const result = (await table.query(
-    'Projects',
+    process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
     new TableQuery().top(50).where('CustomerKey eq ?', req.params.customerKey).select('CustomerKey', 'ProjectKey', 'Name'),
   ));
   const customers = result.map(r => ({
@@ -94,7 +94,7 @@ router.get('/projects/:customerKey', async function (req, res) {
  */
 router.get('/approved/:projectKey', async function (req, res) {
   const result = await table.query(
-    'ApprovedTimeEntries',
+    process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME,
     new TableQuery().top(50).where('ProjectKey eq ?', req.params.projectKey)
   );
   const entries = result.map(r => ({
@@ -113,8 +113,8 @@ router.post('/approve', async function (req, res) {
   const events = req.body;
   try {
     for (let i = 0; i < events.length; i++) {
-      await table.add('ApprovedTimeEntries', {
-        PartitionKey: entGen.String(req.user.tenantId),
+      await table.add(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, {
+        PartitionKey: entGen.String(req.user.profile._json.tid),
         RowKey: entGen.String(events[i].id),
         Subject: entGen.String(events[i].subject),
         StartTime: entGen.DateTime(new Date(events[i].startTime)),
@@ -138,8 +138,8 @@ router.get('/events/:startOfWeek', async function (req, res) {
     try {
       const calendarView = await graph.getCalendarView(req.user.oauthToken.access_token, req.params.startOfWeek);
       const result = await table.query(
-        'Projects',
-        new TableQuery().top(1000).where('PartitionKey eq ?', req.user.tenantId).select('CustomerKey', 'ProjectKey', 'Name'),
+        process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
+        new TableQuery().top(1000).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'),
       );
       const projects = result.map(r => ({
         key: `${r.CustomerKey._} ${r.ProjectKey._}`,

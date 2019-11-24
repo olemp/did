@@ -5,15 +5,24 @@ router.get('/', function (_req, res) {
   res.render('index', { active: { home: true } });
 });
 
-router.get('/week_view', function (_req, res) {
+router.get('/week_view', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/');
+  }
   res.render('week_view', { active: { week_view: true } });
 });
 
-router.get('/customers', function (_req, res) {
+router.get('/customers', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/');
+  }
   res.render('customers', { active: { customers: true } });
 });
 
-router.get('/projects', function (_req, res) {
+router.get('/projects', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/');
+  }
   res.render('projects', { active: { projects: true } });
 });
 
