@@ -152,7 +152,11 @@ router.get('/events/:startOfWeek', async function (req, res) {
         .filter(event => event.body.toUpperCase().indexOf('IGNORE') === -1)
         .filter(event => event.categories.indexOf('IGNORE') === -1)
         .map(e => ({
-          ...e,
+          id: e.id,
+          subject: e.subject,
+          webLink: e.webLink,
+          startTime: e.startTime,
+          endTime: e.endTime,
           duration: moment.duration(moment(e.endTime).diff(moment(e.startTime))).asMinutes(),
           project: projects.filter(p =>
             e.subject.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
