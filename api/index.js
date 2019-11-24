@@ -20,6 +20,21 @@ router.get('/customers', async function (_req, res) {
   res.json(customers);
 });
 
+router.post('/customers', async function (req, res) {
+  const customer = req.body;
+  try {
+    await table.add('Customers', {
+      PartitionKey: entGen.String('Default'),
+      RowKey: entGen.String(uuidv1()),
+      CustomerKey: entGen.String(customer.key),
+      Name: entGen.String(customer.name),
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.json({ success: false });
+  }
+});
+
 router.get('/projects', async function (_req, res) {
   const result = (await table.query(
     'Projects',
@@ -40,6 +55,7 @@ router.post('/projects', async function (req, res) {
       RowKey: entGen.String(uuidv1()),
       CustomerKey: entGen.String(project.customerKey),
       ProjectKey: entGen.String(project.projectKey),
+      Name: entGen.String(project.name),
     });
     res.json({ success: true });
   } catch (error) {
