@@ -1,8 +1,14 @@
 <div class="jumbotron">
-  <h1>Did 365</h1>
-  <p>The calendar is your timesheet</p>
-  {{#if user}}
-  <div id="app-charts">
+  <div className="container">
+    <div className="row">
+      <div className="col-sm">
+        <h1>Did 365</h1>
+        <p>The calendar is your timesheet</p>
+      </div>
+    </div>
+    {{#if user}}
+    <div id="app-charts">
+    </div>
+    {{/if}}
   </div>
-  {{/if}}
 </div>
