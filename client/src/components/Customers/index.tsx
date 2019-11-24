@@ -36,16 +36,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
             </div>
         );
     }
-
-    private _onRenderDetailsHeader(detailsHeaderProps: IDetailsHeaderProps, defaultRender: IRenderFunction<IDetailsHeaderProps>) {
-        return (
-            <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
-                <SearchBox placeholder='Search customers...' />
-                {defaultRender(detailsHeaderProps)}
-            </Sticky>
-        );
-    }
-
+    
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
         const projects = await new DataAdapter().getProjects(selected.key as string);
