@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const graph = require('./graph');
+const graph = require('../services/graph');
+const table = require('../services/table');
 const { TableQuery, TableUtilities } = require('azure-storage');
-const table = require('./table');
 const entGen = TableUtilities.entityGenerator;
 const moment = require('moment');
 const uuidv1 = require('uuid/v1');

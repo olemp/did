@@ -24,5 +24,14 @@ module.exports = {
                 }
             })
         });
+    },
+
+    parseArray: (arr) => {
+        return arr.map(item => Object.keys(item).reduce((obj, key) => {
+            const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+            const value = item[key]._;
+            obj[camelCaseKey] = value;
+            return obj;
+        }, {}));
     }
 }

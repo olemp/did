@@ -1,0 +1,15 @@
+type Project {
+  customerKey: String
+  projectKey: String
+  name: String
+}
+
+type Customer {
+  customerKey: String
+  name: String
+}
+
+type Query {
+  projects: [Project!]!
+  customers: [Customer!]!
+}
