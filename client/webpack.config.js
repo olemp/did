@@ -22,7 +22,7 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   output: {
-    path: path.resolve(__dirname, '../public/scripts'),
+    path: path.resolve(__dirname, '../js/scripts'),
     filename: 'did365.bundle.js'
   }
 };
