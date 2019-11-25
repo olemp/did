@@ -5,7 +5,7 @@ const { makeExecutableSchema } = require('graphql-tools');
 const { query, parseArray } = require('../../services/table');
 const graph = require('../../services/graph');
 const { TableQuery } = require('azure-storage');
-const moment = require('moment');
+const utils = require('../../utils');
 
 const typeDefs = importSchema(path.join(__dirname, './schema.graphql'));
 const resolvers = {
@@ -81,7 +81,7 @@ const resolvers = {
       const result = await query(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, tblQuery);
       const entries = parseArray(result).map(r => ({
         ...r,
-        duration: moment.duration(moment(r.endTime).diff(moment(r.startTime))).asMinutes(),
+        duration: utils.getDurationMinutes(r.startTime, r.endTime),
       }));
       return entries;
     },
