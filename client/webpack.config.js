@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './lib/App.js',
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
