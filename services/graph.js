@@ -15,7 +15,8 @@ module.exports = {
     const { value: events } = await getAuthenticatedClient(accessToken)
       .api('/me/calendar/calendarView')
       .query({ startDateTime, endDateTime })
-      .select('id,subject,body,start,end,categories,webLink,isallday,iscancelled')
+      .select('id,subject,body,start,end,categories,webLink')
+      .filter(`sensitivity ne 'private' and isallday eq false and iscancelled eq false`)
       .orderby('start/dateTime asc')
       .top(50)
       .get();
