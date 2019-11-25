@@ -5,7 +5,7 @@ import { getDurationDisplay } from '../../../helpers';
 
 export const WeekConfirmedMessage = ({ hidden, totalDuration }) => {
     return (
-        <div hidden={hidden}>
+        <div hidden={hidden} style={{ marginTop: 15 }}>
             <MessageBar messageBarType={MessageBarType.success} messageBarIconProps={{ iconName: 'CheckMark' }}>
                 The week is confirmed with {getDurationDisplay(totalDuration)}.
             </MessageBar>

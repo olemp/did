@@ -1,0 +1,67 @@
+type Project {
+	id: String
+	key: String
+	customerKey: String
+	projectKey: String
+	name: String
+}
+
+type Customer {
+	id: String
+	key: String
+	customerKey: String
+	name: String
+}
+
+type Event {
+	id: String
+	subject: String
+	startTime: String
+	endTime: String
+	duration: Int
+	project: Project
+	webLink: String
+}
+
+type TimeEntry {
+	id: String
+	subject: String
+	description: String
+	startTime: String
+	endTime: String
+	duration: Int
+	webLink: String
+	durationHours: Float
+	customerKey: String
+	projectKey: String
+	weekNumber: Int
+	yearNumber: Int
+	resourceKey: String
+	webUrl: String
+}
+
+input TimeEntryInput {
+	id: String
+	projectKey: String
+}
+
+type Query {
+	projects: [Project!]!
+	customers: [Customer!]!
+}
+
+type Query {
+	weekView(weekNumber: Int!): [Event!]!
+}
+
+type Query {
+	customerProjects(customerKey: String!): [Project!]!
+}
+
+type Query {
+	approvedEntries(projectKey: String!): [TimeEntry!]!
+}
+
+type Mutation {
+	approveWeek(entries: [TimeEntryInput!], weekNumber: Int!): Boolean!
+}

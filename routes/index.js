@@ -26,4 +26,11 @@ router.get('/projects', function (req, res) {
   res.render('projects', { active: { projects: true } });
 });
 
+router.get('/reports', function (req, res) {
+  if (!req.isAuthenticated()) {
+    res.redirect('/');
+  }
+  res.render('reports', { active: { reports: true } });
+});
+
 module.exports = router;

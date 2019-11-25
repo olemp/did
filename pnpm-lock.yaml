@@ -20,6 +20,7 @@ dependencies:
   passport: 0.4.0
   passport-azure-ad: 4.2.0
   simple-oauth2: 3.1.0
+  string-strip-html: 4.3.8
   uuid: 3.3.3
 devDependencies:
   nodemon: 2.0.1
@@ -645,6 +646,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
+  /ent/2.2.0:
+    dev: false
+    resolution:
+      integrity: sha1-6WQhkyWiHQX0RGai9obtbOX13R0=
   /escape-html/1.0.3:
     dev: false
     resolution:
@@ -922,7 +927,7 @@ packages:
       node: '>=0.4.7'
     hasBin: true
     optionalDependencies:
-      uglify-js: 3.6.9
+      uglify-js: 3.7.0
     resolution:
       integrity: sha512-I16T/l8X9DV3sEkY9sK9lsPRgDsj82ayBY/4pAZyP2BcX5WeRM3O06bw9kIs2GLrHvFB/DNzWWJyFvof8wQGqw==
   /har-schema/2.0.0:
@@ -1116,6 +1121,14 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-Df2Y9akRFxbdU13aZJL2e/PSWoA=
+  /is-natural-number-string/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-0OvxwBH64tOwc02MgBFuJRKkoug=
+  /is-natural-number/4.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-q5124dtM7VHjXeDHLr7PCfc0zeg=
   /is-npm/1.0.0:
     dev: true
     engines:
@@ -1250,6 +1263,22 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-ogU4P+oyKzO1rjsYq+4NwvNW7hU=
+  /lodash.clonedeep/4.5.0:
+    dev: false
+    resolution:
+      integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
+  /lodash.isplainobject/4.0.6:
+    dev: false
+    resolution:
+      integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+  /lodash.trim/4.5.1:
+    dev: false
+    resolution:
+      integrity: sha1-NkJefukL5KpeJ7zruFt9EepHqlc=
+  /lodash.without/4.4.0:
+    dev: false
+    resolution:
+      integrity: sha1-PNRXSgC2e643OpS3SHcmQFB7eqw=
   /lodash/4.17.15:
     dev: false
     resolution:
@@ -1664,6 +1693,47 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+  /ranges-apply/3.0.42:
+    dependencies:
+      is-natural-number: 4.0.1
+      is-natural-number-string: 1.0.1
+      ranges-merge: 4.2.26
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-Y8AFE42ROmYmlNfjyEXquii3tUmVEX4s7ZAg4rwuI/27kpUyq3yb5CKdkak74b5aRpSyamziWSRF6yeTU8kS2w==
+  /ranges-merge/4.2.26:
+    dependencies:
+      lodash.clonedeep: 4.5.0
+      lodash.isplainobject: 4.0.6
+      ranges-sort: 3.10.43
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-/kvDENDzjioYZiF0yCJLXB86K7Q8Bwq5gisJJ9IaDMHclW0Bi0iQ0992TZ3KvyNjwXX855ucrBVJQWzuZBBCQQ==
+  /ranges-push/3.6.9:
+    dependencies:
+      is-natural-number: 4.0.1
+      is-natural-number-string: 1.0.1
+      lodash.clonedeep: 4.5.0
+      ranges-merge: 4.2.26
+      string-collapse-leading-whitespace: 2.0.7
+      string-trim-spaces-only: 2.8.6
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-3ROWjEd/gBObCU7oF89s8RWssnvz15gd/RwMdKENFWwXgA0TmFR++oLO3uHb90/1uNcF8AnxLVsEuRWSCFLi/g==
+  /ranges-sort/3.10.43:
+    dependencies:
+      is-natural-number: 4.0.1
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-nHz4EVhRhHS8FRAx/SxOCOmNn9nZUyKaC/9hvqeFh1Xw+nu6s4FZWC8sPlKu8FUKjfO6N+WhqLXjYxQGhW09og==
   /raw-body/2.3.3:
     dependencies:
       bytes: 3.0.0
@@ -1910,6 +1980,41 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /string-collapse-leading-whitespace/2.0.7:
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-jwGbyjjQPQnMyZk5jkjaeRTUr1kEfMeEWyg5LFrYgP6O3yaa+Ar3a5efZoKspGNzK2jLOr05ftH7Mbxrr2cFog==
+  /string-left-right/2.3.9:
+    dependencies:
+      lodash.clonedeep: 4.5.0
+      lodash.isplainobject: 4.0.6
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-+eZYpx4V+BYovU2wMFR00rRBbXQkkNqkySJl/K7J6R2fxMW/89gEhxUeFApwcrN0lwVyv5LJD8uM8eJp6lGH2g==
+  /string-strip-html/4.3.8:
+    dependencies:
+      ent: 2.2.0
+      lodash.isplainobject: 4.0.6
+      lodash.trim: 4.5.1
+      lodash.without: 4.4.0
+      ranges-apply: 3.0.42
+      ranges-push: 3.6.9
+      string-left-right: 2.3.9
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-dleRdfGWOfktZgup0A/Fs/9cqQiKz5ZyIg6hT1WlYBdLdbylT8VI2j4DquTjTQP/uJxkyCPNbJbnxDuhELR8wA==
+  /string-trim-spaces-only/2.8.6:
+    dev: false
+    engines:
+      node: '>=8.9'
+    resolution:
+      integrity: sha512-gQANoy0mvoAzvd2ceT6Lp38m3oi2aNqTnpXRWjMdhFiqlVX3inKi9tdWrHpTX2y3+vRCGoYHKJY6cm2m1ypI3Q==
   /string-width/2.1.1:
     dependencies:
       is-fullwidth-code-point: 2.0.0
@@ -2024,7 +2129,7 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
-  /uglify-js/3.6.9:
+  /uglify-js/3.7.0:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -2034,7 +2139,7 @@ packages:
     hasBin: true
     optional: true
     resolution:
-      integrity: sha512-pcnnhaoG6RtrvHJ1dFncAe8Od6Nuy30oaJ82ts6//sGSXOP5UjBMEthiProjXmMNHOfd93sqlkztifFMcb+4yw==
+      integrity: sha512-PC/ee458NEMITe1OufAjal65i6lB58R1HWMRcxwvdz1UopW0DYqlRL3xdu3IcTvTXsB02CRHykidkTRL+A3hQA==
   /uid-safe/2.1.5:
     dependencies:
       random-bytes: 1.0.0
@@ -2240,4 +2345,5 @@ specifiers:
   passport: 0.4.0
   passport-azure-ad: 4.2.0
   simple-oauth2: 3.1.0
+  string-strip-html: ^4.3.8
   uuid: ^3.3.3
