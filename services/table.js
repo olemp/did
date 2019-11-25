@@ -1,19 +1,20 @@
-const { createTableService } = require('azure-storage');
+const { createTableService, TableQuery } = require('azure-storage');
 const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
-module.exports = {
-    query: (table, query) => {
-        return new Promise((resolve, reject) => {
-            azureTableService.queryEntities(table, query, null, (error, result) => {
-                if (!error) {
-                    return resolve(result.entries);
-                } else {
-                    reject(error);
-                }
-            });
+function query(table, query) {
+    return new Promise((resolve, reject) => {
+        azureTableService.queryEntities(table, query, null, (error, result) => {
+            if (!error) {
+                return resolve(result.entries);
+            } else {
+                reject(error);
+            }
         });
-    },
+    });
+};
 
+module.exports = {
+    query: query,
     add: (table, item) => {
         return new Promise((resolve, reject) => {
             azureTableService.insertEntity(table, item, (error, result) => {
@@ -23,6 +24,13 @@ module.exports = {
                     reject(error);
                 }
             })
+        });
+    },
+
+    getSubscription: (tenantId) => {
+        return new Promise(async (resolve) => {
+            var sub = await query(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
+            resolve(sub[0]);
         });
     },
 

@@ -11,6 +11,7 @@ const passport = require('passport');
 const hbs = require('hbs');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const graph = require('./services/graph');
+const { getSubscription } = require('./services/table');
 const oauth2 = require('./config/oauth2');
 const app = express();
 
@@ -19,8 +20,11 @@ passport.serializeUser(function (user, done) { done(null, user); });
 passport.deserializeUser(function (user, done) { done(null, user); });
 async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, params, done) {
   if (!profile.oid) return done(new Error("No OID found in user profile."), null);
-  if (profile._json.tid != process.env.OAUTH_TENANT_ID) return done(new Error("No access"), null);
   try {
+    const sub = await getSubscription(profile._json.tid);
+    if (!sub) {
+      return done(new Error("No access"), null);
+    }
     const user = await graph.getUserDetails(accessToken);
     if (user) {
       profile['email'] = user.mail ? user.mail : user.userPrincipalName;
