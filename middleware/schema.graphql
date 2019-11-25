@@ -6,6 +6,7 @@ type Project {
 }
 
 type Customer {
+  key: String
   customerKey: String
   name: String
 }
@@ -29,3 +30,9 @@ type Query {
 type Query {
   events(startOfWeek: String!): [Event!]!
 }
+
+
+type Query {
+  customerProjects(customerKey: String!): [Project!]!
+}
+

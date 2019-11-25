@@ -19,7 +19,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        const { projects } = await graphql.query<{ projects: any[] }>('{projects{customerKey,projectKey,name}}');
+        const { projects } = await graphql.query<{ projects: any[] }>('{projects{key,customerKey,projectKey,name}}');
         this.setState({ projects, isLoading: false });
         let urlKey = getUrlParameter('key');
         if (urlKey) this._selection.setKeySelected(urlKey, true, true);

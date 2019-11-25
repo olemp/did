@@ -45,21 +45,6 @@ router.post('/projects', async function (req, res) {
 });
 
 /**
- * GET /projects/:customerKey
- */
-router.get('/projects/:customerKey', async function (req, res) {
-  const result = (await table.query(
-    process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
-    new TableQuery().top(50).where('CustomerKey eq ?', req.params.customerKey).select('CustomerKey', 'ProjectKey', 'Name'),
-  ));
-  const customers = result.map(r => ({
-    key: `${r.CustomerKey._} ${r.ProjectKey._}`,
-    name: r.Name._,
-  }));
-  res.json(customers);
-});
-
-/**
  * GET /approved/:projectKey
  */
 router.get('/approved/:projectKey', async function (req, res) {
