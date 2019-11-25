@@ -1,4 +1,5 @@
 type Project {
+	id: String
 	key: String
 	customerKey: String
 	projectKey: String
@@ -6,6 +7,7 @@ type Project {
 }
 
 type Customer {
+	id: String
 	key: String
 	customerKey: String
 	name: String
@@ -38,11 +40,15 @@ type TimeEntry {
 	webUrl: String
 }
 
+input TimeEntryInput {
+	id: String
+	projectKey: String
+}
+
 type Query {
 	projects: [Project!]!
 	customers: [Customer!]!
 }
-
 
 type Query {
 	weekView(weekNumber: Int!): [Event!]!
@@ -54,4 +60,8 @@ type Query {
 
 type Query {
 	approvedEntries(projectKey: String!): [TimeEntry!]!
+}
+
+type Mutation {
+	approveWeek(entries: [TimeEntryInput!], weekNumber: Int!): Boolean!
 }
