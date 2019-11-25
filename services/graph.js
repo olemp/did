@@ -8,9 +8,10 @@ module.exports = {
     return user;
   },
 
-  getCalendarView: async function (accessToken, startOfWeek) {
-    const startDateTime = moment(startOfWeek).toISOString();
-    const endDateTime = moment(startOfWeek).add(7, 'days').toISOString();
+  getCalendarView: async function (accessToken, weekNumber) {
+    const startOfWeek = moment().year(moment().year()).week(weekNumber);
+    const startDateTime = startOfWeek.toISOString();
+    const endDateTime = startOfWeek.add(7, 'days').toISOString();
     const { value: events } = await getAuthenticatedClient(accessToken)
       .api('/me/calendar/calendarView')
       .query({ startDateTime, endDateTime })
