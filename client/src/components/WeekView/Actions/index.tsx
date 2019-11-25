@@ -1,19 +1,20 @@
 
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import * as React from 'react';
 
-export const Actions = ({ onConfirmWeek }) => {
+export const Actions = ({ onConfirmWeek, onUnconfirmWeek, onConfirmWeekEnabled, onUnconfirmWeekEnabled }) => {
     return (
         <div style={{ marginTop: 10, marginBottom: 10 }}>
-            <DefaultButton
+            <PrimaryButton
                 text="Confirm week"
-                iconProps={{ iconName: 'DocumentApproval' }}
+                iconProps={{ iconName: 'CheckMark' }}
                 onClick={onConfirmWeek}
-                disabled={true} />
+                disabled={!onConfirmWeekEnabled} />
             <DefaultButton
                 style={{ marginLeft: 8 }}
                 text="Unconfirm week"
-                iconProps={{ iconName: 'Cancel' }}
+                iconProps={{ iconName: 'ErrorBadge' }}
+                onClick={onUnconfirmWeek}
                 disabled={true} />
         </div>
     );
