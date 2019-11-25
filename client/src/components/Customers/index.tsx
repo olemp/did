@@ -1,10 +1,8 @@
 
-import { IColumn, IDetailsHeaderProps, Selection } from 'office-ui-fabric-react/lib/DetailsList';
-import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
+import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
-import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
-import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
+import graphql from '../../data/graphql';
 import { DataAdapter } from '../../data';
 import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
@@ -20,7 +18,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        const customers = await new DataAdapter().getAllCustomers();
+        const { customers } = await graphql.query<{ customers: any[] }>('{customers{customerKey,name}}');
         this.setState({ customers, isLoading: false });
 
     }
@@ -36,7 +34,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
             </div>
         );
     }
-    
+
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
         const projects = await new DataAdapter().getProjects(selected.key as string);

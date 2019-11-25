@@ -8,5 +8,8 @@
         "client/node_modules": true,
     },
     "appService.defaultWebAppToDeploy": "/subscriptions/b5e5e285-a57a-4593-a2ef-221dc037ac9f/resourceGroups/pzl-did/providers/Microsoft.Web/sites/did365",
-    "appService.deploySubpath": ""
+    "appService.deploySubpath": "",
+    "schemas": [
+      "src/middleware/*.gql"
+  ],
 }

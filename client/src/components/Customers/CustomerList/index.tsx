@@ -6,7 +6,7 @@ import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
 
 export const CustomerListColumns: IColumn[] = [
-    { key: 'key', fieldName: 'key', name: 'Key', minWidth: 100, maxWidth: 100, },
+    { key: 'customerKey', fieldName: 'customerKey', name: 'Key', minWidth: 100, maxWidth: 100, },
     { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
 ];
 

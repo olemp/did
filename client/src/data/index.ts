@@ -6,9 +6,9 @@ require('moment/locale/en-gb');
 export class DataAdapter {
     private _instance: AxiosInstance;
 
-    constructor() {
+    constructor(base = 'api/') {
         this._instance = axios.create({
-            baseURL: `${document.location.origin}/api/`,
+            baseURL: `${document.location.origin}/${base}`,
             timeout: 5000,
             headers: {
                 'Accept': 'application/json',
@@ -18,22 +18,32 @@ export class DataAdapter {
     }
 
     /**
+     * Post
+     * 
+     * @param {string} url URL
+     * @param {any} data Data
+     */
+    public async post(url: string = '', data: any): Promise<any> {
+        return (await this._instance.post(url, data, { withCredentials: true })).data;
+    }
+
+    /**
      * Get projects
      * 
      * @param {string} customerKey Customer key
      */
     public async getProjects(customerKey?: string): Promise<IProject[]> {
         if (customerKey) {
-            return (await this._instance.get(`projects/${customerKey}`, { withCredentials: true })).data;
+            return this.get(`projects/${customerKey}`);
         }
-        return (await this._instance.get('projects', { withCredentials: true })).data;
+        return this.get('projects');
     }
 
     /**
      * Get all customers
      */
     public async getAllCustomers(): Promise<any[]> {
-        return (await this._instance.get('customers', { withCredentials: true })).data;
+        return this.get('customers');
     }
 
     /**
@@ -42,7 +52,7 @@ export class DataAdapter {
      * @param {moment.Moment} startOfWeek Start of week
      */
     public async getEvents(startOfWeek: moment.Moment): Promise<ICalEvent[]> {
-        return (await this._instance.get(`events/${startOfWeek.toISOString()}`, { withCredentials: true })).data;
+        return this.get(`events/${startOfWeek.toISOString()}`);
     }
 
     /**
@@ -51,7 +61,7 @@ export class DataAdapter {
      * @param {string} projectKey Project key
      */
     public async getApprovedEntriesForProject(projectKey: string): Promise<ICalEvent[]> {
-        return (await this._instance.get(`approved/${projectKey}`, { withCredentials: true })).data;
+        return this.get(`approved/${projectKey}`);
     }
 
     /**
@@ -60,6 +70,15 @@ export class DataAdapter {
      * @param {ICalEvent[]} events Events
      */
     public async approveEvents(events: ICalEvent[]): Promise<boolean> {
-        return (await this._instance.post(`approve`, events, { withCredentials: true })).data;
+        return (await this.post('approve', events));
+    }
+
+    /**
+     * Get
+     * 
+     * @param {string} url URL
+     */
+    public async get(url: string = ''): Promise<any> {
+        return (await this._instance.get(url, { withCredentials: true })).data;
     }
 }

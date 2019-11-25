@@ -3,6 +3,7 @@ import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import { DataAdapter } from '../../data';
+import graphql from '../../data/graphql';
 import { getUrlParameter } from '../../helpers';
 import { IProjectsState } from './IProjectsState';
 import { ProjectDetails } from './ProjectDetails';
@@ -18,7 +19,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        const projects = await new DataAdapter().getProjects();
+        const { projects } = await graphql.query<{ projects: any[] }>('{projects{customerKey,projectKey,name}}');
         this.setState({ projects, isLoading: false });
         let urlKey = getUrlParameter('key');
         if (urlKey) this._selection.setKeySelected(urlKey, true, true);

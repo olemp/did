@@ -8,21 +8,6 @@ const moment = require('moment');
 const uuidv1 = require('uuid/v1');
 
 /**
- * GET /customers
- */
-router.get('/customers', async function (req, res) {
-  const result = (await table.query(
-    process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME,
-    new TableQuery().top(50).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'Name'),
-  ));
-  const customers = result.map(r => ({
-    key: r.CustomerKey._,
-    name: r.Name._,
-  }));
-  res.json(customers);
-});
-
-/**
  * POST /customers
  */
 router.post('/customers', async function (req, res) {
@@ -38,21 +23,6 @@ router.post('/customers', async function (req, res) {
   } catch (error) {
     res.json({ success: false });
   }
-});
-
-/**
- * GET /projects
- */
-router.get('/projects', async function (req, res) {
-  const result = (await table.query(
-    process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
-    new TableQuery().top(1000).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'),
-  ));
-  const projects = result.map(r => ({
-    key: `${r.CustomerKey._} ${r.ProjectKey._}`,
-    name: r.Name._,
-  }));
-  res.json(projects);
 });
 
 /**

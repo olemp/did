@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./server.js",
-    "watch:server": "nodemon ./server.js"
+    "start:dev": "set NODE_ENV=development&&node ./server.js",
+    "watch:server": "set NODE_ENV=development&&nodemon ./server.js"
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
