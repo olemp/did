@@ -21,8 +21,6 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
             isLoading: true,
             events: [],
             weekNumber: weekNumber(),
-            // weekNumber: document.location.hash === '' ? weekNumber() : parseInt(document.location.hash.substring(1)),
-            startOfWeek: moment().startOf('week'),
         };
     }
 
@@ -31,7 +29,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        let { events, totalDuration, matchedDuration } = await this._getEvents(this.state.startOfWeek);
+        let { events, totalDuration, matchedDuration } = await this._getEvents(this.state.weekNumber);
         this.setState({
             events,
             totalDuration,
@@ -83,16 +81,13 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _onChangeWeek(weekNumber: number) {
-        let weekDiff = weekNumber - this.state.weekNumber;
-        if (weekDiff === 0) return;
-        let startOfWeek = this.state.startOfWeek.add(7 * weekDiff, 'days').startOf('week');
-        let { events, totalDuration, matchedDuration } = await this._getEvents(startOfWeek);
+        if (weekNumber === this.state.weekNumber) return;
+        let { events, totalDuration, matchedDuration } = await this._getEvents(weekNumber);
         this.setState({
             events,
             totalDuration,
             matchedDuration,
             weekNumber,
-            startOfWeek,
             isConfirmed: false,
         });
     }
@@ -108,10 +103,10 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     /**
      * Get events for week number
      * 
-     * @param {moment.Moment} startOfWeek Start of week
+     * @param {number} weekNumber Week number
      */
-    private async _getEvents(startOfWeek: moment.Moment): Promise<Partial<IWeekViewState>> {
-        let { weekView: events } = await graphql.query<{ weekView: any[] }>('query($startOfWeek: String!){weekView(startOfWeek: $startOfWeek){subject,webLink,duration,startTime,endTime,project{key,name}}}', { startOfWeek: startOfWeek.toISOString() });
+    private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
+        let { weekView: events } = await graphql.query<{ weekView: any[] }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
         let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
         return {
             events,
