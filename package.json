@@ -7,6 +7,10 @@
     "start:dev": "set NODE_ENV=development&&node ./server.js",
     "watch:server": "set NODE_ENV=development&&nodemon ./server.js"
   },
+  "nodemonConfig": {
+    "ignore": ["client/*"],
+    "delay": "2500"
+  },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
     "azure-storage": "2.10.3",
