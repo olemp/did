@@ -110,7 +110,7 @@ const resolvers = {
           EndTime: entGen.DateTime(new Date(event.endTime)),
           CustomerKey: entGen.String(customerKey),
           ProjectKey: entGen.String(projectKey),
-          WebUrl: entGen.String(event.webUrl),
+          WebLink: entGen.String(event.webLink),
           WeekNumber: entGen.Int32(weekNumber),
           YearNumber: entGen.Int32(utils.getYear()),
         });
