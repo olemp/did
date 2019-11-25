@@ -11,7 +11,7 @@ import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
 import * as moment from 'moment';
 import { ICalEvent } from "../../models";
-import { DataAdapter } from '../../data';
+import graphql from '../../data/graphql';
 require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
@@ -102,8 +102,8 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      */
     private async _onConfirmWeek() {
         this.setState({ isConfirming: true });
-        const approvedEvents = this.state.events.filter(e => e.project);
-        await new DataAdapter().approveEvents(approvedEvents);
+        // const approvedEvents = this.state.events.filter(e => e.project);
+        // await new DataAdapter().approveEvents(approvedEvents);
         window.setTimeout(() => { this.setState({ isConfirming: false, isConfirmed: true }); }, 2500);
     }
 
@@ -113,7 +113,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {moment.Moment} startOfWeek Start of week
      */
     private async _getEvents(startOfWeek: moment.Moment): Promise<Partial<IWeekViewState>> {
-        let events = await new DataAdapter().getEvents(startOfWeek);
+        let { events } = await graphql.query<{ events: any[] }>(`query events($startOfWeek: String!){events(startOfWeek: $startOfWeek){subject,webLink,duration,startTime,endTime,project{key,name}}}`, { startOfWeek: startOfWeek.toISOString() });
         let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
         return {
             events,

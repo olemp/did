@@ -98,47 +98,4 @@ router.post('/approve', async function (req, res) {
   }
 });
 
-/**
- * GET /events/:startOfWeek
- */
-router.get('/events/:startOfWeek', async function (req, res) {
-  if (!req.isAuthenticated()) {
-    res.json({ error: 'You are not authenticated.' })
-  } else {
-    try {
-      const calendarView = await graph.getCalendarView(req.user.oauthToken.access_token, req.params.startOfWeek);
-      const result = await table.query(
-        process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
-        new TableQuery().top(1000).where('PartitionKey eq ?', req.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'),
-      );
-      const projects = result.map(r => ({
-        key: `${r.CustomerKey._} ${r.ProjectKey._}`,
-        name: r.Name._,
-      }));
-      const events = calendarView
-        .filter(event => !event.isCancelled)
-        .filter(event => !event.isAllDay)
-        .filter(event => event.subject.toUpperCase().indexOf('IGNORE') === -1)
-        .filter(event => event.body.toUpperCase().indexOf('IGNORE') === -1)
-        .filter(event => event.categories.indexOf('IGNORE') === -1)
-        .map(e => ({
-          id: e.id,
-          subject: e.subject,
-          webLink: e.webLink,
-          startTime: e.startTime,
-          endTime: e.endTime,
-          duration: moment.duration(moment(e.endTime).diff(moment(e.startTime))).asMinutes(),
-          project: projects.filter(p =>
-            e.subject.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
-            || e.body.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
-            || e.categories.indexOf(p.key) !== -1
-          )[0]
-        }));
-      res.json(events)
-    } catch (error) {
-      res.json({ error })
-    }
-  }
-});
-
 module.exports = router;

@@ -8,7 +8,8 @@ export const Actions = ({ onConfirmWeek }) => {
             <DefaultButton
                 text="Confirm week"
                 iconProps={{ iconName: 'DocumentApproval' }}
-                onClick={onConfirmWeek} />
+                onClick={onConfirmWeek}
+                disabled={true} />
             <DefaultButton
                 style={{ marginLeft: 8 }}
                 text="Unconfirm week"

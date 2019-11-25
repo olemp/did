@@ -1,7 +1,6 @@
 {
     "files.exclude": {
         "client": true,
-        ".env": true,
         "pnpm-lock.yaml": true,
         "node_modules": true,
         "client/lib": true,
@@ -9,7 +8,4 @@
     },
     "appService.defaultWebAppToDeploy": "/subscriptions/b5e5e285-a57a-4593-a2ef-221dc037ac9f/resourceGroups/pzl-did/providers/Microsoft.Web/sites/did365",
     "appService.deploySubpath": "",
-    "schemas": [
-      "src/middleware/*.gql"
-  ],
 }

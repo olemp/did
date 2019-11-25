@@ -1,4 +1,5 @@
 type Project {
+  key: String
   customerKey: String
   projectKey: String
   name: String
@@ -9,7 +10,22 @@ type Customer {
   name: String
 }
 
+type Event {
+  id: String
+  subject: String
+  startTime: String
+  endTime: String
+  duration: Int
+  project: Project
+  webLink: String
+}
+
 type Query {
   projects: [Project!]!
   customers: [Customer!]!
+}
+
+
+type Query {
+  events(startOfWeek: String!): [Event!]!
 }
