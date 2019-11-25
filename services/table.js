@@ -13,27 +13,28 @@ function query(table, query) {
     });
 };
 
+
+function add(table, item) {
+    return new Promise((resolve, reject) => {
+        azureTableService.insertEntity(table, item, (error, result) => {
+            if (!error) {
+                return resolve(result['.metadata']);
+            } else {
+                reject(error);
+            }
+        })
+    });
+};
+
 module.exports = {
     query: query,
-    add: (table, item) => {
-        return new Promise((resolve, reject) => {
-            azureTableService.insertEntity(table, item, (error, result) => {
-                if (!error) {
-                    return resolve(result['.metadata']);
-                } else {
-                    reject(error);
-                }
-            })
-        });
-    },
-
+    add: add,
     getSubscription: (tenantId) => {
         return new Promise(async (resolve) => {
             var sub = await query(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
             resolve(sub[0]);
         });
     },
-
     parseArray: (arr) => {
         return arr.map(item => Object.keys(item).reduce((obj, key) => {
             const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);

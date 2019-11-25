@@ -71,10 +71,14 @@ const resolvers = {
 
     /**
      * @resolver approvedEntries
+     * 
+     * @arg0 projectKey
      */
-    approvedEntries: async (_obj, args, { isAuthenticated }) => {
+    approvedEntries: async (_obj, { projectKey }, { isAuthenticated }) => {
       if (!isAuthenticated) return [];
-      const result = await query(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, new TableQuery().top(50).where('ProjectKey eq ?', args.projectKey));
+      let tblQuery = new TableQuery().top(50);
+      if (projectKey != '') tblQuery = tblQuery.where('ProjectKey eq ?', projectKey);
+      const result = await query(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, tblQuery);
       const entries = parseArray(result).map(r => ({
         ...r,
         duration: moment.duration(moment(r.endTime).diff(moment(r.startTime))).asMinutes(),
@@ -83,6 +87,7 @@ const resolvers = {
     },
   }
 };
+
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 module.exports = graphql((req) => ({
