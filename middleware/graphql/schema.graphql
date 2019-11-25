@@ -1,40 +1,57 @@
 type Project {
-  key: String
-  customerKey: String
-  projectKey: String
-  name: String
+	key: String
+	customerKey: String
+	projectKey: String
+	name: String
 }
 
 type Customer {
-  key: String
-  customerKey: String
-  name: String
+	key: String
+	customerKey: String
+	name: String
 }
 
 type Event {
-  id: String
-  subject: String
-  startTime: String
-  endTime: String
-  duration: Int
-  project: Project
-  webLink: String
+	id: String
+	subject: String
+	startTime: String
+	endTime: String
+	duration: Int
+	project: Project
+	webLink: String
+}
+
+type TimeEntry {
+	id: String
+	subject: String
+	description: String
+	startTime: String
+	endTime: String
+	duration: Int
+	webLink: String
+	durationHours: Float
+	customerKey: String
+	projectKey: String
+	weekNumber: Int
+	yearNumber: Int
+	resourceKey: String
+	webUrl: String
 }
 
 type Query {
-  projects: [Project!]!
-  customers: [Customer!]!
+	projects: [Project!]!
+	customers: [Customer!]!
 }
 
 
 type Query {
-  weekView(weekNumber: Int!): [Event!]!
+	weekView(weekNumber: Int!): [Event!]!
 }
 
 type Query {
-  customerProjects(customerKey: String!): [Project!]!
+	customerProjects(customerKey: String!): [Project!]!
 }
 
 type Query {
-  approvedEntries(projectKey: String!): [Event!]!
+	approvedEntries(projectKey: String!): [TimeEntry!]!
 }
