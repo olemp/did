@@ -88,6 +88,6 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 module.exports = graphql((req) => ({
   schema: schema,
   rootValue: root,
-  graphiql: true,
+  graphiql: process.env.NODE_ENV === 'development',
   context: { user: req.user, isAuthenticated: req.isAuthenticated() }
 }));
