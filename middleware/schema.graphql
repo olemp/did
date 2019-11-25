@@ -1,5 +1,6 @@
 type Project {
   customerKey: String
+  projectKey: String
   name: String
 }
 
