@@ -31,8 +31,10 @@ type Query {
   events(startOfWeek: String!): [Event!]!
 }
 
-
 type Query {
   customerProjects(customerKey: String!): [Project!]!
 }
 
+type Query {
+  approvedEntries(projectKey: String!): [Event!]!
+}

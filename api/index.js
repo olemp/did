@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const graph = require('../services/graph');
 const table = require('../services/table');
-const { TableQuery, TableUtilities } = require('azure-storage');
+const { TableUtilities } = require('azure-storage');
 const entGen = TableUtilities.entityGenerator;
-const moment = require('moment');
-const uuidv1 = require('uuid/v1');
 
 /**
  * POST /customers
@@ -42,23 +39,6 @@ router.post('/projects', async function (req, res) {
   } catch (error) {
     res.json({ success: false });
   }
-});
-
-/**
- * GET /approved/:projectKey
- */
-router.get('/approved/:projectKey', async function (req, res) {
-  const result = await table.query(
-    process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME,
-    new TableQuery().top(50).where('ProjectKey eq ?', req.params.projectKey)
-  );
-  const entries = result.map(r => ({
-    subject: r.Subject._,
-    startTime: r.StartTime._,
-    endTime: r.EndTime._,
-    duration: moment.duration(moment(r.EndTime._).diff(moment(r.StartTime._))).asMinutes(),
-  }));
-  res.json(entries);
 });
 
 /**

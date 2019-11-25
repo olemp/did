@@ -15,7 +15,7 @@ const resolvers = {
         process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME,
         new TableQuery().top(1000).select('CustomerKey', 'ProjectKey', 'Name')
       );
-      return parseArray(result).map(r => ({ ...r, key: r.projectKey }));;;
+      return parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));;;
     },
 
     customers: async () => {
@@ -67,7 +67,20 @@ const resolvers = {
       ));
       const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
       return projects;
-    }
+    },
+
+    approvedEntries: async (_obj, args, { isAuthenticated }) => {
+      if (!isAuthenticated) return [];
+      const result = await query(
+        process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME,
+        new TableQuery().top(50).where('ProjectKey eq ?', args.projectKey)
+      );
+      const entries = parseArray(result).map(r => ({
+        ...r,
+        duration: moment.duration(moment(r.endTime).diff(moment(r.startTime))).asMinutes(),
+      }));
+      return entries;
+    },
   }
 };
 const schema = makeExecutableSchema({ typeDefs, resolvers });

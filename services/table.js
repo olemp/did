@@ -30,7 +30,15 @@ module.exports = {
         return arr.map(item => Object.keys(item).reduce((obj, key) => {
             const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
             const value = item[key]._;
-            obj[camelCaseKey] = value;
+            switch (item[key].$) {
+                case 'Edm.DateTime': {
+                    obj[camelCaseKey] = value.toISOString();
+                }
+                    break;
+                default: {
+                    obj[camelCaseKey] = value;
+                }
+            }
             return obj;
         }, {}));
     }

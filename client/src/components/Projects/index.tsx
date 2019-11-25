@@ -2,7 +2,6 @@
 import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
-import { DataAdapter } from '../../data';
 import graphql from '../../data/graphql';
 import { getUrlParameter } from '../../helpers';
 import { IProjectsState } from './IProjectsState';
@@ -43,7 +42,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
         if (selected) {
-            const entries = await new DataAdapter().getApprovedEntriesForProject(selected.key as string);
+            const { approvedEntries: entries } = await graphql.query<{ approvedEntries: any[] }>('query approvedEntries($projectKey: String!){approvedEntries(projectKey: $projectKey){subject,startTime,endTime,duration}}', { projectKey: selected.key });
             this.setState({ entries });
         }
         this.setState({ selected });
