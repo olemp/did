@@ -99,10 +99,9 @@ app.use(function (req, res, next) {
 });
 //#endregion
 
-//#region Routes/APIs
+//#region Routes/middleware
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-app.use('/api', require('./api'));
 app.use('/graphql', require('./middleware/graphql'));
 //#endregion
 

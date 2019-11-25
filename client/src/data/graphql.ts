@@ -1,11 +1,11 @@
-import { DataAdapter } from './';
+import axiosadapter from './axiosadapter';
 import { TypedHash } from '@pnp/common';
 
 export default new class GraphQL {
-    private _adapter: DataAdapter;
+    private _adapter: axiosadapter;
 
     constructor() {
-        this._adapter = new DataAdapter('graphql');
+        this._adapter = new axiosadapter('graphql', 10000);
     }
 
     public async query<T>(query: string, variables: TypedHash<string | number> = {}): Promise<T> {
