@@ -10,5 +10,4 @@ export interface IWeekViewState {
     events: ICalEvent[];
     isConfirmed?: boolean;
     isConfirming?: boolean;
-    startOfWeek?: moment.Moment;
 }

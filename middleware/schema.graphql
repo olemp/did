@@ -28,7 +28,7 @@ type Query {
 
 
 type Query {
-  weekView(startOfWeek: String!): [Event!]!
+  weekView(weekNumber: Int!): [Event!]!
 }
 
 type Query {
