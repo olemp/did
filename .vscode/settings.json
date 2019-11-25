@@ -1,6 +1,5 @@
 {
     "files.exclude": {
-        "client": true,
         "pnpm-lock.yaml": true,
         "node_modules": true,
         "client/lib": true,
