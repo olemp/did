@@ -8,7 +8,7 @@ import { IProjectListProps } from './IProjectListProps';
 import { IProjectListState } from './IProjectListState';
 
 export const ProjectListColumns: IColumn[] = [
-    { key: 'projectKey', fieldName: 'projectKey', name: 'Key', minWidth: 100, maxWidth: 100, },
+    { key: 'key', fieldName: 'key', name: 'Key', minWidth: 100, maxWidth: 100, },
     { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
 ];
 

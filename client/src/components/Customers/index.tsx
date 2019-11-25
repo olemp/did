@@ -3,7 +3,6 @@ import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import graphql from '../../data/graphql';
-import { DataAdapter } from '../../data';
 import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
 import { ICustomersState } from './ICustomersState';
@@ -13,12 +12,12 @@ export class Customers extends React.Component<{}, ICustomersState> {
 
     constructor(props: {}) {
         super(props);
-        this.state = { isLoading: true };
+        this.state = { isLoading: true, projects: [] };
         this._selection = new Selection({ onSelectionChanged: this._onSelectionChanged.bind(this) });
     }
 
     public async componentDidMount(): Promise<void> {
-        const { customers } = await graphql.query<{ customers: any[] }>('{customers{customerKey,name}}');
+        const { customers } = await graphql.query<{ customers: any[] }>('{customers{key,customerKey,name}}');
         this.setState({ customers, isLoading: false });
 
     }
@@ -37,7 +36,10 @@ export class Customers extends React.Component<{}, ICustomersState> {
 
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
-        const projects = await new DataAdapter().getProjects(selected.key as string);
-        this.setState({ selected, projects });
+        if (selected.key) {
+            const { customerProjects: projects } = await graphql.query<{ customerProjects: any[] }>('query customerProjects($customerKey: String!){customerProjects(customerKey: $customerKey){key,customerKey,name}}', { customerKey: selected.key });
+            this.setState({ projects });
+        }
+        this.setState({ selected });
     }
 }
