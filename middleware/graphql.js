@@ -24,13 +24,10 @@ const resolvers = {
     }
   }
 };
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 module.exports = graphql({
   schema: schema,
   rootValue: root,
-  graphiql: true
+  graphiql: false
 });
