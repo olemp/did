@@ -7,6 +7,12 @@
     "start:dev": "set NODE_ENV=development&&node ./server.js",
     "watch:server": "set NODE_ENV=development&&nodemon ./server.js"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "client/*"
+    ],
+    "delay": "1000"
+  },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
     "azure-storage": "2.10.3",
@@ -29,6 +35,7 @@
     "passport": "0.4.0",
     "passport-azure-ad": "4.2.0",
     "simple-oauth2": "3.1.0",
+    "string-strip-html": "^4.3.8",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

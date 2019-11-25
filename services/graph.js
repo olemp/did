@@ -1,6 +1,7 @@
 global.fetch = require("node-fetch");
-var graph = require('@microsoft/microsoft-graph-client');
+const graph = require('@microsoft/microsoft-graph-client');
 const moment = require('moment');
+const stripHtml = require("string-strip-html");
 
 module.exports = {
   getUserDetails: async function (accessToken) {
@@ -23,7 +24,7 @@ module.exports = {
     return events.map(event => ({
       id: event.id,
       subject: event.subject,
-      body: event.body.content,
+      body: stripHtml(event.body.content),
       categories: event.categories,
       webLink: event.webLink,
       startTime: event.start.dateTime,
