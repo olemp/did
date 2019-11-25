@@ -33,7 +33,7 @@ const resolvers = {
      */
     weekView: async (_obj, args, { user, isAuthenticated }) => {
       if (!isAuthenticated) return [];
-      const calendarView = await graph.getCalendarView(user.oauthToken.access_token, weekNumber);
+      const calendarView = await graph.getCalendarView(user.oauthToken.access_token, args.weekNumber);
       const result = await query(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
       const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
       const events = calendarView
