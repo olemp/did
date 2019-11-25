@@ -40,7 +40,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
 
     public render() {
         if (this.state.isLoading) {
-            return <Spinner label='Loading your week....' />;
+            return <Spinner label='Loading your week from Outlook....' />;
         }
 
         return (
@@ -106,7 +106,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        let { weekView: events } = await graphql.query<{ weekView: any[] }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
+        let { weekView: events } = await graphql.query<{ weekView: any[] }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
         let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
         return {
             events,

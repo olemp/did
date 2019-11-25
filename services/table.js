@@ -1,7 +1,7 @@
 const { createTableService, TableQuery } = require('azure-storage');
 const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
-function query(table, query) {
+function queryTable(table, query) {
     return new Promise((resolve, reject) => {
         azureTableService.queryEntities(table, query, null, (error, result) => {
             if (!error) {
@@ -14,7 +14,7 @@ function query(table, query) {
 };
 
 
-function add(table, item) {
+function addEntity(table, item) {
     return new Promise((resolve, reject) => {
         azureTableService.insertEntity(table, item, (error, result) => {
             if (!error) {
@@ -27,28 +27,34 @@ function add(table, item) {
 };
 
 module.exports = {
-    query: query,
-    add: add,
+    queryTable: queryTable,
+    addEntity: addEntity,
     getSubscription: (tenantId) => {
         return new Promise(async (resolve) => {
-            var sub = await query(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
+            var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
             resolve(sub[0]);
         });
     },
     parseArray: (arr) => {
-        return arr.map(item => Object.keys(item).reduce((obj, key) => {
-            const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
-            const value = item[key]._;
-            switch (item[key].$) {
-                case 'Edm.DateTime': {
-                    obj[camelCaseKey] = value.toISOString();
+        return arr.map(item => Object.keys(item)
+            .filter(key => key !== 'PartitionKey')
+            .reduce((obj, key) => {
+                const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+                const value = item[key]._;
+                if (key === 'RowKey') {
+                    obj.id = value;
+                    return obj;
                 }
-                    break;
-                default: {
-                    obj[camelCaseKey] = value;
+                switch (item[key].$) {
+                    case 'Edm.DateTime': {
+                        obj[camelCaseKey] = value.toISOString();
+                    }
+                        break;
+                    default: {
+                        obj[camelCaseKey] = value;
+                    }
                 }
-            }
-            return obj;
-        }, {}));
+                return obj;
+            }, {}));
     }
 }
