@@ -30,7 +30,7 @@ router.get('/reports', function (req, res) {
   if (!req.isAuthenticated()) {
     res.redirect('/');
   }
-  res.render('reports', { active: { projects: true } });
+  res.render('reports', { active: { reports: true } });
 });
 
 module.exports = router;
