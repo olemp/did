@@ -2,8 +2,8 @@ const path = require('path');
 const graphql = require('express-graphql');
 const { importSchema } = require('graphql-import');
 const { makeExecutableSchema } = require('graphql-tools');
-const { query, parseArray } = require('../services/table');
-const graph = require('../services/graph');
+const { query, parseArray } = require('../../services/table');
+const graph = require('../../services/graph');
 const { TableQuery } = require('azure-storage');
 const moment = require('moment');
 
