@@ -59,7 +59,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   rolling: true,
-  cookie: { maxAge: 600000 },
 }));
 //#endregion
 
