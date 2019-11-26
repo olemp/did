@@ -21,7 +21,7 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 
 function renderProject(item: ICalEvent) {
     if (!item.project) return null;
-    return <a href={`/projects?key=${item.project.key}`}>{item.project.name}</a>;
+    return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
 
 export const EventListColumns: IColumn[] = [
