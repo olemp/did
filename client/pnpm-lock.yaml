@@ -8,6 +8,7 @@ dependencies:
   office-ui-fabric-react: 7.64.2_ea25fa8afe5e866c631b9f4a7821efe0
   react: 16.12.0
   react-dom: 16.12.0_react@16.12.0
+  scriptjs: 2.5.9
   weeknumber: 1.1.2
 devDependencies:
   '@babel/core': 7.7.4
@@ -15,6 +16,7 @@ devDependencies:
   '@types/es6-promise': 3.3.0
   '@types/react': 16.9.13
   '@types/react-dom': 16.9.4
+  '@types/scriptjs': 0.0.2
   '@types/webpack-env': 1.14.1
   babel-loader: 8.0.6_@babel+core@7.7.4+webpack@4.41.2
   npm-watch: 0.6.0
@@ -41,7 +43,7 @@ packages:
       debug: 4.1.1
       json5: 2.1.1
       lodash: 4.17.15
-      resolve: 1.12.2
+      resolve: 1.13.0
       semver: 5.7.1
       source-map: 0.5.7
     dev: true
@@ -771,6 +773,10 @@ packages:
       csstype: 2.6.7
     resolution:
       integrity: sha512-LikzRslbiufJYHyzbHSW0GrAiff8QYLMBFeZmSxzCYGXKxi8m/1PHX+rsVOwhr7mJNq+VIu2Dhf7U6mjFERK6w==
+  /@types/scriptjs/0.0.2:
+    dev: true
+    resolution:
+      integrity: sha1-CaIociGno0H8a5WwBeS/sqVANTg=
   /@types/webpack-env/1.14.1:
     dev: true
     resolution:
@@ -3598,12 +3604,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
-  /resolve/1.12.2:
+  /resolve/1.13.0:
     dependencies:
       path-parse: 1.0.6
     dev: true
     resolution:
-      integrity: sha512-cAVTI2VLHWYsGOirfeYVVQ7ZDejtQ9fp4YhYckWDEkFfqbVjaT11iM8k6xSAfGFMM+gDpZjMnFssPu8we+mqFw==
+      integrity: sha512-HHZ3hmOrk5SvybTb18xq4Ek2uLqLO5/goFCYUyvn26nWox4hdlKlfC/+dChIZ6qc4ZeYcN9ekTz0yyHsFgumMw==
   /ret/0.1.15:
     dev: true
     engines:
@@ -3661,6 +3667,10 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==
+  /scriptjs/2.5.9:
+    dev: false
+    resolution:
+      integrity: sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==
   /semver-diff/2.1.0:
     dependencies:
       semver: 5.7.1
@@ -4377,6 +4387,7 @@ specifiers:
   '@types/es6-promise': ^3.3.0
   '@types/react': ^16.9.11
   '@types/react-dom': ^16.9.4
+  '@types/scriptjs': ^0.0.2
   '@types/webpack-env': ^1.14.1
   '@uifabric/icons': ^7.3.0
   axios: ^0.19.0
@@ -4388,6 +4399,7 @@ specifiers:
   office-ui-fabric-react: ^7.64.0
   react: ^16.12.0
   react-dom: ^16.12.0
+  scriptjs: ^2.5.9
   webpack: ^4.41.2
   webpack-cli: ^3.3.10
   weeknumber: ^1.1.2
