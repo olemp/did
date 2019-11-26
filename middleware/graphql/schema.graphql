@@ -50,20 +50,11 @@ input TimeEntryInput {
 type Query {
 	projects: [Project!]!
 	customers: [Customer!]!
-}
-
-type Query {
+	customerProjects(customerKey: String!): [Project!]!
 	weekView(weekNumber: Int!): [Event!]!
 	isWeekConfirmed(weekNumber: Int!): Boolean
 	confirmedHours(weekNumber: Int!): Float!
 	confirmedMinutes(weekNumber: Int!): Int!
-}
-
-type Query {
-	customerProjects(customerKey: String!): [Project!]!
-}
-
-type Query {
 	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 

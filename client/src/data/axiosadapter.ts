@@ -1,17 +1,19 @@
 import axios, { AxiosInstance } from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 
+const AxiosAdapterDefaultHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+};
+
 export default class AxiosAdapter {
     private _instance: AxiosInstance;
 
-    constructor(base: string, timeout: number) {
+    constructor(base: string, timeout: number, headers = AxiosAdapterDefaultHeaders) {
         this._instance = axios.create({
             baseURL: `${document.location.origin}/${base}`,
             timeout,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
+            headers,
             adapter: setupCache({ maxAge: 15 * 60 * 1000 }).adapter,
         });
     }
