@@ -11,12 +11,7 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
 
     constructor(props: IReportsProps) {
         super(props);
-        this.state = { isLoading: true };
-    }
-
-    public async componentDidMount() {
-        const entries = await this._getEntries();
-        this.setState({ entries, isLoading: false });
+        this.state = { isLoading: false };
     }
 
     public render() {
@@ -39,9 +34,9 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
             'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.5/xlsx.full.min.js',
         ]);
-        const data = [this.props.defaultFields, ...this.state.entries.map(item => this.props.defaultFields.map(fieldName => item[fieldName]))];
-        const file = await exportExcel(data, `ApprovedTimeEntries-${new Date().getTime()}.xlsx`);
-        console.log(file);
+        const entries = await this._getEntries();
+        const data = [this.props.defaultFields, ...entries.map(item => this.props.defaultFields.map(fieldName => item[fieldName]))];
+        await exportExcel(data, `ApprovedTimeEntries-${new Date().getTime()}.xlsx`);
     }
 
 
@@ -49,7 +44,7 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
      * Get entries from GraphQL endpont
      */
     private async _getEntries() {
-        const { confirmedEntries: entries } = await graphql.query<{ confirmedEntries: any[] }>(`{confirmedEntries{${this.props.defaultFields.join(',')}}}`);
+        const { confirmedEntries: entries } = await graphql.usingCaching(true, 1).query<{ confirmedEntries: any[] }>(`{confirmedEntries{${this.props.defaultFields.join(',')}}}`);
         return entries;
     }
 }
