@@ -39,7 +39,7 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
             'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.5/xlsx.full.min.js',
         ]);
-        const data = [this.props.fields, ...this.state.entries.map(item => this.this.props.fields.map(fieldName => item[fieldName]))];
+        const data = [this.props.defaultFields, ...this.state.entries.map(item => this.props.defaultFields.map(fieldName => item[fieldName]))];
         const sheets = [{ name: 'Sheet 1', data }];
         const workBook = ((window as any)).XLSX.utils.book_new();
         sheets.forEach(s => {
@@ -55,7 +55,7 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
      * Get entries from GraphQL endpont
      */
     private async _getEntries() {
-        const { approvedEntries: entries } = await graphql.query<{ approvedEntries: any[] }>(`{approvedEntries{${this.props.fields.join(',')}}}`);
+        const { approvedEntries: entries } = await graphql.query<{ approvedEntries: any[] }>(`{approvedEntries{${this.props.defaultFields.join(',')}}}`);
         return entries;
     }
 }

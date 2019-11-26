@@ -1,7 +1,21 @@
 export interface IReportsProps {
-    fields: string[],
+    defaultFields: string[],
 }
 
 export const ReportsDefaultProps: Partial<IReportsProps> = {
-    fields: ['subject', 'description', 'customerKey', 'projectKey', 'durationHours', 'startTime', 'endTime', 'weekNumber', 'yearNumber', 'webLink', 'durationHours', 'resourceName', 'resourceEmail'],
+    defaultFields: [
+        'title',
+        'description',
+        'customerKey',
+        'projectKey',
+        'durationHours',
+        'startTime',
+        'endTime',
+        'weekNumber',
+        'yearNumber',
+        'webLink',
+        'durationHours',
+        'resourceName',
+        'resourceEmail',
+    ],
 }
