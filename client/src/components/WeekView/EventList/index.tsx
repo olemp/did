@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { IEventListProps } from './IEventListProps';
 require('moment/locale/en-gb');
 
-function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
+function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
     return <a href={item.webLink}>{item[col.fieldName]}</a>;
 }
 
@@ -28,10 +28,10 @@ function renderProject(item: ICalEvent) {
 }
 
 export const EventListColumns: IColumn[] = [
-    { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
+    { key: 'title', fieldName: 'title', name: 'Title', onRender: renderTitle, minWidth: 100, maxWidth: 180 },
     { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
     { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
-    { key: 'duration', fieldName: 'duration', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
+    { key: 'durationMinutes', fieldName: 'durationMinutes', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];
 

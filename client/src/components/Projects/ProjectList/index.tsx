@@ -6,35 +6,50 @@ import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
 import { IProjectListProps } from './IProjectListProps';
 
-export const ProjectListColumns: IColumn[] = [
-    { key: 'key', fieldName: 'key', name: 'Key', minWidth: 100, maxWidth: 100, },
-    { key: 'name', fieldName: 'name', name: 'Name', minWidth: 100 }
-];
+export const ProjectList = ({ projects, search, selection, height, renderLink }: IProjectListProps) => {
+    let [filteredProjects, setProjects] = React.useState(projects);
 
-export class ProjectList extends React.PureComponent<IProjectListProps, {}> {
-    public render() {
-        return (
-            <div style={{ position: 'relative', height: this.props.height }}>
-                <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
-                    <DetailsList
-                        selection={this.props.selection}
-                        columns={ProjectListColumns}
-                        items={this.props.projects}
-                        selectionMode={SelectionMode.single}
-                        constrainMode={ConstrainMode.horizontalConstrained}
-                        layoutMode={DetailsListLayoutMode.justified}
-                        onRenderDetailsHeader={this._onRenderDetailsHeader.bind(this)} />
-                </ScrollablePane>
-            </div>
-        );
-    }
+    const onSearch = (_event: any, searchTerm: string) => setProjects(projects.filter(p => p.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1));
 
-    private _onRenderDetailsHeader(props: IDetailsHeaderProps, render: IRenderFunction<IDetailsHeaderProps>) {
+    const onRenderDetailsHeader = (props: IDetailsHeaderProps, render: IRenderFunction<IDetailsHeaderProps>) => {
         return (
             <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
-                <SearchBox placeholder='Search projects...' disabled />
+                {search && <SearchBox {...search} onChange={onSearch} />}
                 {render(props)}
             </Sticky>
         );
     }
+
+    const columns: IColumn[] = [
+        {
+            key: 'key',
+            fieldName: 'key',
+            name: 'Key',
+            minWidth: 100,
+            maxWidth: 100,
+        },
+        {
+            key: 'name',
+            fieldName: 'name',
+            name: 'Name',
+            minWidth: 100,
+            onRender: item => renderLink ? <a href={`/projects?key=${item.key}`}>{item.name}</a> : item.name,
+        }
+    ];
+
+    return (
+        <div style={{ position: 'relative', height }}>
+            <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
+                <DetailsList
+                    selection={selection}
+                    columns={columns}
+                    items={filteredProjects}
+                    selectionMode={selection ? SelectionMode.single : SelectionMode.none}
+                    constrainMode={ConstrainMode.horizontalConstrained}
+                    layoutMode={DetailsListLayoutMode.justified}
+                    onRenderDetailsHeader={onRenderDetailsHeader} />
+            </ScrollablePane>
+        </div>
+    );
+
 }

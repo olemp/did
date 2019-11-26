@@ -6,5 +6,5 @@ export interface IWeekViewProps {
 
 export const WeekViewDefaultProps: Partial<IWeekViewProps> = {
     loadingText: 'Loading your week from Outlook....',
-    query: 'query($weekNumber: Int!){confirmedHours(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}',
+    query: 'query($weekNumber: Int!){confirmedHours(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,title,webLink,durationMinutes,startTime,endTime,project{key,name}}}',
 }

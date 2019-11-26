@@ -4,7 +4,6 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import graphql from '../../data/graphql';
-import { getUrlParameter } from '../../helpers';
 import log from '../../utils/log';
 import { IProjectsState } from './IProjectsState';
 import { ProjectDetails } from './ProjectDetails';
@@ -16,15 +15,13 @@ export class Projects extends React.Component<{}, IProjectsState> {
     constructor(props: {}) {
         super(props);
         this.state = { isLoading: true };
-        this._selection = new Selection({});
+        this._selection = new Selection({ onSelectionChanged: this._onSelectionChanged.bind(this) });
     }
 
     public async componentDidMount(): Promise<void> {
         try {
             const projects = await this._getProjects();
             this.setState({ projects, isLoading: false });
-            let urlKey = getUrlParameter('key');
-            if (urlKey) this._selection.setKeySelected(urlKey, true, true);
         } catch (error) {
             log.error('An error occured fetching data from backend.', error);
             this.setState({ error, isLoading: false });
@@ -54,6 +51,15 @@ export class Projects extends React.Component<{}, IProjectsState> {
                 {selected && <ProjectDetails project={selected} entries={entries} />}
             </div >
         );
+    }
+
+    private async _onSelectionChanged() {
+        const selected = this._selection.getSelection()[0];
+        if (selected.key) {
+            const { confirmedEntries: entries } = await graphql.usingCaching(true, 30).query<{ confirmedEntries: any[] }>('query($projectKey: String!){confirmedEntries(projectKey:$projectKey){id,title,webLink,durationMinutes,startTime,endTime}}', { projectKey: selected.key });
+            this.setState({ entries });
+        }
+        this.setState({ selected });
     }
 
     private async _getProjects() {
