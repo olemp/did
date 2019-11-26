@@ -115,7 +115,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _getWeek(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        const { weekView: events, isWeekConfirmed: isConfirmed, errors } = await graphql.query<{ weekView: any[], isWeekConfirmed: boolean, errors: any }>('query($weekNumber: Int!){isWeekConfirmed(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
+        const { weekView: events, isWeekConfirmed: isConfirmed, errors } = await graphql.query<any>('query($weekNumber: Int!){isWeekConfirmed(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
         if (errors) {
             console.log(errors);
         } else {
