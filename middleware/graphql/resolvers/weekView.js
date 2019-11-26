@@ -3,10 +3,10 @@ const { TableQuery } = require('azure-storage');
 const graph = require('../../../services/graph');
 const utils = require('../../../utils');
 
-module.exports = async (_obj, { weekNumber }, { user, isAuthenticated }) => {
-    if (!isAuthenticated) return [];
-    const calendarView = await graph.getCalendarView(user.oauthToken.access_token, weekNumber);
-    const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
+module.exports = async (_obj, args, context) => {
+    if (!context.isAuthenticated) return [];
+    const calendarView = await graph.getCalendarView(context.user.oauthToken.access_token, args.weekNumber);
+    const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', context.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
     const events = calendarView
         .filter(event => event.subject.toUpperCase().indexOf('IGNORE') === -1)

@@ -13,6 +13,7 @@ const schema = makeExecutableSchema({
       customers: resolvers.customers,
       projects: resolvers.projects,
       weekView: resolvers.weekView,
+      isWeekConfirmed: resolvers.isWeekConfirmed,
     },
     Mutation: {
       approveWeek: resolvers.approveWeek,

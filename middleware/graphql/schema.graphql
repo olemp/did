@@ -54,6 +54,7 @@ type Query {
 
 type Query {
 	weekView(weekNumber: Int!): [Event!]!
+	isWeekConfirmed(weekNumber: Int!): Boolean
 }
 
 type Query {

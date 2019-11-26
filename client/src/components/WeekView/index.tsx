@@ -24,18 +24,13 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         };
     }
 
-    public componentWillUpdate(nextProps: IWeekViewProps, nextState: IWeekViewState) {
+    public componentWillUpdate(_nextProps: IWeekViewProps, nextState: IWeekViewState) {
         document.location.hash = `${nextState.weekNumber}`;
     }
 
     public async componentDidMount(): Promise<void> {
-        let { events, totalDuration, matchedDuration } = await this._getEvents(this.state.weekNumber);
-        this.setState({
-            events,
-            totalDuration,
-            matchedDuration,
-            isLoading: false,
-        });
+        let week = await this._getWeek(this.state.weekNumber);
+        this.setState({ ...week, isLoading: false });
     }
 
     public render() {
@@ -88,7 +83,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      */
     private async _onChangeWeek(weekNumber: number) {
         if (weekNumber === this.state.weekNumber) return;
-        let { events, totalDuration, matchedDuration } = await this._getEvents(weekNumber);
+        let { events, totalDuration, matchedDuration } = await this._getWeek(weekNumber);
         this.setState({
             events,
             totalDuration,
@@ -119,14 +114,15 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * 
      * @param {number} weekNumber Week number
      */
-    private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        let { weekView: events, errors } = await graphql.query<{ weekView: any[], errors: any }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
+    private async _getWeek(weekNumber: number): Promise<Partial<IWeekViewState>> {
+        const { weekView: events, isWeekConfirmed: isConfirmed, errors } = await graphql.query<{ weekView: any[], isWeekConfirmed: boolean, errors: any }>('query($weekNumber: Int!){isWeekConfirmed(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
         if (errors) {
             console.log(errors);
         } else {
             let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
             return {
                 events,
+                isConfirmed,
                 matchedDuration: events.filter(e => e.project).reduce(calcDuration, 0),
                 totalDuration: events.reduce(calcDuration, 0),
             }

@@ -4,6 +4,7 @@ const customerProjects = require('./customerProjects');
 const customers = require('./customers');
 const projects = require('./projects');
 const weekView = require('./weekView');
+const isWeekConfirmed = require('./isWeekConfirmed');
 
 module.exports = {
     approvedEntries,
@@ -12,4 +13,5 @@ module.exports = {
     customers,
     projects,
     weekView,
+    isWeekConfirmed,
 };

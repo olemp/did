@@ -29,6 +29,6 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
             ResourceName: entGen.String(user.profile.displayName),
         });
     });
-    await executeBatch(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, batch)
+    await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
     return true;
 };
