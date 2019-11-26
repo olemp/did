@@ -7,6 +7,8 @@ Folder/File | Description
 /public | Web resources (css/js) 
 /routes | Express routes using HBS views
 /middleware | Middleware like e.g. /graphql
+/middleware/graphql | GraphQL implementation
+/middleware/graphql/resolvers | GraphQL resolvers, queries and mutations
 /services | Services (Graph and Table Storage)
 /utils | Utilities
 /views | Express HBS views
