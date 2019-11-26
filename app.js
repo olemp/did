@@ -54,7 +54,7 @@ passport.use(new OIDCStrategy(
 
 //#region Setting up session using connect-azuretables
 app.use(session({
-  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30 }),
+  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log}),
   secret: process.env.SESSION_SIGNING_KEY,
   resave: false,
   saveUninitialized: false,
