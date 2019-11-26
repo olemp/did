@@ -55,7 +55,7 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
      * Get entries from GraphQL endpont
      */
     private async _getEntries() {
-        const { approvedEntries: entries } = await graphql.query<{ approvedEntries: any[] }>(`{approvedEntries{${this.props.defaultFields.join(',')}}}`);
+        const { confirmedEntries: entries } = await graphql.query<{ confirmedEntries: any[] }>(`{confirmedEntries{${this.props.defaultFields.join(',')}}}`);
         return entries;
     }
 }
