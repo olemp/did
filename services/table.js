@@ -13,7 +13,6 @@ function queryTable(table, query) {
     });
 };
 
-
 function addEntity(table, item) {
     return new Promise((resolve, reject) => {
         azureTableService.insertEntity(table, item, (error, result) => {
@@ -26,9 +25,23 @@ function addEntity(table, item) {
     });
 };
 
+
+function executeBatch(table, batch) {
+    return new Promise((resolve, reject) => {
+        azureTableService.executeBatch(table, batch, (error, result) => {
+            if (!error) {
+                return resolve(result);
+            } else {
+                reject(error);
+            }
+        })
+    });
+};
+
 module.exports = {
     queryTable: queryTable,
     addEntity: addEntity,
+    executeBatch: executeBatch,
     getSubscription: (tenantId) => {
         return new Promise(async (resolve) => {
             var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));

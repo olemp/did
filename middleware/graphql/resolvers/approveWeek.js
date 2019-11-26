@@ -1,17 +1,17 @@
-const { TableUtilities } = require('azure-storage');
+const { TableUtilities, TableBatch } = require('azure-storage');
 const entGen = TableUtilities.entityGenerator;
 const graph = require('../../../services/graph');
-const { addEntity } = require('../../../services/table');
+const { executeBatch } = require('../../../services/table');
 const utils = require('../../../utils');
 
 module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthenticated }) => {
     if (!isAuthenticated) return false;
     const calendarView = await graph.getCalendarView(user.oauthToken.access_token, weekNumber);
-    for (let i = 0; i < entries.length; i++) {
-        let entry = entries[i];
+    const batch = new TableBatch();
+    entries.forEach(entry => {
         let event = calendarView.filter(e => e.id === entry.id)[0];
         let [customerKey, projectKey] = entry.projectKey.split(' ');
-        await addEntity(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, {
+        batch.insertEntity({
             PartitionKey: entGen.String(tid),
             RowKey: entGen.String(entry.id),
             Title: entGen.String(event.subject),
@@ -28,6 +28,7 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
             ResourceEmail: entGen.String(user.profile.email),
             ResourceName: entGen.String(user.profile.displayName),
         });
-    }
+    });
+    await executeBatch(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, batch)
     return true;
 };
