@@ -4,16 +4,16 @@
 ### Server ###
 Folder/File | Description
 --- | --- | 
-/public | Web resources (css/js) 
-/routes | Express routes using HBS views
-/middleware | Middleware like e.g. /graphql
-/middleware/graphql | GraphQL implementation
-/middleware/graphql/resolvers | GraphQL resolvers, queries and mutations
-/services | Services (Graph and Table Storage)
-/utils | Utilities
-/views | Express HBS views
-app.js | Express app
-server.js | Node server  
+`/public` | Web resources (css/js) 
+`/routes` | Express routes using HBS views
+`/middleware` | Middleware like e.g. /graphql
+`/middleware/graphql` | GraphQL implementation
+`/middleware/graphql/resolvers` | GraphQL resolvers, queries and mutations
+`/services` | Services (Graph and Table Storage)
+`/utils` | Utilities
+`/views` | Express HBS views
+`app.js` | Express app
+`server.js` | Node server  
 
 ### Client ###
 Client files resides under `/client`. The resulting bundle ends up under `/public/js`.
