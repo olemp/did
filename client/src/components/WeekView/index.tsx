@@ -1,17 +1,18 @@
 
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import { weekNumber as currentWeekNumber } from 'weeknumber';
 import graphql from '../../data/graphql';
 import { ICalEvent } from "../../models";
+import log from '../../utils/log';
 import { Actions } from './Actions';
 import { EventList } from './EventList';
 import { IWeekViewProps, WeekViewDefaultProps } from './IWeekViewProps';
 import { IWeekViewState } from './IWeekViewState';
 import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
-import { getUrlParameter } from 'helpers';
 require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
@@ -32,13 +33,19 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        let week = await this._getWeek(this.state.weekNumber);
-        this.setState({ ...week, isLoading: false, spinner: null });
+        try {
+            let week = await this._getWeek(this.state.weekNumber);
+            this.setState({ ...week, isLoading: false, spinner: null });
+        } catch (error) {
+            log.error('An error occured fetching data from backend.', error);
+            this.setState({ error, isLoading: false, spinner: null });
+        }
     }
 
     public render() {
         const {
             isLoading,
+            error,
             spinner,
             events,
             isConfirmed,
@@ -69,7 +76,8 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
                                 {isCurrentWeek && (
                                     <div style={{ marginTop: 10 }}>
                                         {spinner && <Spinner {...spinner} />}
-                                        <div hidden={isLoading}>
+                                        {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
+                                        <div hidden={isLoading || error}>
                                             <div hidden={isConfirmed || !!spinner}>
                                                 <WeekStatusBar totalDuration={totalHours} matchedDuration={matchedHours} />
                                                 <EventList events={events} />
@@ -138,18 +146,14 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _getWeek(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        const { weekView: events, confirmedHours, errors } = await graphql.usingCaching(false).query<any>(this.props.graphqlquery, { weekNumber });
-        if (errors) {
-            console.log(errors);
-        } else {
-            let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
-            return {
-                events,
-                isConfirmed: confirmedHours != 0,
-                confirmedHours,
-                matchedHours: events.filter(e => e.project).reduce(calcDuration, 0),
-                totalHours: events.reduce(calcDuration, 0),
-            }
+        const { weekView: events, confirmedHours } = await graphql.usingCaching(false).query<any>(this.props.query, { weekNumber });
+        let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
+        return {
+            events,
+            isConfirmed: confirmedHours != 0,
+            confirmedHours,
+            matchedHours: events.filter(e => e.project).reduce(calcDuration, 0),
+            totalHours: events.reduce(calcDuration, 0),
         }
     }
 }

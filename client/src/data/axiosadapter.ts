@@ -23,6 +23,7 @@ export default class AxiosAdapter {
      * @param {any} data Data
      */
     public async post(url: string = '', data: any): Promise<any> {
-        return (await this._instance.post(url, data, { withCredentials: true })).data;
+        const response = await this._instance.post(url, data, { withCredentials: true });
+        return response.data;
     }
 }
