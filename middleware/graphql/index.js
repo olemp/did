@@ -26,8 +26,8 @@ const schema = makeExecutableSchema({
 
 module.exports = graphql((req) => ({
   schema: schema,
-  rootValue: root,
-  graphiql: req.app.get('env') === 'development',
+  rootValue: global,
+  graphql: req.app.get('env') === 'development',
   context: {
     user: req.user,
     tid: req.user.profile._json.tid,
