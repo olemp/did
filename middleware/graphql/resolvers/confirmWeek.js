@@ -18,7 +18,7 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
         batch.insertEntity({
             PartitionKey: entGen.String(tid),
             RowKey: entGen.String(entry.id),
-            Title: entGen.String(event.subject),
+            Title: entGen.String(event.title),
             Description: entGen.String(event.body),
             StartTime: entGen.DateTime(new Date(event.startTime)),
             EndTime: entGen.DateTime(new Date(event.endTime)),

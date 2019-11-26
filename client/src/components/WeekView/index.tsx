@@ -147,7 +147,7 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      */
     private async _getWeek(weekNumber: number): Promise<Partial<IWeekViewState>> {
         const { weekView: events, confirmedHours } = await graphql.usingCaching(false).query<any>(this.props.query, { weekNumber });
-        let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
+        let calcDuration = (total: number, e: ICalEvent) => total + e.durationMinutes;
         return {
             events,
             isConfirmed: confirmedHours != 0,

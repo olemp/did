@@ -1,8 +1,6 @@
 const { queryTable, parseArray } = require('../../../services/table');
 const { TableQuery } = require('azure-storage');
 const graph = require('../../../services/graph');
-const utils = require('../../../utils');
-
 /**
  * Checks for project match in event
  * 
@@ -22,17 +20,8 @@ module.exports = async (_obj, args, context) => {
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
     const events = calendarView
         .map(event => {
-            let duration = utils.getDurationMinutes(event.startTime, event.endTime);
             let project = projects.filter(p => matchProject(event, p.key))[0];
-            return {
-                id: event.id,
-                subject: event.subject,
-                webLink: event.webLink,
-                startTime: event.startTime,
-                endTime: event.endTime,
-                duration: duration,
-                project: project,
-            };
+            return { ...event, project };
         });
     return events;
 };

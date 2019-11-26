@@ -37,6 +37,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
             customers,
             selected,
         } = this.state;
+        
         if (isLoading) {
             return <Spinner label='Loading customers....' />;
         }
@@ -61,7 +62,7 @@ export class Customers extends React.Component<{}, ICustomersState> {
     }
 
     private async _getCustomers() {
-        const { customers } = await graphql.usingCaching(true, 30).query<{ customers: any[] }>('{customers{key,customerKey,name}}');
+        const { customers } = await graphql.usingCaching(true, 30).query<{ customers: any[] }>('{customers{key,customerKey,name,description,webLink}}');
         return customers;
     }
 }
