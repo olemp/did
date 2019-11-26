@@ -1,8 +1,10 @@
 
 import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
 import graphql from '../../data/graphql';
+import log from '../../utils/log';
 import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
 import { ICustomersState } from './ICustomersState';
@@ -17,19 +19,34 @@ export class Customers extends React.Component<{}, ICustomersState> {
     }
 
     public async componentDidMount(): Promise<void> {
-        const { customers } = await graphql.query<{ customers: any[] }>('{customers{key,customerKey,name}}');
-        this.setState({ customers, isLoading: false });
+        try {
+            const customers = await this._getCustomers();
+            this.setState({ customers, isLoading: false });
+        } catch (error) {
+            log.error('An error occured fetching data from backend.', error);
+            this.setState({ error, isLoading: false });
+        }
 
     }
 
     public render() {
-        if (this.state.isLoading) {
+        const {
+            isLoading,
+            error,
+            projects,
+            customers,
+            selected,
+        } = this.state;
+        if (isLoading) {
             return <Spinner label='Loading customers....' />;
+        }
+        if (error) {
+            return <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>;
         }
         return (
             <div>
-                <CustomerList customers={this.state.customers} selection={this._selection} height={300} />
-                {this.state.selected && <CustomerDetails customer={this.state.selected} projects={this.state.projects} />}
+                <CustomerList customers={customers} selection={this._selection} height={300} />
+                {selected && <CustomerDetails customer={selected} projects={projects} />}
             </div>
         );
     }
@@ -41,5 +58,10 @@ export class Customers extends React.Component<{}, ICustomersState> {
             this.setState({ projects });
         }
         this.setState({ selected });
+    }
+
+    private async _getCustomers() {
+        const { customers } = await graphql.query<{ customers: any[] }>('{customers{key,customerKey,name}}');
+        return customers;
     }
 }

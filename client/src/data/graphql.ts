@@ -23,12 +23,16 @@ export default new class GraphQL {
     }
 
     public async query<T>(query: string, variables: TypedHash<any> = {}): Promise<T> {
-        if (this._store) {
-            await this._store.deleteExpired();
-            const key = `${query}_${JSON.stringify(variables)}`;
-            return this._store.getOrPut(key, async () => (await this._adapter.post(undefined, { query, variables })).data, dateAdd(new Date(), 'minute', this._expiryMinutes));
-        } else {
-            return (await this._adapter.post(undefined, { query, variables })).data;
+        try {
+            if (this._store) {
+                await this._store.deleteExpired();
+                const key = `${query}_${JSON.stringify(variables)}`;
+                return this._store.getOrPut(key, async () => (await this._adapter.post(undefined, { query, variables })).data, dateAdd(new Date(), 'minute', this._expiryMinutes));
+            } else {
+                return (await this._adapter.post(undefined, { query, variables })).data;
+            }
+        } catch (error) {
+            throw error.response.data.errors;
         }
     }
 }
