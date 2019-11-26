@@ -8,7 +8,7 @@ router.get('/signin',
     passport.authenticate('azuread-openidconnect',
       {
         response: res,
-        prompt: 'login',
+        prompt: 'select_account',
         failureRedirect: '/',
         failureFlash: true
       }
