@@ -10,14 +10,18 @@ const confirmedMinutes = require('./confirmedMinutes');
 const unconfirmWeek = require('./unconfirmWeek');
 
 module.exports = {
-    confirmedEntries,
-    confirmWeek,
-    unconfirmWeek,
-    customerProjects,
-    customers,
-    projects,
-    weekView,
-    isWeekConfirmed,
-    confirmedHours,
-    confirmedMinutes,
+    Query: {
+        confirmedEntries,
+        customerProjects,
+        customers,
+        projects,
+        weekView,
+        isWeekConfirmed,
+        confirmedHours,
+        confirmedMinutes,
+    },
+    Mutation: {
+        confirmWeek,
+        unconfirmWeek,
+    }
 };

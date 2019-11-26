@@ -3,6 +3,18 @@ const { TableQuery } = require('azure-storage');
 const graph = require('../../../services/graph');
 const utils = require('../../../utils');
 
+/**
+ * Checks for project match in event
+ * 
+ * @param {*} event 
+ * @param {*} projectKey 
+ */
+function matchProject(event, projectKey) {
+    return event.subject.toUpperCase().indexOf(projectKey.toUpperCase()) !== -1
+        || event.body.toUpperCase().indexOf(projectKey.toUpperCase()) !== -1
+        || JSON.stringify(event.categories).toUpperCase().indexOf(projectKey) !== -1
+}
+
 module.exports = async (_obj, args, context) => {
     if (!context.isAuthenticated) return [];
     const calendarView = await graph.getCalendarView(context.user.oauthToken.access_token, args.weekNumber);
@@ -11,18 +23,15 @@ module.exports = async (_obj, args, context) => {
     const events = calendarView
         .map(event => {
             let duration = utils.getDurationMinutes(event.startTime, event.endTime);
+            let project = projects.filter(p => matchProject(event, p.key))[0];
             return {
                 id: event.id,
                 subject: event.subject,
                 webLink: event.webLink,
                 startTime: event.startTime,
                 endTime: event.endTime,
-                duration,
-                project: projects.filter(p =>
-                    event.subject.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
-                    || event.body.toUpperCase().indexOf(p.key.toUpperCase()) !== -1
-                    || event.categories.indexOf(p.key) !== -1
-                )[0]
+                duration: duration,
+                project: project,
             };
         });
     return events;
