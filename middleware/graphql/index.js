@@ -12,6 +12,7 @@ module.exports = graphql((req) => ({
   schema: schema,
   rootValue: global,
   graphiql: req.app.get('env') === 'development',
+  pretty: req.app.get('env') === 'development',
   context: {
     user: req.user,
     tid: req.user.profile._json.tid,
