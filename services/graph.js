@@ -29,7 +29,9 @@ module.exports = {
       webLink: event.webLink,
       startTime: event.start.dateTime,
       endTime: event.end.dateTime,
-    }));
+    }).filter(event => event.subject.toUpperCase().indexOf('IGNORE') === -1)
+    .filter(event => event.body.toUpperCase().indexOf('IGNORE') === -1)
+    .filter(event => event.categories.indexOf('IGNORE') === -1));
   }
 };
 

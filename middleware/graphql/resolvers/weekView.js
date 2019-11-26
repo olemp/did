@@ -9,9 +9,6 @@ module.exports = async (_obj, { weekNumber }, { user, isAuthenticated }) => {
     const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
     const events = calendarView
-        .filter(event => event.subject.toUpperCase().indexOf('IGNORE') === -1)
-        .filter(event => event.body.toUpperCase().indexOf('IGNORE') === -1)
-        .filter(event => event.categories.indexOf('IGNORE') === -1)
         .map(event => {
             let duration = utils.getDurationMinutes(event.startTime, event.endTime);
             return {
