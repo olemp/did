@@ -120,12 +120,16 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _getEvents(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        let { weekView: events } = await graphql.query<{ weekView: any[] }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
-        let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
-        return {
-            events,
-            matchedDuration: events.filter(e => e.project).reduce(calcDuration, 0),
-            totalDuration: events.reduce(calcDuration, 0),
+        let { weekView: events, errors } = await graphql.query<{ weekView: any[], errors: any }>('query($weekNumber: Int!){weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
+        if (errors) {
+            console.log(errors);
+        } else {
+            let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
+            return {
+                events,
+                matchedDuration: events.filter(e => e.project).reduce(calcDuration, 0),
+                totalDuration: events.reduce(calcDuration, 0),
+            }
         }
     }
 }

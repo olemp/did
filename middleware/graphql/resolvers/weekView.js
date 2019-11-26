@@ -1,4 +1,5 @@
 const { queryTable, parseArray } = require('../../../services/table');
+const { TableQuery } = require('azure-storage');
 const graph = require('../../../services/graph');
 const utils = require('../../../utils');
 
