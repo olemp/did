@@ -1,10 +1,10 @@
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import * as React from 'react';
+import { exportExcel } from '../../utils/exportExcel';
 import graphql from '../../data/graphql';
-import { stringToArrayBuffer } from '../../helpers';
-import { IReportsState } from './IReportsState';
 import { loadScripts } from '../../utils/loadScripts';
 import { IReportsProps, ReportsDefaultProps } from './IReportsProps';
+import { IReportsState } from './IReportsState';
 
 export class Reports extends React.Component<IReportsProps, IReportsState> {
     public static defaultProps = ReportsDefaultProps;
@@ -40,14 +40,8 @@ export class Reports extends React.Component<IReportsProps, IReportsState> {
             'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.5/xlsx.full.min.js',
         ]);
         const data = [this.props.defaultFields, ...this.state.entries.map(item => this.props.defaultFields.map(fieldName => item[fieldName]))];
-        const sheets = [{ name: 'Sheet 1', data }];
-        const workBook = ((window as any)).XLSX.utils.book_new();
-        sheets.forEach(s => {
-            const sheet = ((window as any)).XLSX.utils.aoa_to_sheet(s.data);
-            ((window as any)).XLSX.utils.book_append_sheet(workBook, sheet, s.name);
-        });
-        const wbout = ((window as any)).XLSX.write(workBook, { type: "binary", bookType: "xlsx" });
-        (window as any).saveAs(new Blob([stringToArrayBuffer(wbout)], { type: 'application/octet-stream' }), `ApprovedTimeEntries-${new Date().getTime()}.xlsx`);
+        const file = await exportExcel(data, `ApprovedTimeEntries-${new Date().getTime()}.xlsx`);
+        console.log(file);
     }
 
 
