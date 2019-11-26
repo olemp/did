@@ -8,7 +8,7 @@ Folder/File | Description
 `/public/css` | CSS files
 `/public/js` | JS files (hidden from `vscode`, `/client` puts the bundle here)
 `/routes` | Express routes using HBS views
-`/middleware` | Middleware like e.g. /graphql
+`/middleware` |
 `/middleware/graphql` | GraphQL implementation
 `/middleware/graphql/resolvers` | GraphQL resolvers, queries and mutations
 `/services` | Services (Graph and Table Storage)
