@@ -14,10 +14,11 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
         await addEntity(process.env.AZURE_STORAGE_APPROVEDTIMEENTRIES_TABLE_NAME, {
             PartitionKey: entGen.String(tid),
             RowKey: entGen.String(entry.id),
-            Subject: entGen.String(event.subject),
+            Title: entGen.String(event.subject),
             Description: entGen.String(event.body),
             StartTime: entGen.DateTime(new Date(event.startTime)),
             EndTime: entGen.DateTime(new Date(event.endTime)),
+            DurationHours: entGen.Double(utils.getDurationHours(event.startTime, event.endTime)),
             CustomerKey: entGen.String(customerKey),
             ProjectKey: entGen.String(projectKey),
             WebLink: entGen.String(event.webLink),

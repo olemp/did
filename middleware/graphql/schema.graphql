@@ -25,7 +25,7 @@ type Event {
 
 type TimeEntry {
 	id: String
-	subject: String
+	title: String
 	description: String
 	startTime: String
 	endTime: String
@@ -36,7 +36,9 @@ type TimeEntry {
 	projectKey: String
 	weekNumber: Int
 	yearNumber: Int
-	resourceKey: String
+	resourceId: String
+	resourceEmail: String
+	resourceName: String
 	webUrl: String
 }
 
@@ -59,7 +61,7 @@ type Query {
 }
 
 type Query {
-	approvedEntries(projectKey: String!): [TimeEntry!]!
+	approvedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
 type Mutation {
