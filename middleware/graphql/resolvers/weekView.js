@@ -8,7 +8,7 @@ const graph = require('../../../services/graph');
  * @param {*} projectKey 
  */
 function matchProject(event, projectKey) {
-    return event.subject.toUpperCase().indexOf(projectKey.toUpperCase()) !== -1
+    return event.title.toUpperCase().indexOf(projectKey.toUpperCase()) !== -1
         || event.body.toUpperCase().indexOf(projectKey.toUpperCase()) !== -1
         || JSON.stringify(event.categories).toUpperCase().indexOf(projectKey) !== -1
 }
