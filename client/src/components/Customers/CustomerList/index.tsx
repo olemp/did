@@ -13,7 +13,7 @@ export const CustomerListColumns: IColumn[] = [
 function _onRenderDetailsHeader(detailsHeaderProps: IDetailsHeaderProps, defaultRender: IRenderFunction<IDetailsHeaderProps>) {
     return (
         <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
-            <SearchBox placeholder='Search customers...' />
+            <SearchBox placeholder='Search customers...' disabled />
             {defaultRender(detailsHeaderProps)}
         </Sticky>
     );
