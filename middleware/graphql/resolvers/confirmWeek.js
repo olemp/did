@@ -8,12 +8,12 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
     if (!isAuthenticated) return -1;
     const calendarView = await graph.getCalendarView(user.oauthToken.access_token, weekNumber);
     const batch = new TableBatch();
-    const totalDurationHours = 0;
+    let totalDurationHours = 0;
     entries.forEach(entry => {
         let event = calendarView.filter(e => e.id === entry.id)[0];
         let [customerKey, projectKey] = entry.projectKey.split(' ');
-        const durationHours = entGen.Double(utils.getDurationHours(event.startTime, event.endTime));
-        const durationMinutes = entGen.Double(utils.getDurationMinutes(event.startTime, event.endTime));
+        const durationHours = utils.getDurationHours(event.startTime, event.endTime);
+        const durationMinutes = utils.getDurationMinutes(event.startTime, event.endTime);
         totalDurationHours += durationHours;
         batch.insertEntity({
             PartitionKey: entGen.String(tid),
@@ -22,8 +22,8 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
             Description: entGen.String(event.body),
             StartTime: entGen.DateTime(new Date(event.startTime)),
             EndTime: entGen.DateTime(new Date(event.endTime)),
-            DurationHours: durationHours,
-            DurationMinutes: durationMinutes,
+            DurationHours: entGen.Double(durationHours),
+            DurationMinutes: entGen.Int32(durationMinutes),
             CustomerKey: entGen.String(customerKey),
             ProjectKey: entGen.String(projectKey),
             WebLink: entGen.String(event.webLink),
