@@ -1,7 +1,8 @@
-const graph = require('../../../services/graph');
-const { addEntity } = require('../../../services/table');
 const { TableUtilities } = require('azure-storage');
 const entGen = TableUtilities.entityGenerator;
+const graph = require('../../../services/graph');
+const { addEntity } = require('../../../services/table');
+const utils = require('../../../utils');
 
 module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthenticated }) => {
     if (!isAuthenticated) return false;
@@ -22,6 +23,9 @@ module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthentica
             WebLink: entGen.String(event.webLink),
             WeekNumber: entGen.Int32(weekNumber),
             YearNumber: entGen.Int32(utils.getYear()),
+            ResourceId: entGen.String(user.profile.oid),
+            ResourceEmail: entGen.String(user.profile.email),
+            ResourceName: entGen.String(user.profile.displayName),
         });
     }
     return true;
