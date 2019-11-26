@@ -8,19 +8,22 @@ import { ICalEvent } from "../../models";
 import { Actions } from './Actions';
 import { ConfirmingWeekSpinner } from './ConfirmingWeekSpinner';
 import { EventList } from './EventList';
-import { IWeekViewProps } from './IWeekViewProps';
+import { IWeekViewProps, WeekViewDefaultProps } from './IWeekViewProps';
 import { IWeekViewState } from './IWeekViewState';
 import { WeekConfirmedMessage } from './WeekConfirmedMessage';
 import { WeekStatusBar } from './WeekStatusBar';
+import { getUrlParameter } from 'helpers';
 require('moment/locale/en-gb');
 
 export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
+    public static defaultProps = WeekViewDefaultProps;
+
     constructor(props: IWeekViewProps) {
         super(props);
         this.state = {
             isLoading: true,
             events: [],
-            weekNumber: weekNumber(),
+            weekNumber: document.location.hash ? parseInt(document.location.hash.substring(1)) : weekNumber(),
         };
     }
 
@@ -34,10 +37,6 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
     }
 
     public render() {
-        if (this.state.isLoading) {
-            return <Spinner label='Loading your week from Outlook....' />;
-        }
-
         return (
             <>
                 <Actions
@@ -61,11 +60,16 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
                                 headerText={`Week ${wn}`}>
                                 {isCurrentWeek && (
                                     <>
-                                        <div hidden={this.state.isConfirmed || this.state.isConfirming}>
-                                            <WeekStatusBar totalDuration={this.state.totalDuration} matchedDuration={this.state.matchedDuration} />
-                                            <EventList events={this.state.events} />
+                                        <div hidden={!this.state.isLoading}>
+                                            <Spinner label={this.props.loadingText} />
                                         </div>
-                                        <WeekConfirmedMessage hidden={!this.state.isConfirmed} totalDuration={this.state.totalDuration} />
+                                        <div hidden={this.state.isLoading}>
+                                            <div hidden={this.state.isConfirmed || this.state.isConfirming}>
+                                                <WeekStatusBar totalDuration={this.state.totalHours} matchedDuration={this.state.matchedHours} />
+                                                <EventList events={this.state.events} />
+                                            </div>
+                                            <WeekConfirmedMessage hidden={!this.state.isConfirmed} confirmedHours={this.state.confirmedHours} />
+                                        </div>
                                     </>
                                 )}
                             </PivotItem>
@@ -83,13 +87,12 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      */
     private async _onChangeWeek(weekNumber: number) {
         if (weekNumber === this.state.weekNumber) return;
-        let { events, totalDuration, matchedDuration } = await this._getWeek(weekNumber);
+        this.setState({ isLoading: true, weekNumber });
+        const week = await this._getWeek(weekNumber);
         this.setState({
-            events,
-            totalDuration,
-            matchedDuration,
+            ...week,
             weekNumber,
-            isConfirmed: false,
+            isLoading: false,
         });
     }
 
@@ -100,14 +103,22 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
         const { events, weekNumber } = this.state;
         this.setState({ isConfirming: true });
         const entries = events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key }));
-        let { approveWeek } = await graphql.query<{ approveWeek: boolean }>('mutation($entries:[TimeEntryInput!],$weekNumber: Int!){approveWeek(entries: $entries,weekNumber: $weekNumber)}', { entries, weekNumber });
-        this.setState({ isConfirming: false, isConfirmed: approveWeek });
+        let { confirmWeek: confirmedHours } = await graphql.query<{ confirmWeek: number }>('mutation($entries:[TimeEntryInput!],$weekNumber: Int!){confirmWeek(entries: $entries,weekNumber: $weekNumber)}', { entries, weekNumber });
+        this.setState({
+            isConfirming: false,
+            isConfirmed: confirmedHours != 0,
+            confirmedHours,
+        });
     }
 
     /**
      * On unconfirm week
      */
-    private async _onUnconfirmWeek() { }
+    private async _onUnconfirmWeek() {
+        const { weekNumber } = this.state;
+        await graphql.query<{ confirmWeek: boolean }>('mutation($weekNumber: Int!){unconfirmWeek(weekNumber: $weekNumber)}', { weekNumber });
+        this.setState({ isConfirmed: false });
+    }
 
     /**
      * Get events for week number
@@ -115,16 +126,17 @@ export class WeekView extends React.Component<IWeekViewProps, IWeekViewState> {
      * @param {number} weekNumber Week number
      */
     private async _getWeek(weekNumber: number): Promise<Partial<IWeekViewState>> {
-        const { weekView: events, isWeekConfirmed: isConfirmed, errors } = await graphql.query<any>('query($weekNumber: Int!){isWeekConfirmed(weekNumber: $weekNumber) weekView(weekNumber: $weekNumber){id,subject,webLink,duration,startTime,endTime,project{key,name}}}', { weekNumber });
+        const { weekView: events, confirmedHours, errors } = await graphql.usingCaching(true, 15).query<any>(this.props.graphqlquery, { weekNumber });
         if (errors) {
             console.log(errors);
         } else {
             let calcDuration = (total: number, e: ICalEvent) => total + e.duration;
             return {
                 events,
-                isConfirmed,
-                matchedDuration: events.filter(e => e.project).reduce(calcDuration, 0),
-                totalDuration: events.reduce(calcDuration, 0),
+                isConfirmed: confirmedHours != 0,
+                confirmedHours,
+                matchedHours: events.filter(e => e.project).reduce(calcDuration, 0),
+                totalHours: events.reduce(calcDuration, 0),
             }
         }
     }

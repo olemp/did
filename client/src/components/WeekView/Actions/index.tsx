@@ -15,7 +15,7 @@ export const Actions = ({ onConfirmWeek, onUnconfirmWeek, onConfirmWeekEnabled, 
                 text="Unconfirm week"
                 iconProps={{ iconName: 'ErrorBadge' }}
                 onClick={onUnconfirmWeek}
-                disabled={true} />
+                disabled={!onUnconfirmWeekEnabled} />
         </div>
     );
 }
