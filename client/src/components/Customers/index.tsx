@@ -1,68 +1,48 @@
 
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
-import graphql from '../../data/graphql';
-import log from '../../utils/log';
-import { CustomerDetails } from './CustomerDetails';
 import { CustomerList } from './CustomerList';
-import { ICustomersState } from './ICustomersState';
+import { CustomerDetails } from './CustomerDetails';
 
-export class Customers extends React.Component<{}, ICustomersState> {
-    private _selection: Selection;
+const GET_CUSTOMERS = gql`
+{
+    customers {
+        key,
+        customerKey,
+        name,
+        description,
+        webLink
+    }
+}`;
 
-    constructor(props: {}) {
-        super(props);
-        this.state = { isLoading: true, projects: [] };
-        this._selection = new Selection({ onSelectionChanged: this._onSelectionChanged.bind(this) });
+export const Customers = () => {
+    let selection: Selection;
+    const [selected, setSelected] = React.useState(null);
+    const { loading, error, data } = useQuery(GET_CUSTOMERS);
+
+    const onSelectionChanged = () => {
+        setSelected(selection.getSelection()[0]);
     }
 
-    public async componentDidMount(): Promise<void> {
-        try {
-            const customers = await this._getCustomers();
-            this.setState({ customers, isLoading: false });
-        } catch (error) {
-            log.error('An error occured fetching data from backend.', error);
-            this.setState({ error, isLoading: false });
-        }
+    selection = new Selection({ onSelectionChanged });
 
+    if (loading) {
+        return <Spinner label='Loading customers....' />;
     }
-
-    public render() {
-        const {
-            isLoading,
-            error,
-            projects,
-            customers,
-            selected,
-        } = this.state;
-        
-        if (isLoading) {
-            return <Spinner label='Loading customers....' />;
-        }
-        if (error) {
-            return <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>;
-        }
-        return (
-            <div>
-                <CustomerList customers={customers} selection={this._selection} height={300} />
-                {selected && <CustomerDetails customer={selected} projects={projects} />}
-            </div>
-        );
+    if (error) {
+        return <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>;
     }
-
-    private async _onSelectionChanged() {
-        const selected = this._selection.getSelection()[0];
-        if (selected.key) {
-            const { customerProjects: projects } = await graphql.usingCaching(true, 30).query<{ customerProjects: any[] }>('query customerProjects($customerKey: String!){customerProjects(customerKey: $customerKey){key,customerKey,name}}', { customerKey: selected.key });
-            this.setState({ projects });
-        }
-        this.setState({ selected });
-    }
-
-    private async _getCustomers() {
-        const { customers } = await graphql.usingCaching(true, 30).query<{ customers: any[] }>('{customers{key,customerKey,name,description,webLink}}');
-        return customers;
-    }
+    return (
+        <div>
+            <CustomerList
+                customers={data.customers}
+                selection={selection}
+                height={300} />
+            <CustomerDetails customer={selected} />
+        </div>
+    );
 }
