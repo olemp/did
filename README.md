@@ -4,7 +4,9 @@
 ### Server ###
 Folder/File | Description
 --- | --- | 
-`/public` | Web resources (css/js) 
+`/public` |
+`/public/css` | CSS files
+`/public/js` | JS files (hidden from `vscode`, `/client` puts the bundle here)
 `/routes` | Express routes using HBS views
 `/middleware` | Middleware like e.g. /graphql
 `/middleware/graphql` | GraphQL implementation
