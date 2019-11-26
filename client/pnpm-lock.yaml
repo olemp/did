@@ -2,6 +2,7 @@ dependencies:
   '@pnp/common': 1.3.7
   '@uifabric/icons': 7.3.0_ea25fa8afe5e866c631b9f4a7821efe0
   axios: 0.19.0
+  axios-cache-adapter: 2.5.0_axios@0.19.0
   highcharts: 7.2.1
   highcharts-react-official: 2.2.2_highcharts@7.2.1+react@16.12.0
   moment: 2.24.0
@@ -1147,6 +1148,16 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+  /axios-cache-adapter/2.5.0_axios@0.19.0:
+    dependencies:
+      axios: 0.19.0
+      cache-control-esm: 1.0.0
+      lodash: 4.17.15
+    dev: false
+    peerDependencies:
+      axios: 0.18.1
+    resolution:
+      integrity: sha512-YcMPdMoqmSLoZx7A5YD/PdYGuX6/Y9M2tHBhaIXvXrPeGgNnbW7nb3+uArWlT53WGHLfclnu2voMmS7jGXVg6A==
   /axios/0.19.0:
     dependencies:
       follow-redirects: 1.5.10
@@ -1376,6 +1387,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-AKcdTnFSWATd5/GCPRxr2ChwIJ85CeyrEyjRHlKxQ56d4XJMGym0uAiKn0xbLOGOl3+yRpOTi484dVCEc5AUzQ==
+  /cache-control-esm/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-Fa3UV4+eIk4EOih8FTV6EEsVKO0W5XWtNs6FC3InTfVz+EjurjPfDXY5wZDo/lxjDxg5RjNcurLyxEJBcEUx9g==
   /camelcase/4.1.0:
     dev: true
     engines:
@@ -2722,7 +2737,6 @@ packages:
     resolution:
       integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==
   /lodash/4.17.15:
-    dev: true
     resolution:
       integrity: sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
   /loose-envify/1.4.0:
@@ -4391,12 +4405,13 @@ specifiers:
   '@types/webpack-env': ^1.14.1
   '@uifabric/icons': ^7.3.0
   axios: ^0.19.0
+  axios-cache-adapter: ^2.5.0
   babel-loader: ^8.0.6
   highcharts: ^7.2.1
   highcharts-react-official: ^2.2.2
   moment: ^2.24.0
   npm-watch: ^0.6.0
-  office-ui-fabric-react: ^7.64.0
+  office-ui-fabric-react: 7.64.2
   react: ^16.12.0
   react-dom: ^16.12.0
   scriptjs: ^2.5.9

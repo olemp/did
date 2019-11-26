@@ -42,7 +42,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
         // if (selected) {
-        //     const { approvedEntries: entries } = await graphql.query<{ approvedEntries: any[] }>('query($projectKey: String!){approvedEntries(projectKey: $projectKey){subject,startTime,endTime,duration}}', { projectKey: selected.key });
+        //     const { confirmedEntries: entries } = await graphql.query<{ confirmedEntries: any[] }>('query($projectKey: String!){confirmedEntries(projectKey: $projectKey){subject,startTime,endTime,duration}}', { projectKey: selected.key });
         //     this.setState({ entries });
         // }
         this.setState({ selected });

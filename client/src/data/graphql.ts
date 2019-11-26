@@ -1,14 +1,34 @@
 import axiosadapter from './axiosadapter';
-import { TypedHash } from '@pnp/common';
+import { TypedHash, PnPClientStorage, PnPClientStore, dateAdd } from '@pnp/common';
 
 export default new class GraphQL {
     private _adapter: axiosadapter;
+    private _store: PnPClientStore;
+    private _expiryMinutes: number;
 
     constructor() {
         this._adapter = new axiosadapter('graphql', 10000);
     }
 
+    /**
+     * Use caching for all requests
+     * 
+     * @param {boolean} bool Use caching
+     * @param {number} expiryMinutes Expiry in minutes
+     */
+    public usingCaching(bool: boolean = true, expiryMinutes: number = 5) {
+        this._store = bool && new PnPClientStorage().session;
+        this._expiryMinutes = expiryMinutes;
+        return this;
+    }
+
     public async query<T>(query: string, variables: TypedHash<any> = {}): Promise<T> {
-        return (await this._adapter.post(undefined, { query, variables })).data;
+        if (this._store) {
+            await this._store.deleteExpired();
+            const key = `${query}_${JSON.stringify(variables)}`;
+            return this._store.getOrPut(key, async () => (await this._adapter.post(undefined, { query, variables })).data, dateAdd(new Date(), 'minute', this._expiryMinutes));
+        } else {
+            return (await this._adapter.post(undefined, { query, variables })).data;
+        }
     }
 }

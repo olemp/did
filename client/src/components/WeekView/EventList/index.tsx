@@ -1,5 +1,6 @@
 
 import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
 import { ICalEvent } from '../../../models';
@@ -20,8 +21,10 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderProject(item: ICalEvent) {
-    if (!item.project) return null;
-    return <a href={`/projects?key=${item.project.key}`}>{item.project.name}</a>;
+    if (!item.project) {
+        return <MessageBar messageBarType={MessageBarType.severeWarning}>Event not matched.</MessageBar>
+    }
+    return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
 
 export const EventListColumns: IColumn[] = [

@@ -1,13 +1,13 @@
-import * as moment from 'moment';
 import { ICalEvent } from "../../models";
-require('moment/locale/en-gb');
+import { ISpinnerProps } from 'office-ui-fabric-react/lib/Spinner';
 
 export interface IWeekViewState {
-    isLoading: boolean;
-    weekNumber: number;
-    matchedDuration?: number;
-    totalDuration?: number;
-    events: ICalEvent[];
+    isLoading?: boolean;
+    spinner?: ISpinnerProps;
+    weekNumber?: number;
+    matchedHours?: number;
+    confirmedHours?: number;
     isConfirmed?: boolean;
-    isConfirming?: boolean;
+    totalHours?: number;
+    events?: ICalEvent[];
 }

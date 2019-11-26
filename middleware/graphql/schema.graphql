@@ -54,6 +54,9 @@ type Query {
 
 type Query {
 	weekView(weekNumber: Int!): [Event!]!
+	isWeekConfirmed(weekNumber: Int!): Boolean
+	confirmedHours(weekNumber: Int!): Float!
+	confirmedMinutes(weekNumber: Int!): Int!
 }
 
 type Query {
@@ -61,9 +64,10 @@ type Query {
 }
 
 type Query {
-	approvedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
+	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
 type Mutation {
-	approveWeek(entries: [TimeEntryInput!], weekNumber: Int!): Boolean!
+	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): Float!
+	unconfirmWeek(weekNumber: Int!): Boolean!
 }

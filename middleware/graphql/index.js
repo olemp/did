@@ -8,14 +8,18 @@ const schema = makeExecutableSchema({
   typeDefs: importSchema(path.join(__dirname, './schema.graphql')),
   resolvers: {
     Query: {
-      approvedEntries: resolvers.approvedEntries,
+      confirmedEntries: resolvers.confirmedEntries,
       customerProjects: resolvers.customerProjects,
       customers: resolvers.customers,
       projects: resolvers.projects,
       weekView: resolvers.weekView,
+      isWeekConfirmed: resolvers.isWeekConfirmed,
+      confirmedHours: resolvers.confirmedHours,
+      confirmedMinutes: resolvers.confirmedMinutes,
     },
     Mutation: {
-      approveWeek: resolvers.approveWeek,
+      confirmWeek: resolvers.confirmWeek,
+      unconfirmWeek: resolvers.unconfirmWeek,
     }
   },
 });

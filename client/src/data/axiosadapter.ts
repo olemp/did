@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { setupCache } from 'axios-cache-adapter';
 
 export default class AxiosAdapter {
     private _instance: AxiosInstance;
@@ -11,6 +12,7 @@ export default class AxiosAdapter {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
+            adapter: setupCache({ maxAge: 15 * 60 * 1000 }).adapter,
         });
     }
 
