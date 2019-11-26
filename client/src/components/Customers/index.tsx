@@ -54,14 +54,14 @@ export class Customers extends React.Component<{}, ICustomersState> {
     private async _onSelectionChanged() {
         const selected = this._selection.getSelection()[0];
         if (selected.key) {
-            const { customerProjects: projects } = await graphql.query<{ customerProjects: any[] }>('query customerProjects($customerKey: String!){customerProjects(customerKey: $customerKey){key,customerKey,name}}', { customerKey: selected.key });
+            const { customerProjects: projects } = await graphql.usingCaching(true, 30).query<{ customerProjects: any[] }>('query customerProjects($customerKey: String!){customerProjects(customerKey: $customerKey){key,customerKey,name}}', { customerKey: selected.key });
             this.setState({ projects });
         }
         this.setState({ selected });
     }
 
     private async _getCustomers() {
-        const { customers } = await graphql.query<{ customers: any[] }>('{customers{key,customerKey,name}}');
+        const { customers } = await graphql.usingCaching(true, 30).query<{ customers: any[] }>('{customers{key,customerKey,name}}');
         return customers;
     }
 }

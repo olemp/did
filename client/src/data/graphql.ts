@@ -15,9 +15,10 @@ export default new class GraphQL {
      * 
      * @param {boolean} bool Use caching
      * @param {number} expiryMinutes Expiry in minutes
+     * @param {string} storeName Store name
      */
-    public usingCaching(bool: boolean = true, expiryMinutes: number = 5) {
-        this._store = bool && new PnPClientStorage().session;
+    public usingCaching(bool: boolean = true, expiryMinutes: number = 5, storeName: 'local' | 'session' = 'session') {
+        this._store = bool && new PnPClientStorage()[storeName];
         this._expiryMinutes = expiryMinutes;
         return this;
     }

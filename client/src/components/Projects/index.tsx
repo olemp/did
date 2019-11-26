@@ -57,7 +57,7 @@ export class Projects extends React.Component<{}, IProjectsState> {
     }
 
     private async _getProjects() {
-        const { projects } = await graphql.query<{ projects: any[] }>('{projects{key,customerKey,projectKey,name}}');
+        const { projects } = await graphql.usingCaching(true, 30).query<{ projects: any[] }>('{projects{key,customerKey,projectKey,name}}');
         return projects;
     }
 }
