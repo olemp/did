@@ -37,11 +37,8 @@ export const WeekView = ({ weeksToShow }) => {
         setState({ weekNumber: wn });
     };
 
-    // Need to set confirmedHours like this to avoid mulitple state updates
     let confirmedHours = state.confirmedHours || getValue(data, 'confirmedHours', { default: 0 });
     let matchedEntries = data ? data.weekView.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
-
-    console.log({ ...state, data, error, loading, confirmedHours });
 
     return (
         <>
@@ -88,8 +85,7 @@ export const WeekView = ({ weeksToShow }) => {
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
-                                        hidden={confirmedHours > 0}
-                                        enableShimmer={loading || state.processing}
+                                        enableShimmer={loading || state.processing || confirmedHours > 0}
                                         events={data ? data.weekView.events : []} />
                                 </div>
                             )}

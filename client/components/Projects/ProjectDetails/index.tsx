@@ -29,7 +29,7 @@ export const ProjectDetails = ({ project }) => {
     }
     return (
         <div style={{ marginTop: 20 }}>
-            <h2>{project.name}</h2>
+            <h3>{project.name}</h3>
             <ProjectTimeEntries entries={data.confirmedEntries} />
         </div>
     );

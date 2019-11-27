@@ -26,7 +26,7 @@ export const CustomerDetails = ({ customer }) => {
     }
     return (
         <div>
-            <h2>{customer.name}</h2>
+            <h3>{customer.name}</h3>
             <p hidden={!customer.description}>{customer.description}</p>
             <p hidden={!customer.webLink}><a href={customer.webLink}>{customer.webLink}</a></p>
             <ProjectList
