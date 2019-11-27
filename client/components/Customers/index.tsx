@@ -1,23 +1,12 @@
 
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import * as getValue from 'get-value';
 import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { Spinner } from 'office-ui-fabric-react/lib/Spinner';
 import * as React from 'react';
-import { CustomerList } from './CustomerList';
 import { CustomerDetails } from './CustomerDetails';
-
-const GET_CUSTOMERS = gql`
-{
-    customers {
-        key,
-        customerKey,
-        name,
-        description,
-        webLink
-    }
-}`;
+import { CustomerList } from './CustomerList';
+import { GET_CUSTOMERS } from './GET_CUSTOMERS';
 
 export const Customers = () => {
     let selection: Selection;
@@ -30,18 +19,18 @@ export const Customers = () => {
 
     selection = new Selection({ onSelectionChanged });
 
-    if (loading) {
-        return <Spinner label='Loading customers....' />;
-    }
-    if (error) {
-        return <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>;
-    }
+    const customers = getValue(data, 'customers', { default: [] });
+
     return (
         <div>
-            <CustomerList
-                customers={data.customers}
-                selection={selection}
-                height={300} />
+            {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
+            {!error && (
+                <CustomerList
+                    enableShimmer={loading}
+                    customers={customers}
+                    selection={selection}
+                    height={300} />
+            )}
             <CustomerDetails customer={selected} />
         </div>
     );

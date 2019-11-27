@@ -28,7 +28,7 @@ function renderProject(item: ICalEvent) {
     return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
 
-export const EventList = ({ hidden, events, enableShimmer, hideColumns = [], dateFormat = 'dddd HH:mm', }: IEventListProps) => {
+export const EventList = ({ hidden, events, enableShimmer, onRenderDetailsHeader, hideColumns = [], dateFormat = 'dddd HH:mm', }: IEventListProps) => {
     const columns = [
         { key: 'title', fieldName: 'title', name: 'Title', onRender: renderTitle, minWidth: 100, maxWidth: 180 },
         { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat } },
@@ -43,6 +43,7 @@ export const EventList = ({ hidden, events, enableShimmer, hideColumns = [], dat
                 enableShimmer={enableShimmer}
                 columns={columns.filter(col => hideColumns.indexOf(col.key) === -1)}
                 items={events}
+                onRenderDetailsHeader={onRenderDetailsHeader}
                 selectionMode={SelectionMode.none}
                 constrainMode={ConstrainMode.horizontalConstrained}
                 layoutMode={DetailsListLayoutMode.justified} />
