@@ -1,9 +1,11 @@
-import { ConstrainMode, DetailsList, DetailsListLayoutMode, IDetailsHeaderProps, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { ConstrainMode, DetailsListLayoutMode, IColumn, IDetailsHeaderProps, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
-import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
+import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
+import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
+import { ICustomerListProps } from './ICustomerListProps';
 
 export const CustomerListColumns: IColumn[] = [
     { key: 'customerKey', fieldName: 'customerKey', name: 'Key', minWidth: 100, maxWidth: 100, },
@@ -19,10 +21,11 @@ function _onRenderDetailsHeader(detailsHeaderProps: IDetailsHeaderProps, default
     );
 }
 
-export const CustomerList = ({ customers, selection, height }) => (
+export const CustomerList = ({ customers, selection, enableShimmer, height = 300 }: ICustomerListProps) => (
     <div style={{ position: 'relative', height }}>
         <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
-            <DetailsList
+            <ShimmeredDetailsList
+                enableShimmer={enableShimmer}
                 selection={selection}
                 columns={CustomerListColumns}
                 items={customers}
