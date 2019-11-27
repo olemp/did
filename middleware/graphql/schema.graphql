@@ -24,6 +24,7 @@ type Event {
 	durationMinutes: Int
 	project: Project
 	webLink: String
+	lastModifiedDateTime: String
 }
 
 type TimeEntry {
@@ -51,6 +52,7 @@ input TimeEntryInput {
 }
 
 type WeekView {
+	weekNumber: Int!
 	events: [Event!]!
 	totalDuration: Int!
 	matchedDuration: Int!

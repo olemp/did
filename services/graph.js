@@ -28,7 +28,7 @@ async function getCalendarView(accessToken, weekNumber) {
   const { value } = await getAuthenticatedClient(accessToken)
     .api('/me/calendar/calendarView')
     .query({ startDateTime, endDateTime })
-    .select('id,subject,body,start,end,categories,webLink')
+    .select('id,subject,body,start,end,lastModifiedDateTime,categories,webLink')
     .filter(`sensitivity ne 'private' and isallday eq false and iscancelled eq false`)
     .orderby('start/dateTime asc')
     .top(50)
@@ -39,6 +39,7 @@ async function getCalendarView(accessToken, weekNumber) {
     body: stripHtml(evt.body.content),
     categories: evt.categories,
     webLink: evt.webLink,
+    lastModifiedDateTime: evt.lastModifiedDateTime,
     startTime: evt.start.dateTime,
     endTime: evt.end.dateTime,
     durationHours: utils.getDurationHours(evt.start.dateTime, evt.end.dateTime),

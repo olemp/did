@@ -12,7 +12,5 @@ module.exports = async (_obj, args, context) => {
     if (result.length === 0) {
         return 0;
     }
-    return result.reduce((sum, r) => {
-        return sum + r.DurationHours._;
-    }, 0);
+    return result.reduce((sum, r) => sum + r.DurationHours._, 0);
 };

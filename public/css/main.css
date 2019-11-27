@@ -7,3 +7,19 @@ body {
   word-break: break-all;
   white-space: pre-wrap;
 }
+
+h1 {
+  font-size: 36pt;
+}
+
+h2 {
+  font-size: 24pt;
+}
+
+h3 {
+  font-size: 18pt;
+}
+
+h4 {
+  font-size: 14pt;
+}

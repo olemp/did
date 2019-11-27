@@ -3,7 +3,8 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
 
-export const WeekStatusBar = ({ weekConfirmed, totalDuration, matchedDuration, confirmedHours }) => {
+export const WeekStatusBar = ({ totalDuration, matchedDuration, confirmedHours }) => {
+    const weekConfirmed = confirmedHours > 0;
     return (
         <div>
             <div style={{ marginTop: 10 }} hidden={weekConfirmed}>
@@ -11,7 +12,7 @@ export const WeekStatusBar = ({ weekConfirmed, totalDuration, matchedDuration, c
                     {getDurationDisplay(totalDuration)}
                 </MessageBar>
             </div>
-            <div style={{ marginTop: 10 }} hidden={totalDuration - matchedDuration === 0|| weekConfirmed}>
+            <div style={{ marginTop: 10 }} hidden={totalDuration - matchedDuration === 0 || weekConfirmed}>
                 <MessageBar messageBarType={MessageBarType.warning} messageBarIconProps={{ iconName: 'BufferTimeBoth' }}>
                     You've {getDurationDisplay(totalDuration - matchedDuration)} that are not matched.
                 </MessageBar>

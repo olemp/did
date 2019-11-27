@@ -5,13 +5,12 @@
   "scripts": {
     "start": "node ./server.js",
     "start:dev": "set NODE_ENV=development&&node ./server.js",
-    "watch:server": "set NODE_ENV=development&&nodemon --ignore client server.js",
+    "watch:server": "set NODE_ENV=development&&nodemon --ignore client --ignore public --ignore lib server.js",
     "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
     "build:client": "tsc --build",
     "watch:client": "tsc --watch",
-    "webpack:client": "webpack --config webpack.config.js",
-    "package:client": "npm run build:client && npm run webpack:client",
-    "watch:client:package": "onchange -d 250 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client"
+    "package:client": "npm run build:client && webpack --config webpack.config.js",
+    "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client"
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
@@ -41,6 +40,7 @@
     "@babel/core": "7.7.4",
     "@babel/preset-env": "7.7.4",
     "@pnp/common": "1.3.7",
+    "@types/get-value": "^3.0.1",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "@types/scriptjs": "0.0.2",
@@ -56,6 +56,7 @@
     "babel-loader": "8.0.6",
     "chalk": "3.0.0",
     "concurrently": "5.0.0",
+    "get-value": "^3.0.1",
     "graphql-tag": "2.10.1",
     "highcharts": "7.2.1",
     "highcharts-react-official": "2.2.2",
