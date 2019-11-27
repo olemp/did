@@ -11,9 +11,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 
-const cache = new InMemoryCache();
-const link = new HttpLink({ uri: `${document.location.origin}/graphql` });
-const client = new ApolloClient({ cache, link, });
+const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: new HttpLink({ uri: `${document.location.origin}/graphql` }),
+});
 
 initializeIcons();
 
