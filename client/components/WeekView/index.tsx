@@ -22,7 +22,7 @@ export const WeekView = ({ weeksToShow }) => {
         {
             displayName: 'GET_WEEK_VIEW',
             variables: { weekNumber: state.weekNumber },
-            skip: state.processing || state.confirmedHours > 0,
+            skip: state.processing,
             fetchPolicy: 'cache-and-network',
             onError: (error) => {
                 // Temp fix for handling expired access token
@@ -85,8 +85,7 @@ export const WeekView = ({ weeksToShow }) => {
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
-                                        hidden={confirmedHours > 0}
-                                        enableShimmer={loading || state.processing}
+                                        enableShimmer={loading || state.processing || confirmedHours > 0}
                                         events={data ? data.weekView.events : []} />
                                 </div>
                             )}
