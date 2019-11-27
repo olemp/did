@@ -5,6 +5,7 @@
 ### Server ###
 Folder/File | Description
 --- | --- | 
+`/client` | Client TypeScript source using e.g. `react` and `apollo-client`
 `/public` |
 `/public/css` | CSS files
 `/public/js` | JS files (hidden from `vscode`, `/client` puts the bundle here)
