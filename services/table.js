@@ -78,7 +78,9 @@ module.exports = {
     and: TableUtilities.TableOperators.AND,
     combine: TableQuery.combineFilters,
     stringFilter: TableQuery.stringFilter,
-    createQuery: (top) => {
-        return new TableQuery().top(top);
+    createQuery: (top, select) => {
+        let query = new TableQuery().top(top);
+        if (select) query = query.select(select);
+        return query;
     }
 }

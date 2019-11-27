@@ -1,4 +1,3 @@
-const { TableQuery } = require('azure-storage');
 const { queryTable, parseArray, isEqual, and, combine, stringFilter, createQuery } = require('../../../services/table');
 
 async function confirmedEntries(_obj, args, { tid, isAuthenticated }) {
@@ -14,7 +13,12 @@ async function confirmedEntries(_obj, args, { tid, isAuthenticated }) {
     }
     query = query.where(filter);
     const result = await queryTable(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, query);
-    return parseArray(result);
+    const parsedResult = parseArray(result);
+    /**
+     * @todo Or should the client sort the result?
+     */
+    const sortedResult = parsedResult.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+    return sortedResult;
 };
 
 module.exports = confirmedEntries;
