@@ -1,14 +1,15 @@
 
-import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import * as moment from 'moment';
+import { ConstrainMode, DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import * as React from 'react';
 import { getDurationDisplay } from '../../../helpers';
 import { ICalEvent } from '../../../models';
-import * as moment from 'moment';
 import { IEventListProps } from './IEventListProps';
 require('moment/locale/en-gb');
 
-function renderSubject(item: ICalEvent, _index: number, col: IColumn) {
+function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
     return <a href={item.webLink}>{item[col.fieldName]}</a>;
 }
 
@@ -28,20 +29,23 @@ function renderProject(item: ICalEvent) {
 }
 
 export const EventListColumns: IColumn[] = [
-    { key: 'subject', fieldName: 'subject', name: 'Subject', onRender: renderSubject, minWidth: 100, maxWidth: 180 },
+    { key: 'title', fieldName: 'title', name: 'Title', onRender: renderTitle, minWidth: 100, maxWidth: 180 },
     { key: 'startTime', fieldName: 'startTime', name: 'Start', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
     { key: 'endTime', fieldName: 'endTime', name: 'End', onRender: renderDate, minWidth: 100, maxWidth: 140, data: { dateFormat: 'dddd HH:mm' } },
-    { key: 'duration', fieldName: 'duration', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
+    { key: 'durationMinutes', fieldName: 'durationMinutes', name: 'Duration', onRender: renderDuration, minWidth: 100, maxWidth: 150 },
     { key: 'project', fieldName: 'project', name: 'Project', onRender: renderProject, minWidth: 100 },
 ];
 
-export const EventList = ({ events, hideColumns = [] }: IEventListProps) => {
+export const EventList = ({ hidden, events, enableShimmer, hideColumns = [] }: IEventListProps) => {
     return (
-        <DetailsList
-            columns={EventListColumns.filter(col => hideColumns.indexOf(col.key) === -1)}
-            items={events}
-            selectionMode={SelectionMode.none}
-            constrainMode={ConstrainMode.horizontalConstrained}
-            layoutMode={DetailsListLayoutMode.justified} />
+        <div hidden={hidden}>
+            <ShimmeredDetailsList
+                enableShimmer={enableShimmer}
+                columns={EventListColumns.filter(col => hideColumns.indexOf(col.key) === -1)}
+                items={events}
+                selectionMode={SelectionMode.none}
+                constrainMode={ConstrainMode.horizontalConstrained}
+                layoutMode={DetailsListLayoutMode.justified} />
+        </div>
     );
 }
