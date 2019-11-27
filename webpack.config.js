@@ -1,5 +1,4 @@
-var path = require('path');
-var webpack = require('webpack');
+var ignorePlugin = require('webpack').IgnorePlugin;
 
 module.exports = {
   module: {
@@ -19,10 +18,10 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: './lib/client/App.js',
   plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ignorePlugin(/^\.\/locale$/, /moment$/),
   ],
   output: {
-    path: path.resolve(__dirname, './public/js'),
+    path: require('path').resolve(__dirname, './public/js'),
     filename: 'did365.bundle.js'
   }
 };
