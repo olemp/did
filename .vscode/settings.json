@@ -3,7 +3,7 @@
         "pnpm-lock.yaml": true,
         "node_modules": true,
         "lib": true,
-        
+        "client/components/Charts": true,
         "client/node_modules": true,
         "public/js": true,
     },

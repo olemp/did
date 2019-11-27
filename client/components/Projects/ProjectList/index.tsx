@@ -7,7 +7,8 @@ import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
 import { IProjectListProps } from './IProjectListProps';
 
-export const ProjectList = ({ projects, search, selection,enableShimmer, height, renderLink }: IProjectListProps) => {
+export const ProjectList = ({ projects, search, selection, enableShimmer, height, renderLink }: IProjectListProps) => {
+    if (!projects) return null;
     let searchTimeout: any;
     let [filteredProjects, setProjects] = React.useState(projects);
 

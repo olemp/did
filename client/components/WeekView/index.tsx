@@ -26,7 +26,7 @@ export const WeekView = ({ weeksToShow }) => {
             fetchPolicy: 'cache-and-network',
             onError: (error) => {
                 // Temp fix for handling expired access token
-                if(error.networkError['statusCode'] === 500) {
+                if (error.networkError['statusCode'] === 500) {
                     window.location.replace(`${window.location.origin}/auth/signout`)
                 }
             }
@@ -85,7 +85,8 @@ export const WeekView = ({ weeksToShow }) => {
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
-                                        enableShimmer={loading || state.processing || confirmedHours > 0}
+                                        hidden={confirmedHours > 0}
+                                        enableShimmer={loading || state.processing}
                                         events={data ? data.weekView.events : []} />
                                 </div>
                             )}
