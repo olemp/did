@@ -15,8 +15,10 @@ async function getUserDetails(accessToken) {
 };
 
 async function removeIgnoredEvents(events) {
-  let content = [event.title, event.body, JSON.stringify(event.categories)].join(' ').toUpperCase();
-  return events.filter(event => content.indexOf('IGNORE') === -1);
+  return events.filter(evt => {
+    let content = [evt.title, evt.body, JSON.stringify(evt.categories)].join(' ').toUpperCase();
+    return content.indexOf('IGNORE') === -1;
+  });
 }
 
 async function getCalendarView(accessToken, weekNumber) {
