@@ -7,5 +7,6 @@ export interface IProjectListProps {
     search?: ISearchBoxProps;
     renderLink?: boolean;
     selection?: Selection;
+    enableShimmer?: boolean;
     height: number;
 }

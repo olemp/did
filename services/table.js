@@ -1,4 +1,4 @@
-const { createTableService, TableQuery } = require('azure-storage');
+const { createTableService, TableQuery, TableUtilities } = require('azure-storage');
 const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
 function queryTable(table, query) {
@@ -38,36 +38,49 @@ function executeBatch(table, batch) {
     });
 };
 
+function getSubscription(tenantId) {
+    return new Promise(async (resolve) => {
+        var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
+        resolve(sub[0]);
+    });
+};
+
+function parseArray(arr) {
+    return arr.map(item => Object.keys(item)
+        .filter(key => key !== 'PartitionKey')
+        .reduce((obj, key) => {
+            const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+            const value = item[key]._;
+            if (key === 'RowKey') {
+                obj.id = value;
+                return obj;
+            }
+            switch (item[key].$) {
+                case 'Edm.DateTime': {
+                    obj[camelCaseKey] = value.toISOString();
+                }
+                    break;
+                default: {
+                    obj[camelCaseKey] = value;
+                }
+            }
+            return obj;
+        }, {}));
+}
+
 module.exports = {
     queryTable: queryTable,
     addEntity: addEntity,
     executeBatch: executeBatch,
-    getSubscription: (tenantId) => {
-        return new Promise(async (resolve) => {
-            var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
-            resolve(sub[0]);
-        });
-    },
-    parseArray: (arr) => {
-        return arr.map(item => Object.keys(item)
-            .filter(key => key !== 'PartitionKey')
-            .reduce((obj, key) => {
-                const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
-                const value = item[key]._;
-                if (key === 'RowKey') {
-                    obj.id = value;
-                    return obj;
-                }
-                switch (item[key].$) {
-                    case 'Edm.DateTime': {
-                        obj[camelCaseKey] = value.toISOString();
-                    }
-                        break;
-                    default: {
-                        obj[camelCaseKey] = value;
-                    }
-                }
-                return obj;
-            }, {}));
+    getSubscription: getSubscription,
+    parseArray: parseArray,
+    isEqual: TableUtilities.QueryComparisons.EQUAL,
+    and: TableUtilities.TableOperators.AND,
+    combine: TableQuery.combineFilters,
+    stringFilter: TableQuery.stringFilter,
+    createQuery: (top, select) => {
+        let query = new TableQuery().top(top);
+        if (select) query = query.select(select);
+        return query;
     }
 }

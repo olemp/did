@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
     "start": "node ./server.js",
     "start:dev": "set NODE_ENV=development&&node ./server.js",
     "watch:server": "set NODE_ENV=development&&nodemon --ignore client --ignore public --ignore lib server.js",
-    "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
     "build:client": "tsc --build",
     "watch:client": "tsc --watch",
     "package:client": "npm run build:client && webpack --config webpack.config.js",
+    "package:client:prod": "set NODE_ENV=production&&npm run build:client && webpack --config webpack.config.js",
     "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client"
   },
   "dependencies": {
