@@ -55,9 +55,10 @@ https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureap
 
 ### 5. Developing locally ###
 
-At the moment you need to run two terminal instances to watch both client and server changes.  
-* `npm run-script watch:server` 
-* `npm run-script watch:client:development`
+#### npm run-script watch ####
+
+To watch both `server` and `client` changes concurrently, use:
+* `npm run-script watch` 
 
 ## Deploying ##
 
