@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "forceConsistentCasingInFileNames": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "jsx": "react",
+      "declaration": true,
+      "sourceMap": true,
+      "experimentalDecorators": true,
+      "noImplicitAny": false,
+      "skipLibCheck": true,
+      "outDir": "lib/client",
+      "inlineSources": false,
+      "strictNullChecks": false,
+      "noUnusedLocals": false,
+      "typeRoots": [
+        "./node_modules/@types"
+      ],
+      "types": [
+        "webpack-env"
+      ],
+      "lib": [
+        "es2015",
+        "dom",
+        "es2015.collection"
+      ],
+      "baseUrl": "client"
+    },
+    "include": [
+      "client/**/*.ts",     
+      "client/**/*.tsx"
+    ],
+    "exclude": [
+      "node_modules",
+      "lib"
+    ],
+  }
