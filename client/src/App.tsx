@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { WeekView } from './components/WeekView';
+import { WeekView2 as WeekView } from './components/WeekView';
 import { Projects } from './components/Projects';
 import { Customers } from './components/Customers';
 import { Reports } from './components/Reports';

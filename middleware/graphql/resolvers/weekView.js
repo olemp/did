@@ -18,10 +18,11 @@ module.exports = async (_obj, args, context) => {
     const calendarView = await graph.getCalendarView(context.user.oauthToken.access_token, args.weekNumber);
     const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', context.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
-    const events = calendarView
-        .map(event => {
-            let project = projects.filter(p => matchProject(event, p.key))[0];
-            return { ...event, project };
-        });
-    return events;
+    const events = calendarView.map(event => {
+        let project = projects.filter(p => matchProject(event, p.key))[0];
+        return { ...event, project };
+    });
+    const totalDuration = events.reduce((sum, event) => sum + event.durationMinutes, 0);
+    const matchedDuration = events.filter(event => event.project).reduce((sum, event) => sum + event.durationMinutes, 0);
+    return { events, totalDuration, matchedDuration };
 };

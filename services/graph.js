@@ -40,8 +40,8 @@ async function getCalendarView(accessToken, weekNumber) {
     webLink: event.webLink,
     startTime: event.start.dateTime,
     endTime: event.end.dateTime,
-    durationHours: utils.getDurationHours(event.startTime, event.endTime),
-    durationMinutes: utils.getDurationMinutes(event.startTime, event.endTime),
+    durationHours: utils.getDurationHours(event.start.dateTime, event.end.dateTime),
+    durationMinutes: utils.getDurationMinutes(event.start.dateTime, event.end.dateTime),
   }));
   events = removeIgnoredEvents(events);
   return events;
