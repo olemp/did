@@ -5,4 +5,5 @@ export interface IEventListProps {
     hidden?: boolean;
     enableShimmer?: boolean;
     hideColumns?: string[];
+    dateFormat?: string;
 }
