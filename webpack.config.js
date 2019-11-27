@@ -1,4 +1,5 @@
-var ignorePlugin = require('webpack').IgnorePlugin;
+require('dotenv').config();
+const ignorePlugin = require('webpack').IgnorePlugin;
 
 module.exports = {
   module: {
