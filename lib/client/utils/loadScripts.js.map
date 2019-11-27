@@ -1,1 +1,0 @@
-{"version":3,"file":"loadScripts.js","sourceRoot":"","sources":["../../../client/utils/loadScripts.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,OAAO,MAAM,UAAU,CAAC;AAEpC,MAAM,UAAU,WAAW,CAAC,GAAa;IACrC,OAAO,IAAI,OAAO,CAAC,UAAC,OAAO;QACvB,OAAO,CAAC,GAAG,EAAE,KAAK,CAAC,CAAC;QACpB,OAAO,CAAC,KAAK,CAAC,KAAK,EAAE,OAAO,CAAC,CAAC;IAClC,CAAC,CAAC,CAAC;AACP,CAAC"}
