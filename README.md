@@ -1,6 +1,6 @@
 # Did365 #
 
-## Structure ##
+## 1. Structure ##
 
 ### Server ###
 Folder/File | Description
@@ -23,7 +23,7 @@ Folder/File | Description
 ### Client ###
 Client files resides under `/client`. The resulting bundle ends up under `/public/js`.
  
-## Development ##
+## 2. Development ##
 
 ### 1. Install npm packages using pnpm ###
 `pnpm i`
@@ -32,6 +32,8 @@ Client files resides under `/client`. The resulting bundle ends up under `/publi
 https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureappservice
 
 ### 3. Create an app registration in the Azure Portal ###
+
+### **NOTE** This is if you want to test with your own development tenant. We have a registration in the Puzzlepart Azure ###
 
 *  Log on to portal.azure.com with your subscription
 *  Navigate to Azure Active Directory -> App registrations
