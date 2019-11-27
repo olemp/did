@@ -11,7 +11,7 @@ const schema = makeExecutableSchema({
 module.exports = graphql((req) => ({
   schema: schema,
   rootValue: global,
-  graphiql: req.app.get('env') === 'development',
+  graphiql: process.env.GRAPHIQL_ENABLED == '1',
   pretty: req.app.get('env') === 'development',
   context: {
     user: req.user,
