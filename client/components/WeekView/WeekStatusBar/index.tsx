@@ -24,7 +24,7 @@ export const WeekStatusBar = ({ totalDuration, matchedDuration, confirmedHours }
             </div>
             <div style={{ marginTop: 15 }} hidden={!weekConfirmed}>
                 <MessageBar messageBarType={MessageBarType.success} messageBarIconProps={{ iconName: 'CheckMark' }}>
-                    The week is confirmed with {getDurationDisplay(undefined, confirmedHours)}.
+                    The week is confirmed with {getDurationDisplay(undefined, confirmedHours)}. Click 'Unconfirm week' if you want to do some adjustments.
                  </MessageBar>
             </div>
         </div>
