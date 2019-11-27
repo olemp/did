@@ -4,6 +4,8 @@ type Project {
 	customerKey: String
 	projectKey: String
 	name: String
+	description: String, 
+	webLink: String, 
 }
 
 type Customer {

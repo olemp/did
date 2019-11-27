@@ -11,11 +11,13 @@ const passport = require('./middleware/passport');
 const hbs = require('hbs');
 const app = express();
 
+process.title = 'did365';
+
 //#endregion
 
 //#region Setting up session using connect-azuretables
 app.use(session({
-  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log}),
+  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
   secret: process.env.SESSION_SIGNING_KEY,
   resave: false,
   saveUninitialized: false,

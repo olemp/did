@@ -1,4 +1,7 @@
-export interface IProject {
+import { IObjectWithKey } from 'office-ui-fabric-react/lib/DetailsList';
+
+export interface IProject extends IObjectWithKey {
     name: string;
-    key: string;
+    description: string;
+    webLink: string;
 }

@@ -1,44 +1,21 @@
 import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import * as getValue from 'get-value';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import * as React from 'react';
-import { loadScripts } from '../../utils/loadScripts';
+import { ICalEvent } from '../../models';
 import { exportExcel } from '../../utils/exportExcel';
+import { GET_CONFIRMED_ENTRIES, GET_CONFIRMED_ENTRIES_FIELDS, IGetConfirmedEntries } from './GET_CONFIRMED_ENTRIES';
 
-const fields = [
-    'title',
-    'description',
-    'customerKey',
-    'projectKey',
-    'durationHours',
-    'startTime',
-    'endTime',
-    'weekNumber',
-    'yearNumber',
-    'webLink',
-    'durationHours',
-    'resourceName',
-    'resourceEmail',
-];
 
-export const GET_CONFIRMED_ENTRIES = gql`
-    query($projectKey: String) {
-        confirmedEntries(projectKey: $projectKey) {
-           ${fields.join(',')}
-        }
-    }
-`;
 
 export const Reports = () => {
-    const { loading, error, data } = useQuery(GET_CONFIRMED_ENTRIES);
+    const { loading, error, data } = useQuery<IGetConfirmedEntries>(GET_CONFIRMED_ENTRIES);
+
+    const entries = getValue(data, 'confirmedEntries', { default: [] }) as ICalEvent[];
 
     const onExport = async () => {
-        await loadScripts([
-            'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.5/xlsx.full.min.js',
-        ]);
         await exportExcel(
-            [fields, ...data.confirmedEntries.map(item => fields.map(fieldName => item[fieldName]))],
+            [GET_CONFIRMED_ENTRIES_FIELDS, ...entries.map(item => GET_CONFIRMED_ENTRIES_FIELDS.map(fieldName => item[fieldName]))],
             `ApprovedTimeEntries-${new Date().getTime()}.xlsx`,
         );
     }
