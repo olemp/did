@@ -4,15 +4,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug Server",
+            "name": "server.js",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\server.js",
             "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "NODE_ENV": "development"
+            },
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
-            ]
+            ],
+            "preLaunchTask": "npm: watch"
         }
     ]
 }

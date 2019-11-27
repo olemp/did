@@ -9,8 +9,7 @@
     "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
     "build:client": "tsc --build",
     "watch:client": "tsc --watch",
-    "webpack:client": "webpack --config webpack.config.js",
-    "package:client": "npm run build:client && npm run webpack:client",
+    "package:client": "npm run build:client && webpack --config webpack.config.js",
     "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client"
   },
   "dependencies": {
