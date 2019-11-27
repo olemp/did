@@ -11,27 +11,30 @@ type Customer {
 	key: String
 	customerKey: String
 	name: String
+	description: String
+	webLink: String
 }
 
 type Event {
-	id: String
-	subject: String
+	id: String!
+	title: String!
 	startTime: String
 	endTime: String
-	duration: Int
+	durationHours: Float
+	durationMinutes: Int
 	project: Project
 	webLink: String
 }
 
 type TimeEntry {
-	id: String
-	title: String
+	id: String!
+	title: String!
 	description: String
 	startTime: String
 	endTime: String
-	duration: Int
 	webLink: String
 	durationHours: Float
+	durationMinutes: Int
 	customerKey: String
 	projectKey: String
 	weekNumber: Int
@@ -47,23 +50,20 @@ input TimeEntryInput {
 	projectKey: String
 }
 
+type WeekView {
+	events: [Event!]!
+	totalDuration: Int!
+	matchedDuration: Int!
+}
+
 type Query {
 	projects: [Project!]!
 	customers: [Customer!]!
-}
-
-type Query {
-	weekView(weekNumber: Int!): [Event!]!
+	customerProjects(customerKey: String!): [Project!]!
+	weekView(weekNumber: Int!): WeekView!
 	isWeekConfirmed(weekNumber: Int!): Boolean
 	confirmedHours(weekNumber: Int!): Float!
 	confirmedMinutes(weekNumber: Int!): Int!
-}
-
-type Query {
-	customerProjects(customerKey: String!): [Project!]!
-}
-
-type Query {
 	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
