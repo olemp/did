@@ -23,5 +23,5 @@ module.exports = async (_obj, args, context) => {
     });
     const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
     const matchedDuration = events.filter(evt => evt.project).reduce((sum, evt) => sum + evt.durationMinutes, 0);
-    return { events, totalDuration, matchedDuration };
+    return { weekNumber: args.weekNumber, events, totalDuration, matchedDuration };
 };

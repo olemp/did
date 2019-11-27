@@ -1,68 +1,78 @@
 
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
-import { Shimmer } from 'office-ui-fabric-react/lib/Shimmer';
 import * as React from 'react';
 import { weekNumber as currentWeekNumber } from 'weeknumber';
-import { Actions } from './Actions';
+import { CONFIRM_WEEK, IConfirmWeek } from './CONFIRM_WEEK';
 import { EventList } from './EventList';
+import { GET_WEEK_VIEW, IGetWeekView } from './GET_WEEK_VIEW';
+import { IWeekViewState } from './IWeekViewState';
+import { UNCONFIRM_WEEK } from './UNCONFIRM_WEEK';
 import { WeekStatusBar } from './WeekStatusBar';
+import * as getValue from 'get-value';
 
-export const GET_WEEK_VIEW = gql`
-    query($weekNumber: Int!) {
-        confirmedHours(weekNumber: $weekNumber) 
-        weekView(weekNumber: $weekNumber) {
-            events {
-                id,
-                title,
-                webLink,
-                durationMinutes,
-                startTime,
-                endTime,
-                project {
-                    key,
-                    name
-                }
-            },
-            totalDuration,
-            matchedDuration,
-        }
-    }
-`;
-
-export const WeekView2 = ({ weeksToShow }) => {
+export const WeekView = ({ weeksToShow }) => {
     const initialWeekNumber = document.location.hash ? parseInt(document.location.hash.substring(1)) : currentWeekNumber();
-    let [[weekNumber, setWeekNumber], [confirmedHours, setConfirmedHours]] = [
-        React.useState(initialWeekNumber),
-        React.useState(undefined),
-    ];
-    let { loading, error, data } = useQuery(GET_WEEK_VIEW, { variables: { weekNumber } });
-
-    confirmedHours = confirmedHours != undefined ? confirmedHours : (data && data.confirmedHours);
-    let weekConfirmed = confirmedHours > 0;
+    let [state, setState] = React.useState<IWeekViewState>({ weekNumber: initialWeekNumber, confirmedHours: undefined, processing: false });
+    const [[confirmWeek], [unconfirmWeek]] = [useMutation<IConfirmWeek>(CONFIRM_WEEK), useMutation(UNCONFIRM_WEEK)];
+    let { loading, error, data } = useQuery<IGetWeekView>(
+        GET_WEEK_VIEW,
+        {
+            displayName: 'GET_WEEK_VIEW',
+            variables: { weekNumber: state.weekNumber },
+            skip: state.processing || state.confirmedHours > 0,
+            fetchPolicy: 'cache-and-network',
+            onError: (error) => {
+                // Temp fix for handling expired access token
+                if(error.networkError['statusCode'] === 500) {
+                    window.location.replace(`${window.location.origin}/auth/signout`)
+                }
+            }
+        });
 
     const onChangeWeek = (wn: number) => {
         document.location.hash = `${wn}`;
-        setWeekNumber(wn);
+        setState({ weekNumber: wn });
     };
+
+    // Need to set confirmedHours like this to avoid mulitple state updates
+    let confirmedHours = state.confirmedHours || getValue(data, 'confirmedHours', { default: 0 });
+    let matchedEntries = data ? data.weekView.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
+
+    console.log({ ...state, data, error, loading, confirmedHours });
 
     return (
         <>
-            <Actions
-                weekView={data && data.weekView}
-                weekNumber={weekNumber}
-                onConfirmWeekEnabled={!weekConfirmed && !loading}
-                onUnconfirmWeekEnabled={weekConfirmed && !loading}
-                onSetConfirmedHours={setConfirmedHours} />
+            <div style={{ marginTop: 10, marginBottom: 10 }}>
+                <PrimaryButton
+                    text='Confirm week'
+                    iconProps={{ iconName: 'CheckMark' }}
+                    onClick={async () => {
+                        setState({ ...state, processing: true });
+                        let { data: { confirmWeek: confirmedHours } } = await confirmWeek({ variables: { weekNumber: state.weekNumber, entries: matchedEntries } });
+                        setState({ ...state, confirmedHours, processing: false });
+                    }}
+                    disabled={loading || state.processing || confirmedHours > 0} />
+                <DefaultButton
+                    style={{ marginLeft: 8 }}
+                    text='Unconfirm week'
+                    iconProps={{ iconName: 'ErrorBadge' }}
+                    onClick={async () => {
+                        setState({ ...state, processing: true });
+                        await unconfirmWeek({ variables: { weekNumber: state.weekNumber } });
+                        setState({ ...state, confirmedHours: 0, processing: false });
+                    }}
+                    disabled={loading || state.processing || confirmedHours == 0} />
+            </div>
             <Pivot
                 styles={{ root: { display: 'flex', flexWrap: 'wrap' } }}
-                defaultSelectedKey={`${weekNumber}`}
+                defaultSelectedKey={`${state.weekNumber}`}
                 onLinkClick={item => onChangeWeek(parseInt(item.props.itemKey))}>
                 {Array.from(Array(weeksToShow).keys()).map(i => {
                     let wn = currentWeekNumber() - (weeksToShow - 1) + i;
-                    let isCurrentWeek = wn === weekNumber;
+                    let isCurrentWeek = wn === state.weekNumber;
                     return (
                         <PivotItem
                             key={i}
@@ -70,18 +80,16 @@ export const WeekView2 = ({ weeksToShow }) => {
                             headerText={`Week ${wn}`}>
                             {isCurrentWeek && (
                                 <div style={{ marginTop: 10 }}>
-                                    {loading && <Shimmer />}
                                     {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
                                     {data && !loading && (
                                         <WeekStatusBar
-                                            weekConfirmed={weekConfirmed}
                                             totalDuration={data.weekView.totalDuration}
                                             matchedDuration={data.weekView.matchedDuration}
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
-                                        hidden={weekConfirmed}
-                                        enableShimmer={loading}
+                                        hidden={confirmedHours > 0}
+                                        enableShimmer={loading || state.processing}
                                         events={data ? data.weekView.events : []} />
                                 </div>
                             )}
