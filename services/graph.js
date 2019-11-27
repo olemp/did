@@ -33,16 +33,16 @@ async function getCalendarView(accessToken, weekNumber) {
     .orderby('start/dateTime asc')
     .top(50)
     .get();
-  let events = value.map(event => ({
-    id: event.id,
-    title: event.subject,
-    body: stripHtml(event.body.content),
-    categories: event.categories,
-    webLink: event.webLink,
-    startTime: event.start.dateTime,
-    endTime: event.end.dateTime,
-    durationHours: utils.getDurationHours(event.start.dateTime, event.end.dateTime),
-    durationMinutes: utils.getDurationMinutes(event.start.dateTime, event.end.dateTime),
+  let events = value.map(evt => ({
+    id: evt.id,
+    title: evt.subject,
+    body: stripHtml(evt.body.content),
+    categories: evt.categories,
+    webLink: evt.webLink,
+    startTime: evt.start.dateTime,
+    endTime: evt.end.dateTime,
+    durationHours: utils.getDurationHours(evt.start.dateTime, evt.end.dateTime),
+    durationMinutes: utils.getDurationMinutes(evt.start.dateTime, evt.end.dateTime),
   }));
   events = removeIgnoredEvents(events);
   return events;
