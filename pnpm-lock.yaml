@@ -30,12 +30,14 @@ devDependencies:
   '@types/scriptjs': 0.0.2
   '@types/webpack-env': 1.14.1
   '@uifabric/icons': 7.3.0_a803b85240d4296808087a7b4abfb74d
+  apollo-cache: 1.3.2_graphql@14.5.8
   apollo-cache-inmemory: 1.6.3_graphql@14.5.8
   apollo-client: 2.6.4_graphql@14.5.8
+  apollo-link: 1.2.13_graphql@14.5.8
   apollo-link-http: 1.5.16_graphql@14.5.8
   apollo-utilities: 1.3.2_graphql@14.5.8
-  axios: 0.19.0
-  axios-cache-adapter: 2.5.0_axios@0.19.0
+  axios: 0.18.1
+  axios-cache-adapter: 2.5.0_axios@0.18.1
   babel-loader: 8.0.6_@babel+core@7.7.4+webpack@4.41.2
   chalk: 3.0.0
   concurrently: 5.0.0
@@ -49,9 +51,10 @@ devDependencies:
   office-ui-fabric-react: 7.64.2_a803b85240d4296808087a7b4abfb74d
   onchange: 6.1.0
   react: 16.12.0
-  react-apollo: 3.1.3_1edddd350ed254c61c8a30d5092c9e73
+  react-apollo: 3.1.3_8185ea96bb1a3a23987da1ca2469c6e5
   react-dom: 16.12.0_react@16.12.0
   scriptjs: 2.5.9
+  typescript: 3.7.2
   webpack: 4.41.2_webpack@4.41.2
   webpack-cli: 3.3.10_webpack@4.41.2
   weeknumber: 1.1.2
@@ -75,12 +78,14 @@ packages:
       react: ^16.8.0
     resolution:
       integrity: sha512-Q7ZjDOeqjJf/AOGxUMdGxKF+JVClRXrYBGVq+SuVFqANRpd68MxtVV2OjCWavsFAN0eqYnRqRUrl7vtUCiJqeg==
-  /@apollo/react-components/3.1.3_1edddd350ed254c61c8a30d5092c9e73:
+  /@apollo/react-components/3.1.3_8185ea96bb1a3a23987da1ca2469c6e5:
     dependencies:
       '@apollo/react-common': 3.1.3_3830160cfa394844dd098ec829bd9578
       '@apollo/react-hooks': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
       '@types/react': 16.9.11
+      apollo-cache: 1.3.2_graphql@14.5.8
       apollo-client: 2.6.4_graphql@14.5.8
+      apollo-link: 1.2.13_graphql@14.5.8
       apollo-utilities: 1.3.2_graphql@14.5.8
       graphql: 14.5.8
       prop-types: 15.7.2
@@ -100,10 +105,10 @@ packages:
       react-dom: ^16.8.0
     resolution:
       integrity: sha512-H0l2JKDQMz+LkM93QK7j3ThbNXkWQCduN3s3eKxFN3Rdg7rXsrikJWvx2wQ868jmqy0VhwJbS1vYdRLdh114uQ==
-  /@apollo/react-hoc/3.1.3_1edddd350ed254c61c8a30d5092c9e73:
+  /@apollo/react-hoc/3.1.3_8185ea96bb1a3a23987da1ca2469c6e5:
     dependencies:
       '@apollo/react-common': 3.1.3_3830160cfa394844dd098ec829bd9578
-      '@apollo/react-components': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
+      '@apollo/react-components': 3.1.3_8185ea96bb1a3a23987da1ca2469c6e5
       '@types/react': 16.9.11
       apollo-client: 2.6.4_graphql@14.5.8
       graphql: 14.5.8
@@ -115,7 +120,9 @@ packages:
     dev: true
     peerDependencies:
       '@types/react': ^16.8.0
+      apollo-cache: '*'
       apollo-client: ^2.6.4
+      apollo-link: '*'
       apollo-utilities: '*'
       graphql: ^14.3.1
       react: ^16.8.0
@@ -1521,9 +1528,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Uvq6hVe90D0B2WEnUqtdgY1bATGz3mw33nH9Y+dmA+w5DHvUmBgkr5rM/KCHpCsiFNRUfokW/szpPPgMK2hm4A==
-  /axios-cache-adapter/2.5.0_axios@0.19.0:
+  /axios-cache-adapter/2.5.0_axios@0.18.1:
     dependencies:
-      axios: 0.19.0
+      axios: 0.18.1
       cache-control-esm: 1.0.0
       lodash: 4.17.15
     dev: true
@@ -1531,13 +1538,13 @@ packages:
       axios: 0.18.1
     resolution:
       integrity: sha512-YcMPdMoqmSLoZx7A5YD/PdYGuX6/Y9M2tHBhaIXvXrPeGgNnbW7nb3+uArWlT53WGHLfclnu2voMmS7jGXVg6A==
-  /axios/0.19.0:
+  /axios/0.18.1:
     dependencies:
       follow-redirects: 1.5.10
       is-buffer: 2.0.4
     dev: true
     resolution:
-      integrity: sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
+      integrity: sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==
   /azure-storage/2.10.3:
     dependencies:
       browserify-mime: 1.2.9
@@ -4914,11 +4921,11 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==
-  /react-apollo/3.1.3_1edddd350ed254c61c8a30d5092c9e73:
+  /react-apollo/3.1.3_8185ea96bb1a3a23987da1ca2469c6e5:
     dependencies:
       '@apollo/react-common': 3.1.3_3830160cfa394844dd098ec829bd9578
-      '@apollo/react-components': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
-      '@apollo/react-hoc': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
+      '@apollo/react-components': 3.1.3_8185ea96bb1a3a23987da1ca2469c6e5
+      '@apollo/react-hoc': 3.1.3_8185ea96bb1a3a23987da1ca2469c6e5
       '@apollo/react-hooks': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
       '@apollo/react-ssr': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
       '@types/react': 16.9.11
@@ -4929,7 +4936,9 @@ packages:
     dev: true
     peerDependencies:
       '@types/react': ^16.8.0
+      apollo-cache: '*'
       apollo-client: ^2.6.4
+      apollo-link: '*'
       apollo-utilities: '*'
       graphql: ^14.3.1
       react: ^16.8.0
@@ -5885,6 +5894,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+  /typescript/3.7.2:
+    dev: true
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
   /uglify-js/3.7.0:
     dependencies:
       commander: 2.20.3
@@ -6356,11 +6372,13 @@ specifiers:
   '@types/scriptjs': 0.0.2
   '@types/webpack-env': 1.14.1
   '@uifabric/icons': 7.3.0
+  apollo-cache: 1.3.2
   apollo-cache-inmemory: 1.6.3
   apollo-client: 2.6.4
+  apollo-link: ^1.2.12
   apollo-link-http: 1.5.16
   apollo-utilities: 1.3.2
-  axios: 0.19.0
+  axios: 0.18.1
   axios-cache-adapter: 2.5.0
   azure-storage: 2.10.3
   babel-loader: 8.0.6
@@ -6398,6 +6416,7 @@ specifiers:
   scriptjs: 2.5.9
   simple-oauth2: 3.1.0
   string-strip-html: 4.3.8
+  typescript: ^3.7.2
   webpack: 4.41.2
   webpack-cli: 3.3.10
   weeknumber: 1.1.2
