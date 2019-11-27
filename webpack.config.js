@@ -17,12 +17,12 @@ module.exports = {
     ]
   },
   mode: process.env.NODE_ENV,
-  entry: './lib/App.js',
+  entry: './lib/client/App.js',
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   output: {
-    path: path.resolve(__dirname, '../public/js'),
+    path: path.resolve(__dirname, './public/js'),
     filename: 'did365.bundle.js'
   }
 };

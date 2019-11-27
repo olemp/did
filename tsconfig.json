@@ -10,7 +10,7 @@
       "experimentalDecorators": true,
       "noImplicitAny": false,
       "skipLibCheck": true,
-      "outDir": "lib",
+      "outDir": "lib/client",
       "inlineSources": false,
       "strictNullChecks": false,
       "noUnusedLocals": false,
@@ -25,14 +25,14 @@
         "dom",
         "es2015.collection"
       ],
-      "baseUrl": "src"
+      "baseUrl": "client"
     },
     "include": [
-      "src/**/*.ts",     
-      "src/**/*.tsx"
+      "client/**/*.ts",     
+      "client/**/*.tsx"
     ],
     "exclude": [
       "node_modules",
       "lib"
-    ]
+    ],
   }
