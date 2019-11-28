@@ -10,7 +10,7 @@ import { IEventListProps } from './IEventListProps';
 require('moment/locale/en-gb');
 
 function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
-    return <a href={item.webLink}>{item[col.fieldName]}</a>;
+    return <a href={item.webLink} target='_blank'>{item[col.fieldName]}</a>;
 }
 
 function renderDate(item: ICalEvent, _index: number, col: IColumn) {
