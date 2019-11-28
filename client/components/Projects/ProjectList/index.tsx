@@ -6,12 +6,23 @@ import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { IProjectListProps } from './IProjectListProps';
 
 export const ProjectList = ({ projects, search, selection, enableShimmer, height, renderLink }: IProjectListProps) => {
     let searchTimeout: any;
-    let [filteredProjects, setProjects] = React.useState(projects);
+    let [filteredProjects, setProjects] = useState(projects);
 
+    useEffect(() => setProjects(projects), [projects]);
+
+    /**
+     * Handles a search
+     * 
+     * Filters the project by looking for matches in key or name
+     * 
+     * @param {any} _event Event (not used)
+     * @param {string} searchTerm The new search term
+     */
     const onSearch = (_event: any, searchTerm: string) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {

@@ -1,6 +1,12 @@
 const { createTableService, TableQuery, TableUtilities } = require('azure-storage');
 const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
 
+/**
+ * Queries a table using the specified query
+ * 
+ * @param {*} table 
+ * @param {*} query 
+ */
 function queryTable(table, query) {
     return new Promise((resolve, reject) => {
         azureTableService.queryEntities(table, query, null, (error, result) => {
@@ -13,6 +19,12 @@ function queryTable(table, query) {
     });
 };
 
+/**
+ * Adds an entity
+ * 
+ * @param {*} table 
+ * @param {*} item 
+ */
 function addEntity(table, item) {
     return new Promise((resolve, reject) => {
         azureTableService.insertEntity(table, item, (error, result) => {
@@ -26,6 +38,12 @@ function addEntity(table, item) {
 };
 
 
+/**
+ * Executes a batch operation
+ * 
+ * @param {*} table 
+ * @param {*} batch 
+ */
 function executeBatch(table, batch) {
     return new Promise((resolve, reject) => {
         azureTableService.executeBatch(table, batch, (error, result) => {
@@ -38,6 +56,11 @@ function executeBatch(table, batch) {
     });
 };
 
+/**
+ * Checks if the specified tenant id has a active subscription
+ * 
+ * @param {*} tenantId 
+ */
 function getSubscription(tenantId) {
     return new Promise(async (resolve) => {
         var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
@@ -45,6 +68,15 @@ function getSubscription(tenantId) {
     });
 };
 
+/**
+ * Parse an array of azure table storage entities
+ * 
+ * Makes the keys camelCase and adds RowKey as 'id'
+ * 
+ * Also skips PartitionKey
+ * 
+ * @param {*} arr The array of entities to parse
+ */
 function parseArray(arr) {
     return arr.map(item => Object.keys(item)
         .filter(key => key !== 'PartitionKey')
