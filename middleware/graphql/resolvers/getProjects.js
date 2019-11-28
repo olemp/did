@@ -1,4 +1,4 @@
-const { queryTable, parseArray, createQuery, isEqual, stringFilter } = require('../../../services/table');
+const { queryTable, parseArray, createQuery, combine, isEqual, stringFilter } = require('../../../services/table');
 
 async function getProjects(_obj, args, context) {
     let query = createQuery(1000, ['RowKey', 'CustomerKey', 'ProjectKey', 'Name', 'Description', 'Icon']);
