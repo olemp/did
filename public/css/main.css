@@ -10,14 +10,17 @@ body {
 
 h1 {
   font-size: 36pt;
+  margin: 15px 0 15px 0;
 }
 
 h2 {
   font-size: 24pt;
+  margin: 15px 0 15px 0;
 }
 
 h3 {
   font-size: 18pt;
+  margin: 15px 0 15px 0;
 }
 
 h4 {
