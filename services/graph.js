@@ -1,31 +1,34 @@
 global.fetch = require("node-fetch");
-const graph = require('@microsoft/microsoft-graph-client');
 const moment = require('moment');
 const stripHtml = require("string-strip-html");
 const utils = require('../utils');
 
-function getAuthenticatedClient(accessToken) {
-  const client = graph.Client.init({ authProvider: (done) => { done(null, accessToken); } });
-  return client;
+function GraphService(accessToken) {
+  this.accessToken = accessToken;
 }
 
-async function getUserDetails(accessToken) {
-  const user = await getAuthenticatedClient(accessToken).api('/me').get();
-  return user;
-};
-
-async function removeIgnoredEvents(events) {
+GraphService.prototype.removeIgnoredEvents = function (events) {
   return events.filter(evt => {
     let content = [evt.title, evt.body, JSON.stringify(evt.categories)].join(' ').toUpperCase();
     return content.indexOf('IGNORE') === -1;
   });
 }
 
-async function getCalendarView(accessToken, weekNumber) {
+GraphService.prototype.getClient = function () {
+  const client = require('@microsoft/microsoft-graph-client').Client.init({ authProvider: (done) => { done(null, this.accessToken); } });
+  return client;
+}
+
+GraphService.prototype.getUserDetails = async function () {
+  const user = await this.getClient().api('/me').get();
+  return user;
+};
+
+GraphService.prototype.getEvents = async function (weekNumber) {
   const startOfWeek = moment().year(moment().year()).week(weekNumber).startOf('isoWeek');
   const startDateTime = startOfWeek.toISOString();
   const endDateTime = startOfWeek.endOf('week').toISOString();
-  const { value } = await getAuthenticatedClient(accessToken)
+  const { value } = await this.getClient()
     .api('/me/calendar/calendarView')
     .query({ startDateTime, endDateTime })
     .select('id,subject,body,start,end,lastModifiedDateTime,categories,webLink')
@@ -45,11 +48,9 @@ async function getCalendarView(accessToken, weekNumber) {
     durationHours: utils.getDurationHours(evt.start.dateTime, evt.end.dateTime),
     durationMinutes: utils.getDurationMinutes(evt.start.dateTime, evt.end.dateTime),
   }));
-  events = removeIgnoredEvents(events);
+  events = this.removeIgnoredEvents(events);
   return events;
 };
 
-module.exports = {
-  getUserDetails: getUserDetails,
-  getCalendarView: getCalendarView,
-}
+
+module.exports = GraphService;
