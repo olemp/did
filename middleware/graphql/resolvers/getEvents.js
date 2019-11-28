@@ -1,6 +1,6 @@
-const { queryTable, parseArray } = require('../../../services/table');
-const { TableQuery } = require('azure-storage');
+const { queryTable, parseArray, createQuery } = require('../../../services/table');
 const graph = require('../../../services/graph');
+
 /**
  * Checks for project match in event
  * 
@@ -12,10 +12,10 @@ function matchProject(evt, projectKey) {
     return content.indexOf(projectKey.toUpperCase()) !== -1;
 }
 
-module.exports = async (_obj, args, context) => {
-    if (!context.isAuthenticated) return [];
+async function getEvents(_obj, args, context) {
     const calendarView = await graph.getCalendarView(context.user.oauthToken.access_token, args.weekNumber);
-    const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, new TableQuery().top(1000).where('PartitionKey eq ?', context.user.profile._json.tid).select('CustomerKey', 'ProjectKey', 'Name'));
+    const query = createQuery(1000, ['CustomerKey', 'ProjectKey', 'Name']).where('PartitionKey eq ?', context.tid);
+    const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, query);
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
     const events = calendarView.map(evt => {
         let project = projects.filter(p => matchProject(evt, p.key))[0];
@@ -25,3 +25,5 @@ module.exports = async (_obj, args, context) => {
     const matchedDuration = events.filter(evt => evt.project).reduce((sum, evt) => sum + evt.durationMinutes, 0);
     return { weekNumber: args.weekNumber, events, totalDuration, matchedDuration };
 };
+
+module.exports = getEvents;

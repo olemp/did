@@ -24,12 +24,6 @@ export const WeekView = ({ weeksToShow }) => {
             variables: { weekNumber: state.weekNumber },
             skip: state.processing,
             fetchPolicy: 'cache-and-network',
-            onError: (error) => {
-                // Temp fix for handling expired access token
-                if (error.networkError['statusCode'] === 500) {
-                    window.location.replace(`${window.location.origin}/auth/signout`)
-                }
-            }
         });
 
     const onChangeWeek = (wn: number) => {
@@ -38,7 +32,7 @@ export const WeekView = ({ weeksToShow }) => {
     };
 
     let confirmedHours = state.confirmedHours || getValue(data, 'confirmedHours', { default: 0 });
-    let matchedEntries = data ? data.weekView.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
+    let matchedEntries = data ? data.result.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
 
     return (
         <>
@@ -48,7 +42,7 @@ export const WeekView = ({ weeksToShow }) => {
                     iconProps={{ iconName: 'CheckMark' }}
                     onClick={async () => {
                         setState({ ...state, processing: true });
-                        let { data: { confirmWeek: confirmedHours } } = await confirmWeek({ variables: { weekNumber: state.weekNumber, entries: matchedEntries } });
+                        let { data: { confirmedHours } } = await confirmWeek({ variables: { weekNumber: state.weekNumber, entries: matchedEntries } });
                         setState({ ...state, confirmedHours, processing: false });
                     }}
                     disabled={loading || state.processing || confirmedHours > 0} />
@@ -77,16 +71,16 @@ export const WeekView = ({ weeksToShow }) => {
                             headerText={`Week ${wn}`}>
                             {isCurrentWeek && (
                                 <div style={{ marginTop: 10 }}>
-                                    {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
+                                    {error && <MessageBar messageBarType={MessageBarType.error}>An error occured. You might have to sign out and sign in again.</MessageBar>}
                                     {data && !loading && (
                                         <WeekStatusBar
-                                            totalDuration={data.weekView.totalDuration}
-                                            matchedDuration={data.weekView.matchedDuration}
+                                            totalDuration={data.result.totalDuration}
+                                            matchedDuration={data.result.matchedDuration}
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
                                         enableShimmer={loading || state.processing || confirmedHours > 0}
-                                        events={data ? data.weekView.events : []} />
+                                        events={data ? data.result.events : []} />
                                 </div>
                             )}
                         </PivotItem>

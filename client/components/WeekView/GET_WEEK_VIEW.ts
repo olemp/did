@@ -2,7 +2,7 @@
 import gql from 'graphql-tag';
 
 export interface IGetWeekView {
-    weekView: {
+    result: {
         events: any[];
         matchedDuration: number;
         totalDuration: number;
@@ -13,7 +13,7 @@ export interface IGetWeekView {
 export const GET_WEEK_VIEW = gql`
     query($weekNumber: Int!) {
         confirmedHours(weekNumber: $weekNumber) 
-        weekView(weekNumber: $weekNumber) {
+        result: getEvents(weekNumber: $weekNumber) {
             events {
                 id,
                 title,
