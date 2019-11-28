@@ -4,30 +4,21 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('express-session');
-const azureTablesStoreFactory = require('connect-azuretables')(session);
 const flash = require('connect-flash');
 const passport = require('./middleware/passport');
+const isAuthenticated = require('./middleware/passport/isAuthenticated');
 const hbs = require('hbs');
 const app = express();
 
 process.title = 'did365';
 
-//#endregion
-
 //#region Setting up session using connect-azuretables
-app.use(session({
-  store: azureTablesStoreFactory.create({ table: 'Sessions', sessionTimeOut: 30, logger: console.log, errorLogger: console.log }),
-  secret: process.env.SESSION_SIGNING_KEY,
-  resave: false,
-  saveUninitialized: false,
-  rolling: true,
-}));
+app.use(require('./middleware/session'));
 //#endregion
 
 //#region Flash
 app.use(flash());
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.locals.error = req.flash('error_msg');
   const errs = req.flash('error');
   for (const i in errs) {
@@ -57,7 +48,7 @@ app.use(passport.session());
 //#endregion
 
 //#region Storing user
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   if (req.user) {
     res.locals.user = req.user.profile;
   }
@@ -68,12 +59,14 @@ app.use(function (req, res, next) {
 //#region Routes/middleware
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
-app.use('/graphql', require('./middleware/graphql'));
+app.use('/graphql', isAuthenticated, require('./middleware/graphql'));
 //#endregion
 
 //#region Error handling
-app.use(function (_req, _res, next) { next(createError(404)); });
-app.use(function (err, req, res, _next) {
+app.use((_req, _res, next) => {
+  next(createError(404));
+});
+app.use((err, req, res, _next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
