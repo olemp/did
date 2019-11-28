@@ -7,6 +7,11 @@ function GraphService(accessToken) {
   this.accessToken = accessToken;
 }
 
+/**
+ * Renoves ignored events from the collection
+ * 
+ * @param {*} events 
+ */
 GraphService.prototype.removeIgnoredEvents = function (events) {
   return events.filter(evt => {
     let content = [evt.title, evt.body, JSON.stringify(evt.categories)].join(' ').toUpperCase();
@@ -14,16 +19,29 @@ GraphService.prototype.removeIgnoredEvents = function (events) {
   });
 }
 
+/**
+ * Gets a Microsoft Graph Client using the auth token from the class
+ */
 GraphService.prototype.getClient = function () {
   const client = require('@microsoft/microsoft-graph-client').Client.init({ authProvider: (done) => { done(null, this.accessToken); } });
   return client;
 }
 
+/**
+ * Get user details for the current user
+ */
 GraphService.prototype.getUserDetails = async function () {
   const user = await this.getClient().api('/me').get();
   return user;
 };
 
+/**
+ * Get events for the specified week
+ * 
+ * @todo Add support for month number etc
+ * 
+ * @param {*} weekNumber 
+ */
 GraphService.prototype.getEvents = async function (weekNumber) {
   const startOfWeek = moment().year(moment().year()).week(weekNumber).startOf('isoWeek');
   const startDateTime = startOfWeek.toISOString();
