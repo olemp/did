@@ -30,7 +30,7 @@ export const Customers = () => {
                     selection={selection}
                     height={300} />
             )}
-            <CustomerDetails customer={selected} />
+            {selected && <CustomerDetails customer={selected} />}
         </div>
     );
 }
