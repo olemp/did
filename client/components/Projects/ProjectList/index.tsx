@@ -6,11 +6,14 @@ import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { IProjectListProps } from './IProjectListProps';
 
 export const ProjectList = ({ projects, search, selection, enableShimmer, height, renderLink }: IProjectListProps) => {
     let searchTimeout: any;
-    let [filteredProjects, setProjects] = React.useState(projects);
+    let [filteredProjects, setProjects] = useState(projects);
+
+    useEffect(() => setProjects(projects), [projects]);
 
     const onSearch = (_event: any, searchTerm: string) => {
         clearTimeout(searchTimeout);
@@ -54,6 +57,8 @@ export const ProjectList = ({ projects, search, selection, enableShimmer, height
             onRender: item => renderLink ? <a href={`/projects?key=${item.key}`}>{item.name}</a> : item.name,
         }
     ];
+
+    console.log(filteredProjects);
 
     return (
         <div style={{ position: 'relative', height }}>
