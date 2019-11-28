@@ -1,4 +1,4 @@
-const graph = require('../../services/graph');
+const graphService = require('../../services/graph');
 const { getSubscription } = require('../../services/table');
 const oauth2 = require('../../config/oauth2');
 
@@ -9,7 +9,7 @@ async function onVerifySignin(_iss, _sub, profile, accessToken, _refreshToken, p
         if (!sub) {
             return done(new Error("No access"), null);
         }
-        const user = await graph.getUserDetails(accessToken);
+        const user = await new graphService(accessToken).getUserDetails();
         if (user) {
             profile['email'] = user.mail ? user.mail : user.userPrincipalName;
         }

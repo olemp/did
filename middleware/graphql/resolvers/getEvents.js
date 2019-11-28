@@ -1,5 +1,5 @@
 const { queryTable, parseArray, createQuery } = require('../../../services/table');
-const graph = require('../../../services/graph');
+const graphService = require('../../../services/graph');
 
 /**
  * Checks for project match in event
@@ -13,11 +13,11 @@ function matchProject(evt, projectKey) {
 }
 
 async function getEvents(_obj, args, context) {
-    const calendarView = await graph.getCalendarView(context.user.oauthToken.access_token, args.weekNumber);
+    let events = await new graphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
     const query = createQuery(1000, ['CustomerKey', 'ProjectKey', 'Name']).where('PartitionKey eq ?', context.tid);
     const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, query);
     const projects = parseArray(result).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}` }));
-    const events = calendarView.map(evt => {
+    events = events.map(evt => {
         let project = projects.filter(p => matchProject(evt, p.key))[0];
         return { ...evt, project };
     });
