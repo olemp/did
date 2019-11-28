@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
-    "start": "node ./server.js",
     "start:dev": "set NODE_ENV=development&&node ./server.js",
     "watch:server": "set NODE_ENV=development&&nodemon --ignore client --ignore public --ignore lib server.js",
     "build:client": "tsc --build",

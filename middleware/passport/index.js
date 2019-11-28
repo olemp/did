@@ -1,9 +1,13 @@
 const passport = require('passport');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
-passport.serializeUser(function (user, done) { done(null, user); });
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
 
-passport.deserializeUser(function (user, done) { done(null, user); });
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
 
 
 passport.use(new OIDCStrategy(
