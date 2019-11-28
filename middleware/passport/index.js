@@ -1,12 +1,17 @@
 const passport = require('passport');
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const { getUser } = require('../../services/table');
 
 passport.serializeUser((user, done) => {
     done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
-    done(null, user);
+passport.deserializeUser(async (user, done) => {
+    if (!user.data) {
+        user.data = await getUser(user.profile._json.tid, user.profile.oid);
+    }
+    if (user.data) done(null, user);
+    else done('No access', null);
 });
 
 
