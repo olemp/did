@@ -65,7 +65,6 @@ type Query {
 	customers: [Customer!]!
 	customerProjects(customerKey: String!): [Project!]!
 	weekView(weekNumber: Int!): WeekView!
-	isWeekConfirmed(weekNumber: Int!): Boolean
 	confirmedHours(weekNumber: Int!): Float!
 	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
