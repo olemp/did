@@ -3,12 +3,12 @@ import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import { Sticky, StickyPositionType } from 'office-ui-fabric-react/lib/Sticky';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IRenderFunction } from 'office-ui-fabric-react/lib/Utilities';
 import * as React from 'react';
 import { IProjectListProps } from './IProjectListProps';
 
 export const ProjectList = ({ projects, search, selection, enableShimmer, height, renderLink }: IProjectListProps) => {
-    if (!projects) return null;
     let searchTimeout: any;
     let [filteredProjects, setProjects] = React.useState(projects);
 
@@ -29,6 +29,16 @@ export const ProjectList = ({ projects, search, selection, enableShimmer, height
     }
 
     const columns: IColumn[] = [
+        {
+            key: 'icon',
+            fieldName: 'icon',
+            name: '',
+            minWidth: 100,
+            maxWidth: 100,
+            onRender: item => {
+                return <Icon iconName={item.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />;
+            }
+        },
         {
             key: 'key',
             fieldName: 'key',
