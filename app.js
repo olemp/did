@@ -10,6 +10,8 @@ const isAuthenticated = require('./middleware/passport/isAuthenticated');
 const hbs = require('hbs');
 const app = express();
 
+app.use(require('./middleware/helmet'));
+
 process.title = 'did365';
 
 //#region Setting up session using connect-azuretables
