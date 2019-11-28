@@ -11,7 +11,9 @@
     "watch:client": "tsc --watch",
     "package:client": "npm run build:client && webpack --config webpack.config.js",
     "package:client:prod": "set NODE_ENV=production&&npm run build:client && webpack --config webpack.config.js",
-    "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client"
+    "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client",
+    "git:add:all": "git add --all",
+    "pregit:add:all": "npm run package:client:prod"
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",

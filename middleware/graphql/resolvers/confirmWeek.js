@@ -1,22 +1,21 @@
 const { TableUtilities, TableBatch } = require('azure-storage');
 const entGen = TableUtilities.entityGenerator;
-const graph = require('../../../services/graph');
+const GraphService = require('../../../services/graph');
 const { executeBatch } = require('../../../services/table');
 const utils = require('../../../utils');
 
-module.exports = async (_obj, { entries, weekNumber }, { user, tid, isAuthenticated }) => {
-    if (!isAuthenticated) return -1;
-    const calendarView = await graph.getCalendarView(user.oauthToken.access_token, weekNumber);
+module.exports = async (_obj, args, context) => {
+    const calendarView = await new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
     const batch = new TableBatch();
     let totalDurationHours = 0;
-    entries.forEach(entry => {
+    args.entries.forEach(entry => {
         let event = calendarView.filter(e => e.id === entry.id)[0];
         let [customerKey, projectKey] = entry.projectKey.split(' ');
         const durationHours = utils.getDurationHours(event.startTime, event.endTime);
         const durationMinutes = utils.getDurationMinutes(event.startTime, event.endTime);
         totalDurationHours += durationHours;
         batch.insertEntity({
-            PartitionKey: entGen.String(tid),
+            PartitionKey: entGen.String(context.tid),
             RowKey: entGen.String(entry.id),
             Title: entGen.String(event.title),
             Description: entGen.String(event.body),
