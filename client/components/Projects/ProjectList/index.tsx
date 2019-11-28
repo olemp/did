@@ -15,6 +15,14 @@ export const ProjectList = ({ projects, search, selection, enableShimmer, height
 
     useEffect(() => setProjects(projects), [projects]);
 
+    /**
+     * Handles a search
+     * 
+     * Filters the project by looking for matches in key or name
+     * 
+     * @param {any} _event Event (not used)
+     * @param {string} searchTerm The new search term
+     */
     const onSearch = (_event: any, searchTerm: string) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
