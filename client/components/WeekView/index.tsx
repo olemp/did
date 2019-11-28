@@ -24,12 +24,6 @@ export const WeekView = ({ weeksToShow }) => {
             variables: { weekNumber: state.weekNumber },
             skip: state.processing,
             fetchPolicy: 'cache-and-network',
-            onError: (error) => {
-                // Temp fix for handling expired access token
-                if (error.networkError['statusCode'] === 500) {
-                    window.location.replace(`${window.location.origin}/auth/signout`)
-                }
-            }
         });
 
     const onChangeWeek = (wn: number) => {
@@ -77,7 +71,7 @@ export const WeekView = ({ weeksToShow }) => {
                             headerText={`Week ${wn}`}>
                             {isCurrentWeek && (
                                 <div style={{ marginTop: 10 }}>
-                                    {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
+                                    {error && <MessageBar messageBarType={MessageBarType.error}>An error occured. You might have to sign out and sign in again.</MessageBar>}
                                     {data && !loading && (
                                         <WeekStatusBar
                                             totalDuration={data.result.totalDuration}

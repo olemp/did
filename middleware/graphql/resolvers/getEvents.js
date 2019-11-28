@@ -1,4 +1,4 @@
-const { queryTable, parseArray } = require('../../../services/table');
+const { queryTable, parseArray, createQuery } = require('../../../services/table');
 const graph = require('../../../services/graph');
 
 /**
