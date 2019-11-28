@@ -1,0 +1,4 @@
+PartitionKey,Role,RowKey,StartPage,FullName
+dcb89c10-67b8-48cc-8819-85de37e8af91,User,1847f009-b425-4e62-8286-f20e52fb7ef5,week_view,Tarjei Ormestøyl
+dcb89c10-67b8-48cc-8819-85de37e8af91,Admin,41c4233e-bb22-44f2-bcb4-8f01061c0c28,reports,Ole Martin PEttersen
+dcb89c10-67b8-48cc-8819-85de37e8af91,InvoiceManager,b4c98e99-8265-4890-85fa-04aff6ab5b13,reports,Carl Joachim Damsleth
