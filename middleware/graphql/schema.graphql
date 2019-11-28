@@ -67,7 +67,6 @@ type Query {
 	weekView(weekNumber: Int!): WeekView!
 	isWeekConfirmed(weekNumber: Int!): Boolean
 	confirmedHours(weekNumber: Int!): Float!
-	confirmedMinutes(weekNumber: Int!): Int!
 	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 

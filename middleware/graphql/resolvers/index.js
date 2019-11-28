@@ -6,7 +6,6 @@ const projects = require('./projects');
 const weekView = require('./weekView');
 const isWeekConfirmed = require('./isWeekConfirmed');
 const confirmedHours = require('./confirmedHours');
-const confirmedMinutes = require('./confirmedMinutes');
 const unconfirmWeek = require('./unconfirmWeek');
 
 module.exports = {
@@ -18,7 +17,6 @@ module.exports = {
         weekView,
         isWeekConfirmed,
         confirmedHours,
-        confirmedMinutes,
     },
     Mutation: {
         confirmWeek,
