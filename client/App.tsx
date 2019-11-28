@@ -5,6 +5,7 @@ import { WeekView } from './components/WeekView';
 import { Projects } from './components/Projects';
 import { Customers } from './components/Customers';
 import { Reports } from './components/Reports';
+import { UserRole } from './partials/UserRole';
 import { initializeIcons } from '@uifabric/icons';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -18,7 +19,25 @@ const client = new ApolloClient({
 
 initializeIcons();
 
-if (document.getElementById('app-week') !== null) ReactDom.render(<ApolloProvider client={client}><WeekView weeksToShow={10} /></ApolloProvider>, document.getElementById('app-week'));
-if (document.getElementById('app-projects') !== null) ReactDom.render(<ApolloProvider client={client}><Projects /></ApolloProvider>, document.getElementById('app-projects'));
-if (document.getElementById('app-customers') !== null) ReactDom.render(<ApolloProvider client={client}><Customers /></ApolloProvider>, document.getElementById('app-customers'));
-if (document.getElementById('app-reports') !== null) ReactDom.render(<ApolloProvider client={client}><Reports /></ApolloProvider>, document.getElementById('app-reports'));
+/**
+ * Registry of components
+ */
+const COMPONENTS = {
+    WEEK: document.getElementById('app-week'),
+    PROJECTS: document.getElementById('app-projects'),
+    CUSTOMERS: document.getElementById('app-customers'),
+    REPORTS: document.getElementById('app-reports'),
+}
+
+/**
+ * Registry of partials
+ */
+const PARTIALS = {
+    USERROLE: document.getElementById('partial-user-role'),
+}
+
+if (COMPONENTS.WEEK !== null) ReactDom.render(<ApolloProvider client={client}><WeekView weeksToShow={10} /></ApolloProvider>, COMPONENTS.WEEK);
+if (COMPONENTS.PROJECTS !== null) ReactDom.render(<ApolloProvider client={client}><Projects /></ApolloProvider>, COMPONENTS.PROJECTS);
+if (COMPONENTS.CUSTOMERS !== null) ReactDom.render(<ApolloProvider client={client}><Customers /></ApolloProvider>, COMPONENTS.CUSTOMERS);
+if (COMPONENTS.REPORTS !== null) ReactDom.render(<ApolloProvider client={client}><Reports /></ApolloProvider>, COMPONENTS.REPORTS);
+if (PARTIALS.USERROLE !== null) { ReactDom.render(<UserRole role={PARTIALS.USERROLE.textContent.trim()} />, PARTIALS.USERROLE); }
