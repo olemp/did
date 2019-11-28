@@ -51,10 +51,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 //#endregion
 
-//#region Storing user
+//#region Storing user for hbs
 app.use((req, res, next) => {
   if (req.user) {
-    res.locals.user = req.user.profile;
+    res.locals.user = {
+      ...req.user.profile,
+      role: req.user.data.role,
+      isAdmin: ['Admin', 'Invoice Manager'].indexOf(req.user.data.role) !== -1,
+    };
   }
   next();
 });
