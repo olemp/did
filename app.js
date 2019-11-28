@@ -1,6 +1,7 @@
 require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
+const favicon = require('express-favicon');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -11,6 +12,7 @@ const hbs = require('hbs');
 const app = express();
 
 app.use(require('./middleware/helmet'));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 process.title = 'did365';
 
