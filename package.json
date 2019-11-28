@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "watch": "concurrently \"npm run watch:client:package\" \"npm run watch:server\"",
-    "start:dev": "set NODE_ENV=development&&node ./server.js",
-    "watch:server": "set NODE_ENV=development&&nodemon --ignore client --ignore public --ignore lib server.js",
+    "start:dev": "set NODE_ENV=development&&node ./bin/www",
+    "watch:server": "set NODE_ENV=development&&nodemon --ignore client --ignore public --ignore lib ./bin/www",
     "build:client": "tsc --build",
     "watch:client": "tsc --watch",
     "package:client": "npm run build:client && webpack --config webpack.config.js",
