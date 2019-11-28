@@ -109,6 +109,12 @@ az webapp create --name $SITENAME --plan $PLANNAME --resource-group $RESOURCEGRO
 ### `TODO`
 
 # Branching / Deploying #
+## NB: Ensure you're pushing an updated version of the bundle from `/client` ##
+
+To make this easier use `npm run-script git:add:all` instead of `git add --all`.
+
+This will do the same as `git add --all` but it will build a production build of the bundle as a pre task (see `pregit:add:all`).
+
 
 The `/master` branch requires pull requests, and is set up with a CI/CD pipeline which deploys to [did365.azurewebsites.net](https://did365.azurewebsites.net)  
 The `/dev` branch is greenfield - _keep your helmet on and pull often_.  
