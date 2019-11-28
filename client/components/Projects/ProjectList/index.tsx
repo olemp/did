@@ -58,8 +58,6 @@ export const ProjectList = ({ projects, search, selection, enableShimmer, height
         }
     ];
 
-    console.log(filteredProjects);
-
     return (
         <div style={{ position: 'relative', height }}>
             <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
