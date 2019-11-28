@@ -1,9 +1,9 @@
 
 const session = require('express-session');
-const azureTablesStoreFactory = require('connect-azuretables')(session);
+const connectAzureTables = require('connect-azuretables')(session);
 
-const store = azureTablesStoreFactory.create({
-    table: 'Sessions',
+const store = connectAzureTables.create({
+    table: process.env.AZURE_STORAGE_SESSIONS_TABLE_NAME,
     sessionTimeOut: 30,
     logger: console.log,
     errorLogger: console.log,
