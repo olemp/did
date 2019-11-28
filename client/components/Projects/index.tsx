@@ -18,7 +18,7 @@ export const Projects = () => {
 
     selection = new Selection({ onSelectionChanged });
 
-    const projects = getValue(data, 'projects', { default: undefined });
+    const projects = getValue(data, 'projects', { default: [] });
 
     return (
         <div>

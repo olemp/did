@@ -13,6 +13,7 @@ export const GET_PROJECTS = gql`{
         projectKey,
         name,
         description,
-        webLink
+        webLink,
+        icon
     }
 }`;
