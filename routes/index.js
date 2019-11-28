@@ -1,35 +1,24 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router()
+const isAuthenticated = require('../middleware/passport/isAuthenticated');
 
 router.get('/', function (_req, res) {
   res.render('index', { active: { home: true } });
 });
 
-router.get('/week_view', function (req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/');
-  }
+router.get('/week_view', isAuthenticated, (_req, res) => {
   res.render('week_view', { active: { week_view: true } });
 });
 
-router.get('/customers', function (req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/');
-  }
+router.get('/customers', isAuthenticated, (_req, res) => {
   res.render('customers', { active: { customers: true } });
 });
 
-router.get('/projects', function (req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/');
-  }
+router.get('/projects', isAuthenticated, (_req, res) => {
   res.render('projects', { active: { projects: true } });
 });
 
-router.get('/reports', function (req, res) {
-  if (!req.isAuthenticated()) {
-    res.redirect('/');
-  }
+router.get('/reports', isAuthenticated, (_req, res) => {
   res.render('reports', { active: { reports: true } });
 });
 
