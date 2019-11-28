@@ -7,7 +7,7 @@ export interface IGetProjectsEntries {
 }
 
 export const GET_PROJECTS = gql`{
-    projects {
+    projects: getProjects {
         key,
         customerKey,
         projectKey,

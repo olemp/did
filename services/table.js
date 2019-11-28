@@ -78,6 +78,7 @@ module.exports = {
     and: TableUtilities.TableOperators.AND,
     combine: TableQuery.combineFilters,
     stringFilter: TableQuery.stringFilter,
+    intFilter: TableQuery.int32Filter,
     createQuery: (top, select) => {
         let query = new TableQuery().top(top);
         if (select) query = query.select(select);

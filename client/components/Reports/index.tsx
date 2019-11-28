@@ -11,7 +11,7 @@ import { GET_CONFIRMED_ENTRIES, GET_CONFIRMED_ENTRIES_FIELDS, IGetConfirmedEntri
 export const Reports = () => {
     const { loading, error, data } = useQuery<IGetConfirmedEntries>(GET_CONFIRMED_ENTRIES);
 
-    const entries = getValue(data, 'confirmedEntries', { default: [] }) as ICalEvent[];
+    const entries = getValue(data, 'entries', { default: [] }) as ICalEvent[];
 
     const onExport = async () => {
         await exportExcel(

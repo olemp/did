@@ -38,7 +38,7 @@ export const WeekView = ({ weeksToShow }) => {
     };
 
     let confirmedHours = state.confirmedHours || getValue(data, 'confirmedHours', { default: 0 });
-    let matchedEntries = data ? data.weekView.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
+    let matchedEntries = data ? data.result.events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key })) : [];
 
     return (
         <>
@@ -48,7 +48,7 @@ export const WeekView = ({ weeksToShow }) => {
                     iconProps={{ iconName: 'CheckMark' }}
                     onClick={async () => {
                         setState({ ...state, processing: true });
-                        let { data: { confirmWeek: confirmedHours } } = await confirmWeek({ variables: { weekNumber: state.weekNumber, entries: matchedEntries } });
+                        let { data: { confirmedHours } } = await confirmWeek({ variables: { weekNumber: state.weekNumber, entries: matchedEntries } });
                         setState({ ...state, confirmedHours, processing: false });
                     }}
                     disabled={loading || state.processing || confirmedHours > 0} />
@@ -80,13 +80,13 @@ export const WeekView = ({ weeksToShow }) => {
                                     {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
                                     {data && !loading && (
                                         <WeekStatusBar
-                                            totalDuration={data.weekView.totalDuration}
-                                            matchedDuration={data.weekView.matchedDuration}
+                                            totalDuration={data.result.totalDuration}
+                                            matchedDuration={data.result.matchedDuration}
                                             confirmedHours={confirmedHours} />
                                     )}
                                     <EventList
                                         enableShimmer={loading || state.processing || confirmedHours > 0}
-                                        events={data ? data.weekView.events : []} />
+                                        events={data ? data.result.events : []} />
                                 </div>
                             )}
                         </PivotItem>
