@@ -4,6 +4,7 @@ import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button'
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
+import { useState } from 'react';
 import { weekNumber as currentWeekNumber } from 'weeknumber';
 import { CONFIRM_WEEK, IConfirmWeek } from './CONFIRM_WEEK';
 import { EventList } from './EventList';
@@ -15,7 +16,7 @@ import * as getValue from 'get-value';
 
 export const WeekView = ({ weeksToShow }) => {
     const initialWeekNumber = document.location.hash ? parseInt(document.location.hash.substring(1)) : currentWeekNumber();
-    let [state, setState] = React.useState<IWeekViewState>({ weekNumber: initialWeekNumber, confirmedHours: undefined, processing: false });
+    let [state, setState] = useState<IWeekViewState>({ weekNumber: initialWeekNumber, confirmedHours: undefined, processing: false });
     const [[confirmWeek], [unconfirmWeek]] = [useMutation<IConfirmWeek>(CONFIRM_WEEK), useMutation(UNCONFIRM_WEEK)];
     let { loading, error, data } = useQuery<IGetWeekView>(
         GET_WEEK_VIEW,
@@ -26,6 +27,11 @@ export const WeekView = ({ weeksToShow }) => {
             fetchPolicy: 'cache-and-network',
         });
 
+    /**
+     * Updates state using setState
+     * 
+     * @param {number} wn Week number 
+     */
     const onChangeWeek = (wn: number) => {
         document.location.hash = `${wn}`;
         setState({ weekNumber: wn });
