@@ -6,14 +6,16 @@ export interface IGetProjectsEntries {
     projects: IProject[];
 }
 
-export const GET_PROJECTS = gql`{
-    projects: getProjects {
-        key,
-        customerKey,
-        projectKey,
-        name,
-        description,
-        webLink,
-        icon
+export const GET_PROJECTS = gql`
+    query($customerKey: String) {
+        projects: getProjects(customerKey: $customerKey) {
+            key,
+            customerKey,
+            projectKey,
+            name,
+            description,
+            webLink,
+            icon
+        }
     }
-}`;
+`;
