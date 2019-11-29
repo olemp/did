@@ -68,7 +68,7 @@ type EventData {
 
 type Query {
 	getCustomers: [Customer!]!
-	getProjects(customerKey: String): [Project!]!
+	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEvents(weekNumber: Int!): EventData!
 	confirmedHours(weekNumber: Int!): Float!
 	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!

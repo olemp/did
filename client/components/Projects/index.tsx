@@ -12,15 +12,13 @@ import { ProjectList } from './ProjectList';
 
 export const Projects = () => {
     const [selected, setSelected] = useState<IProject>(null);
-    const { loading, error, data } = useQuery<IGetProjectsEntries>(GET_PROJECTS);
+    const { loading, error, data } = useQuery<IGetProjectsEntries>(GET_PROJECTS, { variables: { sortBy: 'name' } });
 
     let projects: IProject[] = getValue(data, 'projects', { default: [] });
 
     if (getHash()) {
         let [_selected] = projects.filter(c => c.key === getHash());
-        if (_selected && !selected) {
-            setSelected(_selected);
-        }
+        if (_selected && !selected) setSelected(_selected);
     }
 
     return (

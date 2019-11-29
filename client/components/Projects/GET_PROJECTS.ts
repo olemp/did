@@ -7,8 +7,8 @@ export interface IGetProjectsEntries {
 }
 
 export const GET_PROJECTS = gql`
-    query($customerKey: String) {
-        projects: getProjects(customerKey: $customerKey) {
+    query($customerKey: String, $sortBy: String) {
+        projects: getProjects(customerKey: $customerKey, sortBy: $sortBy) {
             key,
             name,
             description,
