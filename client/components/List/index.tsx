@@ -21,7 +21,7 @@ export const List = (props: IListProps) => {
     const onSearch = (_event: any, term: string) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
-            let _items = items.filter(i => JSON.stringify(i).toLowerCase().indexOf(term.toLowerCase()) !== -1);
+            let _items = props.items.filter(i => JSON.stringify(i).toLowerCase().indexOf(term.toLowerCase()) !== -1);
             setItems(_items);
         }, 500);
     }
