@@ -1,5 +1,5 @@
+import { ScrollablePaneWrapper } from 'components/ScrollablePaneWrapper';
 import { ConstrainMode, DetailsListLayoutMode, Selection, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -27,18 +27,16 @@ export const List = (props: IListProps) => {
     }
 
     return (
-        <div style={{ position: 'relative', height: props.height }}>
-            <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto} styles={{ contentContainer: { overflowX: 'hidden' } }}>
-                <ShimmeredDetailsList
-                    enableShimmer={props.enableShimmer}
-                    selection={selection}
-                    columns={props.columns}
-                    items={items}
-                    selectionMode={props.selectionMode || SelectionMode.single}
-                    constrainMode={ConstrainMode.horizontalConstrained}
-                    layoutMode={DetailsListLayoutMode.justified}
-                    onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />
-            </ScrollablePane>
-        </div>
+        <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
+            <ShimmeredDetailsList
+                enableShimmer={props.enableShimmer}
+                selection={selection}
+                columns={props.columns}
+                items={items}
+                selectionMode={props.selectionMode || SelectionMode.single}
+                constrainMode={ConstrainMode.horizontalConstrained}
+                layoutMode={DetailsListLayoutMode.justified}
+                onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />
+        </ScrollablePaneWrapper>
     );
 };

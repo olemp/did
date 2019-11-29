@@ -1,13 +1,13 @@
 
+import { List } from 'components/List';
+import { getDurationDisplay } from 'helpers';
+import { ICalEvent } from 'models';
 import * as moment from 'moment';
 import { IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
-import { getDurationDisplay } from 'helpers';
-import { ICalEvent } from 'models';
-import { List } from 'components/List';
-import { IEventListProps } from './IEventListProps';
 import { generateColumn as col } from 'utils/generateColumn';
+import { IEventListProps } from './IEventListProps';
 require('moment/locale/en-gb');
 
 function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
@@ -15,7 +15,7 @@ function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderDate(item: ICalEvent, _index: number, col: IColumn) {
-    return moment(new Date(item[col.fieldName])).format(col.data.dateFormat);
+    return moment(new Date(item[col.fieldName])).format(col.data.dateFormat || 'dddd HH:mm');
 }
 
 function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
@@ -23,13 +23,11 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderProject(item: ICalEvent) {
-    if (!item.project) {
-        return <MessageBar messageBarType={MessageBarType.severeWarning}>Event not matched.</MessageBar>
-    }
+    if (!item.project) return <MessageBar messageBarType={MessageBarType.severeWarning}>Event not matched.</MessageBar>
     return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
 
-export const EventList = ({ hidden, events, enableShimmer, hideColumns = [], dateFormat = 'dddd HH:mm', }: IEventListProps) => {
+export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
     const columns = [
         col('title', 'Title', { maxWidth: 180 }, renderTitle),
         col('startTime', 'Start', { maxWidth: 140, data: { dateFormat } }, renderDate),
@@ -39,12 +37,10 @@ export const EventList = ({ hidden, events, enableShimmer, hideColumns = [], dat
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (
-        <div hidden={hidden}>
-            <List
-                enableShimmer={enableShimmer}
-                columns={columns}
-                items={events}
-                selectionMode={SelectionMode.none} />
-        </div>
+        <List
+            enableShimmer={enableShimmer}
+            columns={columns}
+            items={events}
+            selectionMode={SelectionMode.none} />
     );
 }
