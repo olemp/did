@@ -1,33 +1,34 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import * as getValue from 'get-value';
-import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
+import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { useState } from 'react';
+import { generateColumn as col } from 'utils/generateColumn';
+import { List } from 'components/List';
 import { CustomerDetails } from './CustomerDetails';
-import { CustomerList } from './CustomerList';
 import { GET_CUSTOMERS } from './GET_CUSTOMERS';
 
 export const Customers = () => {
-    let selection: Selection;
     const [selected, setSelected] = useState(null);
     const { loading, error, data } = useQuery(GET_CUSTOMERS);
 
-    const onSelectionChanged = () => {
-        setSelected(selection.getSelection()[0]);
-    }
-
-    selection = new Selection({ onSelectionChanged });
+    const columns: IColumn[] = [
+        col('customerKey', 'Key'),
+        col('name', 'Name'),
+    ];
 
     return (
         <div>
             {error && <MessageBar messageBarType={MessageBarType.error}>An error occured.</MessageBar>}
             {!error && (
-                <CustomerList
+                <List
                     enableShimmer={loading}
-                    customers={getValue(data, 'customers', { default: [] })}
-                    selection={selection}
+                    items={getValue(data, 'customers', { default: [] })}
+                    columns={columns}
+                    searchBox={{ placeholder: 'Search in customers...' }}
+                    onSelectionChanged={selected => setSelected(selected)}
                     height={300} />
             )}
             {selected && <CustomerDetails customer={selected} />}

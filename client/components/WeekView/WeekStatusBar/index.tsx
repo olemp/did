@@ -1,7 +1,7 @@
 
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
-import { getDurationDisplay } from '../../../helpers';
+import { getDurationDisplay } from 'helpers';
 
 export const WeekStatusBar = ({ totalDuration, matchedDuration, confirmedHours }) => {
     const weekConfirmed = confirmedHours > 0;

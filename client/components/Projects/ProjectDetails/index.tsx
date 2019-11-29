@@ -3,26 +3,25 @@ import * as getValue from 'get-value';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
-import { exportExcel } from '../../../utils/exportExcel';
-import { GET_CONFIRMED_ENTRIES, IGetConfirmedEntries } from '../../Reports/GET_CONFIRMED_ENTRIES';
+import { exportExcel } from 'utils/exportExcel';
+import { GET_CONFIRMED_ENTRIES, IGetConfirmedEntries } from 'components/Reports/GET_CONFIRMED_ENTRIES';
 import { IProjectDetailsProps } from './IProjectDetailsProps';
 import { ProjectTimeEntries } from './ProjectTimeEntries';
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
-    if (!project) return null;
-
     const { loading, error, data } = useQuery<IGetConfirmedEntries>(GET_CONFIRMED_ENTRIES, { variables: { projectKey: project.key } });
 
     const onExport = async () => {
         let fields = ['id', 'title', 'webLink', 'durationMinutes', 'startTime', 'endTime'];
+        console.log(Object.keys(data.entries[0]), fields);
         let key = project.key.toString().replace(/\s+/g, '-').toUpperCase();
         await exportExcel(
-            [fields, ...data.confirmedEntries.map(item => fields.map(fieldName => item[fieldName]))],
+            [fields, ...data.entries.map(item => fields.map(fieldName => item[fieldName]))],
             `ApprovedTimeEntries-${key}-${new Date().getTime()}.xlsx`,
         );
     }
 
-    const entries = getValue(data, 'confirmedEntries', { default: [] });
+    const entries = getValue(data, 'entries', { default: [] });
 
     return (
         <div style={{ marginTop: 30 }}>

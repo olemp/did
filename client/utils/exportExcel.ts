@@ -1,4 +1,4 @@
-import { stringToArrayBuffer } from '../helpers';
+import { stringToArrayBuffer } from 'helpers';
 import { loadScripts } from './loadScripts';
 
 export async function exportExcel(data: any[], fileName: string) {

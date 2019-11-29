@@ -4,4 +4,5 @@ export interface IProject extends IObjectWithKey {
     name: string;
     description: string;
     webLink: string;
+    icon: string;
 }
