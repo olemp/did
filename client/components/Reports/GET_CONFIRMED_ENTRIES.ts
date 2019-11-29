@@ -23,7 +23,7 @@ export const GET_CONFIRMED_ENTRIES_FIELDS = [
 
 export const GET_CONFIRMED_ENTRIES = gql`
     query($projectKey: String) {
-        entries: confirmedEntries(projectKey: $projectKey) {
+        entries: getConfirmedEntries(projectKey: $projectKey) {
             ${GET_CONFIRMED_ENTRIES_FIELDS.join(',')}
         }
     }

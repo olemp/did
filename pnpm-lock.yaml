@@ -22,6 +22,7 @@ dependencies:
   passport: 0.4.0
   passport-azure-ad: 4.2.0
   simple-oauth2: 3.1.0
+  string-similarity: 3.0.0
   string-strip-html: 4.3.8
   underscore: 1.9.1
 devDependencies:
@@ -5914,6 +5915,10 @@ packages:
       node: '>=8.9'
     resolution:
       integrity: sha512-mBqyUV2JVGXVBya84vuMJf/Mg9ePI7qM67Yp8upKudpWbeRrJH+QHicIPKay7lj6WyvWffGl5oUBlxY64GAWzQ==
+  /string-similarity/3.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-7kS7LyTp56OqOI2BDWQNVnLX/rCxIQn+/5M0op1WV6P8Xx6TZNdajpuqQdiJ7Xx+p1C5CsWMvdiBp9ApMhxzEQ==
   /string-strip-html/4.3.8:
     dependencies:
       ent: 2.2.0
@@ -6842,6 +6847,7 @@ specifiers:
   react-markdown: ^4.2.2
   scriptjs: 2.5.9
   simple-oauth2: 3.1.0
+  string-similarity: ^3.0.0
   string-strip-html: 4.3.8
   typescript: ^3.7.2
   underscore: ^1.9.1

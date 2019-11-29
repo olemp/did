@@ -62,16 +62,18 @@ input TimeEntryInput {
 type EventData {
 	weekNumber: Int
 	events: [Event!]!
-	totalDuration: Int!
-	matchedDuration: Int!
+	matchedEvents: [Event!]!
+	totalDuration: Float!
+	matchedDuration: Float!
+	confirmedDuration: Float!
 }
 
 type Query {
 	getCustomers: [Customer!]!
 	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEvents(weekNumber: Int!): EventData!
-	confirmedHours(weekNumber: Int!): Float!
-	confirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
+	getConfirmedDuration(weekNumber: Int!): Float!
+	getConfirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
 type Mutation {

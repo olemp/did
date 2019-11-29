@@ -1,6 +1,6 @@
 const { queryTable, parseArray, isEqual, and, combine, stringFilter, createQuery } = require('../../../services/table');
 
-async function confirmedEntries(_obj, args, context) {
+async function getConfirmedEntries(_obj, args, context) {
     let filter = stringFilter('PartitionKey', isEqual, context.tid);
     let query = createQuery(1000);
     if (args.projectKey) {
@@ -17,4 +17,4 @@ async function confirmedEntries(_obj, args, context) {
     return sortedResult;
 };
 
-module.exports = confirmedEntries;
+module.exports = getConfirmedEntries;

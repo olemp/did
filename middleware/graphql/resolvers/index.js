@@ -1,18 +1,18 @@
-const confirmedEntries = require('./confirmedEntries');
+const getConfirmedEntries = require('./getConfirmedEntries');
 const confirmWeek = require('./confirmWeek');
 const getProjects = require('./getProjects');
 const getCustomers = require('./getCustomers');
 const getEvents = require('./getEvents');
-const confirmedHours = require('./confirmedHours');
+const getConfirmedDuration = require('./getConfirmedDuration');
 const unconfirmWeek = require('./unconfirmWeek');
 
 module.exports = {
     Query: {
-        confirmedEntries,
+        getConfirmedEntries,
         getProjects,
         getCustomers,
         getEvents,
-        confirmedHours,
+        getConfirmedDuration,
     },
     Mutation: {
         confirmWeek,

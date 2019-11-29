@@ -33,7 +33,7 @@ export const List = (props: IListProps) => {
                 selection={selection}
                 columns={props.columns}
                 items={items}
-                selectionMode={props.selectionMode || SelectionMode.single}
+                selectionMode={props.selectionMode}
                 constrainMode={ConstrainMode.horizontalConstrained}
                 layoutMode={DetailsListLayoutMode.justified}
                 onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />

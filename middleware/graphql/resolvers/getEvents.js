@@ -1,8 +1,9 @@
 const { queryTable, parseArray, createQuery } = require('../../../services/table');
 const GraphService = require('../../../services/graph');
+const getConfirmedDuration = require('./getConfirmedDuration');
 const _ = require('underscore');
 
-const PROJECT_MATCH_REGEX = /[\(\{\[]((?<customerKey>.*?)\s(?<projectKey>.*?))[\)\]\}]/gm;
+const PROJECT_MATCH_REGEX = /[\(\{\[]((?<customerKey>[A-Za-z0-9]*?)\s(?<projectKey>[A-Za-z0-9]*?))[\)\]\}]/gm;
 
 /**
  * Checks for project match in event
@@ -36,20 +37,24 @@ function matchEvent(evt, projects, customers) {
 async function getEvents(_obj, args, context) {
     let events = await new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
     const query = createQuery(1000).where('PartitionKey eq ?', context.tid);
-    const result = await Promise.all([
+    const [pRes, cRes, confirmedDuration] = await Promise.all([
         queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, query),
         queryTable(process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME, query),
+        getConfirmedDuration(null, { weekNumber: args.weekNumber, type: 'DurationMinutes' }, context),
     ])
-    const projects = parseArray(result[0]).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}`.toUpperCase() }));
-    const customers = parseArray(result[1]).map(r => ({ ...r, key: r.customerKey.toUpperCase() }));;
+    const projects = parseArray(pRes).map(r => ({ ...r, key: `${r.customerKey} ${r.projectKey}`.toUpperCase() }));
+    const customers = parseArray(cRes).map(r => ({ ...r, key: r.customerKey.toUpperCase() }));;
     events = events.map(evt => matchEvent(evt, projects, customers));
     const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
-    const matchedDuration = events.filter(evt => (evt.project && evt.project.id)).reduce((sum, evt) => sum + evt.durationMinutes, 0);
+    const matchedEvents = events.filter(evt => (evt.project && evt.project.id));
+    const matchedDuration = matchedEvents.reduce((sum, evt) => sum + evt.durationMinutes, 0);
     return {
         weekNumber: args.weekNumber,
         events,
         totalDuration,
         matchedDuration,
+        matchedEvents,
+        confirmedDuration
     };
 };
 
