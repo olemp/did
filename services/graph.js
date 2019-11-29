@@ -28,14 +28,6 @@ GraphService.prototype.getClient = function () {
 }
 
 /**
- * Get user details for the current user
- */
-GraphService.prototype.getUserDetails = async function () {
-  const user = await this.getClient().api('/me').get();
-  return user;
-};
-
-/**
  * Get events for the specified week
  * 
  * @todo Add support for month number etc

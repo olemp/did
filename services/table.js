@@ -107,8 +107,9 @@ function executeBatch(table, batch) {
  */
 function getSubscription(tenantId) {
     return new Promise(async (resolve) => {
-        var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, new TableQuery().top(1).where('RowKey eq ?', tenantId));
-        resolve(sub[0]);
+        const query = createQuery(1, ['Name']).where('RowKey eq ?', tenantId);
+        var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, query);
+        resolve(parseArray(sub)[0]);
     });
 };
 
