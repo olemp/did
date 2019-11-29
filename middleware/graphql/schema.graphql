@@ -1,6 +1,7 @@
 type Project {
 	id: String
 	key: String
+	projectKey: String
 	customer: Customer
 	name: String
 	description: String, 
