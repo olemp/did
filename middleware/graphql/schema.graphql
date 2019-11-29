@@ -1,8 +1,7 @@
 type Project {
 	id: String
 	key: String
-	customerKey: String!
-	projectKey: String!
+	customer: Customer
 	name: String
 	description: String, 
 	webLink: String, 
@@ -10,8 +9,8 @@ type Project {
 }
 
 type Customer {
-	id: String!
-	key: String!
+	id: String
+	key: String
 	customerKey: String
 	name: String
 	description: String
@@ -26,6 +25,9 @@ type Event {
 	durationHours: Float
 	durationMinutes: Int
 	project: Project
+	customer: Customer
+	projectKey: String
+	customerKey: String
 	webLink: String
 	lastModifiedDateTime: String
 }

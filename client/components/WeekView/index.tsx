@@ -12,9 +12,10 @@ import { EventList } from './EventList';
 import { GET_WEEK_VIEW, IGetWeekView } from './GET_WEEK_VIEW';
 import { UNCONFIRM_WEEK } from './UNCONFIRM_WEEK';
 import { WeekStatusBar } from './WeekStatusBar';
+import { ICalEvent } from 'models';
 
 export const WeekView = ({ weeksToShow }) => {
-    let events = [];
+    let events: ICalEvent[] = [];
     let matchedEvents = [];
     let confirmedHours = 0;
     const initialWeekNumber = document.location.hash ? parseInt(document.location.hash.substring(1)) : currentWeekNumber();
@@ -41,7 +42,7 @@ export const WeekView = ({ weeksToShow }) => {
     };
 
     events = getValue(data, 'result.events', { default: [] });
-    matchedEvents = events.filter(e => e.project.id).map(e => ({ id: e.id, projectKey: e.project.key }));
+    matchedEvents = events.filter(e => (e.project && e.project.id)).map(e => ({ id: e.id, projectKey: e.project.key }));
     confirmedHours = getValue(data, 'confirmedHours', { default: 0 });
 
     return (

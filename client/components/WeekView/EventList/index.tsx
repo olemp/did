@@ -24,9 +24,14 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderProject(item: ICalEvent) {
-    if (!item.project.id) {
-        if (!item.project.projectKey) return <UserMessage text='Event not matched.' type={MessageBarType.severeWarning} />;
-        else return <UserMessage text={`Event not matched. We found a matching customer \`${item.project.customerKey}\`, but not a project with key \`${item.project.projectKey}\`.`} type={MessageBarType.warning} />
+    if (!item.project) {
+        if (item.customer) {
+            return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} />
+        } else if (item.customerKey) {
+            return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey} ${item.projectKey}\`.`} type={MessageBarType.warning} />
+        } else {
+            return <UserMessage text={`Event not matched.`} type={MessageBarType.severeWarning} />
+        }
     }
     return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
