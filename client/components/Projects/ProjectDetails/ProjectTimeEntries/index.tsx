@@ -9,7 +9,7 @@ export const ProjectTimeEntries = ({ entries, enableShimmer }) => {
                 <EventList
                     enableShimmer={enableShimmer}
                     events={entries}
-                    hideColumns={['project']}
+                    hideColumns={['project', 'customer']}
                     dateFormat='MMM Do YYYY' />
             </ScrollablePane>
         </div>

@@ -9,4 +9,5 @@ export interface IListProps {
     onSelectionChanged?: (selected: any) => void;
     searchBox?: ISearchBoxProps;
     selectionMode?: SelectionMode;
+    defaultSelectedKey?: string;
 }

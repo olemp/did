@@ -1,25 +1,25 @@
+import { List } from 'components/List';
+import { IProject } from 'models';
 import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import * as React from 'react';
-import { List } from 'components/List';
-import { IProjectListProps } from './IProjectListProps';
 import { generateColumn as col } from 'utils/generateColumn';
-import { IProject } from 'models';
+import { IProjectListProps } from './IProjectListProps';
 
 export const ProjectList = (props: IProjectListProps) => {
     const columns: IColumn[] = [
         col(
             'icon',
             '',
-            {},
+            { maxWidth: 60 },
             (item: IProject) => <Icon iconName={item.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />,
         ),
-        col('key', 'Key'),
+        col('key', 'Key', { maxWidth: 120 }),
         col(
             'name',
             'Name',
             {},
-            item => props.renderLink ? <a href={`/projects?key=${item.key}`}>{item.name}</a> : item.name
+            (item: IProject) => props.renderLink ? <a href={`/projects#${item.key}`}>{item.name}</a> : item.name
         )
     ];
 

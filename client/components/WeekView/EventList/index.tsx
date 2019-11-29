@@ -33,7 +33,14 @@ function renderProject(item: ICalEvent) {
             return <UserMessage text={`Event not matched.`} type={MessageBarType.severeWarning} />
         }
     }
-    return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
+    return <a href={`/projects#${item.project.key}`}>{item.project.name}</a>;
+}
+
+function renderCustomer(item: ICalEvent) {
+    if (!item.customer) {
+        return null;
+    }
+    return <a href={`/customers#${item.customer.key}`}>{item.customer.name}</a>;
 }
 
 export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
@@ -43,6 +50,7 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
         col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, renderDate),
         col('durationMinutes', 'Duration', { maxWidth: 180 }, renderDuration),
         col('project', 'Project', { maxWidth: 150 }, renderProject),
+        col('customer', 'Customer', { maxWidth: 150 }, renderCustomer),
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (
