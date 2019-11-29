@@ -4,7 +4,7 @@ const GraphService = require('../../../services/graph');
 const { executeBatch } = require('../../../services/table');
 const utils = require('../../../utils');
 
-module.exports = async (_obj, args, context) => {
+async function confirmWeek(_obj, args, context) {
     const calendarView = await new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
     const batch = new TableBatch();
     let totalDurationHours = 0;
@@ -37,3 +37,5 @@ module.exports = async (_obj, args, context) => {
     await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
     return totalDurationHours;
 };
+
+module.exports = confirmWeek;
