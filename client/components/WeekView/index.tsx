@@ -41,7 +41,7 @@ export const WeekView = ({ weeksToShow }) => {
     };
 
     events = getValue(data, 'result.events', { default: [] });
-    matchedEvents = events.filter(e => e.project).map(e => ({ id: e.id, projectKey: e.project.key }));
+    matchedEvents = events.filter(e => e.project.id).map(e => ({ id: e.id, projectKey: e.project.key }));
     confirmedHours = getValue(data, 'confirmedHours', { default: 0 });
 
     return (
