@@ -32,8 +32,8 @@ function renderProject(item: ICalEvent) {
 export const EventList = ({ hidden, events, enableShimmer, hideColumns = [], dateFormat = 'dddd HH:mm', }: IEventListProps) => {
     const columns = [
         col('title', 'Title', { maxWidth: 180 }, renderTitle),
-        col('startTime', 'Start', { maxWidth: 140 }, renderDate),
-        col('endTime', 'End', { maxWidth: 140 }, renderDate),
+        col('startTime', 'Start', { maxWidth: 140, data: { dateFormat } }, renderDate),
+        col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, renderDate),
         col('durationMinutes', 'Duration', { maxWidth: 180 }, renderDuration),
         col('project', 'Project', { maxWidth: 150 }, renderProject),
     ].filter(col => hideColumns.indexOf(col.key) === -1);
