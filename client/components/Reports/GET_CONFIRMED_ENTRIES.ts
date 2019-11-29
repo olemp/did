@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import { ICalEvent } from '../../models';
+import { ICalEvent } from 'models';
 
 export interface IGetConfirmedEntries {
-    confirmedEntries: ICalEvent[];
+    entries: ICalEvent[];
 }
 
 export const GET_CONFIRMED_ENTRIES_FIELDS = [

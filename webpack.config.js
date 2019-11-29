@@ -18,6 +18,14 @@ module.exports = {
   },
   mode: process.env.NODE_ENV,
   entry: './lib/client/App.js',
+  resolve: {
+    alias: {
+      models: require('path').resolve(__dirname, 'lib/client/models'),
+      utils: require('path').resolve(__dirname, 'lib/client/utils'),
+      helpers: require('path').resolve(__dirname, 'lib/client/helpers'),
+      components: require('path').resolve(__dirname, 'lib/client/components'),
+    }
+  },
   plugins: [
     new ignorePlugin(/^\.\/locale$/, /moment$/),
   ],

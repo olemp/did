@@ -1,4 +1,4 @@
-import { IProject } from '../../../models';
+import { IProject } from 'models';
 
 export interface IProjectDetailsProps {
     project: IProject;

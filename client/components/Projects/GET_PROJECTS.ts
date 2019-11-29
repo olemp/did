@@ -1,6 +1,6 @@
 
 import gql from 'graphql-tag';
-import { IProject } from '../../models';
+import { IProject } from 'models';
 
 export interface IGetProjectsEntries {
     projects: IProject[];

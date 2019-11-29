@@ -1,12 +1,5 @@
-import { Selection } from 'office-ui-fabric-react/lib/DetailsList';
-import { ISearchBoxProps } from 'office-ui-fabric-react/lib/SearchBox';
-import { IProject } from '../../../models';
+import { IListProps } from 'components/List/IListProps';
 
-export interface IProjectListProps {
-    projects: IProject[];
-    search?: ISearchBoxProps;
+export interface IProjectListProps extends IListProps {
     renderLink?: boolean;
-    selection?: Selection;
-    enableShimmer?: boolean;
-    height: number;
 }

@@ -1,4 +1,4 @@
-import { IProject, ICalEvent } from '../../models';
+import { IProject, ICalEvent } from 'models';
 
 export interface IProjectsState {
     isLoading: boolean;
