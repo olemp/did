@@ -22,8 +22,11 @@ export const GET_WEEK_VIEW = gql`
                 startTime,
                 endTime,
                 project {
+                    id,
                     key,
-                    name
+                    name,
+                    projectKey,
+                    customerKey
                 }
             },
             totalDuration,
