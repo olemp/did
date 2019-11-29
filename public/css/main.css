@@ -41,3 +41,11 @@ h5 {
   white-space: normal;
   margin: 0;
 }
+
+.c-eventview .c-eventview-actions {
+  margin: 10px 0 10px 0;
+}
+
+.c-eventview .c-eventview-section-content {
+  margin: 10px 0 0 0;
+}

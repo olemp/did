@@ -1,6 +1,6 @@
 import { ScrollablePane, ScrollbarVisibility } from 'office-ui-fabric-react/lib/ScrollablePane';
 import * as React from 'react';
-import { EventList } from 'components/WeekView/EventList';
+import { EventList } from 'components/EventView/EventList';
 
 export const ProjectTimeEntries = ({ entries, enableShimmer }) => {
     return (

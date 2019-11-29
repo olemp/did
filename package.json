@@ -13,7 +13,8 @@
     "package:client:prod": "set NODE_ENV=production&&npm run build:client && webpack --config webpack.config.js",
     "watch:client:package": "onchange -k -i -d 1500 \"./client/**/*.ts\" \"./client/**/*.tsx\" -- npm run package:client",
     "git:add:all": "git add --all",
-    "pregit:add:all": "npm run package:client:prod"
+    "pregit:add:all": "npm run package:client:prod",
+    "clean": "rimraf ./lib && rimraf ./public/js"
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "2.0.0",
@@ -39,6 +40,7 @@
     "passport": "0.4.0",
     "passport-azure-ad": "4.2.0",
     "simple-oauth2": "3.1.0",
+    "string-similarity": "^3.0.0",
     "string-strip-html": "4.3.8",
     "underscore": "^1.9.1"
   },
@@ -81,7 +83,6 @@
     "scriptjs": "2.5.9",
     "typescript": "^3.7.2",
     "webpack": "4.41.2",
-    "webpack-cli": "3.3.10",
-    "weeknumber": "1.1.2"
+    "webpack-cli": "3.3.10"
   }
 }

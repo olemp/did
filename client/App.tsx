@@ -1,20 +1,15 @@
 
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import { WeekView } from './components/WeekView';
-import { Projects } from './components/Projects';
-import { Customers } from './components/Customers';
-import { Reports } from './components/Reports';
 import { initializeIcons } from '@uifabric/icons';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
+import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
+import * as ReactDom from 'react-dom';
+import { Customers } from './components/Customers';
+import { EventView } from './components/EventView';
+import { Projects } from './components/Projects';
+import { Reports } from './components/Reports';
+import { client } from './graphql';
 
-const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link: new HttpLink({ uri: `${document.location.origin}/graphql` }),
-});
+
 
 initializeIcons();
 
@@ -28,7 +23,7 @@ const COMPONENTS = {
     REPORTS: document.getElementById('app-reports'),
 }
 
-if (COMPONENTS.WEEK !== null) ReactDom.render(<ApolloProvider client={client}><WeekView weeksToShow={10} /></ApolloProvider>, COMPONENTS.WEEK);
+if (COMPONENTS.WEEK !== null) ReactDom.render(<ApolloProvider client={client}><EventView visibleWeeks={10} /></ApolloProvider>, COMPONENTS.WEEK);
 if (COMPONENTS.PROJECTS !== null) ReactDom.render(<ApolloProvider client={client}><Projects /></ApolloProvider>, COMPONENTS.PROJECTS);
 if (COMPONENTS.CUSTOMERS !== null) ReactDom.render(<ApolloProvider client={client}><Customers /></ApolloProvider>, COMPONENTS.CUSTOMERS);
 if (COMPONENTS.REPORTS !== null) ReactDom.render(<ApolloProvider client={client}><Reports /></ApolloProvider>, COMPONENTS.REPORTS);
