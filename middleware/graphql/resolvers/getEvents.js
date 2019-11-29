@@ -11,14 +11,15 @@ const findBestMatch = require('string-similarity').findBestMatch;
  * @param {*} projects 
  * @param {*} customer 
  * @param {*} projectKey 
- * @param {*} minRating 
  */
-function getProjectSuggestion(projects, customer, projectKey, minRating = 0) {
+function getProjectSuggestion(projects, customer, projectKey) {
     let customerProjects = projects.filter(p => p.customerKey === customer.key);
     let projectKeys = customerProjects.map(p => p.projectKey.toUpperCase());
     let sm = findBestMatch(projectKey, projectKeys);
-    let bestMatch = (sm.bestMatch && sm.bestMatch.rating > minRating) ? sm.bestMatch.target : null;
-    return bestMatch ? customerProjects.filter(p => p.projectKey === bestMatch)[0] : null;
+    let target = (sm.bestMatch && sm.bestMatch.rating > 0) ? sm.bestMatch.target : null;
+    if (!target) return null;
+    let suggestion = customerProjects.filter(p => p.projectKey.toUpperCase() === target.toUpperCase())[0];
+    return suggestion;
 }
 
 /**
