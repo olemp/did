@@ -8,6 +8,7 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { IEventListProps } from './IEventListProps';
+import { UserMessage } from 'components/UserMessage';
 require('moment/locale/en-gb');
 
 function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
@@ -23,7 +24,10 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderProject(item: ICalEvent) {
-    if (!item.project) return <MessageBar messageBarType={MessageBarType.severeWarning}>Event not matched.</MessageBar>
+    if (!item.project.id) {
+        if (!item.project.projectKey) return <UserMessage text='Event not matched.' type={MessageBarType.severeWarning} />;
+        else return <UserMessage text={`Event not matched. We found a matching customer \`${item.project.customerKey}\`, but not a project with key \`${item.project.projectKey}\`.`} type={MessageBarType.warning} />
+    }
     return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
 }
 
