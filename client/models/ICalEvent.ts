@@ -6,6 +6,7 @@ export interface ICalEvent extends IObjectWithKey {
     id: string;
     title: string;
     project: IProject;
+    suggestedProject: IProject;
     customer: ICustomer;
     projectKey: string;
     customerKey: string;

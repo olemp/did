@@ -21,6 +21,7 @@ type Customer {
 type Event {
 	id: String!
 	title: String!
+	body: String
 	startTime: String
 	endTime: String
 	durationHours: Float
@@ -29,6 +30,7 @@ type Event {
 	customer: Customer
 	projectKey: String
 	customerKey: String
+	suggestedProject: Project
 	webLink: String
 	lastModifiedDateTime: String
 	overtime: Boolean

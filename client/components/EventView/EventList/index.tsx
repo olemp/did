@@ -25,13 +25,10 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 
 function renderProject(item: ICalEvent) {
     if (!item.project) {
-        if (item.customer) {
-            return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} />
-        } else if (item.customerKey) {
-            return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey + ' ' + item.projectKey}\`.`} type={MessageBarType.warning} />
-        } else {
-            return <UserMessage text={`Event not matched.`} type={MessageBarType.severeWarning} />
-        }
+        if (item.suggestedProject) return <UserMessage text={`Event not matched correctly. Did you mean \`${item.suggestedProject.key}\`?`} type={MessageBarType.warning} iconName='Lightbulb' />
+        else if (item.customer) return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} iconName='ProductList' />;
+        else if (item.customerKey) return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey + ' ' + item.projectKey}\`.`} type={MessageBarType.warning} iconName='SearchAndApps' />;
+        else return <UserMessage text='Event not matched. Did you add a project key to the subject, body or category?' type={MessageBarType.severeWarning} iconName='SearchIssue' />
     }
     return <a href={`/projects#${item.project.key}`}>{item.project.name}</a>;
 }

@@ -2,8 +2,35 @@ const { queryTable, parseArray, createQuery } = require('../../../services/table
 const GraphService = require('../../../services/graph');
 const getConfirmedDuration = require('./getConfirmedDuration');
 const _ = require('underscore');
+const findBestMatch = require('string-similarity').findBestMatch;
 
-const PROJECT_MATCH_REGEX = /[\(\{\[]((?<customerKey>[A-Za-z0-9]*?)\s(?<projectKey>[A-Za-z0-9]*?))[\)\]\}]/gm;
+
+/**
+ * Get project best match
+ * 
+ * @param {*} projects 
+ * @param {*} customer 
+ * @param {*} projectKey 
+ * @param {*} minRating 
+ */
+function getProjectSuggestion(projects, customer, projectKey, minRating = 0) {
+    let customerProjects = projects.filter(p => p.customerKey === customer.key);
+    let projectKeys = customerProjects.map(p => p.projectKey.toUpperCase());
+    let sm = findBestMatch(projectKey, projectKeys);
+    let bestMatch = (sm.bestMatch && sm.bestMatch.rating > minRating) ? sm.bestMatch.target : null;
+    return bestMatch ? customerProjects.filter(p => p.projectKey === bestMatch)[0] : null;
+}
+
+/**
+ * Find match
+ * 
+ * @param {*} content 
+ */
+function findMatch(content) {
+    const regex = /[\(\{\[]((?<customerKey>[A-Za-z0-9]*?)\s(?<projectKey>[A-Za-z0-9]*?))[\)\]\}]/gm;
+    const match = regex.exec(content);
+    return match ? match.groups : null;
+}
 
 /**
  * Checks for project match in event
@@ -15,23 +42,22 @@ const PROJECT_MATCH_REGEX = /[\(\{\[]((?<customerKey>[A-Za-z0-9]*?)\s(?<projectK
 function matchEvent(evt, projects, customers) {
     let categories = JSON.stringify(evt.categories).toUpperCase();
     let content = [evt.title, evt.body, categories].join(' ').toUpperCase();
-    let project;
-    let customer;
-    let match = (PROJECT_MATCH_REGEX.exec(content) || {}).groups;
+    let match = findMatch(content);
     if (match) {
-        project = projects.filter(p => _.isMatch(p, match))[0];
-        customer = customers.filter(c => c.key === match.customerKey)[0];
+        evt.project = projects.filter(p => _.isMatch(p, match))[0];
+        evt.customer = customers.filter(c => c.key === match.customerKey)[0];
     } else {
-        project = projects.filter(p => content.indexOf(p.key) !== -1)[0];
-        if (project) customer = customers.filter(c => c.key === project.key.split(' ')[0])[0];
+        evt.project = projects.filter(p => content.indexOf(p.key) !== -1)[0];
+        if (evt.project) evt.customer = customers.filter(c => c.key === evt.project.key.split(' ')[0])[0];
     }
-    if (project) {
-        evt.project = project;
+    if (evt.customer) {
+        evt.suggestedProject = !evt.project && getProjectSuggestion(projects, evt.customer, match.projectKey);
     }
-    if (customer) {
-        evt.customer = customer;
-    }
-    return { ...evt, ...(match || {}), overtime: categories.indexOf('OVERTIME') !== -1 };
+    return {
+        ...evt,
+        ...(match || {}),
+        overtime: categories.indexOf('OVERTIME') !== -1,
+    };
 }
 
 async function getEvents(_obj, args, context) {
