@@ -1,12 +1,12 @@
 
-import { MessageBar } from 'office-ui-fabric-react/lib/MessageBar';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
 
-export const UserMessage = ({ text, type, iconProps = undefined, hidden = false, marginTop = 0 }) => {
+export const UserMessage = ({ text, type = MessageBarType.info, iconName = undefined, hidden = false, marginTop = 0 }) => {
     return (
         <div className='c-usermessage' style={{ marginTop }} hidden={hidden}>
-            <MessageBar messageBarType={type} messageBarIconProps={iconProps}>
+            <MessageBar messageBarType={type} messageBarIconProps={iconName ? { iconName } : null}>
                 <ReactMarkdown source={text} />
             </MessageBar>
         </div>
