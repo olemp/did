@@ -12,7 +12,8 @@ const PROJECT_MATCH_REGEX = /[\(\{\[]((?<customerKey>.*?)\s(?<projectKey>.*?))[\
  * @param {*} customers 
  */
 function matchEvent(evt, projects, customers) {
-    let content = [evt.title, evt.body, JSON.stringify(evt.categories)].join(' ').toUpperCase();
+    let categories = JSON.stringify(evt.categories).toUpperCase();
+    let content = [evt.title, evt.body, categories].join(' ').toUpperCase();
     let project;
     let customer;
     let match = (PROJECT_MATCH_REGEX.exec(content) || {}).groups;
@@ -29,7 +30,7 @@ function matchEvent(evt, projects, customers) {
     if (customer) {
         evt.customer = customer;
     }
-    return { ...evt, ...(match || {}) };
+    return { ...evt, ...(match || {}), overtime: categories.indexOf('OVERTIME') !== -1 };
 }
 
 async function getEvents(_obj, args, context) {

@@ -1,8 +1,7 @@
 const { queryTable, parseArray, isEqual, and, combine, stringFilter, createQuery } = require('../../../services/table');
 
-async function confirmedEntries(_obj, args, { tid, isAuthenticated }) {
-    if (!isAuthenticated) return [];
-    let filter = stringFilter('PartitionKey', isEqual, tid);
+async function confirmedEntries(_obj, args, context) {
+    let filter = stringFilter('PartitionKey', isEqual, context.tid);
     let query = createQuery(1000);
     if (args.projectKey) {
         let [customerKey, projectKey,] = args.projectKey.split(' ');
@@ -14,9 +13,6 @@ async function confirmedEntries(_obj, args, { tid, isAuthenticated }) {
     query = query.where(filter);
     const result = await queryTable(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, query);
     const parsedResult = parseArray(result);
-    /**
-     * @todo Or should the client sort the result?
-     */
     const sortedResult = parsedResult.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
     return sortedResult;
 };

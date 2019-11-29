@@ -31,6 +31,7 @@ type Event {
 	customerKey: String
 	webLink: String
 	lastModifiedDateTime: String
+	overtime: Boolean
 }
 
 type TimeEntry {
@@ -50,6 +51,7 @@ type TimeEntry {
 	resourceEmail: String
 	resourceName: String
 	webUrl: String
+	overtime: Boolean
 }
 
 input TimeEntryInput {
