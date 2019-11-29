@@ -29,6 +29,11 @@ query ($weekNumber: Int!) {
         key
         name
       }
+      suggestedProject {
+        id
+        key
+        name
+      }
       customer {
         key
         name
