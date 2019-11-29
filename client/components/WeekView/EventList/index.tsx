@@ -28,7 +28,7 @@ function renderProject(item: ICalEvent) {
         if (item.customer) {
             return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} />
         } else if (item.customerKey) {
-            return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey} ${item.projectKey}\`.`} type={MessageBarType.warning} />
+            return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey + ' ' + item.projectKey}\`.`} type={MessageBarType.warning} />
         } else {
             return <UserMessage text={`Event not matched.`} type={MessageBarType.severeWarning} />
         }
@@ -49,7 +49,7 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
         col('startTime', 'Start', { maxWidth: 140, data: { dateFormat } }, renderDate),
         col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, renderDate),
         col('durationMinutes', 'Duration', { maxWidth: 180 }, renderDuration),
-        col('project', 'Project', { maxWidth: 150 }, renderProject),
+        col('project', 'Project', { maxWidth: 240 }, renderProject),
         col('customer', 'Customer', { maxWidth: 150 }, renderCustomer),
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
