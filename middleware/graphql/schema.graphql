@@ -1,8 +1,8 @@
 type Project {
-	id: String!
-	key: String!
-	customerKey: String
-	projectKey: String
+	id: String
+	key: String
+	customerKey: String!
+	projectKey: String!
 	name: String
 	description: String, 
 	webLink: String, 
