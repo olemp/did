@@ -9,5 +9,8 @@ module.exports = {
     },
     getYear: () => {
         return moment().year();
+    },
+    getMonth: () => {
+        return moment().month() + 1;
     }
 }
