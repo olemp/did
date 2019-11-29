@@ -1,23 +1,34 @@
 
 import { useQuery } from '@apollo/react-hooks';
+import { List } from 'components/List';
 import * as getValue from 'get-value';
+import { ICustomer } from 'models';
 import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { useState } from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
-import { List } from 'components/List';
+import { getHash } from 'utils/getHash';
 import { CustomerDetails } from './CustomerDetails';
 import { GET_CUSTOMERS } from './GET_CUSTOMERS';
 
 export const Customers = () => {
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState<ICustomer>(null);
     const { loading, error, data } = useQuery(GET_CUSTOMERS);
 
     const columns: IColumn[] = [
-        col('customerKey', 'Key'),
+        col('customerKey', 'Key', { maxWidth: 100 }),
         col('name', 'Name'),
     ];
+
+    let customers: ICustomer[] = getValue(data, 'customers', { default: [] });
+
+    if (getHash()) {
+        let [_selected] = customers.filter(c => c.key === getHash());
+        if (_selected && !selected) {
+            setSelected(_selected);
+        }
+    }
 
     return (
         <div>
@@ -25,7 +36,7 @@ export const Customers = () => {
             {!error && (
                 <List
                     enableShimmer={loading}
-                    items={getValue(data, 'customers', { default: [] })}
+                    items={customers}
                     columns={columns}
                     searchBox={{ placeholder: 'Search in customers...' }}
                     onSelectionChanged={selected => setSelected(selected)}

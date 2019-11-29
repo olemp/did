@@ -8,6 +8,7 @@ import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBa
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { IEventListProps } from './IEventListProps';
+import { UserMessage } from 'components/UserMessage';
 require('moment/locale/en-gb');
 
 function renderTitle(item: ICalEvent, _index: number, col: IColumn) {
@@ -23,8 +24,23 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 }
 
 function renderProject(item: ICalEvent) {
-    if (!item.project) return <MessageBar messageBarType={MessageBarType.severeWarning}>Event not matched.</MessageBar>
-    return <a href={`/projects?key=${item.project.key}`} target='_blank'>{item.project.name}</a>;
+    if (!item.project) {
+        if (item.customer) {
+            return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} />
+        } else if (item.customerKey) {
+            return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey} ${item.projectKey}\`.`} type={MessageBarType.warning} />
+        } else {
+            return <UserMessage text={`Event not matched.`} type={MessageBarType.severeWarning} />
+        }
+    }
+    return <a href={`/projects#${item.project.key}`}>{item.project.name}</a>;
+}
+
+function renderCustomer(item: ICalEvent) {
+    if (!item.customer) {
+        return null;
+    }
+    return <a href={`/customers#${item.customer.key}`}>{item.customer.name}</a>;
 }
 
 export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
@@ -34,6 +50,7 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
         col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, renderDate),
         col('durationMinutes', 'Duration', { maxWidth: 180 }, renderDuration),
         col('project', 'Project', { maxWidth: 150 }, renderProject),
+        col('customer', 'Customer', { maxWidth: 150 }, renderCustomer),
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (

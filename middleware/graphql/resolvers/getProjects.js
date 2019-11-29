@@ -2,7 +2,7 @@ const { queryTable, parseArray, createQuery, combine, and, isEqual, stringFilter
 
 async function getProjects(_obj, args, context) {
     let query = createQuery(1000, ['RowKey', 'CustomerKey', 'ProjectKey', 'Name', 'Description', 'Icon']);
-    let filter = stringFilter('PartitionKey', isEqual, context.user.profile._json.tid);
+    let filter = stringFilter('PartitionKey', isEqual, context.tid);
     if (args.customerKey) {
         filter = combine(filter, and, stringFilter('CustomerKey', isEqual, args.customerKey));
     }
@@ -10,7 +10,7 @@ async function getProjects(_obj, args, context) {
     const result = await queryTable(process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME, query);
     const projects = parseArray(result).map(r => ({
         ...r,
-        key: `${r.customerKey} ${r.projectKey}`,
+        key: `${r.customerKey} ${r.projectKey}`.toUpperCase(),
     }));
     return projects;
 }

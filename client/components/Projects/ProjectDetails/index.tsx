@@ -7,13 +7,13 @@ import { exportExcel } from 'utils/exportExcel';
 import { GET_CONFIRMED_ENTRIES, IGetConfirmedEntries } from 'components/Reports/GET_CONFIRMED_ENTRIES';
 import { IProjectDetailsProps } from './IProjectDetailsProps';
 import { ProjectTimeEntries } from './ProjectTimeEntries';
+import * as _ from 'underscore';
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
     const { loading, error, data } = useQuery<IGetConfirmedEntries>(GET_CONFIRMED_ENTRIES, { variables: { projectKey: project.key } });
 
     const onExport = async () => {
-        let fields = ['id', 'title', 'webLink', 'durationMinutes', 'startTime', 'endTime'];
-        console.log(Object.keys(data.entries[0]), fields);
+        let fields = Object.keys(data.entries[0]).filter(f => ['id', '__typename'].indexOf(f) === -1);
         let key = project.key.toString().replace(/\s+/g, '-').toUpperCase();
         await exportExcel(
             [fields, ...data.entries.map(item => fields.map(fieldName => item[fieldName]))],
