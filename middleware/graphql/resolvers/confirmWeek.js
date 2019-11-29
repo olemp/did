@@ -29,9 +29,9 @@ async function confirmWeek(_obj, args, context) {
             WeekNumber: entGen.Int32(args.weekNumber),
             MonthNumber: entGen.Int32(utils.getMonth()),
             YearNumber: entGen.Int32(utils.getYear()),
-            ResourceId: entGen.String(user.profile.oid),
-            ResourceEmail: entGen.String(user.profile.email),
-            ResourceName: entGen.String(user.profile.displayName),
+            ResourceId: entGen.String(context.user.profile.oid),
+            ResourceEmail: entGen.String(context.user.profile.email),
+            ResourceName: entGen.String(context.user.profile.displayName),
         });
     });
     await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
