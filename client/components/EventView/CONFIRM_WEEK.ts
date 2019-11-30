@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 
 export default gql`
     mutation($entries: [TimeEntryInput!], $weekNumber: Int!) {
-        confirmWeek(entries: $entries, weekNumber: $weekNumber)
+        result: confirmWeek(entries: $entries, weekNumber: $weekNumber) {
+            success
+	        error
+        }
     }
 `;

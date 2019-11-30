@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 
 export default gql`
     mutation($weekNumber: Int!) { 
-        unconfirmWeek(weekNumber: $weekNumber)
+        result: unconfirmWeek(weekNumber: $weekNumber) {
+            success
+	        error
+        }
     }
 `;

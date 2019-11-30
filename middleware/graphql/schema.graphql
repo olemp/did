@@ -77,7 +77,12 @@ type Query {
 	getConfirmedTimeEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
+type BaseResult {
+	success: Boolean
+	error: String
+}
+
 type Mutation {
-	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): Boolean!
-	unconfirmWeek(weekNumber: Int!): Boolean!
+	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): BaseResult!
+	unconfirmWeek(weekNumber: Int!): BaseResult!
 }

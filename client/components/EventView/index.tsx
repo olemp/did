@@ -2,6 +2,8 @@
 import * as moment from 'moment';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
+import { getHash } from 'utils/getHash';
+import log from 'utils/log';
 import { client as graphql } from '../../graphql';
 import { ConfirmWeekButton } from './ConfirmWeekButton';
 import CONFIRM_WEEK from './CONFIRM_WEEK';
@@ -11,9 +13,7 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import { UnconfirmWeekButton } from './UnconfirmWeekButton';
-import * as _ from 'underscore';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-import { getHash } from 'utils/getHash';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
@@ -88,12 +88,11 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private async _onConfirmWeek() {
         this.setState({ loading: true });
-        const variables = {
-            weekNumber: this.state.weekNumber,
-            entries: this.state.data.matchedEvents.map(e => ({ id: e.id, projectKey: e.project.key })),
-        };
-        await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
-        this.setState({ loading: false, isConfirmed: true });
+        const entries = this.state.data.matchedEvents.map(e => ({ id: e.id, projectKey: e.project.key }));
+        const variables = { weekNumber: this.state.weekNumber, entries };
+        let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
+        log.info('_onConfirmWeek', result.error)
+        this.setState({ loading: false, isConfirmed: result.success });
     };
 
     /**
@@ -101,8 +100,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private async _onUnconfirmWeek() {
         this.setState({ loading: true });
-        await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
-        this.setState({ loading: false, isConfirmed: false });
+        let { data: { result } } = await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
+        log.info('_onUnconfirmWeek', result.error)
+        this.setState({ loading: false, isConfirmed: !result.success });
 
     };
 

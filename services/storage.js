@@ -5,6 +5,7 @@ const USERS = process.env.AZURE_STORAGE_USERS_TABLE_NAME;
 const PROJECTS = process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME;
 const CUSTOMERS = process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME;
 const CONFIRMEDTIMEENTRIES = process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME;
+const log = require('debug')('services/storage');
 
 function StorageService(tid) {
     this.tenantId = tid;
@@ -75,7 +76,7 @@ StorageService.prototype.getCustomers = async function () {
 }
 
 
-StorageService.prototype.getConfirmedTimeEntries = async function (projectKey, resourceId, weekNumber, options) {
+StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, weekNumber, projectKey, options) {
     options = options || {};
     let filter = this.filter;
     if (projectKey) {
@@ -84,7 +85,8 @@ StorageService.prototype.getConfirmedTimeEntries = async function (projectKey, r
     }
     if (resourceId) filter = combine(filter, and, stringFilter('ResourceId', isEqual, resourceId));
     if (weekNumber) filter = combine(filter, and, intFilter('WeekNumber', isEqual, weekNumber));
-    let query = createQuery(1000, undefined, filter);
+    log('Querying table %s wit filter %s', CONFIRMEDTIMEENTRIES, filter);
+    let query = createQuery(1000, null, filter);
     let result = await queryTable(CONFIRMEDTIMEENTRIES, query);
     result = !options.noParse ? parseArray(result) : result;
     result = result.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));

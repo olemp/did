@@ -78,7 +78,7 @@ async function getEvents(_obj, args, context) {
         context.services.graph.getEvents(args.weekNumber),
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
-        context.services.storage.getConfirmedTimeEntries(undefined, context.user.profile.oid),
+        context.services.storage.getConfirmedTimeEntries(context.user.profile.oid, args.weekNumber),
     ])
     events = events.map(evt => matchEvent(evt, projects, customers));
     const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);

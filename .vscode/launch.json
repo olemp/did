@@ -12,7 +12,7 @@
             "envFile": "${workspaceFolder}/.env",
             "env": {
                 "NODE_ENV": "development",
-                "DEBUG": "*"
+                "DEBUG": "services*"
             },
             "outFiles": [
                 "${workspaceFolder}/**/*.js"

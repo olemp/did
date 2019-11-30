@@ -42,8 +42,12 @@ function parseArray(arr) {
  */
 function createQuery(top, select, filter) {
     let query = new TableQuery().top(top);
-    if (select) query = query.select(select);
-    if (filter) query = query.where(filter);
+    if (select) {
+        query = query.select(select);
+    }
+    if (filter) {
+        query = query.where(filter);
+    }
     return query;
 }
 
