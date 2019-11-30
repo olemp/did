@@ -1,11 +1,12 @@
 const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery } = require('../utils/table');
+const log = require('debug')('services/storage');
+const arraySort = require('array-sort');
 
 const SUBSCRIPTIONS = process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME;
 const USERS = process.env.AZURE_STORAGE_USERS_TABLE_NAME;
 const PROJECTS = process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME;
 const CUSTOMERS = process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME;
 const CONFIRMEDTIMEENTRIES = process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME;
-const log = require('debug')('services/storage');
 
 function StorageService(tid) {
     this.tenantId = tid;
