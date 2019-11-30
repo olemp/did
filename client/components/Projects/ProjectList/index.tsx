@@ -1,4 +1,4 @@
-import { List, IColumn, SelectionMode } from 'components/List';
+import { IColumn, List } from 'components/List';
 import { IProject } from 'models';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import * as React from 'react';
@@ -29,8 +29,7 @@ export const ProjectList = (props: IProjectListProps) => {
             columns={columns}
             items={props.items}
             searchBox={props.searchBox}
-            selectionMode={SelectionMode.single}
-            onSelectionChanged={props.onSelectionChanged} />
+            selection={props.selection} />
     );
 
 }

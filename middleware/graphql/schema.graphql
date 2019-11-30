@@ -4,9 +4,11 @@ type Project {
 	projectKey: String
 	customer: Customer
 	name: String
-	description: String, 
-	webLink: String, 
+	description: String
+	webLink: String
 	icon: String
+	budget: Int
+	hourlyRate: Int
 }
 
 type Customer {
@@ -70,11 +72,16 @@ type EventData {
 	confirmedDuration: Float!
 }
 
+type ConfirmedTimeEntries {
+	entries: [TimeEntry!]
+	duration: Float
+}
+
 type Query {
 	getCustomers: [Customer!]!
 	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEvents(weekNumber: Int!): EventData!
-	getConfirmedTimeEntries(projectKey: String, resourceId: String): [TimeEntry!]!
+	getConfirmedTimeEntries(projectKey: String, resourceId: String): ConfirmedTimeEntries
 }
 
 type BaseResult {

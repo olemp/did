@@ -36,3 +36,19 @@ export function stringToArrayBuffer(str: string) {
     }
     return buf;
 }
+
+/**
+ * Currency display
+ * 
+ * @param {number} num Number
+ * @param {string} currency Currency
+ * @param {number} minimumFractionDigits Minimum fraction digits
+ */
+export function currencyDisplay(num: number, currency: string = 'NOK', minimumFractionDigits: number = 0) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits,
+    })
+    return formatter.format(num);
+}

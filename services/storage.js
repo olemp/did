@@ -45,7 +45,7 @@ StorageService.prototype.getUser = async function (userId) {
 StorageService.prototype.getProjects = async function (customerKey, sortBy) {
     let filter = this.filter;
     if (customerKey) filter = combine(filter, and, stringFilter('CustomerKey', isEqual, customerKey));
-    let query = createQuery(1000, ['RowKey', 'CustomerKey', 'ProjectKey', 'Name', 'Description', 'Icon'], filter);
+    let query = createQuery(1000, undefined, filter);
     const result = await queryTable(PROJECTS, query);
     let projects = parseArray(result).map(r => {
         let customerKey = r.customerKey.toUpperCase();

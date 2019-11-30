@@ -40,6 +40,7 @@ devDependencies:
   '@types/react-dom': 16.9.4
   '@types/scriptjs': 0.0.2
   '@types/underscore': 1.9.4
+  '@types/underscore.string': 0.0.38
   '@types/webpack-env': 1.14.1
   '@uifabric/icons': 7.3.0_a803b85240d4296808087a7b4abfb74d
   '@uifabric/utilities': 7.6.0_a803b85240d4296808087a7b4abfb74d
@@ -69,6 +70,7 @@ devDependencies:
   react-markdown: 4.2.2_react@16.12.0
   scriptjs: 2.5.9
   typescript: 3.7.2
+  underscore.string: 3.3.5
   webpack: 4.41.2_webpack@4.41.2
   webpack-cli: 3.3.10_webpack@4.41.2
   webpackbar: 4.0.0_webpack@4.41.2
@@ -1009,6 +1011,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-CaIociGno0H8a5WwBeS/sqVANTg=
+  /@types/underscore.string/0.0.38:
+    dependencies:
+      '@types/underscore': 1.9.4
+    dev: true
+    resolution:
+      integrity: sha512-QPMttDInBYkulH/3nON0KnYpEd/RlyE5kUrhuts5d76B/stpjXpDticq+iTluoAsVnVXuGECFhPtuX+aDJdx+A==
   /@types/underscore/1.9.4:
     dev: true
     resolution:
@@ -5925,6 +5933,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
+  /sprintf-js/1.1.2:
+    dev: true
+    resolution:
+      integrity: sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==
   /sshpk/1.16.1:
     dependencies:
       asn1: 0.2.4
@@ -6413,6 +6425,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-Il9rngM3Zj4Njnz9aG/Cg2zKznY=
+  /underscore.string/3.3.5:
+    dependencies:
+      sprintf-js: 1.1.2
+      util-deprecate: 1.0.2
+    dev: true
+    resolution:
+      integrity: sha512-g+dpmgn+XBneLmXXo+sGlW5xQEt4ErkS3mgeN2GFbremYeMBSJKr9Wf2KJplQVaiPY/f7FN6atosWYNm9ovrYg==
   /underscore/1.8.3:
     dev: false
     resolution:
@@ -6964,6 +6983,7 @@ specifiers:
   '@types/react-dom': 16.9.4
   '@types/scriptjs': 0.0.2
   '@types/underscore': ^1.9.4
+  '@types/underscore.string': ^0.0.38
   '@types/webpack-env': 1.14.1
   '@uifabric/icons': 7.3.0
   '@uifabric/utilities': ^7.6.0
@@ -7022,6 +7042,7 @@ specifiers:
   supports-color: ^7.1.0
   typescript: ^3.7.2
   underscore: ^1.9.1
+  underscore.string: ^3.3.5
   uuid: ^3.3.3
   webpack: 4.41.2
   webpack-cli: 3.3.10

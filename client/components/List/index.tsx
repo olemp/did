@@ -10,13 +10,18 @@ export const List = (props: IListProps) => {
     let searchTimeout: any;
     let selection: Selection;
 
-    const onSelectionChanged = () => props.onSelectionChanged && props.onSelectionChanged(selection.getSelection()[0]);
+    const onSelectionChanged = () => {
+        const [selected] = selection.getSelection();
+        props.selection.onChanged(selected);
+        selected && (document.location.hash = selected.key.toString());
+    }
 
     let [items, setItems] = useState(props.items);
 
+    /** Need to updat items state when new props come by using useEffect */
     useEffect(() => setItems(props.items), [props.items]);
 
-    selection = new Selection({ onSelectionChanged });
+    selection = props.selection && new Selection({ onSelectionChanged });
 
     const onSearch = (_event: any, term: string) => {
         clearTimeout(searchTimeout);
@@ -34,7 +39,7 @@ export const List = (props: IListProps) => {
                     selection={selection}
                     columns={props.columns}
                     items={items}
-                    selectionMode={props.selectionMode}
+                    selectionMode={props.selection ? props.selection.mode : SelectionMode.none}
                     constrainMode={ConstrainMode.horizontalConstrained}
                     layoutMode={DetailsListLayoutMode.justified}
                     onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />

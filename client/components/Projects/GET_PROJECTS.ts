@@ -9,11 +9,13 @@ export interface IGetProjectsEntries {
 export const GET_PROJECTS = gql`
     query($customerKey: String, $sortBy: String) {
         projects: getProjects(customerKey: $customerKey, sortBy: $sortBy) {
-            key,
-            name,
-            description,
-            webLink,
+            key
+            name
+            description
+            webLink
             icon
+            budget
+            hourlyRate
         }
     }
 `;

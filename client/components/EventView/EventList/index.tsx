@@ -1,7 +1,6 @@
 
 import { List } from 'components/List';
 import { ICalEvent } from 'models';
-import { SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { CustomerLink } from './CustomerLink';
@@ -9,8 +8,6 @@ import { DateColumn } from './DateColumn';
 import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
 import { ProjectLink } from './ProjectLink';
-require('moment/locale/en-gb');
-
 
 export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
     const columns = [
@@ -27,8 +24,7 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
             <List
                 enableShimmer={enableShimmer}
                 columns={columns}
-                items={events}
-                selectionMode={SelectionMode.none} />
+                items={events} />
         </div>
     );
 }

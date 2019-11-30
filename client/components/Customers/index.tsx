@@ -13,7 +13,7 @@ import { GET_CUSTOMERS } from './GET_CUSTOMERS';
 
 export const Customers = () => {
     const [selected, setSelected] = useState<ICustomer>(null);
-    const { loading, error, data } = useQuery(GET_CUSTOMERS);
+    const { loading, error, data } = useQuery(GET_CUSTOMERS, { fetchPolicy: 'cache-first' });
 
     const columns: IColumn[] = [
         col('customerKey', 'Key', { maxWidth: 100 }),
@@ -38,9 +38,8 @@ export const Customers = () => {
                     items={customers}
                     columns={columns}
                     searchBox={{ placeholder: 'Search in customers...' }}
-                    selectionMode={SelectionMode.single}
-                    onSelectionChanged={selected => setSelected(selected)}
-                    height={300} />
+                    selection={{ mode: SelectionMode.single, onChanged: selected => setSelected(selected) }}
+                    height={350} />
             )}
             {selected && <CustomerDetails customer={selected} />}
         </div>

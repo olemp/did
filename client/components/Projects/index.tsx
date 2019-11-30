@@ -9,10 +9,11 @@ import { getHash } from 'utils/getHash';
 import { GET_PROJECTS, IGetProjectsEntries } from './GET_PROJECTS';
 import { ProjectDetails } from './ProjectDetails';
 import { ProjectList } from './ProjectList';
+import { SelectionMode } from 'components/List';
 
 export const Projects = () => {
     const [selected, setSelected] = useState<IProject>(null);
-    const { loading, error, data } = useQuery<IGetProjectsEntries>(GET_PROJECTS, { variables: { sortBy: 'name' } });
+    const { loading, error, data } = useQuery<IGetProjectsEntries>(GET_PROJECTS, { variables: { sortBy: 'name' }, fetchPolicy: 'cache-first' });
 
     let projects: IProject[] = getValue(data, 'projects', { default: [] });
 
@@ -30,7 +31,7 @@ export const Projects = () => {
                     enableShimmer={loading}
                     items={projects}
                     searchBox={{ placeholder: 'Search in projects...' }}
-                    onSelectionChanged={selected => setSelected(selected)} />
+                    selection={{ mode: SelectionMode.single, onChanged: selected => setSelected(selected) }} />
             )}
             {selected && <ProjectDetails project={selected} />}
         </div >
