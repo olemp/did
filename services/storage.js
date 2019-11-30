@@ -4,6 +4,7 @@ const SUBSCRIPTIONS = process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME;
 const USERS = process.env.AZURE_STORAGE_USERS_TABLE_NAME;
 const PROJECTS = process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME;
 const CUSTOMERS = process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME;
+const CONFIRMEDTIMEENTRIES = process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME;
 
 function StorageService(tid) {
     this.tenantId = tid;
@@ -72,5 +73,22 @@ StorageService.prototype.getCustomers = async function () {
         }
     });;
 }
+
+
+StorageService.prototype.getConfirmedTimeEntries = async function (projectKey, resourceId) {
+    let filter = this.filter;
+    if (projectKey) {
+        let key = projectKey.split(' ');
+        filter = combine(filter, and, combine(stringFilter('CustomerKey', isEqual, key[0]), and, stringFilter('ProjectKey', isEqual, key[1])));
+    }
+    if (resourceId) {
+        filter = combine(filter, and, combine(filter, and, stringFilter('ResourceId', isEqual, resourceId)));
+    }
+    let query = createQuery(1000, undefined, filter);
+    const result = await queryTable(CONFIRMEDTIMEENTRIES, query);
+    const parsedResult = parseArray(result);
+    const sortedResult = parsedResult.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+    return sortedResult;
+};
 
 module.exports = StorageService;
