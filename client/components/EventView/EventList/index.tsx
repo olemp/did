@@ -25,10 +25,10 @@ function renderDuration(item: ICalEvent, _index: number, col: IColumn) {
 
 function renderProject(item: ICalEvent) {
     if (!item.project) {
-        if (item.suggestedProject) return <UserMessage text={`Event not matched correctly. Did you mean \`${item.suggestedProject.key}\`?`} type={MessageBarType.warning} iconName='Lightbulb' />
+        if (item.suggestedProject) return <UserMessage text={`Event not matched correctly. Did you mean <a href="/projects/${item.suggestedProject.key}">\`${item.suggestedProject.key}\`</a>?`} type={MessageBarType.warning} iconName='Lightbulb' />
         else if (item.customer) return <UserMessage text={`Event not matched. We found a matching customer \`${item.customer.name}\`, but not a project with key \`${item.projectKey}\`.`} type={MessageBarType.warning} iconName='ProductList' />;
         else if (item.customerKey) return <UserMessage text={`Event not matched. Found no match for \`${item.customerKey + ' ' + item.projectKey}\`.`} type={MessageBarType.warning} iconName='SearchAndApps' />;
-        else return <UserMessage text='Event not matched. Did you add a project key to the subject, body or category?' type={MessageBarType.severeWarning} iconName='SearchIssue' />
+        else return <UserMessage text='Event not matched. Did you add a project key to the `subject`, `body` or `category`?' type={MessageBarType.severeWarning} iconName='SearchIssue' />
     }
     return <a href={`/projects#${item.project.key}`}>{item.project.name}</a>;
 }
@@ -51,10 +51,12 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (
-        <List
-            enableShimmer={enableShimmer}
-            columns={columns}
-            items={events}
-            selectionMode={SelectionMode.none} />
+        <div style={{ marginBottom: 25 }}>
+            <List
+                enableShimmer={enableShimmer}
+                columns={columns}
+                items={events}
+                selectionMode={SelectionMode.none} />
+        </div>
     );
 }

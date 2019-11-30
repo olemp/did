@@ -4,13 +4,13 @@ import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { exportExcel } from 'utils/exportExcel';
-import { GET_CONFIRMED_ENTRIES, IGetConfirmedEntries } from 'components/Reports/GET_CONFIRMED_ENTRIES';
+import { GET_CONFIRMED_TIME_ENTRIES, IGetConfirmedTimeEntries } from 'components/Reports/GET_CONFIRMED_TIME_ENTRIES';
 import { IProjectDetailsProps } from './IProjectDetailsProps';
 import { ProjectTimeEntries } from './ProjectTimeEntries';
 import * as _ from 'underscore';
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
-    const { loading, error, data } = useQuery<IGetConfirmedEntries>(GET_CONFIRMED_ENTRIES, { variables: { projectKey: project.key } });
+    const { loading, error, data } = useQuery<IGetConfirmedTimeEntries>(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectKey: project.key } });
 
     const onExport = async () => {
         let fields = Object.keys(data.entries[0]).filter(f => ['id', '__typename'].indexOf(f) === -1);

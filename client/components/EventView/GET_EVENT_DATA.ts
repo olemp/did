@@ -40,6 +40,7 @@ query ($weekNumber: Int!) {
       }
       projectKey
       customerKey
+      overtime
     }
     matchedEvents {
       id

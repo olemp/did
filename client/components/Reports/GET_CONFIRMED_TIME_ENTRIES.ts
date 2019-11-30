@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import { ICalEvent } from 'models';
 
-export interface IGetConfirmedEntries {
+export interface IGetConfirmedTimeEntries {
     entries: ICalEvent[];
 }
 
-export const GET_CONFIRMED_ENTRIES_FIELDS = [
+export const GET_CONFIRMED_TIME_ENTRIES_FIELDS = [
     'title',
     'description',
     'customerKey',
@@ -21,10 +21,8 @@ export const GET_CONFIRMED_ENTRIES_FIELDS = [
     'resourceEmail',
 ];
 
-export const GET_CONFIRMED_ENTRIES = gql`
+export const GET_CONFIRMED_TIME_ENTRIES = gql`
     query($projectKey: String) {
-        entries: getConfirmedEntries(projectKey: $projectKey) {
-            ${GET_CONFIRMED_ENTRIES_FIELDS.join(',')}
-        }
+        entries: getConfirmedTimeEntries(projectKey: $projectKey) { ${GET_CONFIRMED_TIME_ENTRIES_FIELDS.join(',')} }
     }
 `;
