@@ -5,11 +5,12 @@ dependencies:
   connect-azuretables: 1.0.20
   connect-flash: 0.1.1
   cookie-parser: 1.4.4
-  debug: 2.6.9
+  debug: 4.1.1
   dotenv: 8.2.0
   express: 4.16.4
   express-favicon: 2.0.1
   express-graphql: 0.9.0_graphql@14.5.8
+  express-pino-logger: 4.0.0
   express-session: 1.17.0
   graphql: 14.5.8
   graphql-import: 0.7.1_graphql@14.5.8
@@ -21,9 +22,11 @@ dependencies:
   node-fetch: 2.6.0
   passport: 0.4.0
   passport-azure-ad: 4.2.0
+  pino: 5.14.0
   simple-oauth2: 3.1.0
   string-similarity: 3.0.0
   string-strip-html: 4.3.8
+  supports-color: 7.1.0
   underscore: 1.9.1
 devDependencies:
   '@apollo/react-hooks': 3.1.3_1edddd350ed254c61c8a30d5092c9e73
@@ -1797,7 +1800,7 @@ packages:
   /browserslist/4.7.3:
     dependencies:
       caniuse-lite: 1.0.30001012
-      electron-to-chromium: 1.3.314
+      electron-to-chromium: 1.3.317
       node-releases: 1.1.41
     dev: true
     hasBin: true
@@ -2581,10 +2584,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.314:
+  /electron-to-chromium/1.3.317:
     dev: true
     resolution:
-      integrity: sha512-IKDR/xCxKFhPts7h+VaSXS02Z1mznP3fli1BbXWXeN89i2gCzKraU8qLpEid8YzKcmZdZD3Mly3cn5/lY9xsBQ==
+      integrity: sha512-C7sfpr1I1zqDurrfyVFhL450NFLeZrDYy5DeUuJBkEhBZbhyJ7JEZn741J+jcXCBaQ8S6j75XomLDHOLmLOdFQ==
   /elliptic/6.5.2:
     dependencies:
       bn.js: 4.11.8
@@ -2793,6 +2796,12 @@ packages:
       graphql: ^14.4.1
     resolution:
       integrity: sha512-wccd9Lb6oeJ8yHpUs/8LcnGjFUUQYmOG9A5BNLybRdCzGw0PeUrtBxsIR8bfiur6uSW4OvPkVDoYH06z6/N9+w==
+  /express-pino-logger/4.0.0:
+    dependencies:
+      pino-http: 4.3.0
+    dev: false
+    resolution:
+      integrity: sha512-BTJwjQXMSR6tFiyvTOOr6aosJkJOuJpW0mXE+icv3ae/0WXBGnLaumINGHJvWMuDO1RSLHBLfRrJaghMjMhVrg==
   /express-session/1.17.0:
     dependencies:
       cookie: 0.4.0
@@ -2892,6 +2901,16 @@ packages:
   /fast-json-stable-stringify/2.0.0:
     resolution:
       integrity: sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
+  /fast-redact/2.0.0:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-zxpkULI9W9MNTK2sJ3BpPQrTEXFNESd2X6O1tXMFpK/XM0G5c5Rll2EVYZH2TqI3xRGK/VaJ+eEOt7pnENJpeA==
+  /fast-safe-stringify/2.0.7:
+    dev: false
+    resolution:
+      integrity: sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
   /feature-policy/0.3.0:
     dev: false
     engines:
@@ -2964,6 +2983,10 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-YbffarhcicEhOrm4CtrwdKBdCuz576RLdhJDsIfvNtxUuhdRet1qZcsMjqbePtAseKdAnDyM/IyXbu7PRPRLYg==
+  /flatstr/1.0.12:
+    dev: false
+    resolution:
+      integrity: sha512-4zPxDyhCyiN2wIAtSLI6gc82/EjqZc1onI4Mz/l0pWrAlsSfYH/2ZIcU+e3oA2wDwbzIWNKwa23F8rh6+DRWkw==
   /flush-write-stream/1.1.1:
     dependencies:
       inherits: 2.0.4
@@ -3279,7 +3302,7 @@ packages:
       node: '>=0.4.7'
     hasBin: true
     optionalDependencies:
-      uglify-js: 3.7.0
+      uglify-js: 3.7.1
     resolution:
       integrity: sha512-I16T/l8X9DV3sEkY9sK9lsPRgDsj82ayBY/4pAZyP2BcX5WeRM3O06bw9kIs2GLrHvFB/DNzWWJyFvof8wQGqw==
   /har-schema/2.0.0:
@@ -3310,7 +3333,6 @@ packages:
     resolution:
       integrity: sha1-tdRU3CGZriJWmfNGfloH87lVuv0=
   /has-flag/4.0.0:
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -4961,6 +4983,29 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
+  /pino-http/4.3.0:
+    dependencies:
+      pino: 5.14.0
+      pino-std-serializers: 2.4.2
+    dev: false
+    resolution:
+      integrity: sha512-9QrA/5KykS5TLqJPzFQY08bLA3iwHrLEVeM6PYKU95VqB54X/eJKev4A6sagf5UUxeUimVDcWt5wcp5SJHHSvg==
+  /pino-std-serializers/2.4.2:
+    dev: false
+    resolution:
+      integrity: sha512-WaL504dO8eGs+vrK+j4BuQQq6GLKeCCcHaMB2ItygzVURcL1CycwNEUHTD/lHFHs/NL5qAz2UKrjYWXKSf4aMQ==
+  /pino/5.14.0:
+    dependencies:
+      fast-redact: 2.0.0
+      fast-safe-stringify: 2.0.7
+      flatstr: 1.0.12
+      pino-std-serializers: 2.4.2
+      quick-format-unescaped: 3.0.3
+      sonic-boom: 0.7.6
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-Vj1f2wAojTGesogT0hsA/ua8ALltCOBCcA1nkEoDfnTsVWpgBu5UVSY7OdjiGmrMOKHBm24nd3nKXzyPUYJ3ig==
   /pkg-dir/3.0.0:
     dependencies:
       find-up: 3.0.0
@@ -5029,10 +5074,10 @@ packages:
   /pseudomap/1.0.2:
     resolution:
       integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
-  /psl/1.4.0:
+  /psl/1.5.0:
     dev: false
     resolution:
-      integrity: sha512-HZzqCGPecFLyoRj5HLfuDSKYTJkAfB5thKBIkRHtGjWwY7p1dAyveIbXIq4tO0KYfDF2tHqPUgY9SDnGm00uFw==
+      integrity: sha512-4vqUjKi2huMu1OJiLhi3jN6jeeKvMZdI1tYgi/njW5zV52jNLgSAZSdN16m9bJFe61/cT8ulmw4qFitV9QRsEA==
   /pstree.remy/1.1.7:
     dev: true
     resolution:
@@ -5100,6 +5145,10 @@ packages:
       node: '>=0.4.x'
     resolution:
       integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
+  /quick-format-unescaped/3.0.3:
+    dev: false
+    resolution:
+      integrity: sha512-dy1yjycmn9blucmJLXOfZDx1ikZJUi6E8bBZLnhPG5gBrVhHXx2xVyqqgKBubVNEXmx51dBACMHpoMQK/N/AXQ==
   /ramda/0.26.1:
     dev: true
     resolution:
@@ -5754,6 +5803,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-FtyOnWN/wCHTVXOMwvSv26d+ko5vWlIDD6zoUJ7LW8vh+ZBC8QdljveRP+crNrtBwioEUWy/4dMtbBjA4ioNlg==
+  /sonic-boom/0.7.6:
+    dependencies:
+      flatstr: 1.0.12
+    dev: false
+    resolution:
+      integrity: sha512-k9E2QQ4zxuVRLDW+ZW6ISzJs3wlEorVdmM7ApDgor7wsGKSDG5YGHsGmgLY4XYh4DMlr/2ap2BWAE7yTFJtWnQ==
   /source-list-map/2.0.1:
     dev: true
     resolution:
@@ -6047,7 +6102,6 @@ packages:
   /supports-color/7.1.0:
     dependencies:
       has-flag: 4.0.0
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -6184,7 +6238,7 @@ packages:
       integrity: sha512-WBx8Uy5TLtOSRtIq+M03/sKDrXCLHxwDcquSP2c43Le03/9serjQBIztjRz6FkJez9D/hleyAXTBGLwwZUw9lA==
   /tough-cookie/2.4.3:
     dependencies:
-      psl: 1.4.0
+      psl: 1.5.0
       punycode: 1.4.1
     dev: false
     engines:
@@ -6250,7 +6304,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
-  /uglify-js/3.7.0:
+  /uglify-js/3.7.1:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -6260,7 +6314,7 @@ packages:
     hasBin: true
     optional: true
     resolution:
-      integrity: sha512-PC/ee458NEMITe1OufAjal65i6lB58R1HWMRcxwvdz1UopW0DYqlRL3xdu3IcTvTXsB02CRHykidkTRL+A3hQA==
+      integrity: sha512-pnOF7jY82wdIhATVn87uUY/FHU+MDUdPLkmGFvGoclQmeu229eTkbG5gjGGBi3R7UuYYSEeYXY/TTY5j2aym2g==
   /uid-safe/2.1.5:
     dependencies:
       random-bytes: 1.0.0
@@ -6815,11 +6869,12 @@ specifiers:
   connect-azuretables: 1.0.20
   connect-flash: 0.1.1
   cookie-parser: ~1.4.4
-  debug: 2.6.9
+  debug: ^4.1.1
   dotenv: 8.2.0
   express: 4.16.4
   express-favicon: ^2.0.1
   express-graphql: 0.9.0
+  express-pino-logger: ^4.0.0
   express-session: 1.17.0
   get-value: ^3.0.1
   graphql: 14.5.8
@@ -6841,6 +6896,7 @@ specifiers:
   onchange: ^6.1.0
   passport: 0.4.0
   passport-azure-ad: 4.2.0
+  pino: ^5.14.0
   react: 16.12.0
   react-apollo: 3.1.3
   react-dom: 16.12.0
@@ -6849,6 +6905,7 @@ specifiers:
   simple-oauth2: 3.1.0
   string-similarity: ^3.0.0
   string-strip-html: 4.3.8
+  supports-color: ^7.1.0
   typescript: ^3.7.2
   underscore: ^1.9.1
   webpack: 4.41.2

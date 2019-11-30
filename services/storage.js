@@ -1,4 +1,4 @@
-const { queryTable, parseArray, isEqual, and, combine, stringFilter, createQuery } = require('../utils/table');
+const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery } = require('../utils/table');
 
 const SUBSCRIPTIONS = process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME;
 const USERS = process.env.AZURE_STORAGE_USERS_TABLE_NAME;
@@ -75,20 +75,20 @@ StorageService.prototype.getCustomers = async function () {
 }
 
 
-StorageService.prototype.getConfirmedTimeEntries = async function (projectKey, resourceId) {
+StorageService.prototype.getConfirmedTimeEntries = async function (projectKey, resourceId, weekNumber, options) {
+    options = options || {};
     let filter = this.filter;
     if (projectKey) {
         let key = projectKey.split(' ');
         filter = combine(filter, and, combine(stringFilter('CustomerKey', isEqual, key[0]), and, stringFilter('ProjectKey', isEqual, key[1])));
     }
-    if (resourceId) {
-        filter = combine(filter, and, combine(filter, and, stringFilter('ResourceId', isEqual, resourceId)));
-    }
+    if (resourceId) filter = combine(filter, and, stringFilter('ResourceId', isEqual, resourceId));
+    if (weekNumber) filter = combine(filter, and, intFilter('WeekNumber', isEqual, weekNumber));
     let query = createQuery(1000, undefined, filter);
-    const result = await queryTable(CONFIRMEDTIMEENTRIES, query);
-    const parsedResult = parseArray(result);
-    const sortedResult = parsedResult.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
-    return sortedResult;
+    let result = await queryTable(CONFIRMEDTIMEENTRIES, query);
+    result = !options.noParse ? parseArray(result) : result;
+    result = result.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
+    return result;
 };
 
 module.exports = StorageService;
