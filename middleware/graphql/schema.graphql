@@ -74,8 +74,7 @@ type Query {
 	getCustomers: [Customer!]!
 	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEvents(weekNumber: Int!): EventData!
-	getConfirmedDuration(weekNumber: Int!): Float!
-	getConfirmedEntries(projectKey: String, resourceId: String): [TimeEntry!]!
+	getConfirmedTimeEntries(projectKey: String, resourceId: String): [TimeEntry!]!
 }
 
 type Mutation {
