@@ -5,6 +5,7 @@ const { getDurationHours, getDurationMinutes } = require('../../../utils');
 const log = require('debug')('middleware/graphql/confirmWeek');
 
 async function confirmWeek(_obj, args, context) {
+    if (!args.entries || args.entries.length === 0) return false;
     log('Confirming week %s', args.weekNumber);
     const calendarView = await new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
     const batch = new TableBatch();

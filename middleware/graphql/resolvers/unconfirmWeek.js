@@ -1,25 +1,19 @@
-// const { TableBatch } = require('azure-storage');
-// const {
-//     executeBatch,
-//     queryTable,
-//     intFilter,
-//     stringFilter,
-//     isEqual,
-//     and,
-//     combine,
-//     createQuery,
-// } = require('../../../services/table');
+const { TableBatch } = require('azure-storage');
+const { executeBatch } = require('../../../utils/table');
+const StorageService = require('../../../services/storage');
+const log = require('debug')('middleware/graphql/unconfirmWeek');
 
-module.exports = async (_obj, args, context) => {
-    // let filter = stringFilter('PartitionKey', isEqual, context.user.profile._json.tid);
-    // filter = combine(filter, and, intFilter('WeekNumber', isEqual, args.weekNumber));
-    // filter = combine(filter, and, stringFilter('ResourceId', isEqual, context.user.profile.oid));
-    // const query = createQuery(100, ['PartitionKey', 'RowKey']).where(filter);
-    // const result = await queryTable(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, query);
-    // const batch = result.reduce((b, entity) => {
-    //     b.deleteEntity(entity);
-    //     return b;
-    // }, new TableBatch());
-    // await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
-    // return true;
+async function unconfirmWeek(_obj, args, context) {
+    const entries = await new StorageService(context.tid).getConfirmedTimeEntries(undefined, context.user.profile.oid, args.weekNumber, { noParse: true });
+    if (entries.length == 0) return false;
+    log('Unconfirming week %s with %s confirmed time entries', args.weekNumber, entries.length);
+
+    const batch = result.reduce((b, entity) => {
+        b.deleteEntity(entity);
+        return b;
+    }, new TableBatch());
+    await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
+    return true;
 };
+
+module.exports = unconfirmWeek;

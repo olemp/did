@@ -113,4 +113,5 @@ module.exports = {
     stringFilter: TableQuery.stringFilter,
     intFilter: TableQuery.int32Filter,
     createQuery: createQuery,
+    entGen: TableUtilities.entityGenerator,
 }
