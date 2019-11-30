@@ -74,7 +74,7 @@ function matchEvent(evt, projects, customers) {
 
 async function getEvents(_obj, args, context) {
     log('Retrieving events for week %s', args.weekNumber);
-    let [events, projects, customers, { duration: confirmedDuration }] = await Promise.all([
+    let [events, projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.graph.getEvents(args.weekNumber),
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
@@ -84,6 +84,7 @@ async function getEvents(_obj, args, context) {
     const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
     const matchedEvents = events.filter(evt => (evt.project && evt.project.id));
     const matchedDuration = matchedEvents.reduce((sum, evt) => sum + evt.durationMinutes, 0);
+    const confirmedDuration = confirmedTimeEntries.reduce((sum, ent) => sum + ent.durationMinutes, 0);
     return {
         weekNumber: args.weekNumber,
         events,
