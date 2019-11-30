@@ -78,6 +78,6 @@ type Query {
 }
 
 type Mutation {
-	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): Float!
+	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): Boolean!
 	unconfirmWeek(weekNumber: Int!): Boolean!
 }
