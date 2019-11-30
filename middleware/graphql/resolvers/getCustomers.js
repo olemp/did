@@ -1,13 +1,9 @@
-const {
-    queryTable,
-    parseArray,
-    createQuery,
-} = require('../../../services/table');
+const log = require('debug')('middleware/graphql/getCustomers');
 
 async function getCustomers(_obj, _args, context) {
-    const query = createQuery(1000, ['RowKey', 'CustomerKey', 'Name', 'Description', 'WebLink']).where('PartitionKey eq ?', context.tid);
-    const result = await queryTable(process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME, query);
-    return parseArray(result).map(r => ({ ...r, key: r.customerKey.toUpperCase() }));;
+    let customers = await context.services.storage.getCustomers();
+    log('Retrieved %s customers from storage', customers.length);
+    return customers;
 };
 
 module.exports = getCustomers;

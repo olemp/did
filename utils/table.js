@@ -42,8 +42,12 @@ function parseArray(arr) {
  */
 function createQuery(top, select, filter) {
     let query = new TableQuery().top(top);
-    if (select) query = query.select(select);
-    if (filter) query = query.where(filter);
+    if (select) {
+        query = query.select(select);
+    }
+    if (filter) {
+        query = query.where(filter);
+    }
     return query;
 }
 
@@ -102,39 +106,10 @@ function executeBatch(table, batch) {
     });
 };
 
-/**
- * Checks if the specified tenant id has a active subscription
- * 
- * @param {*} tenantId 
- */
-function getSubscription(tenantId) {
-    return new Promise(async (resolve) => {
-        const query = createQuery(1, ['Name']).where('RowKey eq ?', tenantId);
-        var sub = await queryTable(process.env.AZURE_STORAGE_SUBSCRIPTIONS_TABLE_NAME, query);
-        resolve(parseArray(sub)[0]);
-    });
-};
-
-/**
- * Get user
- * 
- * @param {*} tenantId 
- * @param {*} userId 
- */
-async function getUser(tenantId, userId) {
-    let filter = TableQuery.stringFilter('PartitionKey', TableUtilities.QueryComparisons.EQUAL, tenantId);
-    filter = TableQuery.combineFilters(filter, TableUtilities.TableOperators.AND, TableQuery.stringFilter('RowKey', TableUtilities.QueryComparisons.EQUAL, userId));
-    const query = createQuery(1, ['Role', 'StartPage']).where(filter);
-    const users = await queryTable(process.env.AZURE_STORAGE_USERS_TABLE_NAME, query);
-    return parseArray(users)[0];
-}
-
 module.exports = {
     queryTable: queryTable,
     addEntity: addEntity,
     executeBatch: executeBatch,
-    getSubscription: getSubscription,
-    getUser: getUser,
     parseArray: parseArray,
     isEqual: TableUtilities.QueryComparisons.EQUAL,
     and: TableUtilities.TableOperators.AND,
@@ -142,4 +117,5 @@ module.exports = {
     stringFilter: TableQuery.stringFilter,
     intFilter: TableQuery.int32Filter,
     createQuery: createQuery,
+    entGen: TableUtilities.entityGenerator,
 }

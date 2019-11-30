@@ -11,7 +11,8 @@
             "program": "${workspaceFolder}\\server.js",
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "NODE_ENV": "development"
+                "NODE_ENV": "development",
+                "DEBUG": "services*"
             },
             "outFiles": [
                 "${workspaceFolder}/**/*.js"

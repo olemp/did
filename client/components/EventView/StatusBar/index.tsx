@@ -14,7 +14,7 @@ export const StatusBar = ({ isConfirmed, data }) => {
                 iconName='ReminderTime' />
             <UserMessage
                 hidden={data.totalDuration - data.matchedDuration === 0 || isConfirmed}
-                text={`You've *${getDurationDisplay(data.totalDuration - data.matchedDuration)}* that are not matched.`}
+                text={`You've **${getDurationDisplay(data.totalDuration - data.matchedDuration)}** that are not matched.`}
                 type={MessageBarType.warning}
                 marginTop={10}
                 iconName='BufferTimeBoth' />
