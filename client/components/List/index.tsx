@@ -27,16 +27,18 @@ export const List = (props: IListProps) => {
     }
 
     return (
-        <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
-            <ShimmeredDetailsList
-                enableShimmer={props.enableShimmer}
-                selection={selection}
-                columns={props.columns}
-                items={items}
-                selectionMode={props.selectionMode}
-                constrainMode={ConstrainMode.horizontalConstrained}
-                layoutMode={DetailsListLayoutMode.justified}
-                onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />
-        </ScrollablePaneWrapper>
+        <div style={{ marginBottom: 25 }}>
+            <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
+                <ShimmeredDetailsList
+                    enableShimmer={props.enableShimmer}
+                    selection={selection}
+                    columns={props.columns}
+                    items={items}
+                    selectionMode={props.selectionMode}
+                    constrainMode={ConstrainMode.horizontalConstrained}
+                    layoutMode={DetailsListLayoutMode.justified}
+                    onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />
+            </ScrollablePaneWrapper>
+        </div>
     );
 };

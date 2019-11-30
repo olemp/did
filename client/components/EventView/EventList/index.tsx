@@ -51,7 +51,7 @@ export const EventList = ({ events, enableShimmer, hideColumns = [], dateFormat 
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (
-        <div style={{ marginBottom: 25 }}>
+        <div>
             <List
                 enableShimmer={enableShimmer}
                 columns={columns}
