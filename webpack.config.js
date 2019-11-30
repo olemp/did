@@ -1,5 +1,6 @@
 require('dotenv').config();
 const ignorePlugin = require('webpack').IgnorePlugin;
+const WebpackBar = require('webpackbar');
 
 module.exports = {
   module: {
@@ -28,6 +29,7 @@ module.exports = {
   },
   plugins: [
     new ignorePlugin(/^\.\/locale$/, /moment$/),
+    new WebpackBar(),
   ],
   output: {
     path: require('path').resolve(__dirname, './public/js'),

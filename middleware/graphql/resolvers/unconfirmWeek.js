@@ -9,7 +9,7 @@ async function unconfirmWeek(_obj, args, context) {
             return { success: false, error: 'No confirmed time entries to unconfirm' };
         }
         log('Unconfirming week %s with %s confirmed time entries', args.weekNumber, entries.length);
-        const batch = result.reduce((b, entity) => {
+        const batch = entries.reduce((b, entity) => {
             b.deleteEntity(entity);
             return b;
         }, new TableBatch());
