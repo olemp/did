@@ -1,9 +1,8 @@
 
 import { useQuery } from '@apollo/react-hooks';
-import { List } from 'components/List';
+import { List, IColumn, SelectionMode } from 'components/List';
 import * as getValue from 'get-value';
 import { ICustomer } from 'models';
-import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { useState } from 'react';
@@ -39,6 +38,7 @@ export const Customers = () => {
                     items={customers}
                     columns={columns}
                     searchBox={{ placeholder: 'Search in customers...' }}
+                    selectionMode={SelectionMode.single}
                     onSelectionChanged={selected => setSelected(selected)}
                     height={300} />
             )}

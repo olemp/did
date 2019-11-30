@@ -1,5 +1,5 @@
 import { ScrollablePaneWrapper } from 'components/ScrollablePaneWrapper';
-import { ConstrainMode, DetailsListLayoutMode, Selection, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { ConstrainMode, DetailsListLayoutMode, Selection, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -42,3 +42,5 @@ export const List = (props: IListProps) => {
         </div>
     );
 };
+
+export { SelectionMode, IColumn }
