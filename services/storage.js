@@ -1,4 +1,4 @@
-const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery } = require('../utils/table');
+const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery, addEntity, entGen } = require('../utils/table');
 const log = require('debug')('services/storage');
 const arraySort = require('array-sort');
 
@@ -37,7 +37,7 @@ StorageService.prototype.getUser = async function (userId) {
 }
 
 /**
- * Get user
+ * Get projects
  * 
  * @param {*} customerKey 
  * @param {*} sortBy 
@@ -59,6 +59,24 @@ StorageService.prototype.getProjects = async function (customerKey, sortBy) {
     });
     if (sortBy) projects = arraySort(projects, sortBy);
     return projects;
+}
+
+/**
+ * Create project
+ * 
+ * @param {*} customerKey 
+ * @param {*} projectKey 
+ * @param {*} name 
+ */
+StorageService.prototype.createProject = async function (customerKey, projectKey, name) {
+    let entity = await addEntity(PROJECTS, {
+        PartitionKey: entGen.String(this.tenantId),
+        RowKey: entGen.String(require('uuid/v1')()),
+        Name: entGen.String(name),
+        CustomerKey: entGen.String(customerKey.toUpperCase()),
+        ProjectKey: entGen.String(projectKey.toUpperCase()),
+    })
+    return entity;
 }
 
 StorageService.prototype.getCustomers = async function () {

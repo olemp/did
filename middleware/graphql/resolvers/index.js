@@ -4,6 +4,7 @@ const getProjects = require('./getProjects');
 const getCustomers = require('./getCustomers');
 const getEvents = require('./getEvents');
 const unconfirmWeek = require('./unconfirmWeek');
+const createProject = require('./createProject');
 
 module.exports = {
     Query: {
@@ -15,5 +16,6 @@ module.exports = {
     Mutation: {
         confirmWeek,
         unconfirmWeek,
+        createProject,
     }
 };
