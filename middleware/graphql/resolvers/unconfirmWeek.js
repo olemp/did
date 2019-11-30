@@ -1,10 +1,9 @@
 const { TableBatch } = require('azure-storage');
 const { executeBatch } = require('../../../utils/table');
-const StorageService = require('../../../services/storage');
 const log = require('debug')('middleware/graphql/unconfirmWeek');
 
 async function unconfirmWeek(_obj, args, context) {
-    const entries = await new StorageService(context.tid).getConfirmedTimeEntries(undefined, context.user.profile.oid, args.weekNumber, { noParse: true });
+    const entries = await context.services.storage.getConfirmedTimeEntries(undefined, context.user.profile.oid, args.weekNumber, { noParse: true });
     if (entries.length == 0) return false;
     log('Unconfirming week %s with %s confirmed time entries', args.weekNumber, entries.length);
 

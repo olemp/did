@@ -1,5 +1,4 @@
 const { TableBatch } = require('azure-storage');
-const GraphService = require('../../../services/graph');
 const { executeBatch, entGen } = require('../../../utils/table');
 const { getDurationHours, getDurationMinutes } = require('../../../utils');
 const log = require('debug')('middleware/graphql/confirmWeek');
@@ -7,7 +6,7 @@ const log = require('debug')('middleware/graphql/confirmWeek');
 async function confirmWeek(_obj, args, context) {
     if (!args.entries || args.entries.length === 0) return false;
     log('Confirming week %s', args.weekNumber);
-    const calendarView = await new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber);
+    const calendarView = await context.services.graph.getEvents(args.weekNumber);
     const batch = new TableBatch();
     args.entries.forEach(entry => {
         let event = calendarView.filter(e => e.id === entry.id)[0];

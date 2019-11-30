@@ -1,7 +1,5 @@
 const _ = require('underscore');
 const findBestMatch = require('string-similarity').findBestMatch;
-const StorageService = require('../../../services/storage');
-const GraphService = require('../../../services/graph');
 const log = require('debug')('middleware/graphql/getEvents');
 
 /**
@@ -77,10 +75,10 @@ function matchEvent(evt, projects, customers) {
 async function getEvents(_obj, args, context) {
     log('Retrieving events for week %s', args.weekNumber);
     let [events, projects, customers, confirmedTimeEntries] = await Promise.all([
-        new GraphService(context.user.oauthToken.access_token).getEvents(args.weekNumber),
-        new StorageService(context.tid).getProjects(),
-        new StorageService(context.tid).getCustomers(),
-        new StorageService(context.tid).getConfirmedTimeEntries(undefined, context.user.profile.oid),
+        context.services.graph.getEvents(args.weekNumber),
+        context.services.storage.getProjects(),
+        context.services.storage.getCustomers(),
+        context.services.storage.getConfirmedTimeEntries(undefined, context.user.profile.oid),
     ])
     events = events.map(evt => matchEvent(evt, projects, customers));
     const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
