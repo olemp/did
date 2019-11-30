@@ -53,3 +53,8 @@ h5 {
 .c-eventview .c-eventview-section-content {
   margin: 10px 0 0 0;
 }
+
+.c-projectlink-callout {
+  padding: 15px;
+  width: 320px;
+}
