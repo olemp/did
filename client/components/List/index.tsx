@@ -38,7 +38,7 @@ export const List = (props: IListProps) => {
                     enableShimmer={props.enableShimmer}
                     selection={selection}
                     columns={props.columns}
-                    items={items}
+                    items={items || []}
                     selectionMode={props.selection ? props.selection.mode : SelectionMode.none}
                     constrainMode={ConstrainMode.horizontalConstrained}
                     layoutMode={DetailsListLayoutMode.justified}

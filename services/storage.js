@@ -103,7 +103,6 @@ StorageService.prototype.getCustomers = async function () {
     });;
 }
 
-
 StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, weekNumber, projectKey, options) {
     options = options || {};
     let filter = this.filter;
@@ -119,6 +118,12 @@ StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, w
     result = !options.noParse ? parseArray(result) : result;
     result = result.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
     return result;
-};
+}
+
+StorageService.prototype.getUsers = async function () {
+    const query = createQuery(1000, undefined).where(this.filter);
+    const result = await queryTable(USERS, query);
+    return parseArray(result);
+}
 
 module.exports = StorageService;

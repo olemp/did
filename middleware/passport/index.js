@@ -11,7 +11,7 @@ passport.deserializeUser(async (user, done) => {
         user.data = await new StorageService(user.profile._json.tid).getUser(user.profile.oid);
     }
     if (user.data) done(null, user);
-    else done('No access', null);
+    else done(new Error('No access'), null);
 });
 
 

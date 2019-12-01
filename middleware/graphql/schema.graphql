@@ -64,6 +64,12 @@ type Week {
 	closed: Boolean!
 }
 
+type User {
+	id: String!
+	role: String!
+	fullName: String!
+}
+
 input TimeEntryInput {
 	id: String
 	projectKey: String
@@ -89,6 +95,7 @@ type Query {
 	getEvents(weekNumber: Int!): EventData!
 	getConfirmedTimeEntries(projectKey: String, resourceId: String): ConfirmedTimeEntries
 	getWeeks: [Week!]!
+	getUsers: [User!]!
 }
 
 type BaseResult {
