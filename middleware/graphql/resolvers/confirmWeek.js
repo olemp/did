@@ -1,31 +1,38 @@
 const { TableBatch } = require('azure-storage');
 const { executeBatch, entGen } = require('../../../utils/table');
 const { getDurationHours, getDurationMinutes, getMonth, getYear } = require('../../../utils');
+const uuid = require('uuid/v1');
 const log = require('debug')('middleware/graphql/confirmWeek');
 
+/**
+ * Confirm week
+ * 
+ * @param {*} _obj Unused object
+ * @param {*} args Args (weekNumber, entries)
+ * @param {*} context Context
+ */
 async function confirmWeek(_obj, args, context) {
     if (!args.entries || args.entries.length === 0) return { success: false, error: 'No entries to confirm' };
     try {
         log('Confirming week %s', args.weekNumber);
         const calendarView = await context.services.graph.getEvents(args.weekNumber);
-        const batch = new TableBatch();
-        args.entries.forEach(entry => {
-            let event = calendarView.filter(e => e.id === entry.id)[0];
+        let batch = args.entries.reduce((b, entry) => {
+            const event = calendarView.filter(e => e.id === entry.id)[0];
             if (!event) return;
-            let key = entry.projectKey.split(' ');
-            const durationHours = getDurationHours(event.startTime, event.endTime);
-            const durationMinutes = getDurationMinutes(event.startTime, event.endTime);
-            batch.insertEntity({
+            const rowKey = `${uuid()}-${args.weekNumber}`;
+            log('Confirming entry with id %s (%s)', entry.id, rowKey);
+            b.insertEntity({
                 PartitionKey: entGen.String(context.tid),
-                RowKey: entGen.String(entry.id),
+                RowKey: entGen.String(rowKey),
+                EventId: entGen.String(entry.id),
                 Title: entGen.String(event.title),
                 Description: entGen.String(event.body),
                 StartTime: entGen.DateTime(new Date(event.startTime)),
                 EndTime: entGen.DateTime(new Date(event.endTime)),
-                DurationHours: entGen.Double(durationHours),
-                DurationMinutes: entGen.Int32(durationMinutes),
-                CustomerKey: entGen.String(key[0]),
-                ProjectKey: entGen.String(key[1]),
+                DurationHours: entGen.Double(getDurationHours(event.startTime, event.endTime)),
+                DurationMinutes: entGen.Int32(getDurationMinutes(event.startTime, event.endTime)),
+                CustomerKey: entGen.String(entry.projectKey.split(' ')[0]),
+                ProjectKey: entGen.String(entry.projectKey.split(' ')[1]),
                 WebLink: entGen.String(event.webLink),
                 WeekNumber: entGen.Int32(args.weekNumber),
                 MonthNumber: entGen.Int32(getMonth()),
@@ -34,12 +41,12 @@ async function confirmWeek(_obj, args, context) {
                 ResourceEmail: entGen.String(context.user.profile.email),
                 ResourceName: entGen.String(context.user.profile.displayName),
             });
-        });
+            return b;
+        }, new TableBatch());
         await executeBatch(process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME, batch)
         return { success: true, error: null };
     } catch (error) {
-        console.log(error);
-        return { success: false, error: 'An error occured' };
+        return { success: false, error: error.message };
     }
 };
 

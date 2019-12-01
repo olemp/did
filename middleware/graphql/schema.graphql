@@ -40,6 +40,7 @@ type Event {
 
 type TimeEntry {
 	id: String!
+	eventId: String!
 	title: String!
 	description: String
 	startTime: String
