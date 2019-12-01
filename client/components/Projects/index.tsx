@@ -30,7 +30,7 @@ export const Projects = () => {
                     height={300}
                     enableShimmer={loading}
                     items={projects}
-                    searchBox={{ placeholder: 'Search in projects...' }}
+                    searchBox={{ placeholder: 'Search...' }}
                     selection={{ mode: SelectionMode.single, onChanged: selected => setSelected(selected) }} />
             )}
             {selected && <ProjectDetails project={selected} />}

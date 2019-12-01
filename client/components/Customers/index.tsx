@@ -37,7 +37,7 @@ export const Customers = () => {
                     enableShimmer={loading}
                     items={customers}
                     columns={columns}
-                    searchBox={{ placeholder: 'Search in customers...' }}
+                    searchBox={{ placeholder: 'Search...' }}
                     selection={{ mode: SelectionMode.single, onChanged: selected => setSelected(selected) }}
                     height={350} />
             )}

@@ -22,7 +22,7 @@ export const CustomerDetails = ({ customer }) => {
                 <ProjectList
                     items={projects}
                     enableShimmer={loading}
-                    searchBox={{ placeholder: `Search projects for ${customer.name}...` }}
+                    searchBox={{ placeholder: `Search in projects...` }}
                     renderLink={true}
                     height={300} />
             )}
