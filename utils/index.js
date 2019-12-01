@@ -7,10 +7,10 @@ module.exports = {
     getDurationHours: (startTime, endTime) => {
         return moment.duration(moment(endTime).diff(moment(startTime))).asHours()
     },
-    getYear: () => {
-        return moment().year();
+    getYear: (date) => {
+        return moment(date).year();
     },
-    getMonth: () => {
-        return moment().month() + 1;
+    getMonth: (date) => {
+        return moment(date).month();
     }
 }
