@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import { EventList } from 'components/EventView/EventList';
-import { GET_CONFIRMED_TIME_ENTRIES } from 'components/Reports/GET_CONFIRMED_TIME_ENTRIES';
+import { GET_CONFIRMED_TIME_ENTRIES } from 'components/AdminView/Reports/GET_CONFIRMED_TIME_ENTRIES';
 import { currencyDisplay, getValueTyped as value } from 'helpers';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';

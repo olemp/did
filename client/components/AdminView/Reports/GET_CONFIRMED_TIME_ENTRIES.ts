@@ -12,7 +12,6 @@ export const GET_CONFIRMED_TIME_ENTRIES = gql`
                 endTime
                 weekNumber
                 yearNumber
-                webLink
                 resourceName
             }
             duration

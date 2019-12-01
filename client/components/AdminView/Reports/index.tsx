@@ -22,7 +22,7 @@ export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeE
 
     const columns = Object.keys(entries[0] || {})
         .filter(f => skip.indexOf(f) === -1)
-        .map(fieldName => generateColumn(fieldName, humanize(fieldName), { maxWidth: 100 }));
+        .map(fieldName => generateColumn(fieldName, humanize(fieldName), { minWidth: 60, maxWidth: 100 }));
 
     const onExport = () => {
         excelUtils.exportExcel(

@@ -23,9 +23,6 @@
                 </li>
                 {{#if user.isAdmin }}
                     <li class="nav-item">
-                        <a href="/reports" class="nav-link{{#if active.reports}} active{{/if}}">Reports</a>
-                    </li>
-                    <li class="nav-item">
                         <a href="/admin" class="nav-link{{#if active.admin}} active{{/if}}">Admin</a>
                     </li>
                 {{/if}}
@@ -55,8 +52,7 @@
                 </li>
                 {{else}}
                 <li class="nav-item">
-                    <a href="/auth/signin" class="nav-link"><img
-                            src="/images/ms-symbollockup_signin_dark_short.svg" /></a>
+                    <a href="/auth/signin" class="nav-link"><img src="/images/ms-symbollockup_signin_dark_short.svg" /></a>
                 </li>
                 {{/if}}
             </ul>

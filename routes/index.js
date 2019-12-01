@@ -18,10 +18,6 @@ router.get('/projects', isAuthenticated, (_req, res) => {
   res.render('projects', { active: { projects: true } });
 });
 
-router.get('/reports', isAuthenticated, (_req, res) => {
-  res.render('reports', { active: { reports: true } });
-});
-
 router.get('/admin', isAuthenticated, (_req, res) => {
   res.render('admin', { active: { admin: true } });
 });

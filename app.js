@@ -14,8 +14,6 @@ const app = express();
 app.use(require('./middleware/helmet'));
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
-process.title = 'did365';
-
 //#region Setting up session using connect-azuretables
 app.use(require('./middleware/session'));
 //#endregion
