@@ -26,4 +26,8 @@ router.get('/admin', isAuthenticated, (_req, res) => {
   res.render('admin', { active: { admin: true } });
 });
 
+router.get('/admin/users/:userId', isAuthenticated, (req, res) => {
+  res.render('admin-user', { active: { admin: true }, props: JSON.stringify(req.params) });
+});
+
 module.exports = router;

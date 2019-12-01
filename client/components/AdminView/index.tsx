@@ -22,12 +22,11 @@ const WeekClosedColumn = ({ week, closed }) => {
 
 const WEEK_LIST_COLUMNS = [
     generateColumn('id', 'Week number', { maxWidth: 150 }),
-    generateColumn('closed', undefined, undefined, (item: any) => <WeekClosedColumn week={item.id} closed={item.closed} />)
+    generateColumn('closed', undefined, undefined, (week: any) => <WeekClosedColumn week={week.id} closed={week.closed} />)
 ];
 
 const USER_LIST_COLUMNS = [
-    generateColumn('id', 'ID', { maxWidth: 180 }),
-    generateColumn('fullName', 'Name', { maxWidth: 180 }),
+    generateColumn('fullName', 'Name', { maxWidth: 180 }, (user: any) => <a href={`/admin/users/${user.id}`}>{user.fullName}</a>),
     generateColumn('role', 'Role')
 ];
 
