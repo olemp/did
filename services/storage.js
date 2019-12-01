@@ -7,6 +7,7 @@ const USERS = process.env.AZURE_STORAGE_USERS_TABLE_NAME;
 const PROJECTS = process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME;
 const CUSTOMERS = process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME;
 const CONFIRMEDTIMEENTRIES = process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME;
+const WEEKS = 'Weeks';
 
 function StorageService(tid) {
     this.tenantId = tid;
@@ -59,6 +60,16 @@ StorageService.prototype.getProjects = async function (customerKey, sortBy) {
     });
     if (sortBy) projects = arraySort(projects, sortBy);
     return projects;
+}
+
+/**
+ * Get weeks
+ */
+StorageService.prototype.getWeeks = async function () {
+    let query = createQuery(1000, undefined, this.filter);
+    const result = await queryTable(WEEKS, query);
+    const weeks = parseArray(result);
+    return weeks;
 }
 
 /**

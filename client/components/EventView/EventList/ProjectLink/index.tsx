@@ -58,7 +58,7 @@ export const ProjectLinkCallout = ({ customerKey, projectKey, target, onDismiss,
  * @component ProjectLinkSuggestion
  * @description @todo
  */
-export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject }) => {
+export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject, onRefetch }) => {
     let toggleId = getId('toggle-callout');
     const [callout, setCallout] = useState<Element>(null);
 
@@ -78,7 +78,7 @@ export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject }) => {
                 customerKey={matchedKey.split(' ')[0]}
                 projectKey={matchedKey.split(' ')[1]}
                 onDismiss={() => setCallout(null)}
-                onAdded={() => window.location.reload()} />
+                onAdded={() => onRefetch()} />
         </>
     );
 }
@@ -126,10 +126,10 @@ export const ProjectLinkNoMatch = () => {
  * @component ProjectLink
  * @description @todo
  */
-export const ProjectLink = ({ item }) => {
+export const ProjectLink = ({ item, onRefetch }) => {
     if (!item.project) {
         let matchedKey = item.customerKey + ' ' + item.projectKey;
-        if (item.suggestedProject) return <ProjectLinkSuggestion matchedKey={matchedKey} suggestedProject={item.suggestedProject} />;
+        if (item.suggestedProject) return <ProjectLinkSuggestion matchedKey={matchedKey} suggestedProject={item.suggestedProject} onRefetch={onRefetch} />;
         else if (item.customer) return <ProjectLinkCustomerMatch customer={item.customer.name} projectKey={item.projectKey} />;
         else if (item.customerKey) return <ProjectLinkInvalidMatch matchedKey={matchedKey} />;
         return <ProjectLinkNoMatch />

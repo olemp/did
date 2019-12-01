@@ -8,6 +8,7 @@ export interface IGetEventData {
   matchedDuration?: number;
   totalDuration?: number;
   confirmedDuration?: number;
+  weeks?: { id: string, closed: boolean }[];
 }
 
 export interface IGetEventDataVariables {
@@ -16,6 +17,10 @@ export interface IGetEventDataVariables {
 
 export default gql`
 query ($weekNumber: Int!) {
+  weeks: getWeeks {
+    id
+    closed
+  }
   event_data: getEvents(weekNumber: $weekNumber) {
     events {
       id

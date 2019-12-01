@@ -58,6 +58,11 @@ type TimeEntry {
 	overtime: Boolean
 }
 
+type Week {
+	id: String!
+	closed: Boolean!
+}
+
 input TimeEntryInput {
 	id: String
 	projectKey: String
@@ -82,6 +87,7 @@ type Query {
 	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEvents(weekNumber: Int!): EventData!
 	getConfirmedTimeEntries(projectKey: String, resourceId: String): ConfirmedTimeEntries
+	getWeeks: [Week!]!
 }
 
 type BaseResult {
