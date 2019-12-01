@@ -87,6 +87,24 @@ function addEntity(table, item) {
     });
 };
 
+/**
+ * Updates the entity
+ * 
+ * @param {*} table 
+ * @param {*} item 
+ */
+function updateEntity(table, item) {
+    return new Promise((resolve, reject) => {
+        azureTableService.insertOrReplaceEntity(table, item, undefined, (error, result) => {
+            if (!error) {
+                resolve(result);
+            } else {
+                reject(error);
+            }
+        })
+    });
+};
+
 
 /**
  * Executes a batch operation
@@ -109,6 +127,7 @@ function executeBatch(table, batch) {
 module.exports = {
     queryTable: queryTable,
     addEntity: addEntity,
+    updateEntity: updateEntity,
     executeBatch: executeBatch,
     parseArray: parseArray,
     isEqual: TableUtilities.QueryComparisons.EQUAL,

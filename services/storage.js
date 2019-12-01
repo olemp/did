@@ -1,4 +1,4 @@
-const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery, addEntity, entGen } = require('../utils/table');
+const { queryTable, parseArray, isEqual, and, combine, stringFilter, intFilter, createQuery, addEntity, updateEntity, entGen } = require('../utils/table');
 const log = require('debug')('services/storage');
 const arraySort = require('array-sort');
 
@@ -73,6 +73,18 @@ StorageService.prototype.getWeeks = async function () {
 }
 
 /**
+ * Update week
+ */
+StorageService.prototype.updateWeek = async function (weekNumber, closed) {
+    const result = await updateEntity(WEEKS, {
+        PartitionKey: entGen.String(this.tenantId),
+        RowKey: entGen.String(weekNumber.toString()),
+        Closed: entGen.Boolean(closed),
+    });
+    return result;
+}
+
+/**
  * Create project
  * 
  * @param {*} customerKey 
@@ -86,7 +98,7 @@ StorageService.prototype.createProject = async function (customerKey, projectKey
         Name: entGen.String(name),
         CustomerKey: entGen.String(customerKey.toUpperCase()),
         ProjectKey: entGen.String(projectKey.toUpperCase()),
-    })
+    });
     return entity;
 }
 

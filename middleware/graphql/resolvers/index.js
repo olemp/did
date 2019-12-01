@@ -7,6 +7,7 @@ const unconfirmWeek = require('./unconfirmWeek');
 const createProject = require('./createProject');
 const getWeeks = require('./getWeeks');
 const getUsers = require('./getUsers');
+const updateWeek = require('./updateWeek');
 
 module.exports = {
     Query: {
@@ -21,5 +22,6 @@ module.exports = {
         confirmWeek,
         unconfirmWeek,
         createProject,
+        updateWeek,
     }
 };

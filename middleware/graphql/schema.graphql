@@ -107,4 +107,5 @@ type Mutation {
 	createProject(customerKey: String!, projectKey: String!, name: String!): String
 	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): BaseResult!
 	unconfirmWeek(weekNumber: Int!): BaseResult!
+	updateWeek(weekNumber: Int!, closed: Boolean!): Boolean!
 }
