@@ -1,7 +1,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { TypedHash } from '@pnp/common';
-import { getValueTyped } from 'helpers';
+import { getValueTyped as value } from 'helpers';
 import * as Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import * as React from 'react';
@@ -22,7 +22,7 @@ export const GetAllocation = (entries: ITimeEntry[], key: string) => entries.red
 export const AdminUserView = (variables: IAdminUserViewProps) => {
     const { data } = useQuery(GET_USER_DATA, { variables });
 
-    let entries = getValueTyped<ITimeEntry[]>(data, 'result.entries', []);
+    let entries = value<ITimeEntry[]>(data, 'result.entries', []);
     let allocation_project = GetAllocation(entries, 'projectKey');
     let allocation_customer = GetAllocation(entries, 'customerKey');
 

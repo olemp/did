@@ -1,7 +1,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
 import { SelectionMode } from 'components/List';
-import { getValueTyped } from 'helpers';
+import { getValueTyped as value } from 'helpers';
 import { IProject } from 'models';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
@@ -15,7 +15,7 @@ export const Projects = () => {
     const [selected, setSelected] = useState<IProject>(null);
     const { loading, error, data } = useQuery<IGetProjectsEntries>(GET_PROJECTS, { variables: { sortBy: 'name' }, fetchPolicy: 'cache-first' });
 
-    let projects = getValueTyped<IProject[]>(data, 'projects', []);
+    let projects = value<IProject[]>(data, 'projects', []);
 
     if (getHash()) {
         let [_selected] = projects.filter(c => c.key === getHash());

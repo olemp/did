@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import { List } from 'components/List';
-import { getValueTyped } from 'helpers';
+import { getValueTyped as value } from 'helpers';
 import { ICalEvent } from 'models';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import * as React from 'react';
@@ -18,7 +18,7 @@ import { GET_CONFIRMED_TIME_ENTRIES } from './GET_CONFIRMED_TIME_ENTRIES';
 export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeEntries-{0}.xlsx' }) => {
     const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES);
 
-    const entries = getValueTyped<ICalEvent[]>(data, 'result.entries', []);
+    const entries = value<ICalEvent[]>(data, 'result.entries', []);
 
     const columns = Object.keys(entries[0] || {})
         .filter(f => skip.indexOf(f) === -1)

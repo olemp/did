@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks';
 import { EventList } from 'components/EventView/EventList';
 import { GET_CONFIRMED_TIME_ENTRIES } from 'components/Reports/GET_CONFIRMED_TIME_ENTRIES';
-import { currencyDisplay, getValueTyped } from 'helpers';
+import { currencyDisplay, getValueTyped as value } from 'helpers';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
@@ -13,8 +13,8 @@ export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
     const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectKey: project.key } });
 
     /** Initializing constants dependent on data from useQuery  */
-    const entries = getValueTyped<any[]>(data, 'result.entries', []);
-    const duration = getValueTyped<number>(data, 'result.duration', 0);
+    const entries = value<any[]>(data, 'result.entries', []);
+    const duration = value<number>(data, 'result.duration', 0);
 
     const onExport = async () => {
         let key = project.key.toString().replace(/\s+/g, '-').toUpperCase();
