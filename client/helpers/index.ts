@@ -1,3 +1,5 @@
+import * as getValue from 'get-value';
+
 /**
  * Get duration display
  * 
@@ -51,4 +53,16 @@ export function currencyDisplay(num: number, currency: string = 'NOK', minimumFr
         minimumFractionDigits,
     })
     return formatter.format(num);
+}
+
+
+/**
+ * Get value from object typed
+ * 
+ * @param {any} obj Obj
+ * @param {string} exp Expression
+ * @param {T} defaultValue Default value
+ * */
+export function getValueTyped<T>(obj: any, exp: string, defaultValue: T): T {
+    return getValue(obj, exp, { default: defaultValue });
 }

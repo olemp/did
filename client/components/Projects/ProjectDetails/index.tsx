@@ -1,21 +1,20 @@
 import { useQuery } from '@apollo/react-hooks';
-import * as getValue from 'get-value';
+import { EventList } from 'components/EventView/EventList';
+import { GET_CONFIRMED_TIME_ENTRIES } from 'components/Reports/GET_CONFIRMED_TIME_ENTRIES';
+import { currencyDisplay, getValueTyped } from 'helpers';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import * as excel from 'utils/exportExcel';
-import { GET_CONFIRMED_TIME_ENTRIES } from 'components/Reports/GET_CONFIRMED_TIME_ENTRIES';
 import { IProjectDetailsProps } from './IProjectDetailsProps';
-import { currencyDisplay } from 'helpers';
-import { EventList } from 'components/EventView/EventList';
 
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
     const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectKey: project.key } });
 
     /** Initializing constants dependent on data from useQuery  */
-    const entries: any[] = getValue(data, 'result.entries', { default: [] });
-    const duration: number = getValue(data, 'result.duration', { default: 0 });
+    const entries = getValueTyped<any[]>(data, 'result.entries', []);
+    const duration = getValueTyped<number>(data, 'result.duration', 0);
 
     const onExport = async () => {
         let key = project.key.toString().replace(/\s+/g, '-').toUpperCase();
@@ -44,7 +43,7 @@ export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
                 <div className="row" style={{ margin: '15px 0 25px 0' }} hidden={!project.budget}>
                     <div className="col-sm"><strong>Budget: </strong>{currencyDisplay(project.budget)}</div>
                     <div className="col-sm"><strong>Hourly rate: </strong>{currencyDisplay(project.hourlyRate)}</div>
-                    <div className="col-sm"><strong>Confirmed: </strong>{currencyDisplay((duration / 60) * project.hourlyRate)} ({duration/60})</div>
+                    <div className="col-sm"><strong>Confirmed: </strong>{currencyDisplay((duration / 60) * project.hourlyRate)} ({duration / 60})</div>
                     <div className="col-sm"><strong>Remaining: </strong>{currencyDisplay(project.budget - ((duration / 60) * project.hourlyRate))}</div>
                 </div>
                 <div className="row">

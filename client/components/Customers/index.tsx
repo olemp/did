@@ -1,7 +1,7 @@
 
 import { useQuery } from '@apollo/react-hooks';
-import { List, IColumn, SelectionMode } from 'components/List';
-import * as getValue from 'get-value';
+import { IColumn, List, SelectionMode } from 'components/List';
+import { getValueTyped } from 'helpers';
 import { ICustomer } from 'models';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
@@ -20,7 +20,7 @@ export const Customers = () => {
         col('name', 'Name'),
     ];
 
-    let customers: ICustomer[] = getValue(data, 'customers', { default: [] });
+    let customers = getValueTyped<ICustomer[]>(data, 'customers', []);
 
     if (getHash()) {
         let [_selected] = customers.filter(c => c.key === getHash());

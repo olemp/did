@@ -1,33 +1,53 @@
 import { useQuery } from '@apollo/react-hooks';
-import * as getValue from 'get-value';
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import * as React from 'react';
+import { List } from 'components/List';
+import { getValueTyped } from 'helpers';
 import { ICalEvent } from 'models';
-import * as excel from 'utils/exportExcel';
+import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
+import * as React from 'react';
+import * as format from 'string-format';
+import { humanize } from 'underscore.string';
+import * as excelUtils from 'utils/exportExcel';
+import { generateColumn } from 'utils/generateColumn';
 import { GET_CONFIRMED_TIME_ENTRIES } from './GET_CONFIRMED_TIME_ENTRIES';
 
-
-
-export const Reports = () => {
+/**
+ * @component Reports
+ * @description 
+ * @todo
+ */
+export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeEntries-{0}.xlsx' }) => {
     const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES);
 
-    const entries = getValue(data, 'result.entries', { default: [] }) as ICalEvent[];
+    const entries = getValueTyped<ICalEvent[]>(data, 'result.entries', []);
 
-    const onExport = async () => excel.exportExcel(
-        entries, {
-        skip: ['id', '__typename'],
-        fileName: `ApprovedTimeEntries-${new Date().getTime()}.xlsx`,
-        capitalize: true,
-    });
+    const columns = Object.keys(entries[0] || {})
+        .filter(f => skip.indexOf(f) === -1)
+        .map(fieldName => generateColumn(fieldName, humanize(fieldName), { maxWidth: 100 }));
+
+    const onExport = () => {
+        excelUtils.exportExcel(
+            entries, {
+            skip,
+            fileName: format(fileName, new Date().getTime()),
+            capitalize: true,
+        });
+    }
 
 
     return (
         <div>
-            <DefaultButton
-                text='Export to Excel'
-                iconProps={{ iconName: 'ExcelDocument' }}
-                onClick={onExport}
-                disabled={loading || !!error} />
+            <CommandBar items={[{
+                key: 'EXPORT_TO_EXCEL',
+                text: 'Export to Excel',
+                onClick: onExport,
+                iconProps: { iconName: 'ExcelDocument' },
+                disabled: loading || !!error,
+            }]} />
+            <List
+                items={entries}
+                columns={columns}
+                enableShimmer={loading}
+                height={500} />
         </div>
     );
 }

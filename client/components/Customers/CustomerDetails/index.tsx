@@ -1,14 +1,14 @@
 import { useQuery } from '@apollo/react-hooks';
-import * as getValue from 'get-value';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import * as React from 'react';
 import { GET_PROJECTS } from 'components/Projects/GET_PROJECTS';
 import { ProjectList } from 'components/Projects/ProjectList';
+import { getValueTyped } from 'helpers';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import * as React from 'react';
 
 export const CustomerDetails = ({ customer }) => {
-    const { loading, error, data } = useQuery(GET_PROJECTS, { variables: { customerKey: getValue(customer, 'key') } });
+    const { loading, error, data } = useQuery(GET_PROJECTS, { variables: { customerKey: getValueTyped<string>(customer, 'key', '') } });
 
-    const projects = getValue(data, 'projects', { default: [] });
+    const projects = getValueTyped<any[]>(data, 'projects', []);
 
     return (
         <div>

@@ -1,6 +1,6 @@
 import { stringToArrayBuffer } from 'helpers';
 import { loadScripts } from './loadScripts';
-import * as _ from 'underscore.string';
+import { humanize } from 'underscore.string';
 
 export interface IExcelExportOptions {
     fileName: string;
@@ -31,7 +31,7 @@ export async function exportExcel(items: any[], options: IExcelExportOptions) {
     const sheets = [{
         name: 'Sheet 1',
         data: [
-            options.columns.map(c => options.capitalize ? _.capitalize(c) : c),
+            options.columns.map(c => options.capitalize ? humanize(c) : c),
             ...items.map(item => options.columns.map(fn => item[fn])),
         ],
     }];
@@ -43,5 +43,4 @@ export async function exportExcel(items: any[], options: IExcelExportOptions) {
     const wbout = ((window as any)).XLSX.write(workBook, { type: 'binary', bookType: 'xlsx' });
     const blob = new Blob([stringToArrayBuffer(wbout)], { type: 'application/octet-stream' });
     (window as any).saveAs(blob, options.fileName);
-    return blob;
 }
