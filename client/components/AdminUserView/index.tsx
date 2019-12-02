@@ -9,7 +9,6 @@ import { UserAllocation } from 'components/UserAllocation';
  * @todo
  */
 export const AdminUserView = ({ userId }: IAdminUserViewProps) => {
-
     return (
         <div>
             <UserAllocation userId={userId} charts={{ projectKey: 'Allocation per project 2019', customerKey: 'Allocation per customer 2019' }} />
