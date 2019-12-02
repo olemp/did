@@ -68,7 +68,7 @@ export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject, onRefetch 
                 text={format((
                     'Event not matched correctly. ' +
                     'We found <span style="cursor:pointer;" id="{0}">`{1}`</span>, but that project does not exist. ' +
-                    'Did you mean<a href="/projects#{2}">`{2}`</a>?'
+                    'Did you mean<a style="display:block;" href="/projects#{2}">`{2}?`</a>'
                 ), toggleId, matchedKey, suggestedProject.key)}
                 type={MessageBarType.warning}
                 iconName='Lightbulb'
@@ -90,7 +90,7 @@ export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject, onRefetch 
 export const ProjectLinkCustomerMatch = ({ customer, projectKey }) => {
     return (
         <UserMessage
-            text={`Event not matched. We found a matching customer \`${customer}\`, but not a project with key \`${projectKey}\`.`}
+            text={format('Event not matched. We found a matching customer `{0}`, but not a project with key `{1}`.', customer, projectKey)}
             type={MessageBarType.warning}
             iconName='ProductList' />
     );
@@ -103,7 +103,7 @@ export const ProjectLinkCustomerMatch = ({ customer, projectKey }) => {
 export const ProjectLinkInvalidMatch = ({ matchedKey }) => {
     return (
         <UserMessage
-            text={`Event not matched. Found no match for \`${matchedKey}\`.`}
+            text={format('Event not matched. Found no match for `{0}`.', matchedKey)}
             type={MessageBarType.warning}
             iconName='SearchAndApps' />
     );
@@ -116,7 +116,7 @@ export const ProjectLinkInvalidMatch = ({ matchedKey }) => {
 export const ProjectLinkNoMatch = () => {
     return (
         <UserMessage
-            text='Event not matched. Did you add a project key to the `subject`, `body` or `category`?'
+            text='Event not matched. Did you add a project key to the subject, body or category?'
             type={MessageBarType.severeWarning}
             iconName='SearchIssue' />
     );
