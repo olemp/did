@@ -1,3 +1,3 @@
 export interface IAdminUserViewProps {
-    userId: string;
+    userId?: string;
 }

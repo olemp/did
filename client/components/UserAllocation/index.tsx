@@ -1,0 +1,51 @@
+
+import { useQuery } from '@apollo/react-hooks';
+import { TypedHash } from '@pnp/common';
+import { getValueTyped as value } from 'helpers';
+import * as Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import * as React from 'react';
+import { AllocationColumnChart } from './AllocationColumnChart';
+import GET_USER_DATA, { ITimeEntry } from './GET_USER_DATA';
+import { IUserAllocationProps } from './IUserAllocationProps';
+
+/**
+ * Get allocation
+ * 
+ * @param {ITimeEntry[]} entries Entries
+ * @param {string} key Key
+ */
+export const GetAllocation = (entries: ITimeEntry[], key: string) => entries.reduce((obj: TypedHash<number>, entry: any) => {
+    obj[entry[key]] = obj[entry[key]] || 0;
+    obj[entry[key]] += entry.durationHours;
+    return obj;
+}, {});
+
+/**
+ * @component UserAllocation
+ * @description 
+ * @todo
+ */
+export const UserAllocation = (props: IUserAllocationProps) => {
+    const { data } = useQuery(GET_USER_DATA, { variables: { userId: props.userId } });
+
+    let entries = value<ITimeEntry[]>(data, 'result.entries', []);
+    let allocation_project = GetAllocation(entries, 'projectKey');
+    let allocation_customer = GetAllocation(entries, 'customerKey');
+
+
+
+
+
+    return (
+        <div className="container">
+            {Object.keys(props.charts).map(key => (
+                <div className="row">
+                    <div className="col-sm">
+                        <HighchartsReact highcharts={Highcharts} options={AllocationColumnChart(props.charts[key], GetAllocation(entries, key))} />
+                    </div>
+                </div>
+            ))}
+        </div >
+    );
+}
