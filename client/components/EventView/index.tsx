@@ -55,7 +55,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                             onRefetch={() => this._getEventData(undefined, true)}
                                             enableShimmer={loading}
                                             events={data.events}
-                                            isConfirmed={this.state.isConfirmed} />
+                                            isConfirmed={isConfirmed} />
                                     </>
                                 )}
                             </div>
@@ -136,8 +136,8 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         const entries = this.state.data.matchedEvents.map(e => ({ id: e.id, projectKey: e.project.key }));
         const variables = { weekNumber: this.state.weekNumber, entries };
         let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
-        log.info('_onConfirmWeek', result.error)
-        this.setState({ loading: false, isConfirmed: result.success });
+        log.info('_onConfirmWeek', result.error);
+        await this._getEventData();
     };
 
     /**
@@ -147,7 +147,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         this.setState({ loading: true });
         let { data: { result } } = await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
         log.info('_onUnconfirmWeek', result.error)
-        this.setState({ loading: false, isConfirmed: !result.success });
+        await this._getEventData();
 
     };
 

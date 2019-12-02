@@ -72,23 +72,45 @@ function matchEvent(evt, projects, customers) {
     };
 }
 
+
+/**
+ * 
+ * @param {*} _obj Unused obj
+ * @param {*} args Args (weekNumber)
+ * @param {*} context The context
+ */
 async function getEventData(_obj, args, context) {
     log('Retrieving events for week %s', args.weekNumber);
-    let [events, projects, customers, confirmedTimeEntries] = await Promise.all([
-        context.services.graph.getEvents(args.weekNumber),
+    let [projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
         context.services.storage.getConfirmedTimeEntries(context.user.profile.oid, args.weekNumber),
-    ])
-    events = events.map(evt => matchEvent(evt, projects, customers));
-    const totalDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
-    const matchedEvents = events.filter(evt => (evt.project && evt.project.id));
-    const matchedDuration = matchedEvents.reduce((sum, evt) => sum + evt.durationMinutes, 0);
-    const confirmedDuration = confirmedTimeEntries.reduce((sum, ent) => sum + ent.durationMinutes, 0);
+    ]);
+    let events = [];
+    let matchedEvents = [];
+    let matchedDuration = 0;
+    let confirmedDuration = 0;
+    if (confirmedTimeEntries.length > 0) {
+        log('Found confirmed events for week %s, retrieving entries from storage', args.weekNumber);
+        events = confirmedTimeEntries.map(entry => ({
+            ...entry,
+            project: _.find(projects, p => p.projectKey === entry.projectKey),
+            customer: _.find(customers, p => p.customerKey === entry.customerKey),
+        }));
+        matchedEvents = events;
+        confirmedDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);
+        matchedDuration = confirmedDuration;
+    } else {
+        log('Found no confirmed events for week %s, retrieving entries from Microsoft Graph', args.weekNumber);
+        events = await context.services.graph.getEvents(args.weekNumber);
+        events = events.map(evt => matchEvent(evt, projects, customers));
+        matchedEvents = events.filter(evt => (evt.project && evt.project.id));
+        matchedDuration = matchedEvents.reduce((sum, evt) => sum + evt.durationMinutes, 0);
+    }
     return {
         weekNumber: args.weekNumber,
         events,
-        totalDuration,
+        totalDuration: events.reduce((sum, evt) => sum + evt.durationMinutes, 0),
         matchedDuration,
         matchedEvents,
         confirmedDuration,

@@ -7,7 +7,7 @@ import { CustomerLink } from './CustomerLink';
 import { DateColumn } from './DateColumn';
 import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
-import { ProjectLink } from './ProjectLink';
+import { ProjectColumn } from './ProjectColumn';
 
 export const EventList = (props: IEventListProps) => {
     const columns = [
@@ -16,7 +16,7 @@ export const EventList = (props: IEventListProps) => {
         col('endTime', 'End', { maxWidth: 140 }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={props.dateFormat} />),
         col('durationMinutes', 'Duration', { maxWidth: 180 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
         col('project', 'Project', { maxWidth: 240 }, (event: ICalEvent) => (
-            <ProjectLink
+            <ProjectColumn
                 event={event}
                 isConfirmed={props.isConfirmed}
                 onRefetch={props.onRefetch}
