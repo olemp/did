@@ -51,7 +51,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                         <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
                                         <EventList
                                             onRefetch={() => this._getEventData(undefined, true)}
-                                            enableShimmer={loading || isConfirmed}
+                                            enableShimmer={loading}
                                             events={data.events} />
                                     </>
                                 )}

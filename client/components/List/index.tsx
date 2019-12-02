@@ -36,6 +36,7 @@ export const List = (props: IListProps) => {
             <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
                 <ShimmeredDetailsList
                     enableShimmer={props.enableShimmer}
+                    isPlaceholderData={props.enableShimmer}
                     selection={selection}
                     columns={props.columns}
                     items={items || []}

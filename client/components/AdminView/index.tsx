@@ -22,16 +22,10 @@ export const AdminView = ({ }) => {
                     <Reports />
                 </PivotItem>
                 <PivotItem itemKey='users' headerText='Users' itemIcon='FabricUserFolder' style={{ padding: 10 }}>
-                    <List
-                        enableShimmer={loading}
-                        items={data && data.users}
-                        columns={USER_LIST_COLUMNS} />
+                    <List enableShimmer={loading} items={data && data.users} columns={USER_LIST_COLUMNS} />
                 </PivotItem>
                 <PivotItem itemKey='weeks' headerText='Weeks' itemIcon='CalendarWeek' style={{ padding: 10 }}>
-                    <List
-                        enableShimmer={loading}
-                        items={data && data.weeks}
-                        columns={WEEK_LIST_COLUMNS} />
+                    <List enableShimmer={loading} items={data && data.weeks} columns={WEEK_LIST_COLUMNS} />
                 </PivotItem>
             </Pivot>
         </div>
