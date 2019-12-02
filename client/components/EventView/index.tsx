@@ -1,5 +1,6 @@
 
 import { UserMessage } from 'components/UserMessage';
+import { ICalEvent, IProject } from 'models';
 import * as moment from 'moment';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IPivotItemProps, Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
@@ -11,12 +12,12 @@ import { ConfirmButton } from './ConfirmButton';
 import CONFIRM_WEEK from './CONFIRM_WEEK';
 import { EventList } from './EventList';
 import GET_EVENT_DATA, { IGetEventData } from './GET_EVENT_DATA';
+import { Header } from './Header';
 import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import { UnconfirmButton } from './UnconfirmButton';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-import { IProject, ICalEvent } from 'models';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
@@ -49,13 +50,23 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                 {closed && <UserMessage text='This week has been closed by an administrator.' iconName='LockSolid' type={0} />}
                                 {renderView && (
                                     <>
-                                        <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
-                                        <EventList
-                                            onProjectSelected={this._onProjectSelected.bind(this)}
-                                            onRefetch={() => this._getEventData(undefined, true)}
-                                            enableShimmer={loading}
-                                            events={data.events}
-                                            isConfirmed={isConfirmed} />
+                                        <Header weekNumber={weekNumber} />
+                                        <Pivot defaultSelectedKey='overview'>
+                                            <PivotItem key='overview' headerText='Overview' itemIcon='CalendarWeek'>
+                                                <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
+                                                <EventList
+                                                    onProjectSelected={this._onProjectSelected.bind(this)}
+                                                    onRefetch={() => this._getEventData(undefined, true)}
+                                                    enableShimmer={loading}
+                                                    events={data.events}
+                                                    dateFormat='HH:mm'
+                                                    isConfirmed={isConfirmed}
+                                                    groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
+                                            </PivotItem>
+                                            <PivotItem key='allocation' headerText='Allocation' itemIcon='ReportDocument' headerButtonProps={{ disabled: true }}>
+
+                                            </PivotItem>
+                                        </Pivot>
                                     </>
                                 )}
                             </div>
@@ -66,6 +77,12 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         )
     }
 
+    /**
+     * On project selected
+     * 
+     * @param {ICalEvent} event Event
+     * @param {IProject} project Project
+     */
     private _onProjectSelected(event: ICalEvent, project: IProject) {
         this.setState(prevState => ({
             data: {
@@ -167,6 +184,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         });
         let data: IGetEventData = { ...event_data, weeks };
         let isConfirmed = data.confirmedDuration > 0
+        data.events = data.events.map(e => ({ ...e, day: moment(e.startTime).format('dddd') }));
         this.setState({ data, loading: false, isConfirmed });
     }
 }

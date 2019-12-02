@@ -7,6 +7,11 @@ export interface IListSelection {
     onChanged: (selected: any) => void;
 }
 
+export interface IListGroups {
+    fieldName: string;
+    groupNames?: string[];
+}
+
 export interface IListProps {
     items: any[];
     columns?: IColumn[];
@@ -14,4 +19,5 @@ export interface IListProps {
     height?: number;
     searchBox?: ISearchBoxProps;
     selection?: IListSelection;
+    groups?: IListGroups;
 }

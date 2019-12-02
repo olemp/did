@@ -5,10 +5,12 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { IListProps } from './IListProps';
 import { ListHeader } from './ListHeader';
+import { createGroups } from 'utils/createGroups';
 
 export const List = (props: IListProps) => {
     let searchTimeout: any;
     let selection: Selection;
+    let groups = null;
 
     const onSelectionChanged = () => {
         const [selected] = selection.getSelection();
@@ -31,6 +33,12 @@ export const List = (props: IListProps) => {
         }, 500);
     }
 
+    if (props.groups) {
+        let _ = createGroups(items, props.groups.fieldName, props.groups.groupNames);
+        groups = _.groups;
+        items = _.items;
+    }
+
     return (
         <div style={{ marginBottom: 25 }}>
             <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
@@ -39,7 +47,9 @@ export const List = (props: IListProps) => {
                     isPlaceholderData={props.enableShimmer}
                     selection={selection}
                     columns={props.columns}
-                    items={items || []}
+                    items={items}
+                    groups={groups}
+                    groupProps={{}}
                     selectionMode={props.selection ? props.selection.mode : SelectionMode.none}
                     constrainMode={ConstrainMode.horizontalConstrained}
                     layoutMode={DetailsListLayoutMode.justified}

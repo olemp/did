@@ -41,11 +41,10 @@ h5 {
   visibility: hidden;
 }
 
-.ms-DetailsHeader-cellName {
+.ms-DetailsHeader-cellName, .ms-GroupHeader-title {
   font-weight: 100;
-  font-size: 8pt;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: 11pt;
+  letter-spacing: 1px;
 }
 
 .c-usermessage p {

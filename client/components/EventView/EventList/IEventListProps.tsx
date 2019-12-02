@@ -1,4 +1,5 @@
 import { ICalEvent, IProject } from "models";
+import { IListGroups } from "components/List/IListProps";
 
 export interface IEventListProps {
     events: ICalEvent[];
@@ -8,4 +9,5 @@ export interface IEventListProps {
     enableShimmer?: boolean;
     hideColumns?: string[];
     dateFormat?: string;
+    groups?: IListGroups;
 }

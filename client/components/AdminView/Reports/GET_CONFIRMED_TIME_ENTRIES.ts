@@ -8,6 +8,7 @@ export const GET_CONFIRMED_TIME_ENTRIES = gql`
                 customerKey
                 projectKey
                 durationHours
+                durationMinutes
                 startTime
                 endTime
                 weekNumber

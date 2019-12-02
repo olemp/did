@@ -8,7 +8,7 @@ import { IStatusBarProps } from './IStatusBarProps';
 
 export const StatusBar = ({ loading, isConfirmed, data }: IStatusBarProps) => {
     return (
-        <div className='c-eventview-statusbar'>
+        <div className='c-eventview-statusbar' style={{ marginTop: 10 }}>
             <Shimmer isDataLoaded={!loading} />
             <Shimmer isDataLoaded={!loading} />
             {!loading && (
@@ -16,7 +16,7 @@ export const StatusBar = ({ loading, isConfirmed, data }: IStatusBarProps) => {
                     <UserMessage
                         hidden={isConfirmed}
                         text={getDurationDisplay(data.totalDuration)}
-                        marginTop={10}
+                        marginTop={0}
                         iconName='ReminderTime' />
                     <UserMessage
                         hidden={data.totalDuration - data.matchedDuration === 0 || isConfirmed}

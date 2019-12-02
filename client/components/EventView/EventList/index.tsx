@@ -1,6 +1,7 @@
 
-import { List, IColumn } from 'components/List';
+import { List } from 'components/List';
 import { ICalEvent } from 'models';
+import * as moment from 'moment';
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { CustomerLink } from './CustomerLink';
@@ -8,13 +9,14 @@ import { DateColumn } from './DateColumn';
 import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
 import { ProjectColumn } from './ProjectColumn';
+require('moment/locale/en-gb');
 
 export const EventList = (props: IEventListProps) => {
     const columns = [
         col('title', 'Title', { maxWidth: 180 }, (event: ICalEvent) => <a href={event.webLink} target='_blank'>{event.title}</a>),
-        col('startTime', 'Start', { maxWidth: 140 }, (event: ICalEvent) => <DateColumn dateStr={event.startTime} dateFormat={props.dateFormat} />),
-        col('endTime', 'End', { maxWidth: 140 }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={props.dateFormat} />),
-        col('durationMinutes', 'Duration', { maxWidth: 180 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
+        col('startTime', 'Start', { maxWidth: 80 }, (event: ICalEvent) => <DateColumn dateStr={event.startTime} dateFormat={props.dateFormat} />),
+        col('endTime', 'End', { maxWidth: 80 }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={props.dateFormat} />),
+        col('durationMinutes', 'Duration', { maxWidth: 120 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
         col('project', 'Project', { maxWidth: 240 }, (event: ICalEvent) => (
             <ProjectColumn
                 event={event}
@@ -30,7 +32,8 @@ export const EventList = (props: IEventListProps) => {
             <List
                 enableShimmer={props.enableShimmer}
                 columns={columns}
-                items={props.events} />
+                items={props.events}
+                groups={props.groups} />
         </div>
     );
 }
