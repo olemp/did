@@ -41,7 +41,7 @@ GraphService.prototype.getEvents = async function (weekNumber) {
   const { value } = await this.getClient()
     .api('/me/calendar/calendarView')
     .query({ startDateTime, endDateTime })
-    .select('id,subject,body,start,end,lastModifiedDateTime,categories,webLink')
+    .select('id,subject,body,start,end,lastModifiedDateTime,categories,webLink,isOrganizer')
     .filter(`sensitivity ne 'private' and isallday eq false and iscancelled eq false`)
     .orderby('start/dateTime asc')
     .top(50)
@@ -50,6 +50,7 @@ GraphService.prototype.getEvents = async function (weekNumber) {
     id: evt.id,
     title: evt.subject,
     body: stripHtml(evt.body.content),
+    isOrganizer: evt.isOrganizer,
     categories: evt.categories,
     webLink: evt.webLink,
     lastModifiedDateTime: evt.lastModifiedDateTime,

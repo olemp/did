@@ -24,6 +24,7 @@ type Event {
 	id: String!
 	title: String!
 	body: String
+	isOrganizer: Boolean!
 	startTime: String
 	endTime: String
 	durationHours: Float
