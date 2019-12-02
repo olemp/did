@@ -21,7 +21,7 @@ StorageService.prototype.getSubscription = function () {
     return new Promise(async (resolve) => {
         const query = createQuery(1, ['Name']).where('RowKey eq ?', this.tenantId);
         var sub = await queryTable(SUBSCRIPTIONS, query);
-        resolve(parseArray(sub)[0]);
+        resolve(parseArray(sub, { idField: 'RowKey' })[0]);
     });
 };
 
@@ -34,7 +34,7 @@ StorageService.prototype.getUser = async function (userId) {
     let filter = combine(this.filter, and, stringFilter('RowKey', isEqual, userId));
     const query = createQuery(1, ['Role', 'StartPage']).where(filter);
     const users = await queryTable(USERS, query);
-    return parseArray(users)[0];
+    return parseArray(users, { idField: 'RowKey' })[0];
 }
 
 /**
@@ -48,7 +48,7 @@ StorageService.prototype.getProjects = async function (customerKey, sortBy) {
     if (customerKey) filter = combine(filter, and, stringFilter('CustomerKey', isEqual, customerKey));
     let query = createQuery(1000, undefined, filter);
     const result = await queryTable(PROJECTS, query);
-    let projects = parseArray(result).map(r => {
+    let projects = parseArray(result, { idField: 'RowKey' }).map(r => {
         let customerKey = r.customerKey.toUpperCase();
         let projectKey = r.projectKey.toUpperCase();
         return {
@@ -68,7 +68,7 @@ StorageService.prototype.getProjects = async function (customerKey, sortBy) {
 StorageService.prototype.getWeeks = async function () {
     let query = createQuery(1000, undefined, this.filter);
     const result = await queryTable(WEEKS, query);
-    const weeks = parseArray(result);
+    const weeks = parseArray(result, { idField: 'RowKey' });
     return weeks;
 }
 
@@ -105,7 +105,7 @@ StorageService.prototype.createProject = async function (customerKey, projectKey
 StorageService.prototype.getCustomers = async function () {
     const query = createQuery(1000, ['RowKey', 'CustomerKey', 'Name', 'Description', 'WebLink']).where(this.filter);
     const result = await queryTable(CUSTOMERS, query);
-    return parseArray(result).map(r => {
+    return parseArray(result, { idField: 'RowKey' }).map(r => {
         let customerKey = r.customerKey.toUpperCase();
         return {
             ...r,
@@ -128,7 +128,7 @@ StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, w
     log('Querying table %s wit filter %s', CONFIRMEDTIMEENTRIES, filter);
     let query = createQuery(1000, null, filter);
     let result = await queryTable(CONFIRMEDTIMEENTRIES, query);
-    result = !options.noParse ? parseArray(result) : result;
+    result = !options.noParse ? parseArray(result, { idField: 'EventId' }) : result;
     result = result.sort((a, b) => new Date(b.startTime) - new Date(a.startTime));
     return result;
 }
@@ -136,7 +136,7 @@ StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, w
 StorageService.prototype.getUsers = async function () {
     const query = createQuery(1000, undefined).where(this.filter);
     const result = await queryTable(USERS, query);
-    return parseArray(result);
+    return parseArray(result, { idField: 'RowKey' });
 }
 
 module.exports = StorageService;

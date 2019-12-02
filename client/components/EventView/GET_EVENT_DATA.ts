@@ -27,6 +27,7 @@ query ($weekNumber: Int!) {
       title
       isOrganizer
       webLink
+      durationMinutes
       durationHours
       startTime
       endTime

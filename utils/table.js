@@ -9,14 +9,16 @@ const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTIO
  * Also skips PartitionKey
  * 
  * @param {*} arr The array of entities to parse
+ * @param {*} options Options
  */
-function parseArray(arr) {
+function parseArray(arr, options) {
+    options = options || {};
     return arr.map(item => Object.keys(item)
         .filter(key => key !== 'PartitionKey')
         .reduce((obj, key) => {
             const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
             const value = item[key]._;
-            if (key === 'RowKey') {
+            if (key === options.idField) {
                 obj.id = value;
                 return obj;
             }
