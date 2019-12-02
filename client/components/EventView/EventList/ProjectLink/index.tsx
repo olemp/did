@@ -187,6 +187,7 @@ export const ProjectLinkNoMatch = ({ isOrganizer = true, onProjectSelected }) =>
 
 export interface IProjectLinkProps {
     event: ICalEvent;
+    isConfirmed?: boolean;
     onRefetch?: () => void;
     onProjectSelected?: (project: IProject) => void;
 }
@@ -195,8 +196,9 @@ export interface IProjectLinkProps {
  * @component ProjectLink
  * @description @todo
  */
-export const ProjectLink = ({ event, onRefetch, onProjectSelected }: IProjectLinkProps) => {
+export const ProjectLink = ({ event, isConfirmed, onRefetch, onProjectSelected }: IProjectLinkProps) => {
     if (!event.project) {
+        if (isConfirmed) return null;
         if (!event.isOrganizer) return <ProjectLinkNoMatch isOrganizer={false} onProjectSelected={onProjectSelected} />
         let matchedKey = event.customerKey + ' ' + event.projectKey;
         if (event.suggestedProject) return <ProjectLinkSuggestion matchedKey={matchedKey} suggestedProject={event.suggestedProject} onRefetch={onRefetch} />;

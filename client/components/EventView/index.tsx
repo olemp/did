@@ -54,7 +54,8 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                             onProjectSelected={this._onProjectSelected.bind(this)}
                                             onRefetch={() => this._getEventData(undefined, true)}
                                             enableShimmer={loading}
-                                            events={data.events} />
+                                            events={data.events}
+                                            isConfirmed={this.state.isConfirmed} />
                                     </>
                                 )}
                             </div>
