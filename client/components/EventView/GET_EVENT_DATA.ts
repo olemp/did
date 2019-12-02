@@ -21,10 +21,11 @@ query ($weekNumber: Int!) {
     id
     closed
   }
-  event_data: getEvents(weekNumber: $weekNumber) {
+  event_data: getEventData(weekNumber: $weekNumber) {
     events {
       id
       title
+      isOrganizer
       webLink
       durationMinutes
       startTime

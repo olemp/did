@@ -93,7 +93,7 @@ type ConfirmedTimeEntries {
 type Query {
 	getCustomers: [Customer!]!
 	getProjects(customerKey: String, sortBy: String): [Project!]!
-	getEvents(weekNumber: Int!): EventData!
+	getEventData(weekNumber: Int!): EventData!
 	getConfirmedTimeEntries(projectKey: String, resourceId: String): ConfirmedTimeEntries
 	getWeeks: [Week!]!
 	getUsers: [User!]!
