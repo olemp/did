@@ -16,6 +16,7 @@ import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import { UnconfirmButton } from './UnconfirmButton';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
+import { IProject, ICalEvent } from 'models';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
@@ -50,6 +51,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                     <>
                                         <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
                                         <EventList
+                                            onProjectSelected={this._onProjectSelected.bind(this)}
                                             onRefetch={() => this._getEventData(undefined, true)}
                                             enableShimmer={loading}
                                             events={data.events} />
@@ -61,6 +63,18 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                 </Pivot>
             </div>
         )
+    }
+
+    private _onProjectSelected(event: ICalEvent, project: IProject) {
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                events: prevState.data.events.map(e => {
+                    if (e.id === event.id) e.project = project;
+                    return e;
+                })
+            }
+        }));
     }
 
     /**

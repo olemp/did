@@ -1,21 +1,63 @@
 
+import { useMutation } from '@apollo/react-hooks';
+import { getId } from '@uifabric/utilities';
 import { UserMessage } from 'components/UserMessage';
-import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
-import { Callout } from 'office-ui-fabric-react/lib/Callout';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { ICalEvent, IProject } from 'models';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import * as format from 'string-format';
+import { Callout } from 'office-ui-fabric-react/lib/Callout';
+import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import * as AutoComplete from 'react-autocomplete';
+import * as format from 'string-format';
 import CREATE_PROJECT from './CREATE_PROJECT';
-import { getId } from '@uifabric/utilities';
+import { GET_PROJECTS } from 'components/Projects/GET_PROJECTS';
+import { useQuery } from '@apollo/react-hooks';
 
 /**
- * @component ProjectLinkCallout
+ * @component SearchProjectCallout
  * @description @todo
  */
-export const ProjectLinkCallout = ({ customerKey, projectKey, target, onDismiss, onAdded }) => {
+export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
+    let [projects, setProjects] = useState(null);
+    let [value, setValue] = useState('');
+    const { loading, data } = useQuery(GET_PROJECTS, { skip: !!projects, variables: { sortBy: 'name' }, fetchPolicy: 'cache-first', });
+
+    React.useEffect(() => { (!loading && !!data) && setProjects(data.projects); }, [data, loading]);
+
+    return (
+        <Callout
+            style={{ width: 190 }}
+            className='c-searchproject-callout'
+            hidden={!target}
+            target={target}
+            onDismiss={onDismiss}>
+            <h5>Search projects</h5>
+            {!!projects && (
+                <AutoComplete
+                    getItemValue={item => item.name}
+                    shouldItemRender={item => item.name.toLowerCase().indexOf(value.toLowerCase()) !== -1 && value.length > 2}
+                    items={projects}
+                    renderItem={(item, isHighlighted) =>
+                        <div key={item.key} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                            {item.name}
+                        </div>
+                    }
+                    renderMenu={(items, _value, style) => <div className="autocomplete-dropdown-menu" style={style} children={items} />}
+                    value={value}
+                    onChange={(_event, value) => setValue(value)}
+                    onSelect={(_val, item) => onSelected(item)} />
+            )}
+        </Callout>
+    );
+}
+
+/**
+ * @component CreateProjectCallout
+ * @description @todo
+ */
+export const CreateProjectCallout = ({ customerKey, projectKey, target, onDismiss, onAdded }) => {
     let [model, setModel] = useState({ customerKey, projectKey, name: '' });
     let [addProject, { loading }] = useMutation(CREATE_PROJECT);
     const onFormSubmit =
@@ -24,11 +66,11 @@ export const ProjectLinkCallout = ({ customerKey, projectKey, target, onDismiss,
 
     return (
         <Callout
-            className='c-projectlink-callout'
+            className='c-createprojectcallout-callout'
             hidden={!target}
             target={target}
             onDismiss={onDismiss}>
-            <h4>Create new project</h4>
+            <h5>Create new project</h5>
             <TextField
                 styles={{ root: { marginTop: 16 } }}
                 placeholder={'Customer'}
@@ -73,7 +115,7 @@ export const ProjectLinkSuggestion = ({ matchedKey, suggestedProject, onRefetch 
                 type={MessageBarType.warning}
                 iconName='Lightbulb'
                 onClick={_ => setCallout(document.getElementById(toggleId))} />
-            <ProjectLinkCallout
+            <CreateProjectCallout
                 target={callout}
                 customerKey={matchedKey.split(' ')[0]}
                 projectKey={matchedKey.split(' ')[1]}
@@ -113,7 +155,28 @@ export const ProjectLinkInvalidMatch = ({ matchedKey }) => {
  * @component ProjectLinkNoMatch
  * @description @todo
  */
-export const ProjectLinkNoMatch = () => {
+export const ProjectLinkNoMatch = ({ isOrganizer = true, onProjectSelected }) => {
+    let toggleId = getId('toggle-callout');
+    const [callout, setCallout] = useState<Element>(null);
+
+    if (!isOrganizer) {
+        return (
+            <>
+                <UserMessage
+                    text={format('Event not matched.<a href="#" id="{0}">`Click to select a project`</a>.', toggleId)}
+                    type={MessageBarType.info}
+                    iconName='SearchIssue'
+                    onClick={_ => setCallout(document.getElementById(toggleId))} />
+                <SearchProjectCallout
+                    target={callout}
+                    onDismiss={() => setCallout(null)}
+                    onSelected={(project: IProject) => {
+                        setCallout(null);
+                        onProjectSelected(project);
+                    }} />
+            </>
+        );
+    }
     return (
         <UserMessage
             text='Event not matched. Did you add a project key to the subject, body or category?'
@@ -122,17 +185,24 @@ export const ProjectLinkNoMatch = () => {
     );
 }
 
+export interface IProjectLinkProps {
+    event: ICalEvent;
+    onRefetch?: () => void;
+    onProjectSelected?: (project: IProject) => void;
+}
+
 /**
  * @component ProjectLink
  * @description @todo
  */
-export const ProjectLink = ({ item, onRefetch }) => {
-    if (!item.project) {
-        let matchedKey = item.customerKey + ' ' + item.projectKey;
-        if (item.suggestedProject) return <ProjectLinkSuggestion matchedKey={matchedKey} suggestedProject={item.suggestedProject} onRefetch={onRefetch} />;
-        else if (item.customer) return <ProjectLinkCustomerMatch customer={item.customer.name} projectKey={item.projectKey} />;
-        else if (item.customerKey) return <ProjectLinkInvalidMatch matchedKey={matchedKey} />;
-        return <ProjectLinkNoMatch />
+export const ProjectLink = ({ event, onRefetch, onProjectSelected }: IProjectLinkProps) => {
+    if (!event.project) {
+        if (!event.isOrganizer) return <ProjectLinkNoMatch isOrganizer={false} onProjectSelected={onProjectSelected} />
+        let matchedKey = event.customerKey + ' ' + event.projectKey;
+        if (event.suggestedProject) return <ProjectLinkSuggestion matchedKey={matchedKey} suggestedProject={event.suggestedProject} onRefetch={onRefetch} />;
+        else if (event.customer) return <ProjectLinkCustomerMatch customer={event.customer.name} projectKey={event.projectKey} />;
+        else if (event.customerKey) return <ProjectLinkInvalidMatch matchedKey={matchedKey} />;
+        return <ProjectLinkNoMatch onProjectSelected={onProjectSelected} />
     }
-    return <a href={`/projects#${item.project.key}`}>{item.project.name}</a>;
+    return <a href={`/projects#${event.project.key}`}>{event.project.name}</a>;
 }

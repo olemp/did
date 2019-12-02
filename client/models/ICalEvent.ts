@@ -5,6 +5,7 @@ import { ICustomer } from './ICustomer';
 export interface ICalEvent extends IObjectWithKey {
     id: string;
     title: string;
+    isOrganizer: boolean;
     project: IProject;
     suggestedProject: IProject;
     customer: ICustomer;

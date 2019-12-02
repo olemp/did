@@ -37,6 +37,7 @@ devDependencies:
   '@pnp/common': 1.3.7
   '@types/get-value': 3.0.1
   '@types/react': 16.9.11
+  '@types/react-autocomplete': 1.8.5
   '@types/react-dom': 16.9.4
   '@types/scriptjs': 0.0.2
   '@types/underscore': 1.9.4
@@ -66,6 +67,7 @@ devDependencies:
   onchange: 6.1.0
   react: 16.12.0
   react-apollo: 3.1.3_8185ea96bb1a3a23987da1ca2469c6e5
+  react-autocomplete: 1.8.1_react-dom@16.12.0+react@16.12.0
   react-dom: 16.12.0_react@16.12.0
   react-markdown: 4.2.2_react@16.12.0
   scriptjs: 2.5.9
@@ -994,6 +996,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+  /@types/react-autocomplete/1.8.5:
+    dependencies:
+      '@types/react': 16.9.11
+    dev: true
+    resolution:
+      integrity: sha512-O9DENAvxh66Bz7ODa9tCYqHBxvw/bALB8FxKWuPIizo3J+0Qx3Et+x9qMwCEsk5pcAxmRk34MFNalyc9thYT6g==
   /@types/react-dom/16.9.4:
     dependencies:
       '@types/react': 16.9.11
@@ -1825,8 +1833,8 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist/4.8.0:
     dependencies:
-      caniuse-lite: 1.0.30001012
-      electron-to-chromium: 1.3.317
+      caniuse-lite: 1.0.30001013
+      electron-to-chromium: 1.3.321
       node-releases: 1.1.41
     dev: true
     hasBin: true
@@ -1939,10 +1947,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
-  /caniuse-lite/1.0.30001012:
+  /caniuse-lite/1.0.30001013:
     dev: true
     resolution:
-      integrity: sha512-7RR4Uh04t9K1uYRWzOJmzplgEOAXbfK72oVNokCdMzA67trrhPzy93ahKk1AWHiA0c58tD2P+NHqxrA8FZ+Trg==
+      integrity: sha512-hOAXaWKuq/UVFgYawxIOdPdyMQdYcwOCDOjnZcKn7wCgFUrhP7smuNZjGLuJlPSgE6aRA4cRJ+bGSrhtEt7ZAg==
   /capture-stack-trace/1.0.1:
     dev: true
     engines:
@@ -2520,6 +2528,10 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-hvSnros73+qyZXhHFjx2CMLwoj3Fe7eR9EJsFsqmcI1bB2OBWL/+0YzaEaKssCHnj/6crawNnUyw74Gm2EKe+Q==
+  /dom-scroll-into-view/1.0.1:
+    dev: true
+    resolution:
+      integrity: sha1-Mqu5Lw2P7KYhUWKu9D5LRJq42Zw=
   /dom-serializer/0.2.2:
     dependencies:
       domelementtype: 2.0.1
@@ -2614,10 +2626,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.317:
+  /electron-to-chromium/1.3.321:
     dev: true
     resolution:
-      integrity: sha512-C7sfpr1I1zqDurrfyVFhL450NFLeZrDYy5DeUuJBkEhBZbhyJ7JEZn741J+jcXCBaQ8S6j75XomLDHOLmLOdFQ==
+      integrity: sha512-jJy/BZK2s2eAjMPXVMSaCmo7/pSY2aKkfQ+LoAb5Wk39qAhyP9r8KU74c4qTgr9cD/lPUhJgReZxxqU0n5puog==
   /elliptic/6.5.2:
     dependencies:
       bn.js: 4.11.8
@@ -5329,6 +5341,18 @@ packages:
       react-dom: ^16.8.0
     resolution:
       integrity: sha512-orCZNoAkgveaK5b75y7fw1MSqSHOU/Wuu9rRFOGmRQBSQVZjvV4DI+hj604rHmuN9+WDABxb5W48wTa0F/xNZQ==
+  /react-autocomplete/1.8.1_react-dom@16.12.0+react@16.12.0:
+    dependencies:
+      dom-scroll-into-view: 1.0.1
+      prop-types: 15.7.2
+      react: 16.12.0
+      react-dom: 16.12.0_react@16.12.0
+    dev: true
+    peerDependencies:
+      react: ^0.14.7 || ^15.0.0-0 || ^16.0.0-0
+      react-dom: ^0.14.7 || ^15.0.0-0 || ^16.0.0-0
+    resolution:
+      integrity: sha1-67vEAABqqRrVOLLRRye55+XQYxA=
   /react-dom/16.12.0_react@16.12.0:
     dependencies:
       loose-envify: 1.4.0
@@ -6220,7 +6244,7 @@ packages:
       schema-utils: 1.0.0
       serialize-javascript: 1.9.1
       source-map: 0.6.1
-      terser: 4.4.0
+      terser: 4.4.1
       webpack: 4.41.2_webpack@4.41.2
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
@@ -6231,7 +6255,7 @@ packages:
       webpack: ^4.0.0
     resolution:
       integrity: sha512-ZXmmfiwtCLfz8WKZyYUuuHf3dMYEjg8NrjHMb0JqHVHVOSkzp3cW2/XG1fP3tRhqEqSzMwzzRQGtAPbs4Cncxg==
-  /terser/4.4.0:
+  /terser/4.4.1:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -6241,7 +6265,7 @@ packages:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-oDG16n2WKm27JO8h4y/w3iqBGAOSCtq7k8dRmrn4Wf9NouL0b2WpMHGChFGZq4nFAQy1FsNJrVQHfurXOSTmOA==
+      integrity: sha512-e05giplw+8sIYh50qXYHZmr0b76O5dOSm9JwSDebGFLri4ItYzxsnumiAK+yuI56R+H7uIjT9KbVEKNkrprzHw==
   /text-table/0.2.0:
     dev: true
     resolution:
@@ -6980,6 +7004,7 @@ specifiers:
   '@pnp/common': 1.3.7
   '@types/get-value': ^3.0.1
   '@types/react': 16.9.11
+  '@types/react-autocomplete': ^1.8.5
   '@types/react-dom': 16.9.4
   '@types/scriptjs': 0.0.2
   '@types/underscore': ^1.9.4
@@ -7032,6 +7057,7 @@ specifiers:
   pino: ^5.14.0
   react: 16.12.0
   react-apollo: 3.1.3
+  react-autocomplete: ^1.8.1
   react-dom: 16.12.0
   react-markdown: ^4.2.2
   scriptjs: 2.5.9

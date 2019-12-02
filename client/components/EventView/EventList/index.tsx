@@ -9,14 +9,14 @@ import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
 import { ProjectLink } from './ProjectLink';
 
-export const EventList = ({ events, onRefetch = () => {}, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
+export const EventList = ({ events, onRefetch = () => { }, onProjectSelected, enableShimmer, hideColumns = [], dateFormat }: IEventListProps) => {
     const columns = [
-        col('title', 'Title', { maxWidth: 180 }, (item: ICalEvent) => <a href={item.webLink} target='_blank'>{item.title}</a>),
-        col('startTime', 'Start', { maxWidth: 140, data: { dateFormat } }, (item: ICalEvent) => <DateColumn dateStr={item.startTime} dateFormat={dateFormat} />),
-        col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, (item: ICalEvent) => <DateColumn dateStr={item.endTime} dateFormat={dateFormat} />),
-        col('durationMinutes', 'Duration', { maxWidth: 180 }, (item: ICalEvent) => <DurationDisplay minutes={item.durationMinutes} />),
-        col('project', 'Project', { maxWidth: 240, data: { onRefetch } }, (item: ICalEvent) => <ProjectLink item={item} onRefetch={onRefetch} />),
-        col('customer', 'Customer', { maxWidth: 150 }, (item: ICalEvent) => <CustomerLink customer={item.customer} />),
+        col('title', 'Title', { maxWidth: 180 }, (event: ICalEvent) => <a href={event.webLink} target='_blank'>{event.title}</a>),
+        col('startTime', 'Start', { maxWidth: 140, data: { dateFormat } }, (event: ICalEvent) => <DateColumn dateStr={event.startTime} dateFormat={dateFormat} />),
+        col('endTime', 'End', { maxWidth: 140, data: { dateFormat } }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={dateFormat} />),
+        col('durationMinutes', 'Duration', { maxWidth: 180 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
+        col('project', 'Project', { maxWidth: 240, data: { onRefetch } }, (event: ICalEvent) => <ProjectLink event={event} onRefetch={onRefetch} onProjectSelected={project => onProjectSelected(event, project)} />),
+        col('customer', 'Customer', { maxWidth: 150 }, (event: ICalEvent) => <CustomerLink customer={event.customer} />),
     ].filter(col => hideColumns.indexOf(col.key) === -1);
 
     return (
