@@ -15,7 +15,7 @@ import { IUserAllocationProps } from './IUserAllocationProps';
  * @param {ITimeEntry[]} entries Entries
  * @param {string} key Key
  */
-export const GetAllocation = (entries: ITimeEntry[], key: string) => entries.reduce((obj: TypedHash<number>, entry: any) => {
+export const GetAllocation = (entries: ITimeEntry[], key: string) => entries.reduce((obj: TypedHash<number>, entry) => {
     obj[entry[key]] = obj[entry[key]] || 0;
     obj[entry[key]] += entry.durationHours;
     return obj;
@@ -27,12 +27,13 @@ export const GetAllocation = (entries: ITimeEntry[], key: string) => entries.red
  * @todo
  */
 export const UserAllocation = (props: IUserAllocationProps) => {
-    const { data } = useQuery(GET_USER_DATA, { variables: { userId: props.userId } });
+    const { data, loading } = useQuery(GET_USER_DATA, { variables: props, fetchPolicy: 'cache-and-network' });
+    if (loading) return null;
     let entries = value<ITimeEntry[]>(data, 'result.entries', []);
     return (
         <div className="container">
             {Object.keys(props.charts).map(key => (
-                <div className="row">
+                <div className="row" key={key}>
                     <div className="col-sm">
                         <HighchartsReact highcharts={Highcharts} options={AllocationColumnChart(props.charts[key], GetAllocation(entries, key))} />
                     </div>

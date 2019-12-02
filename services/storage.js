@@ -115,7 +115,7 @@ StorageService.prototype.getCustomers = async function () {
     });;
 }
 
-StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, weekNumber, projectKey, options) {
+StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, weekNumber, yearNumber, projectKey, options) {
     options = options || {};
     let filter = this.filter;
     if (projectKey) {
@@ -124,6 +124,7 @@ StorageService.prototype.getConfirmedTimeEntries = async function (resourceId, w
     }
     if (resourceId) filter = combine(filter, and, stringFilter('ResourceId', isEqual, resourceId));
     if (weekNumber) filter = combine(filter, and, intFilter('WeekNumber', isEqual, weekNumber));
+    if (yearNumber) filter = combine(filter, and, intFilter('YearNumber', isEqual, yearNumber));
     log('Querying table %s wit filter %s', CONFIRMEDTIMEENTRIES, filter);
     let query = createQuery(1000, null, filter);
     let result = await queryTable(CONFIRMEDTIMEENTRIES, query);

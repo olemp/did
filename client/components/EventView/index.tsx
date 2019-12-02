@@ -18,12 +18,17 @@ import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import { UnconfirmButton } from './UnconfirmButton';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
+import { UserAllocation } from 'components/UserAllocation';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
     constructor(props: IEventViewProps) {
         super(props);
-        this.state = { weekNumber: getHash({ parseInt: true }) || moment().week(), data: { events: [], weeks: [] } };
+        this.state = {
+            weekNumber: getHash({ parseInt: true }) || moment().week(),
+            data: { events: [], weeks: [] },
+            selectedView: 'overview'
+        };
     }
 
     public componentDidMount() {
@@ -51,8 +56,8 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                 {renderView && (
                                     <>
                                         <Header weekNumber={weekNumber} />
-                                        <Pivot defaultSelectedKey='overview'>
-                                            <PivotItem key='overview' headerText='Overview' itemIcon='CalendarWeek'>
+                                        <Pivot defaultSelectedKey={this.state.selectedView} onLinkClick={item => this.setState({ selectedView: item.props.itemKey })}>
+                                            <PivotItem itemKey='overview' headerText='Overview' itemIcon='CalendarWeek'>
                                                 <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
                                                 <EventList
                                                     onProjectSelected={this._onProjectSelected.bind(this)}
@@ -63,8 +68,12 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                     isConfirmed={isConfirmed}
                                                     groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
                                             </PivotItem>
-                                            <PivotItem key='allocation' headerText='Allocation' itemIcon='ReportDocument' headerButtonProps={{ disabled: true }}>
-
+                                            <PivotItem itemKey='allocation' headerText='Allocation' itemIcon='ReportDocument'>
+                                                <UserAllocation
+                                                    currentUser={true}
+                                                    weekNumber={weekNumber}
+                                                    yearNumber={2019}
+                                                    charts={{ projectKey: 'Allocation per project', customerKey: 'Allocation per customer' }} />
                                             </PivotItem>
                                         </Pivot>
                                     </>

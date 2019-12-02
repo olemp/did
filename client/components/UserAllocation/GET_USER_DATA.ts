@@ -8,8 +8,8 @@ export interface ITimeEntry {
 }
 
 export default gql`
-query ($userId: String!) {
-  result: getConfirmedTimeEntries(resourceId: $userId) {
+query ($resourceId: String, $weekNumber: Int, $yearNumber: Int, $currentUser: Boolean) {
+  result: getConfirmedTimeEntries(resourceId: $resourceId, weekNumber: $weekNumber, yearNumber: $yearNumber, currentUser: $currentUser) {
     entries {
       durationHours
       customerKey

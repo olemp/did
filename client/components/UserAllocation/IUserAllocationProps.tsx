@@ -6,6 +6,9 @@ export interface IUserAllocationChart {
 }
 
 export interface IUserAllocationProps {
-    userId?: string;
+    resourceId?: string;
+    currentUser?: boolean;
+    weekNumber?: number;
+    yearNumber?: number;
     charts: TypedHash<string>;
 }
