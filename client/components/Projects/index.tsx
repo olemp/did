@@ -17,7 +17,7 @@ export const Projects = () => {
     let projects = value<IProject[]>(data, 'projects', []);
 
     if (getHash()) {
-        let [_selected] = projects.filter(c => c.key === getHash());
+        let [_selected] = projects.filter(c => c.id === getHash());
         if (_selected && !selected) setSelected(_selected);
     }
 

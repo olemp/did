@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
 export const GET_CONFIRMED_TIME_ENTRIES = gql`
-    query($projectKey: String) {
-        result: getConfirmedTimeEntries(projectKey: $projectKey)  {
+    query($projectId: String) {
+        result: getConfirmedTimeEntries(projectId: $projectId)  {
             entries {
                 title
                 customerKey
-                projectKey
+                projectId
                 durationHours
                 durationMinutes
                 startTime

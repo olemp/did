@@ -12,8 +12,16 @@ query ($resourceId: String, $weekNumber: Int, $yearNumber: Int, $currentUser: Bo
   result: getConfirmedTimeEntries(resourceId: $resourceId, weekNumber: $weekNumber, yearNumber: $yearNumber, currentUser: $currentUser) {
     entries {
       durationHours
-      customerKey
-      projectKey
+      project {
+        id
+        key
+        name
+      }
+      customer {
+        id
+        key
+        name
+      }
     }
   }
 }

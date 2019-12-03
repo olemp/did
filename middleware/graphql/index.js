@@ -8,6 +8,9 @@ const GraphService = require('../../services/graph');
 const schema = makeExecutableSchema({
   typeDefs: importSchema(path.join(__dirname, './schema.graphql')),
   resolvers: require('./resolvers'),
+  resolverValidationOptions: {
+    requireResolversForResolveType: false
+  },
 });
 
 module.exports = graphql((req) => ({

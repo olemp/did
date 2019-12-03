@@ -15,15 +15,12 @@ export const Customers = () => {
     const [selected, setSelected] = useState<ICustomer>(null);
     const { loading, error, data } = useQuery(GET_CUSTOMERS, { fetchPolicy: 'cache-first' });
 
-    const columns: IColumn[] = [
-        col('customerKey', 'Key', { maxWidth: 100 }),
-        col('name', 'Name'),
-    ];
+    const columns: IColumn[] = [col('key', 'Key', { maxWidth: 100 }), col('name', 'Name')];
 
     let customers = value<ICustomer[]>(data, 'customers', []);
 
     if (getHash()) {
-        let [_selected] = customers.filter(c => c.key === getHash());
+        let [_selected] = customers.filter(c => c.id === getHash());
         if (_selected && !selected) {
             setSelected(_selected);
         }

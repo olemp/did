@@ -73,7 +73,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                     currentUser={true}
                                                     weekNumber={weekNumber}
                                                     yearNumber={2019}
-                                                    charts={{ projectKey: 'Allocation per project', customerKey: 'Allocation per customer' }} />
+                                                    charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
                                             </PivotItem>
                                         </Pivot>
                                     </>
@@ -159,7 +159,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private async _onConfirmWeek() {
         this.setState({ loading: true });
-        const entries = this.state.data.matchedEvents.map(e => ({ id: e.id, projectKey: e.project.key }));
+        const entries = this.state.data.matchedEvents.map(e => ({ id: e.id, projectId: e.project.id }));
         const variables = { weekNumber: this.state.weekNumber, entries };
         let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
         log.info('_onConfirmWeek', result.error);

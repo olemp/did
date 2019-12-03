@@ -23,6 +23,7 @@ query ($weekNumber: Int!) {
   }
   event_data: getEventData(weekNumber: $weekNumber) {
     events {
+      key
       id
       title
       isOrganizer
@@ -31,6 +32,8 @@ query ($weekNumber: Int!) {
       durationHours
       startTime
       endTime
+      projectKey
+      customerKey
       project {
         id
         key
@@ -45,8 +48,6 @@ query ($weekNumber: Int!) {
         key
         name
       }
-      projectKey
-      customerKey
       overtime
     }
     matchedEvents {

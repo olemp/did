@@ -1,8 +1,11 @@
-type Project {
+interface BaseEntity {
 	id: String
 	key: String
-	projectKey: String
-	customer: Customer
+}
+
+type Project implements BaseEntity {
+	id: String
+	key: String
 	name: String
 	description: String
 	webLink: String
@@ -11,17 +14,17 @@ type Project {
 	hourlyRate: Int
 }
 
-type Customer {
+type Customer implements BaseEntity {
 	id: String
 	key: String
-	customerKey: String
 	name: String
 	description: String
 	webLink: String
 }
 
-type Event {
-	id: String!
+type Event implements BaseEntity {
+	id: String
+	key: String
 	title: String!
 	body: String
 	isOrganizer: Boolean
@@ -39,8 +42,9 @@ type Event {
 	overtime: Boolean
 }
 
-type TimeEntry {
-	id: String!
+type TimeEntry implements BaseEntity {
+	id: String
+	key: String
 	eventId: String!
 	title: String!
 	description: String
@@ -49,8 +53,7 @@ type TimeEntry {
 	webLink: String
 	durationHours: Float
 	durationMinutes: Int
-	customerKey: String
-	projectKey: String
+	projectId: String
 	weekNumber: Int
 	yearNumber: Int
 	resourceId: String
@@ -58,22 +61,26 @@ type TimeEntry {
 	resourceName: String
 	webUrl: String
 	overtime: Boolean
+	project: Project
+	customer: Customer
 }
 
-type Week {
-	id: String!
+type Week implements BaseEntity {
+	id: String
+	key: String
 	closed: Boolean!
 }
 
-type User {
-	id: String!
+type User implements BaseEntity {
+	id: String
+	key: String
 	role: String!
 	fullName: String!
 }
 
 input TimeEntryInput {
 	id: String
-	projectKey: String
+	projectId: String
 }
 
 type EventData {
@@ -90,11 +97,12 @@ type ConfirmedTimeEntries {
 	duration: Float
 }
 
+
 type Query {
 	getCustomers: [Customer!]!
 	getProjects(customerKey: String, sortBy: String): [Project!]!
 	getEventData(weekNumber: Int!): EventData!
-	getConfirmedTimeEntries(projectKey: String, resourceId: String, weekNumber: Int, yearNumber: Int, currentUser: Boolean): ConfirmedTimeEntries
+	getConfirmedTimeEntries(projectId: String, resourceId: String, weekNumber: Int, yearNumber: Int, currentUser: Boolean): ConfirmedTimeEntries
 	getWeeks: [Week!]!
 	getUsers: [User!]!
 }

@@ -11,13 +11,13 @@ const log = require('debug')('middleware/graphql/getEventData');
  */
 function getProjectSuggestion(projects, customer, projectKey) {
     log('Finding best match for [%s]', projectKey);
-    let customerProjects = projects.filter(p => p.customerKey === customer.key);
-    let projectKeys = customerProjects.map(p => p.projectKey);
-    let sm = findBestMatch(projectKey, projectKeys);
+    let customerProjects = projects.filter(p => p.customerKey === customer.id);
+    let projectIds = customerProjects.map(p => p.id.split(' ')[1]);
+    let sm = findBestMatch(projectKey, projectIds);
     let target = (sm.bestMatch && sm.bestMatch.rating > 0) ? sm.bestMatch.target : null;
     if (!target) return null;
-    let suggestion = customerProjects.filter(p => p.projectKey === target.toUpperCase())[0];
-    log('Project [%s] is best match for [%s]', suggestion.projectKey, projectKey);
+    let suggestion = customerProjects.filter(p => p.id.split(' ')[1] === target.toUpperCase())[0];
+    log('Project [%s] is best match for [%s]', suggestion.id, projectKey);
     return suggestion;
 }
 
@@ -51,23 +51,27 @@ function matchEvent(evt, projects, customers) {
     log('Finding match for [%s]', evt.title);
     let categories = evt.categories.join(' ').toUpperCase();
     let content = [evt.title, evt.body, categories].join(' ').toUpperCase();
+    let projectId;
     let match = findMatch(content, categories);
     if (match) {
-        log('Found match for [%s]: %s', evt.title, JSON.stringify(match));
-        evt.project = projects.filter(p => _.isMatch(p, match))[0];
-        evt.customer = customers.filter(c => c.key === match.customerKey)[0];
+        projectId = `${match.customerKey} ${match.projectKey}`;
+        log('Found match for [%s]: %s', evt.title, projectId);
+        evt.project = _.find(projects, p => p.id === projectId);
+        evt.customer = _.find(customers, c => c.id === match.customerKey);
     } else {
+        log('Found match for [%s]', evt.title);
         evt.project = projects.filter(p => content.indexOf(p.key) !== -1)[0];
         if (evt.project) {
             evt.customer = customers.filter(c => c.key === evt.project.key.split(' ')[0])[0];
         }
+        match = {};
     }
     if (evt.customer && !evt.project) {
         evt.suggestedProject = getProjectSuggestion(projects, evt.customer, match.projectKey);
     }
     return {
         ...evt,
-        ...(match || {}),
+        ...match,
         overtime: categories.indexOf('OVERTIME') !== -1,
     };
 }
@@ -84,7 +88,7 @@ async function getEventData(_obj, args, context) {
     let [projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
-        context.services.storage.getConfirmedTimeEntries(context.user.profile.oid, args.weekNumber),
+        context.services.storage.getConfirmedTimeEntries({ resourceId: context.user.profile.oid, weekNumber: args.weekNumber }),
     ]);
     let events = [];
     let matchedEvents = [];
@@ -94,8 +98,8 @@ async function getEventData(_obj, args, context) {
         log('Found confirmed events for week %s, retrieving entries from storage', args.weekNumber);
         events = confirmedTimeEntries.map(entry => ({
             ...entry,
-            project: _.find(projects, p => p.projectKey === entry.projectKey),
-            customer: _.find(customers, p => p.customerKey === entry.customerKey),
+            project: _.find(projects, p => p.id === entry.projectId),
+            customer: _.find(customers, c => c.id === entry.customerId),
         }));
         matchedEvents = events;
         confirmedDuration = events.reduce((sum, evt) => sum + evt.durationMinutes, 0);

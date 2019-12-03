@@ -11,14 +11,14 @@ export const ProjectList = (props: IProjectListProps) => {
             'icon',
             '',
             { maxWidth: 60 },
-            (item: IProject) => <Icon iconName={item.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />,
+            (project: IProject) => <Icon iconName={project.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />,
         ),
         col('key', 'Key', { maxWidth: 120 }),
         col(
             'name',
             'Name',
             {},
-            (item: IProject) => props.renderLink ? <a href={`/projects#${item.key}`}>{item.name}</a> : item.name
+            (project: IProject) => props.renderLink ? <a href={`/projects#${project.id}`}>{project.name}</a> : project.name
         )
     ];
 

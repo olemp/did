@@ -10,14 +10,14 @@ import { IProjectDetailsProps } from './IProjectDetailsProps';
 
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
-    const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectKey: project.key } });
+    const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectId: project.id } });
 
     /** Initializing constants dependent on data from useQuery  */
     const entries = value<any[]>(data, 'result.entries', []);
     const duration = value<number>(data, 'result.duration', 0);
 
     const onExport = async () => {
-        let key = project.key.toString().replace(/\s+/g, '-').toUpperCase();
+        let key = project.id.replace(/\s+/g, '-').toUpperCase();
         await excel.exportExcel(
             entries,
             {

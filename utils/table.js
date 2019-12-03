@@ -4,22 +4,22 @@ const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTIO
 /**
  * Parse an array of azure table storage entities
  * 
- * Makes the keys camelCase and adds RowKey as 'id'
+ * Makes the keys camelCase and adds RowKey as 'id' and 'key
  * 
  * Also skips PartitionKey
  * 
  * @param {*} arr The array of entities to parse
- * @param {*} options Options
+ * @param {*} mapFunc Optional mapping function
  */
-function parseArray(arr, options) {
-    options = options || {};
-    return arr.map(item => Object.keys(item)
+function parseArray(arr, mapFunc) {
+    let result = arr.map(item => Object.keys(item)
         .filter(key => key !== 'PartitionKey')
         .reduce((obj, key) => {
             const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
             const value = item[key]._;
-            if (key === options.idField) {
-                obj.id = value;
+            if (key === 'RowKey') {
+                obj.id = value.toUpperCase();
+                obj.key = value.toUpperCase();
                 return obj;
             }
             switch (item[key].$) {
@@ -33,6 +33,8 @@ function parseArray(arr, options) {
             }
             return obj;
         }, {}));
+    if (mapFunc) result = result.map(mapFunc);
+    return result;
 }
 
 /**

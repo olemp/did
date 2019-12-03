@@ -19,11 +19,10 @@ async function confirmWeek(_obj, args, context) {
         let batch = args.entries.reduce((b, entry) => {
             const event = calendarView.filter(e => e.id === entry.id)[0];
             if (!event) return;
-            const rowKey = `${uuid()}-${args.weekNumber}`;
-            log('Confirming entry with id %s (%s)', entry.id, rowKey);
+            log('Confirming entry with id %s', entry.id);
             b.insertEntity({
                 PartitionKey: entGen.String(context.tid),
-                RowKey: entGen.String(rowKey),
+                RowKey: entGen.String( `${uuid()}-${args.weekNumber}`),
                 EventId: entGen.String(entry.id),
                 Title: entGen.String(event.title),
                 Description: entGen.String(event.body),
@@ -31,8 +30,7 @@ async function confirmWeek(_obj, args, context) {
                 EndTime: entGen.DateTime(new Date(event.endTime)),
                 DurationHours: entGen.Double(getDurationHours(event.startTime, event.endTime)),
                 DurationMinutes: entGen.Int32(getDurationMinutes(event.startTime, event.endTime)),
-                CustomerKey: entGen.String(entry.projectKey.split(' ')[0]),
-                ProjectKey: entGen.String(entry.projectKey.split(' ')[1]),
+                ProjectId: entGen.String(entry.projectId),
                 WebLink: entGen.String(event.webLink),
                 WeekNumber: entGen.Int32(args.weekNumber),
                 MonthNumber: entGen.Int32(getMonth(event.startTime)),
