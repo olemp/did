@@ -21,14 +21,14 @@ function parseArray(arr, mapFunc, options) {
             const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
             const value = item[key]._;
             if (key === 'RowKey') {
-                obj.id = value.toUpperCase();
-                obj.key = value.toUpperCase();
+                obj.id = options.idUpper ? value.toUpperCase() : value;
+                obj.key = obj.id;
                 return obj;
             }
             switch (item[key].$) {
                 case 'Edm.DateTime': {
                     let dateValue = value.toISOString();
-                    if(options.dateFormat) {
+                    if (options.dateFormat) {
                         dateValue = moment(dateValue).format(options.dateFormat);
                     }
                     obj[camelCaseKey] = dateValue;

@@ -48,7 +48,7 @@ StorageService.prototype.getProjects = async function (customerKey, sortBy) {
     if (customerKey) filter = combine(filter, and, stringFilter('CustomerKey', isEqual, customerKey));
     let query = createQuery(1000, undefined, filter);
     const result = await queryTable(PROJECTS, query);
-    let projects = parseArray(result);
+    let projects = parseArray(result, undefined, { idUpper: true });
     if (sortBy) projects = arraySort(projects, sortBy);
     return projects;
 }
@@ -95,7 +95,7 @@ StorageService.prototype.createProject = async function (customerKey, projectKey
 StorageService.prototype.getCustomers = async function () {
     const query = createQuery(1000, undefined, this.filter);
     const result = await queryTable(CUSTOMERS, query);
-    return parseArray(result);
+    return parseArray(result, undefined, { idUpper: true });
 }
 
 StorageService.prototype.getConfirmedTimeEntries = async function (filters, options) {

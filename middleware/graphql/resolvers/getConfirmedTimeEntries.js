@@ -13,13 +13,12 @@ const log = require('debug')('middleware/graphql/getConfirmedTimeEntries');
 async function getConfirmedTimeEntries(_obj, args, context) {
     let resourceId = args.resourceId;
     if (args.currentUser) resourceId = context.user.profile.oid;
-    log('Retrieving confirmed time entries, projects and customers from storage');
+    log('Retrieving confirmed time entries, projects and customers from storage: %s', JSON.stringify(args));
     let [projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
         context.services.storage.getConfirmedTimeEntries({ resourceId, weekNumber: args.weekNumber, yearNumber: args.yearNumber, projectId: args.projectId }, { dateFormat: args.dateFormat }),
     ]);
-    console.log(args);
     let entries = confirmedTimeEntries.map(entry => ({
         ...entry,
         project: _.find(projects, p => p.id === entry.projectId),

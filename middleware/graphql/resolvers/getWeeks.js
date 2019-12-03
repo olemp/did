@@ -1,4 +1,4 @@
-const log = require('debug')('middleware:graphql:getWeeks');
+const log = require('debug')('middleware/graphql/getWeeks');
 
 /**
  * Get projects
