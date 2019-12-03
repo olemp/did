@@ -117,7 +117,6 @@ This will do the same as `git add --all` but it will build a production build of
 
 
 The `/master` branch requires pull requests, and is set up with a CI/CD pipeline which deploys to [did365.azurewebsites.net](https://did365.azurewebsites.net)  
-The `/dev` branch is greenfield - _keep your helmet on and pull often_.  
 `/feature/*`-prefixed branches may or may not be included in future releases.
 
 You are encouraged to branch with either of the following prefixes  
