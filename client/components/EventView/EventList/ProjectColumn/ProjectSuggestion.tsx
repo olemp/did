@@ -10,25 +10,30 @@ import { ICalEvent } from 'models';
 
 export interface IProjectSuggestionProps {
     event: ICalEvent;
-    onRefetch: () => void;
+    onProjectAdded: () => void;
 }
 
 /**
  * @component ProjectSuggestion
  * @description @todo
  */
-export const ProjectSuggestion = ({ event, onRefetch }: IProjectSuggestionProps) => {
+export const ProjectSuggestion = ({ event, onProjectAdded }: IProjectSuggestionProps) => {
     let toggleId = getId('toggle-callout');
     const [callout, setCallout] = useState<Element>(null);
-
+    const text = format(
+        (
+            'Event not matched correctly. ' +
+            'We found <a href="#" id="{0}">`{1}`</a>, but that project does not exist. ' +
+            'Did you mean<a style="display:block;" href="/projects#{2}">`{2}?`</a>'
+        ),
+        toggleId,
+        `${event.customerKey} ${event.projectKey}`,
+        event.suggestedProject.id,
+    );
     return (
         <>
             <UserMessage
-                text={format((
-                    'Event not matched correctly. ' +
-                    'We found <span style="cursor:pointer;" id="{0}">`{1}`</span>, but that project does not exist. ' +
-                    'Did you mean<a style="display:block;" href="/projects#{2}">`{2}?`</a>'
-                ), toggleId, `${event.customerKey} ${event.projectKey}`, event.suggestedProject.id)}
+                text={text}
                 type={MessageBarType.warning}
                 iconName='Lightbulb'
                 onClick={_ => setCallout(document.getElementById(toggleId))} />
@@ -37,7 +42,7 @@ export const ProjectSuggestion = ({ event, onRefetch }: IProjectSuggestionProps)
                 customerKey={event.customerKey}
                 projectKey={event.projectKey}
                 onDismiss={() => setCallout(null)}
-                onAdded={() => onRefetch()} />
+                onAdded={onProjectAdded} />
         </>
     );
 }

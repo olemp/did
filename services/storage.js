@@ -83,9 +83,10 @@ StorageService.prototype.updateWeek = async function (weekNumber, closed) {
  * @param {*} name 
  */
 StorageService.prototype.createProject = async function (customerKey, projectKey, name) {
+    let projectId = (`${customerKey} ${projectKey}`).toUpperCase();
     let entity = await addEntity(PROJECTS, {
         PartitionKey: entGen.String(this.tenantId),
-        RowKey: entGen.String(`${customerKey} ${projectKey}`.toUpperCase),
+        RowKey: entGen.String(projectId),
         Name: entGen.String(name),
         CustomerKey: entGen.String(customerKey.toUpperCase()),
     });

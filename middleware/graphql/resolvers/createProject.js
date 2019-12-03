@@ -9,6 +9,7 @@ const log = require('debug')('middleware/graphql/createProject');
  */
 async function createProject(_obj, args, context) {
     try {
+        log('Attempting to project in storage: ', JSON.stringify(args));
         let { etag } = await context.services.storage.createProject(args.customerKey, args.projectKey, args.name);
         log('Created project with key %s in storage', args.projectKey);
         return etag;

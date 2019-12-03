@@ -32,7 +32,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     }
 
     public componentDidMount() {
-        this._getEventData();
+        this._getEventData(false);
     }
 
     public render() {
@@ -61,7 +61,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                 <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
                                                 <EventList
                                                     onProjectSelected={this._onProjectSelected.bind(this)}
-                                                    onRefetch={() => this._getEventData(undefined, true)}
+                                                    onRefetch={this._getEventData.bind(this)}
                                                     enableShimmer={loading}
                                                     events={data.events}
                                                     dateFormat='HH:mm'
@@ -149,7 +149,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     private _onChangeWeek(item: PivotItem) {
         let weekNumber = parseInt(item.props.itemKey);
         document.location.hash = `w${weekNumber}`;
-        this._getEventData(weekNumber);
+        this.setState({ weekNumber }, () => this._getEventData());
     };
 
     /**
@@ -178,15 +178,14 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     /**
      * Get event data for week number
      * 
-     * @param {number} weekNumber Week number
      * @param {boolean} skipLoading Skips setting loading in state
      * @param {any} fetchPolicy Fetch policy
      */
-    private async _getEventData(weekNumber: number = this.state.weekNumber, skipLoading?: boolean, fetchPolicy: any = 'network-only') {
-        this.setState({ loading: !skipLoading, weekNumber });
+    private async _getEventData(skipLoading: boolean = true, fetchPolicy: any = 'network-only') {
+        this.setState({ loading: !skipLoading });
         const { data: { event_data, weeks } } = await graphql.query({
             query: GET_EVENT_DATA,
-            variables: { weekNumber },
+            variables: { weekNumber: this.state.weekNumber },
             fetchPolicy,
         });
         let data: IGetEventData = { ...event_data, weeks };

@@ -14,9 +14,7 @@ import CREATE_PROJECT from './CREATE_PROJECT';
 export const CreateProjectCallout = ({ customerKey, projectKey, target, onDismiss, onAdded }) => {
     let [model, setModel] = useState({ customerKey, projectKey, name: '' });
     let [addProject, { loading }] = useMutation(CREATE_PROJECT);
-    const onFormSubmit =
-        () => addProject({ variables: model }).then(
-            ({ data }) => onAdded(data.result));
+    const onFormSubmit = () => addProject({ variables: model }).then(onAdded);
 
     return (
         <Callout

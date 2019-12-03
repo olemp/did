@@ -14,8 +14,8 @@ export const ProjectColumn = ({ event, isConfirmed, onRefetch, onProjectSelected
     if (!event.project) {
         if (isConfirmed) return null;
         if (!event.isOrganizer) return <ProjectNoMatch isOrganizer={false} onProjectSelected={onProjectSelected} />
-        if (event.suggestedProject) return <ProjectSuggestion event={event} onRefetch={onRefetch} />;
-        else if (event.customer) return <ProjectCustomerMatch event={event} />;
+        if (event.suggestedProject) return <ProjectSuggestion event={event} onProjectAdded={onRefetch} />;
+        else if (event.customer) return <ProjectCustomerMatch event={event} onProjectAdded={onRefetch} />;
         else if (event.customerKey) return <ProjectInvalidMatch matchedKey={event.customerKey + ' ' + event.projectKey} />;
         return <ProjectNoMatch onProjectSelected={onProjectSelected} />
     }
