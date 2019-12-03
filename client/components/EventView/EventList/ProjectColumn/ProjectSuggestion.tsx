@@ -26,7 +26,7 @@ export const ProjectSuggestion = ({ event, onRefetch }: IProjectSuggestionProps)
             <UserMessage
                 text={format((
                     'Event not matched correctly. ' +
-                    'We found <span style="cursor:pointer;" id="{0}">`{1}`</span>, but that project does not exist.' +
+                    'We found <span style="cursor:pointer;" id="{0}">`{1}`</span>, but that project does not exist. ' +
                     'Did you mean<a style="display:block;" href="/projects#{2}">`{2}?`</a>'
                 ), toggleId, `${event.customerKey} ${event.projectKey}`, event.suggestedProject.id)}
                 type={MessageBarType.warning}

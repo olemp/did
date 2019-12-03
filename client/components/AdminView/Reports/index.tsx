@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
-import { List } from 'components/List';
+import { List, IColumn } from 'components/List';
 import { getValueTyped as value } from 'helpers';
 import { ICalEvent } from 'models';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';

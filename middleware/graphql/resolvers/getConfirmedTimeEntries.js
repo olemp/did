@@ -5,7 +5,7 @@ const log = require('debug')('middleware/graphql/getConfirmedTimeEntries');
  * Get confirmed time entries
  * 
  * @param {*} _obj Unused object
- * @param {*} args Args (resourceId, weekNumber, yearNumber, projectId, currentUser)
+ * @param {*} args Args (resourceId, weekNumber, yearNumber, projectId, currentUser, dateFormat)
  * @param {*} context Context
  * 
  * @returns The entries and their total duration in minutes
@@ -17,8 +17,9 @@ async function getConfirmedTimeEntries(_obj, args, context) {
     let [projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.storage.getProjects(),
         context.services.storage.getCustomers(),
-        context.services.storage.getConfirmedTimeEntries({ resourceId, weekNumber: args.weekNumber, yearNumber: args.yearNumber, projectId: args.projectId }),
+        context.services.storage.getConfirmedTimeEntries({ resourceId, weekNumber: args.weekNumber, yearNumber: args.yearNumber, projectId: args.projectId }, { dateFormat: args.dateFormat }),
     ]);
+    console.log(args);
     let entries = confirmedTimeEntries.map(entry => ({
         ...entry,
         project: _.find(projects, p => p.id === entry.projectId),

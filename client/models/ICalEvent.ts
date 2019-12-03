@@ -13,6 +13,7 @@ export interface ICalEvent extends IObjectWithKey {
     customerKey: string;
     webLink: string;
     durationMinutes: number;
+    durationHours: number;
     startTime: string;
     endTime: string;
 }

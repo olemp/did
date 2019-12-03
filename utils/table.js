@@ -1,5 +1,6 @@
 const { createTableService, TableQuery, TableUtilities } = require('azure-storage');
 const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+const moment = require('moment');
 
 /**
  * Parse an array of azure table storage entities
@@ -9,9 +10,11 @@ const azureTableService = createTableService(process.env.AZURE_STORAGE_CONNECTIO
  * Also skips PartitionKey
  * 
  * @param {*} arr The array of entities to parse
- * @param {*} mapFunc Optional mapping function
+ * @param {*} mapFunc Mapping function (optional)
+ * @param {*} options Options (optional)
  */
-function parseArray(arr, mapFunc) {
+function parseArray(arr, mapFunc, options) {
+    options = options || {};
     let result = arr.map(item => Object.keys(item)
         .filter(key => key !== 'PartitionKey')
         .reduce((obj, key) => {
@@ -24,7 +27,11 @@ function parseArray(arr, mapFunc) {
             }
             switch (item[key].$) {
                 case 'Edm.DateTime': {
-                    obj[camelCaseKey] = value.toISOString();
+                    let dateValue = value.toISOString();
+                    if(options.dateFormat) {
+                        dateValue = moment(dateValue).format(options.dateFormat);
+                    }
+                    obj[camelCaseKey] = dateValue;
                 }
                     break;
                 default: {

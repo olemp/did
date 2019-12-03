@@ -1,11 +1,10 @@
 import gql from 'graphql-tag';
 
-export const GET_CONFIRMED_TIME_ENTRIES = gql`
-    query {
-        result: getConfirmedTimeEntries(dateFormat: "LL")  {
+export const GET_PROJECT_CONFIRMED_TIME_ENTRIES = gql`
+    query($projectId: String) {
+        result: getConfirmedTimeEntries(projectId: $projectId)  {
             entries {
                 title
-                projectId
                 durationHours
                 startTime
                 endTime
@@ -13,6 +12,7 @@ export const GET_CONFIRMED_TIME_ENTRIES = gql`
                 yearNumber
                 resourceName
             }
+            duration
         }
     }
 `;

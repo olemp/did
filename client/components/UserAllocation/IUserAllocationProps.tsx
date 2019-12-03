@@ -1,4 +1,5 @@
 import { TypedHash } from '@pnp/common';
+import { ITimeEntry } from './GET_USER_DATA';
 
 export interface IUserAllocationChart {
     column: string;
@@ -6,6 +7,7 @@ export interface IUserAllocationChart {
 }
 
 export interface IUserAllocationProps {
+    entries?: ITimeEntry[];
     resourceId?: string;
     currentUser?: boolean;
     weekNumber?: number;

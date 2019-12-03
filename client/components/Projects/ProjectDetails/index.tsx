@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/react-hooks';
 import { EventList } from 'components/EventView/EventList';
-import { GET_CONFIRMED_TIME_ENTRIES } from 'components/AdminView/Reports/GET_CONFIRMED_TIME_ENTRIES';
 import { currencyDisplay, getValueTyped as value } from 'helpers';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import * as excel from 'utils/exportExcel';
+import { GET_PROJECT_CONFIRMED_TIME_ENTRIES } from './GET_PROJECT_CONFIRMED_TIME_ENTRIES';
 import { IProjectDetailsProps } from './IProjectDetailsProps';
 
 
 export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
-    const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES, { variables: { projectId: project.id } });
+    const { loading, error, data } = useQuery(GET_PROJECT_CONFIRMED_TIME_ENTRIES, { variables: { projectId: project.id } });
 
     /** Initializing constants dependent on data from useQuery  */
     const entries = value<any[]>(data, 'result.entries', []);

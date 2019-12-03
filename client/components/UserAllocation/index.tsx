@@ -30,9 +30,9 @@ export const GetAllocation = (entries: ITimeEntry[], exp: string) => entries.red
  * @todo
  */
 export const UserAllocation = (props: IUserAllocationProps) => {
-    const { data, loading } = useQuery(GET_USER_DATA, { variables: props, fetchPolicy: 'cache-and-network' });
+    const { data, loading } = useQuery(GET_USER_DATA, { skip: !!props.entries, variables: props, fetchPolicy: 'cache-and-network' });
     if (loading) return null;
-    let entries = value<ITimeEntry[]>(data, 'result.entries', []);
+    let entries = props.entries || value<ITimeEntry[]>(data, 'result.entries', []);
     return (
         <div className="container">
             {Object.keys(props.charts).map(exp => (

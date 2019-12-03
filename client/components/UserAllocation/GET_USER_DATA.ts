@@ -1,10 +1,11 @@
 
 import gql from 'graphql-tag';
+import { IProject, ICustomer } from 'models';
 
 export interface ITimeEntry {
   durationHours: number;
-  customerKey: string;
-  projectKey: string;
+  project: IProject;
+  customer: ICustomer;
 }
 
 export default gql`
