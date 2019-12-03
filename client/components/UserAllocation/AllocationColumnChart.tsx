@@ -6,9 +6,7 @@ export const AllocationColumnChart = (title: string, allocation: TypedHash<numbe
         type: 'column',
         backgroundColor: 'rgba(0,0,0,0)'
     },
-    title: {
-        text: title
-    },
+    title: { text: '' },
     xAxis: {
         categories: Object.keys(allocation),
     },
