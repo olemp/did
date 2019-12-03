@@ -1,5 +1,6 @@
 import { ScrollablePaneWrapper } from 'components/ScrollablePaneWrapper';
 import { ConstrainMode, DetailsListLayoutMode, Selection, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import { GroupHeader } from 'office-ui-fabric-react/lib/GroupedList'
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -49,10 +50,10 @@ export const List = (props: IListProps) => {
                     columns={props.columns}
                     items={items}
                     groups={groups}
-                    groupProps={{}}
                     selectionMode={props.selection ? props.selection.mode : SelectionMode.none}
                     constrainMode={ConstrainMode.horizontalConstrained}
                     layoutMode={DetailsListLayoutMode.justified}
+                    groupProps={{ onRenderHeader: headerProps => <GroupHeader {...headerProps} styles={{ headerCount: { display: 'none' } }}></GroupHeader> }}
                     onRenderDetailsHeader={(headerProps, defaultRender) => ListHeader(headerProps, defaultRender, props, onSearch)} />
             </ScrollablePaneWrapper>
         </div>
