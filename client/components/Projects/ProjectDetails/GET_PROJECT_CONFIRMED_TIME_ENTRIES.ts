@@ -6,6 +6,7 @@ export const GET_PROJECT_CONFIRMED_TIME_ENTRIES = gql`
             entries {
                 title
                 durationHours
+                durationMinutes
                 startTime
                 endTime
                 weekNumber
