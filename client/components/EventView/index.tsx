@@ -149,7 +149,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     private _onChangeWeek(item: PivotItem) {
         let weekNumber = parseInt(item.props.itemKey);
         document.location.hash = `w${weekNumber}`;
-        this.setState({ weekNumber }, () => this._getEventData());
+        this.setState({ weekNumber }, () => this._getEventData(false));
     };
 
     /**
