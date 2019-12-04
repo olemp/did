@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 
@@ -21,10 +22,10 @@ module.exports = {
   entry: ['@babel/polyfill', './lib/client/App.js'],
   resolve: {
     alias: {
-      models: require('path').resolve(__dirname, 'lib/client/models'),
-      utils: require('path').resolve(__dirname, 'lib/client/utils'),
-      helpers: require('path').resolve(__dirname, 'lib/client/helpers'),
-      components: require('path').resolve(__dirname, 'lib/client/components'),
+      models: path.resolve(__dirname, 'lib/client/models'),
+      utils: path.resolve(__dirname, 'lib/client/utils'),
+      helpers: path.resolve(__dirname, 'lib/client/helpers'),
+      components: path.resolve(__dirname, 'lib/client/components'),
     }
   },
   plugins: [
@@ -32,7 +33,7 @@ module.exports = {
     new WebpackBar(),
   ],
   output: {
-    path: require('path').resolve(__dirname, './public/js'),
+    path: path.resolve(__dirname, './public/js'),
     filename: 'did365.bundle.js'
   }
 };
