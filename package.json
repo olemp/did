@@ -40,7 +40,7 @@
     "passport": "0.4.0",
     "passport-azure-ad": "4.2.0",
     "pino": "^5.14.0",
-    "simple-oauth2": "3.1.0",
+    "simple-oauth2": "2.4.0",
     "string-format": "^2.0.0",
     "string-similarity": "^3.0.0",
     "string-strip-html": "4.3.8",

@@ -23,7 +23,7 @@ dependencies:
   passport: 0.4.0
   passport-azure-ad: 4.2.0
   pino: 5.14.0
-  simple-oauth2: 3.1.0
+  simple-oauth2: 2.4.0
   string-format: 2.0.0
   string-similarity: 3.0.0
   string-strip-html: 4.3.8
@@ -71,7 +71,7 @@ devDependencies:
   react-dom: 16.12.0_react@16.12.0
   react-markdown: 4.2.2_react@16.12.0
   scriptjs: 2.5.9
-  typescript: 3.7.2
+  typescript: 3.7.3
   underscore.string: 3.3.5
   webpack: 4.41.2_webpack@4.41.2
   webpack-cli: 3.3.10_webpack@4.41.2
@@ -863,7 +863,7 @@ packages:
       '@babel/plugin-transform-unicode-regex': 7.7.4_@babel+core@7.7.4
       '@babel/types': 7.7.4
       browserslist: 4.8.0
-      core-js-compat: 3.4.5
+      core-js-compat: 3.4.7
       invariant: 2.2.4
       js-levenshtein: 1.1.6
       semver: 5.7.1
@@ -916,56 +916,33 @@ packages:
     dev: false
     resolution:
       integrity: sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==
-  /@hapi/boom/7.4.11:
-    dependencies:
-      '@hapi/hoek': 8.5.0
-    dev: false
-    resolution:
-      integrity: sha512-VSU/Cnj1DXouukYxxkes4nNJonCnlogHvIff1v1RVoN4xzkKhMXX+GRmb3NyH1iar10I9WFPDv2JPwfH3GaV0A==
   /@hapi/bourne/1.3.2:
     dev: false
     resolution:
       integrity: sha512-1dVNHT76Uu5N3eJNTYcvxee+jzX4Z9lfciqRRHCU27ihbUcYi+iSc2iml5Ke1LXe1SyJCLA0+14Jh4tXJgOppA==
-  /@hapi/formula/1.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-UFbtbGPjstz0eWHb+ga/GM3Z9EzqKXFWIbSOFURU0A/Gku0Bky4bCk9/h//K2Xr3IrCfjFNhMm4jyZ5dbCewGA==
   /@hapi/hoek/8.5.0:
     dev: false
     resolution:
       integrity: sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
-  /@hapi/joi/16.1.8:
+  /@hapi/joi/15.1.1:
     dependencies:
       '@hapi/address': 2.1.4
-      '@hapi/formula': 1.2.0
+      '@hapi/bourne': 1.3.2
       '@hapi/hoek': 8.5.0
-      '@hapi/pinpoint': 1.0.2
       '@hapi/topo': 3.1.6
     dev: false
     resolution:
-      integrity: sha512-wAsVvTPe+FwSrsAurNt5vkg3zo+TblvC5Bb1zMVK6SJzZqw9UrJnexxR+76cpePmtUZKHAPxcQ2Bf7oVHyahhg==
-  /@hapi/pinpoint/1.0.2:
-    dev: false
-    resolution:
-      integrity: sha512-dtXC/WkZBfC5vxscazuiJ6iq4j9oNx1SHknmIr8hofarpKUZKmlUVYVIhNVzIEgK5Wrc4GMHL5lZtt1uS2flmQ==
+      integrity: sha512-entf8ZMOK8sc+8YfeOlM8pCfg3b5+WZIKBfUaaJT8UsjAAPjartzxIYm3TIbjvA4u+u++KbcXD38k682nVHDAQ==
   /@hapi/topo/3.1.6:
     dependencies:
       '@hapi/hoek': 8.5.0
     dev: false
     resolution:
       integrity: sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
-  /@hapi/wreck/15.1.0:
-    dependencies:
-      '@hapi/boom': 7.4.11
-      '@hapi/bourne': 1.3.2
-      '@hapi/hoek': 8.5.0
-    dev: false
-    resolution:
-      integrity: sha512-tQczYRTTeYBmvhsek/D49En/5khcShaBEmzrAaDjMrFXKJRuF8xA8+tlq1ETLBFwGd6Do6g2OC74rt11kzawzg==
-  /@microsoft/load-themed-styles/1.10.23:
+  /@microsoft/load-themed-styles/1.10.24:
     dev: true
     resolution:
-      integrity: sha512-SfbRsNSMoKD5HfmdsZ30H104CcJjPOycFL4dgcWGu3FiQ+P7i6WdBTWz4DfAXrA4pUTyNPxKlkS9h9BfAlbUnQ==
+      integrity: sha512-AoStaS/MFr2hgHf6WWaAaGAn3Rfn8QV/YXypOt8veVS7EGrfdQshAbYlsJWT1csit5rVnMkhnH+ZylIS7uvRnw==
   /@microsoft/microsoft-graph-client/2.0.0:
     dependencies:
       '@babel/runtime': 7.7.4
@@ -1101,7 +1078,7 @@ packages:
       integrity: sha512-3mQp7gqPOqphwX74j+N/lJEFeivKPv8ryY9QFXUxVPnrXNwpIkDW9Wk6CPqArzgGvQngRRKYD/PcyP5iuHN52A==
   /@uifabric/styling/7.7.3_a803b85240d4296808087a7b4abfb74d:
     dependencies:
-      '@microsoft/load-themed-styles': 1.10.23
+      '@microsoft/load-themed-styles': 1.10.24
       '@uifabric/merge-styles': 7.8.1
       '@uifabric/set-version': 7.0.2
       '@uifabric/utilities': 7.6.0_a803b85240d4296808087a7b4abfb74d
@@ -1722,6 +1699,18 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-WykhmP/dVTs6DyDe0FkrlWlVyLQ=
+  /boom/7.3.0:
+    dependencies:
+      hoek: 6.1.3
+    deprecated: This module has moved and is now available at @hapi/boom. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+    dev: false
+    resolution:
+      integrity: sha512-Swpoyi2t5+GhOEGw8rEsKvTxFLIDiiKoUc2gsoV6Lyr43LHBIzch3k2MvYUs8RTROrIkVJ3Al0TkaOGjnb+B6A==
+  /bourne/1.1.2:
+    deprecated: This module has moved and is now available at @hapi/bourne. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+    dev: false
+    resolution:
+      integrity: sha512-b2dgVkTZhkQirNMohgC00rWfpVqEi9y5tKM1k3JvoNx05ODtfQoPPd4js9CYFQoY0IM8LAmnJulEuWv74zjUOg==
   /bowser/2.7.0:
     dev: false
     resolution:
@@ -1833,9 +1822,9 @@ packages:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   /browserslist/4.8.0:
     dependencies:
-      caniuse-lite: 1.0.30001013
-      electron-to-chromium: 1.3.321
-      node-releases: 1.1.41
+      caniuse-lite: 1.0.30001015
+      electron-to-chromium: 1.3.322
+      node-releases: 1.1.42
     dev: true
     hasBin: true
     resolution:
@@ -1947,10 +1936,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
-  /caniuse-lite/1.0.30001013:
+  /caniuse-lite/1.0.30001015:
     dev: true
     resolution:
-      integrity: sha512-hOAXaWKuq/UVFgYawxIOdPdyMQdYcwOCDOjnZcKn7wCgFUrhP7smuNZjGLuJlPSgE6aRA4cRJ+bGSrhtEt7ZAg==
+      integrity: sha512-/xL2AbW/XWHNu1gnIrO8UitBGoFthcsDgU9VLK1/dpsoxbaD5LscHozKze05R6WLsBvLhqv78dAPozMFQBYLbQ==
   /capture-stack-trace/1.0.1:
     dev: true
     engines:
@@ -2277,13 +2266,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
-  /core-js-compat/3.4.5:
+  /core-js-compat/3.4.7:
     dependencies:
       browserslist: 4.8.0
       semver: 6.3.0
     dev: true
     resolution:
-      integrity: sha512-rYVvzvKJDKoefdAC+q6VP63vp5hMmeVONCi9pVUbU1qRrtVrmAk/nPhnRg+i+XFd775m1hpG2Yd5RY3X45ccuw==
+      integrity: sha512-57+mgz/P/xsGdjwQYkwtBZR3LuISaxD1dEwVDtbk8xJMqAmwqaxLOvnNT7kdJ7jYE/NjNptyzXi+IQFMi/2fCw==
   /core-util-is/1.0.2:
     resolution:
       integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
@@ -2391,7 +2380,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-bYCcnNDPe7iVLYD8hPoT1H3bEwg=
+  /date-fns/1.30.1:
+    dev: false
+    resolution:
+      integrity: sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
   /date-fns/2.8.1:
+    dev: true
     resolution:
       integrity: sha512-EL/C8IHvYRwAHYgFRse4MGAPSqlJVlOrhVYZ75iQBKrnv+ZedmYsgwH3t+BCDuZDXpoo07+q9j4qgSSOa7irJg==
   /debug/2.6.9:
@@ -2626,10 +2620,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.321:
+  /electron-to-chromium/1.3.322:
     dev: true
     resolution:
-      integrity: sha512-jJy/BZK2s2eAjMPXVMSaCmo7/pSY2aKkfQ+LoAb5Wk39qAhyP9r8KU74c4qTgr9cD/lPUhJgReZxxqU0n5puog==
+      integrity: sha512-Tc8JQEfGQ1MzfSzI/bTlSr7btJv/FFO7Yh6tanqVmIWOuNCu6/D1MilIEgLtmWqIrsv+o4IjpLAhgMBr/ncNAA==
   /elliptic/6.5.2:
     dependencies:
       bn.js: 4.11.8
@@ -3522,6 +3516,11 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     resolution:
       integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
+  /hoek/6.1.3:
+    deprecated: This module has moved and is now available at @hapi/hoek. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+    dev: false
+    resolution:
+      integrity: sha512-YXXAAhmF9zpQbC7LEcREFtXfGq5K1fmd+4PHkBq8NUqmzW3G+Dq10bI/i0KucLRwss3YYFQ0fSfoxBZYiGUqtQ==
   /hoist-non-react-statics/3.3.1:
     dependencies:
       react-is: 16.12.0
@@ -4604,12 +4603,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-h/zcD8H9kaDZ9ALUWwlBUDo6TKF8a7qBSCSEGfjTVIYeqsioSKaAX+BN7NgiMGp6iSIXZ3PxgCu8KS3b71YK5Q==
-  /node-releases/1.1.41:
+  /node-releases/1.1.42:
     dependencies:
       semver: 6.3.0
     dev: true
     resolution:
-      integrity: sha512-+IctMa7wIs8Cfsa8iYzeaLTFwv5Y4r5jZud+4AnfymzeEXKBCavFX0KBgzVaPVqf0ywa6PrO8/b+bPqdwjGBSg==
+      integrity: sha512-OQ/ESmUqGawI2PRX+XIRao44qWYBBfN54ImQYdWVTQqUckuejOg76ysSqDBK8NG3zwySRVnX36JwDQ6x+9GxzA==
   /nodemon/1.19.4:
     dependencies:
       chokidar: 2.1.8
@@ -4732,7 +4731,7 @@ packages:
       integrity: sha1-h6EKxMFpS9Lhy/U1kaZhQftd10c=
   /office-ui-fabric-react/7.64.2_a803b85240d4296808087a7b4abfb74d:
     dependencies:
-      '@microsoft/load-themed-styles': 1.10.23
+      '@microsoft/load-themed-styles': 1.10.24
       '@types/react': 16.9.11
       '@types/react-dom': 16.9.4
       '@uifabric/foundation': 7.5.0_a803b85240d4296808087a7b4abfb74d
@@ -5838,16 +5837,16 @@ packages:
     dev: true
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-  /simple-oauth2/3.1.0:
+  /simple-oauth2/2.4.0:
     dependencies:
-      '@hapi/hoek': 8.5.0
-      '@hapi/joi': 16.1.8
-      '@hapi/wreck': 15.1.0
-      date-fns: 2.8.1
+      '@hapi/joi': 15.1.1
+      date-fns: 1.30.1
       debug: 4.1.1
+      wreck: 14.2.0
+    deprecated: simple-oauth2 v2 is no longer supported. Please upgrade to v3 for further support
     dev: false
     resolution:
-      integrity: sha512-zJ8tYLnmzMkaC5Vo4qBnRWsQa5MKKjNY4yIjaHBW5qZvatYgHrfsHe3VRx7rGTUqwf2PLjbKlwW3GKrSlZmKHQ==
+      integrity: sha512-TaZ7E0xu5RKAEgGKWyTrSnWgp0VSNBYnTaiJNmSO9kZ6h07LrkPk46VOY6cLssUWLYSAbuHkEwGlD6AMjubU1g==
   /snapdragon-node/2.1.1:
     dependencies:
       define-property: 1.0.0
@@ -6244,7 +6243,7 @@ packages:
       schema-utils: 1.0.0
       serialize-javascript: 1.9.1
       source-map: 0.6.1
-      terser: 4.4.1
+      terser: 4.4.2
       webpack: 4.41.2_webpack@4.41.2
       webpack-sources: 1.4.3
       worker-farm: 1.7.0
@@ -6255,7 +6254,7 @@ packages:
       webpack: ^4.0.0
     resolution:
       integrity: sha512-ZXmmfiwtCLfz8WKZyYUuuHf3dMYEjg8NrjHMb0JqHVHVOSkzp3cW2/XG1fP3tRhqEqSzMwzzRQGtAPbs4Cncxg==
-  /terser/4.4.1:
+  /terser/4.4.2:
     dependencies:
       commander: 2.20.3
       source-map: 0.6.1
@@ -6265,7 +6264,7 @@ packages:
       node: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-e05giplw+8sIYh50qXYHZmr0b76O5dOSm9JwSDebGFLri4ItYzxsnumiAK+yuI56R+H7uIjT9KbVEKNkrprzHw==
+      integrity: sha512-Uufrsvhj9O1ikwgITGsZ5EZS6qPokUOkCegS7fYOdGTv+OA90vndUbU6PEjr5ePqHfNUbGyMO7xyIZv2MhsALQ==
   /text-table/0.2.0:
     dev: true
     resolution:
@@ -6417,13 +6416,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-  /typescript/3.7.2:
+  /typescript/3.7.3:
     dev: true
     engines:
       node: '>=4.2.0'
     hasBin: true
     resolution:
-      integrity: sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
+      integrity: sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
   /uglify-js/3.7.1:
     dependencies:
       commander: 2.20.3
@@ -6887,6 +6886,15 @@ packages:
   /wrappy/1.0.2:
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+  /wreck/14.2.0:
+    dependencies:
+      boom: 7.3.0
+      bourne: 1.1.2
+      hoek: 6.1.3
+    deprecated: This module has moved and is now available at @hapi/wreck. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.
+    dev: false
+    resolution:
+      integrity: sha512-NFFft3SMgqrJbXEVfYifh+QDWFxni+98/I7ut7rLbz3F0XOypluHsdo3mdEYssGSirMobM3fGlqhyikbWKDn2Q==
   /write-file-atomic/2.4.3:
     dependencies:
       graceful-fs: 4.2.3
@@ -7061,7 +7069,7 @@ specifiers:
   react-dom: 16.12.0
   react-markdown: ^4.2.2
   scriptjs: 2.5.9
-  simple-oauth2: 3.1.0
+  simple-oauth2: 2.4.0
   string-format: ^2.0.0
   string-similarity: ^3.0.0
   string-strip-html: 4.3.8

@@ -1,5 +1,4 @@
 const StorageService = require('../../services/storage');
-const oauth2 = require('../../config/oauth2');
 
 async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, params, done) {
     if (!profile.oid) return done(new Error("No OID found in user profile."), null);
@@ -11,8 +10,7 @@ async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, 
     } catch (err) {
         done(err, null);
     }
-    let { token } = oauth2.accessToken.create(params);
-    return done(null, { profile, oauthToken: token });
+    return done(null, { profile, oauthToken: params });
 }
 
 module.exports = onVerifySignin;

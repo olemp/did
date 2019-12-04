@@ -3,8 +3,8 @@ const moment = require('moment');
 const stripHtml = require("string-strip-html");
 const utils = require('../utils');
 
-function GraphService(accessToken) {
-  this.accessToken = accessToken;
+function GraphService(oauthToken) {
+  this.oauthToken = oauthToken;
 }
 
 /**
@@ -23,7 +23,7 @@ GraphService.prototype.removeIgnoredEvents = function (events) {
  * Gets a Microsoft Graph Client using the auth token from the class
  */
 GraphService.prototype.getClient = function () {
-  const client = require('@microsoft/microsoft-graph-client').Client.init({ authProvider: (done) => { done(null, this.accessToken); } });
+  const client = require('@microsoft/microsoft-graph-client').Client.init({ authProvider: (done) => { done(null, this.oauthToken.access_token); } });
   return client;
 }
 
