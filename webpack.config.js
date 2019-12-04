@@ -1,5 +1,5 @@
 require('dotenv').config();
-const ignorePlugin = require('webpack').IgnorePlugin;
+const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
     ]
   },
   mode: process.env.NODE_ENV,
-  entry: './lib/client/App.js',
+  entry: ['@babel/polyfill', './lib/client/App.js'],
   resolve: {
     alias: {
       models: require('path').resolve(__dirname, 'lib/client/models'),
@@ -28,7 +28,7 @@ module.exports = {
     }
   },
   plugins: [
-    new ignorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new WebpackBar(),
   ],
   output: {
