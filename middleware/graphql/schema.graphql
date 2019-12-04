@@ -12,6 +12,7 @@ type Project implements BaseEntity {
 	icon: String
 	budget: Int
 	hourlyRate: Int
+	customerKey: String
 }
 
 type Customer implements BaseEntity {

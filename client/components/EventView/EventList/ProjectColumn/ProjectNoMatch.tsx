@@ -14,7 +14,7 @@ import { SearchProjectCallout } from './SearchProjectCallout';
  */
 export const ProjectNoMatch = ({ isOrganizer = true, onProjectSelected }) => {
     let toggleId = getId('toggle-callout');
-    const [callout, setCallout] = useState<Element>(null);
+    const [callout, setCallout] = useState<Element>(document.getElementById(toggleId));
 
     if (!isOrganizer) {
         return (

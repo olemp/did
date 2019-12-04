@@ -17,6 +17,7 @@ export const GET_PROJECTS = gql`
             icon
             budget
             hourlyRate
+            customerKey
         }
     }
 `;
