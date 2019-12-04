@@ -10,15 +10,19 @@ const log = require('debug')('middleware/graphql/getEventData');
  * @param {*} projectKey 
  */
 function getProjectSuggestion(projects, customer, projectKey) {
-    log('Finding best match for [%s]', projectKey);
-    let customerProjects = projects.filter(p => p.customerKey === customer.id);
-    let projectIds = customerProjects.map(p => p.id.split(' ')[1]);
-    let sm = findBestMatch(projectKey, projectIds);
-    let target = (sm.bestMatch && sm.bestMatch.rating > 0) ? sm.bestMatch.target : null;
-    if (!target) return null;
-    let suggestion = customerProjects.filter(p => p.id.split(' ')[1] === target.toUpperCase())[0];
-    log('Project [%s] is best match for [%s]', suggestion.id, projectKey);
-    return suggestion;
+    try {
+        log('Finding best match for [%s]', projectKey);
+        let customerProjects = projects.filter(p => p.customerKey === customer.id);
+        let projectKeys = customerProjects.map(p => p.id.split(' ')[1]);
+        let sm = findBestMatch(projectKey, projectKeys);
+        let target = (sm.bestMatch && sm.bestMatch.rating > 0) ? sm.bestMatch.target : null;
+        if (!target) return null;
+        let suggestion = customerProjects.filter(p => p.id.split(' ')[1] === target.toUpperCase())[0];
+        log('Project [%s] is best match for [%s]', suggestion.id, projectKey);
+        return suggestion;
+    } catch (error) {
+        return null;
+    }
 }
 
 /**
@@ -67,7 +71,8 @@ function matchEvent(evt, projects, customers) {
         match = {};
     }
     if (evt.customer && !evt.project) {
-        evt.suggestedProject = getProjectSuggestion(projects, evt.customer, match.projectKey);
+        let suggestedProject = getProjectSuggestion(projects, evt.customer, match.projectKey);
+        if (suggestedProject) evt.suggestedProject = suggestedProject;
     }
     return {
         ...evt,
