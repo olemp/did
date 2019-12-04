@@ -1,11 +1,11 @@
 
+import { UserAllocation } from 'components/UserAllocation';
 import { UserMessage } from 'components/UserMessage';
 import { ICalEvent, IProject } from 'models';
 import * as moment from 'moment';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IPivotItemProps, Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
-import { getHash } from 'utils/getHash';
 import log from 'utils/log';
 import { client as graphql } from '../../graphql';
 import { ConfirmButton } from './ConfirmButton';
@@ -18,14 +18,13 @@ import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import { UnconfirmButton } from './UnconfirmButton';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-import { UserAllocation } from 'components/UserAllocation';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
     constructor(props: IEventViewProps) {
         super(props);
         this.state = {
-            weekNumber: getHash({ parseInt: true }) || moment().week(),
+            weekNumber: moment().week(),
             data: { events: [], weeks: [] },
             selectedView: 'overview'
         };
@@ -148,7 +147,6 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private _onChangeWeek(item: PivotItem) {
         let weekNumber = parseInt(item.props.itemKey);
-        document.location.hash = `w${weekNumber}`;
         this.setState({ weekNumber }, () => this._getEventData(false));
     };
 
