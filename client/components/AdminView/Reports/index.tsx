@@ -46,8 +46,7 @@ export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeE
             <List
                 items={entries}
                 columns={columns}
-                enableShimmer={loading}
-                height={500} />
+                enableShimmer={loading} />
         </div>
     );
 }
