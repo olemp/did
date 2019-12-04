@@ -21,6 +21,7 @@ function getProjectSuggestion(projects, customer, projectKey) {
         log('Project [%s] is best match for [%s]', suggestion.id, projectKey);
         return suggestion;
     } catch (error) {
+        log('Failed to find best match for [%s]', projectKey);
         return null;
     }
 }
