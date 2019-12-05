@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 export const GET_CUSTOMERS = gql`
 {
-    customers: getCustomers {
+    customers {
         id
         key
         name

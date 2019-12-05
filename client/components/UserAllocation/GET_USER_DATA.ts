@@ -10,7 +10,7 @@ export interface ITimeEntry {
 
 export default gql`
 query ($resourceId: String, $weekNumber: Int, $yearNumber: Int, $currentUser: Boolean) {
-  result: getConfirmedTimeEntries(resourceId: $resourceId, weekNumber: $weekNumber, yearNumber: $yearNumber, currentUser: $currentUser) {
+  result: confirmedTimeEntries(resourceId: $resourceId, weekNumber: $weekNumber, yearNumber: $yearNumber, currentUser: $currentUser) {
     entries {
       durationHours
       project {

@@ -3,11 +3,11 @@ import gql from 'graphql-tag';
 
 export default gql`
 query {
-  weeks: getWeeks {
+  weeks {
     id
     closed
   }
-  users: getUsers {
+  users {
     id
     fullName
     role

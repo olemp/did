@@ -1,4 +1,5 @@
 import { IObjectWithKey } from 'office-ui-fabric-react/lib/DetailsList';
+import { ICustomer } from './ICustomer';
 
 export interface IProject extends IObjectWithKey {
     id: string;
@@ -9,4 +10,5 @@ export interface IProject extends IObjectWithKey {
     icon: string;
     budget: number;
     hourlyRate: number;
+    customer: ICustomer;
 }

@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const findBestMatch = require('string-similarity').findBestMatch;
-const log = require('debug')('middleware/graphql/getEventData');
+const log = require('debug')('middleware/graphql/eventData');
 
 /**
  * Get project best match
@@ -93,12 +93,13 @@ function matchEvent(evt, projects, customers) {
 
 
 /**
+ * Event data
  * 
  * @param {*} _obj Unused obj
  * @param {*} args Args (weekNumber)
  * @param {*} context The context
  */
-async function getEventData(_obj, args, context) {
+async function eventData(_obj, args, context) {
     log('Retrieving events for week %s', args.weekNumber);
     let [projects, customers, confirmedTimeEntries] = await Promise.all([
         context.services.storage.getProjects(),
@@ -136,4 +137,4 @@ async function getEventData(_obj, args, context) {
     };
 };
 
-module.exports = getEventData;
+module.exports = eventData;

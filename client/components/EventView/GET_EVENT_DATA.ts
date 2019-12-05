@@ -17,11 +17,11 @@ export interface IGetEventDataVariables {
 
 export default gql`
 query ($weekNumber: Int!) {
-  weeks: getWeeks {
+  weeks {
     id
     closed
   }
-  event_data: getEventData(weekNumber: $weekNumber) {
+  event_data: eventData(weekNumber: $weekNumber) {
     events {
       key
       id

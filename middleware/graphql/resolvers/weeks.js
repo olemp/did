@@ -1,4 +1,4 @@
-const log = require('debug')('middleware/graphql/getWeeks');
+const log = require('debug')('middleware/graphql/weeks');
 
 /**
  * Get projects
@@ -7,10 +7,10 @@ const log = require('debug')('middleware/graphql/getWeeks');
  * @param {*} _args Unused args
  * @param {*} context Context
  */
-async function getWeeks(_obj, _args, context) {
+async function weeks(_obj, _args, context) {
     let weeks = await context.services.storage.getWeeks();
     log('Retrieved %s weeks from storage', weeks.length);
     return weeks;
 }
 
-module.exports = getWeeks;
+module.exports = weeks;

@@ -13,6 +13,7 @@ type Project implements BaseEntity {
 	budget: Int
 	hourlyRate: Int
 	customerKey: String
+	customer: Customer
 }
 
 type Customer implements BaseEntity {
@@ -100,10 +101,10 @@ type ConfirmedTimeEntries {
 
 
 type Query {
-	getCustomers: [Customer!]!
-	getProjects(customerKey: String, sortBy: String): [Project!]!
-	getEventData(weekNumber: Int!): EventData!
-	getConfirmedTimeEntries(
+	customers: [Customer!]!
+	projects(customerKey: String, sortBy: String): [Project!]!
+	eventData(weekNumber: Int!): EventData!
+	confirmedTimeEntries(
 	projectId: String, 
 	resourceId: String, 
 	weekNumber: Int, 
@@ -111,8 +112,8 @@ type Query {
 	currentUser: Boolean
 	dateFormat: String
 	): ConfirmedTimeEntries
-	getWeeks: [Week!]!
-	getUsers: [User!]!
+	weeks: [Week!]!
+	users: [User!]!
 }
 
 type BaseResult {

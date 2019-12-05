@@ -8,28 +8,29 @@ import { IProjectListProps } from './IProjectListProps';
 export const ProjectList = (props: IProjectListProps) => {
     const columns: IColumn[] = [
         col(
-            'icon',
+            'ICON_COLUMN',
             '',
             { maxWidth: 35, minWidth: 35 },
             (project: IProject) => <Icon iconName={project.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />,
         ),
         col('key', 'Key', { maxWidth: 120 }),
         col(
-            'name',
+            'NAME_COLUMN',
             'Name',
-            {},
+            { maxWidth: 180 },
             (project: IProject) => props.renderLink ? <a href={`/projects#${project.id}`}>{project.name}</a> : project.name
+        ),
+        col(
+            'CUSTOMER_NAME_COLUMN',
+            'Customer',
+            {},
+            (project: IProject) => {
+                if (!project.customer) return null;
+                return props.renderLink ? <a href={`/customers#${project.customer.id}`}>{project.customer.name}</a> : project.customer.name;
+            }
         )
     ];
 
-    return (
-        <List
-            height={props.height}
-            enableShimmer={props.enableShimmer}
-            columns={columns}
-            items={props.items}
-            searchBox={props.searchBox}
-            selection={props.selection} />
-    );
+    return <List {...props} columns={columns} />;
 
 }

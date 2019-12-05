@@ -1,8 +1,8 @@
 const _ = require('underscore');
-const log = require('debug')('middleware/graphql/getConfirmedTimeEntries');
+const log = require('debug')('middleware/graphql/confirmedTimeEntries');
 
 /**
- * Get confirmed time entries
+ * Confirmed time entries
  * 
  * @param {*} _obj Unused object
  * @param {*} args Args (resourceId, weekNumber, yearNumber, projectId, currentUser, dateFormat)
@@ -10,7 +10,7 @@ const log = require('debug')('middleware/graphql/getConfirmedTimeEntries');
  * 
  * @returns The entries and their total duration in minutes
  */
-async function getConfirmedTimeEntries(_obj, args, context) {
+async function confirmedTimeEntries(_obj, args, context) {
     let resourceId = args.resourceId;
     if (args.currentUser) resourceId = context.user.profile.oid;
     log('Retrieving confirmed time entries, projects and customers from storage: %s', JSON.stringify(args));
@@ -29,4 +29,4 @@ async function getConfirmedTimeEntries(_obj, args, context) {
     return { entries, duration };
 };
 
-module.exports = getConfirmedTimeEntries;
+module.exports = confirmedTimeEntries;
