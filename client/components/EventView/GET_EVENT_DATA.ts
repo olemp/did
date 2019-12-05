@@ -19,7 +19,7 @@ query ($weekNumber: Int!) {
     id
     closed
   }
-  event_data: eventData(weekNumber: $weekNumber) {
+  eventData(weekNumber: $weekNumber) {
     events {
       key
       id
@@ -45,24 +45,19 @@ query ($weekNumber: Int!) {
         id
         key
         name
-        customer {          
+        customer {   
+          id       
           key
           name
         }
       }
       customer {
+        id
         key
         name
       }
       overtime
-    }
-    matchedEvents {
-      id
-      project {
-        id
-        key
-      }
-    }  
+    } 
     confirmedDuration
   }
 }

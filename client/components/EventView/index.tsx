@@ -222,16 +222,15 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      * Get event data for week number
      * 
      * @param {boolean} skipLoading Skips setting loading in state
-     * @param {any} fetchPolicy Fetch policy
      */
-    private async _getEventData(skipLoading: boolean = true, fetchPolicy: any = 'network-only') {
+    private async _getEventData(skipLoading: boolean = true) {
         if (!skipLoading) this.setState({ loading: true });
-        const { data: { event_data, weeks } } = await graphql.query({
+        const { data: { eventData, weeks } } = await graphql.query({
             query: GET_EVENT_DATA,
             variables: { weekNumber: this.state.weekNumber },
-            fetchPolicy,
+            fetchPolicy: 'network-only',
         });
-        let data: IGetEventData = { ...event_data, weeks };
+        let data: IGetEventData = { ...eventData, weeks };
         let isConfirmed = data.confirmedDuration > 0
         let resolves = this._getStoredResolves();
         data.events = data.events
