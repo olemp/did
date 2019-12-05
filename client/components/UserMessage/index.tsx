@@ -8,7 +8,7 @@ import { IUserMessageProps } from './IUserMessageProps';
  * @component UserMessage
  * @description @todo
  */
-export const UserMessage = ({ text, onClick = null, type = MessageBarType.info, iconName, hidden, marginTop = 0, style }: IUserMessageProps) => {
+export const UserMessage = ({ text, onClick = undefined, type = MessageBarType.info, iconName, hidden, marginTop = 0, style, children }: IUserMessageProps) => {
     return (
         <div
             className='c-usermessage'
@@ -16,7 +16,8 @@ export const UserMessage = ({ text, onClick = null, type = MessageBarType.info, 
             hidden={hidden}
             onClick={onClick}>
             <MessageBar style={style} messageBarType={type} messageBarIconProps={iconName && { iconName }}>
-                <ReactMarkdown source={text} escapeHtml={false} skipHtml={false} />
+                {text && <ReactMarkdown source={text} escapeHtml={false} skipHtml={false} />}
+                {children && children}
             </MessageBar>
         </div>
     );

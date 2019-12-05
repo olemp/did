@@ -24,7 +24,7 @@ function getProjectSuggestion(projects, customer, projectKey) {
         return suggestion;
     } catch (error) {
         log('(getProjectSuggestion) Failed to find best match for [%s]', projectKey);
-        
+
         return null;
     }
 }
@@ -106,6 +106,7 @@ async function eventData(_obj, args, context) {
         context.services.storage.getCustomers(),
         context.services.storage.getConfirmedTimeEntries({ resourceId: context.user.profile.oid, weekNumber: args.weekNumber }),
     ]);
+    projects = projects.map(p => ({ ...p, customer: _.find(customers, c => c.id === p.id.split(' ')[0]) }));
     let events = [];
     let matchedEvents = [];
     let matchedDuration = 0;

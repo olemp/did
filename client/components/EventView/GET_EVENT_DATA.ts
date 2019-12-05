@@ -4,8 +4,6 @@ import { ICalEvent } from 'models';
 
 export interface IGetEventData {
   events?: ICalEvent[];
-  matchedEvents?: ICalEvent[];
-  matchedDuration?: number;
   totalDuration?: number;
   confirmedDuration?: number;
   weeks?: { id: string, closed: boolean }[];
@@ -38,11 +36,19 @@ query ($weekNumber: Int!) {
         id
         key
         name
+        customer {          
+          key
+          name
+        }
       }
       suggestedProject {
         id
         key
         name
+        customer {          
+          key
+          name
+        }
       }
       customer {
         key
@@ -56,9 +62,7 @@ query ($weekNumber: Int!) {
         id
         key
       }
-    }
-    totalDuration
-    matchedDuration    
+    }  
     confirmedDuration
   }
 }

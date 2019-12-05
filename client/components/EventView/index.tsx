@@ -18,9 +18,13 @@ import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
 import { getHash } from 'utils/getHash';
+import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
+    private _store: PnPClientStore;
+    private _resolvedKey = 'resolved_projects';
+
     constructor(props: IEventViewProps) {
         super(props);
         this.state = {
@@ -28,6 +32,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
             data: { events: [], weeks: [] },
             selectedView: 'overview'
         };
+        this._store = new PnPClientStorage().local;
     }
 
     public componentDidMount() {
@@ -64,7 +69,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                         UNCONFIRM_PERIOD: loading || !isConfirmed,
                                                     }}
                                                 />
-                                                <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
+                                                <StatusBar isConfirmed={isConfirmed} events={data.events} loading={loading} />
                                                 <EventList
                                                     onProjectSelected={this._onProjectSelected.bind(this)}
                                                     onRefetch={this._getEventData.bind(this)}
@@ -97,11 +102,15 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      * @param {IProject} project Project
      */
     private _onProjectSelected(event: ICalEvent, project: IProject) {
+        this._storeResolve(event.id, project);
         this.setState(prevState => ({
             data: {
                 ...prevState.data,
                 events: prevState.data.events.map(e => {
-                    if (e.id === event.id) e.project = project;
+                    if (e.id === event.id) {
+                        e.project = project;
+                        e.customer = project.customer;
+                    }
                     return e;
                 })
             }
@@ -165,7 +174,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private async _onConfirmWeek() {
         this.setState({ loading: true });
-        const entries = this.state.data.matchedEvents.map(e => ({ id: e.id, projectId: e.project.id }));
+        const entries = this.state.data.events
+            .filter(event => !!event.project)
+            .map(event => ({ id: event.id, projectId: event.project.id }));
         const variables = { weekNumber: this.state.weekNumber, entries };
         let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
         log.info('_onConfirmWeek', result.error);
@@ -184,6 +195,30 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     };
 
     /**
+     * Get stored resolves from local storage
+     * 
+     * @param {string} eventId Event id
+     */
+    private _getStoredResolves(eventId?: string): TypedHash<IProject> {
+        let storedResolves = this._store.get(this._resolvedKey);
+        if (!storedResolves) return {};
+        if (eventId && storedResolves[eventId]) return storedResolves[eventId];
+        return storedResolves;
+    }
+
+    /**
+     * Store resolve in local storage
+     * 
+     * @param {string} eventId Event id
+     * @param {IProject} project Project
+     */
+    private _storeResolve(eventId: string, project: IProject) {
+        let resolves = this._getStoredResolves();
+        resolves[eventId] = project;
+        this._store.put(this._resolvedKey, resolves);
+    }
+
+    /**
      * Get event data for week number
      * 
      * @param {boolean} skipLoading Skips setting loading in state
@@ -198,7 +233,16 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         });
         let data: IGetEventData = { ...event_data, weeks };
         let isConfirmed = data.confirmedDuration > 0
-        data.events = data.events.map(e => ({ ...e, day: moment(e.startTime).format('dddd') }));
+        let resolves = this._getStoredResolves();
+        data.events = data.events
+            .map(event => {
+                event.day = moment(event.startTime).format('dddd');
+                if (resolves[event.id]) {
+                    event.project = resolves[event.id];
+                    event.customer = resolves[event.id].customer;
+                }
+                return event;
+            });
         this.setState({ data, loading: false, isConfirmed });
     }
 }

@@ -1,3 +1,4 @@
+const log = require('debug')('services/tokens');
 const simpleoauth2 = require('simple-oauth2').create({
     client: {
         id: process.env.OAUTH_APP_ID,
@@ -14,9 +15,17 @@ module.exports = {
     ensureAccessToken: async function (req) {
         var storedToken = simpleoauth2.accessToken.create(req.user.oauthToken);
         if (storedToken) {
+            log('Checking if access token has expired: %s', storedToken.expired());
             if (storedToken.expired()) {
-                var newToken = await storedToken.refresh();
-                req.user.oauthToken = newToken;
+                log('Access token has expired. Attempting to refresh: %s', JSON.stringify(req.user.oauthToken));
+                try {
+                    var { token: oauthToken } = await storedToken.refresh();
+                    req.user.oauthToken = oauthToken;
+                    log('Successfully refreshed auth token');
+                } catch (error) {
+                    console.log(error);
+                    log('Failed to refresh access token');
+                }
             }
         }
     }

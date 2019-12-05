@@ -16,4 +16,5 @@ export interface ICalEvent extends IObjectWithKey {
     durationHours: number;
     startTime: string;
     endTime: string;
+    day: string;
 }

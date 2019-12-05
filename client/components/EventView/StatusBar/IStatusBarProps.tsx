@@ -1,7 +1,7 @@
-import { IGetEventData } from '../GET_EVENT_DATA';
+import { ICalEvent } from 'models';
 
 export interface IStatusBarProps {
     loading: boolean;
     isConfirmed: boolean;
-    data: IGetEventData;
+    events: ICalEvent[];
 }

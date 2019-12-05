@@ -20,7 +20,7 @@ export const ProjectNoMatch = ({ isOrganizer = true, onProjectSelected }) => {
         return (
             <>
                 <UserMessage
-                    text={format('Event not matched.<a href="#" id="{0}">`Click to select a project`</a>.', toggleId)}
+                    text={format('Event not matched.<a href="#" id="{0}">Click to resolve</a>.', toggleId)}
                     type={MessageBarType.info}
                     iconName='SearchIssue'
                     onClick={_ => setCallout(document.getElementById(toggleId))} />
@@ -36,8 +36,8 @@ export const ProjectNoMatch = ({ isOrganizer = true, onProjectSelected }) => {
     }
     return (
         <UserMessage
-            text='Event not matched. Did you add a project key to the subject, body or category?'
+            text='Event not matched. Found no match for any project in event.'
             type={MessageBarType.severeWarning}
-            iconName='SearchIssue' />
+            iconName='TagUnknown' />
     );
 }
