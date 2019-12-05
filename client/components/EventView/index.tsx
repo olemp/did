@@ -17,13 +17,14 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
+import { getHash } from 'utils/getHash';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
     constructor(props: IEventViewProps) {
         super(props);
         this.state = {
-            weekNumber: moment().week(),
+            weekNumber: getHash({ parseInt: true }) || moment().week(),
             data: { events: [], weeks: [] },
             selectedView: 'overview'
         };
@@ -125,10 +126,12 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
     /**
      * Get sections
+     * 
+     * @param {number} count Number of sections
      */
-    private _getSections(): { props: IPivotItemProps, renderView: boolean, closed: boolean }[] {
-        return Array.from(Array(10).keys())
-            .map(i => moment().week() - (10 - 1) + i)
+    private _getSections(count: number = 10): { props: IPivotItemProps, renderView: boolean, closed: boolean }[] {
+        return Array.from(Array(count).keys())
+            .map(i => moment().week() - (count - 1) + i)
             .map(wn => {
                 let closed = this.state.data.weeks.filter(w => w.id === wn.toString() && w.closed).length === 1;
                 let renderView = (wn === this.state.weekNumber) && !closed;
@@ -153,6 +156,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      */
     private _onChangeWeek(item: PivotItem) {
         let weekNumber = parseInt(item.props.itemKey);
+        document.location.hash = `w${weekNumber}`;
         this.setState({ weekNumber }, () => this._getEventData(false));
     };
 
@@ -165,7 +169,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         const variables = { weekNumber: this.state.weekNumber, entries };
         let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
         log.info('_onConfirmWeek', result.error);
-        await this._getEventData();
+        await this._getEventData(false);
     };
 
     /**
@@ -175,7 +179,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         this.setState({ loading: true });
         let { data: { result } } = await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
         log.info('_onUnconfirmWeek', result.error)
-        await this._getEventData();
+        await this._getEventData(false);
 
     };
 
@@ -186,7 +190,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      * @param {any} fetchPolicy Fetch policy
      */
     private async _getEventData(skipLoading: boolean = true, fetchPolicy: any = 'network-only') {
-        this.setState({ loading: !skipLoading });
+        if (!skipLoading) this.setState({ loading: true });
         const { data: { event_data, weeks } } = await graphql.query({
             query: GET_EVENT_DATA,
             variables: { weekNumber: this.state.weekNumber },
