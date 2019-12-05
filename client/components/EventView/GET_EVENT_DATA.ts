@@ -37,6 +37,7 @@ query ($weekNumber: Int!) {
         key
         name
         customer {          
+          id       
           key
           name
         }

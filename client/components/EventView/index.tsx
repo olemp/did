@@ -1,11 +1,14 @@
 
+import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 import { UserAllocation } from 'components/UserAllocation';
-import { UserMessage } from 'components/UserMessage';
+import { getValueTyped as value } from 'helpers';
 import { ICalEvent, IProject } from 'models';
 import * as moment from 'moment';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IPivotItemProps, Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
+import * as format from 'string-format';
+import { getHash } from 'utils/getHash';
 import log from 'utils/log';
 import { client as graphql } from '../../graphql';
 import { ActionBar } from './ActionBar';
@@ -17,21 +20,15 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-import { getHash } from 'utils/getHash';
-import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
     private _store: PnPClientStore;
-    private _resolvedKey = 'resolved_projects';
+    private _resolvedKey = 'resolved_projects_{0}';
 
     constructor(props: IEventViewProps) {
         super(props);
-        this.state = {
-            weekNumber: getHash({ parseInt: true }) || moment().week(),
-            data: { events: [], weeks: [] },
-            selectedView: 'overview'
-        };
+        this.state = { weekNumber: getHash({ parseInt: true }) || moment().week(), selectedView: 'overview' };
         this._store = new PnPClientStorage().local;
     }
 
@@ -52,7 +49,6 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                     {this._getSections().map(({ props, renderView, closed }) => (
                         <PivotItem {...props}>
                             <div className='c-eventview-section-content'>
-                                {closed && <UserMessage text='This week has been closed by an administrator.' iconName='LockSolid' type={0} />}
                                 {renderView && (
                                     <>
                                         <Header weekNumber={weekNumber} />
@@ -65,24 +61,22 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                         RELOAD: () => window.location.reload(),
                                                     }}
                                                     disabled={{
-                                                        CONFIRM_PERIOD: loading || isConfirmed,
-                                                        UNCONFIRM_PERIOD: loading || !isConfirmed,
+                                                        CONFIRM_PERIOD: loading || closed || isConfirmed,
+                                                        UNCONFIRM_PERIOD: loading || closed || !isConfirmed,
                                                     }}
                                                 />
-                                                <StatusBar isConfirmed={isConfirmed} events={data.events} loading={loading} />
+                                                <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
                                                 <EventList
                                                     onProjectSelected={this._onProjectSelected.bind(this)}
                                                     onRefetch={this._getEventData.bind(this)}
                                                     enableShimmer={loading}
-                                                    events={data.events}
+                                                    events={value(data, 'events', [])}
                                                     dateFormat='HH:mm'
-                                                    isConfirmed={isConfirmed}
+                                                    isConfirmed={isConfirmed || closed}
                                                     groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
                                             </PivotItem>
                                             <PivotItem itemKey='allocation' headerText='Allocation' itemIcon='ReportDocument'>
-                                                <UserAllocation
-                                                    entries={data.events}
-                                                    charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
+                                                <UserAllocation entries={value(data, 'events', [])} charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
                                             </PivotItem>
                                         </Pivot>
                                     </>
@@ -139,10 +133,12 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      * @param {number} count Number of sections
      */
     private _getSections(count: number = 10): { props: IPivotItemProps, renderView: boolean, closed: boolean }[] {
+        const { data } = this.state;
+
         return Array.from(Array(count).keys())
             .map(i => moment().week() - (count - 1) + i)
             .map(wn => {
-                let closed = this.state.data.weeks.filter(w => w.id === wn.toString() && w.closed).length === 1;
+                let closed = value(data, 'weeks', []).filter(w => w.id === wn.toString() && w.closed).length === 1;
                 let renderView = (wn === this.state.weekNumber) && !closed;
                 return {
                     props: {
@@ -178,19 +174,20 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
             .filter(event => !!event.project)
             .map(event => ({ id: event.id, projectId: event.project.id }));
         const variables = { weekNumber: this.state.weekNumber, entries };
-        let { data: { result } } = await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
-        log.info('_onConfirmWeek', result.error);
-        await this._getEventData(false);
+        await graphql.mutate({ mutation: CONFIRM_WEEK, variables });
+        log.info('_onConfirmWeek');
+        await this._getEventData();
     };
 
     /**
      * On unconfirm week
      */
     private async _onUnconfirmWeek() {
+        this._clearResolve();
         this.setState({ loading: true });
-        let { data: { result } } = await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
-        log.info('_onUnconfirmWeek', result.error)
-        await this._getEventData(false);
+        await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.weekNumber } });
+        log.info('_onUnconfirmWeek')
+        await this._getEventData();
 
     };
 
@@ -200,7 +197,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
      * @param {string} eventId Event id
      */
     private _getStoredResolves(eventId?: string): TypedHash<IProject> {
-        let storedResolves = this._store.get(this._resolvedKey);
+        let storedResolves = this._store.get(format(this._resolvedKey, this.state.weekNumber));
         if (!storedResolves) return {};
         if (eventId && storedResolves[eventId]) return storedResolves[eventId];
         return storedResolves;
@@ -215,7 +212,14 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     private _storeResolve(eventId: string, project: IProject) {
         let resolves = this._getStoredResolves();
         resolves[eventId] = project;
-        this._store.put(this._resolvedKey, resolves);
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves);
+    }
+
+    /**
+     * Clear resolve
+     */
+    private _clearResolve() {
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), {});
     }
 
     /**
