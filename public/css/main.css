@@ -38,8 +38,8 @@ h5 {
   font-size: 10pt;
 }
 
-.ms-DetailsRow-check {
-  visibility: hidden;
+.ms-DetailsRow-check, .ms-DetailsRow-cellCheck, .ms-DetailsHeader-cellIsCheck {
+  display: none;
 }
 
 .ms-DetailsHeader-cellName,

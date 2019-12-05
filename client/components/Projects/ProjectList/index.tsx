@@ -10,7 +10,7 @@ export const ProjectList = (props: IProjectListProps) => {
         col(
             'icon',
             '',
-            { maxWidth: 60 },
+            { maxWidth: 35, minWidth: 35 },
             (project: IProject) => <Icon iconName={project.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />,
         ),
         col('key', 'Key', { maxWidth: 120 }),
