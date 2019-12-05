@@ -1,7 +1,6 @@
 
 import { List } from 'components/List';
 import { ICalEvent } from 'models';
-import * as moment from 'moment';
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { CustomerLink } from './CustomerLink';
@@ -9,7 +8,6 @@ import { DateColumn } from './DateColumn';
 import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
 import { ProjectColumn } from './ProjectColumn';
-require('moment/locale/en-gb');
 
 export const EventList = (props: IEventListProps) => {
     const columns = [

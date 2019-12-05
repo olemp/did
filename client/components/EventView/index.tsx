@@ -20,6 +20,7 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
+import { EventOverview } from './EventOverview';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
@@ -74,6 +75,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                                     dateFormat='HH:mm'
                                                     isConfirmed={isConfirmed || closed}
                                                     groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
+                                            </PivotItem>
+                                            <PivotItem itemKey='summary' headerText='Summary' itemIcon='List'>
+                                                <EventOverview events={value(data, 'events', [])} enableShimmer={loading} weekNumber={weekNumber} />
                                             </PivotItem>
                                             <PivotItem itemKey='allocation' headerText='Allocation' itemIcon='ReportDocument'>
                                                 <UserAllocation entries={value(data, 'events', [])} charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
