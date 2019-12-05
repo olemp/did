@@ -8,7 +8,7 @@ import { IPivotItemProps, Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pi
 import * as React from 'react';
 import log from 'utils/log';
 import { client as graphql } from '../../graphql';
-import { ConfirmButton } from './ConfirmButton';
+import { ActionBar } from './ActionBar';
 import CONFIRM_WEEK from './CONFIRM_WEEK';
 import { EventList } from './EventList';
 import GET_EVENT_DATA, { IGetEventData } from './GET_EVENT_DATA';
@@ -16,7 +16,6 @@ import { Header } from './Header';
 import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
-import { UnconfirmButton } from './UnconfirmButton';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
 require('moment/locale/en-gb');
 
@@ -39,10 +38,6 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
         return (
             <div className='c-eventview'>
-                <div className='c-eventview-actions'>
-                    <ConfirmButton onClick={this._onConfirmWeek.bind(this)} disabled={loading || isConfirmed} />
-                    <UnconfirmButton onClick={this._onUnconfirmWeek.bind(this)} disabled={loading || !isConfirmed} />
-                </div>
                 <Pivot
                     className='c-eventview-section-container'
                     styles={{ root: { display: 'flex', flexWrap: 'wrap' } }}
@@ -57,6 +52,17 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                         <Header weekNumber={weekNumber} />
                                         <Pivot defaultSelectedKey={this.state.selectedView} onLinkClick={item => this.setState({ selectedView: item.props.itemKey })}>
                                             <PivotItem itemKey='overview' headerText='Overview' itemIcon='CalendarWeek'>
+                                                <ActionBar
+                                                    onClick={{
+                                                        CONFIRM_PERIOD: this._onConfirmWeek.bind(this),
+                                                        UNCONFIRM_PERIOD: this._onUnconfirmWeek.bind(this),
+                                                        RELOAD: () => window.location.reload(),
+                                                    }}
+                                                    disabled={{
+                                                        CONFIRM_PERIOD: loading || isConfirmed,
+                                                        UNCONFIRM_PERIOD: loading || !isConfirmed,
+                                                    }}
+                                                />
                                                 <StatusBar isConfirmed={isConfirmed} data={data} loading={loading} />
                                                 <EventList
                                                     onProjectSelected={this._onProjectSelected.bind(this)}
