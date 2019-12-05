@@ -23,7 +23,7 @@ const LabelColumn = ({ row }) => {
     } else {
         return (
             <>
-                <div style={{ display: 'inline-block', marginRight: 6 }}>
+                <div style={{ display: 'inline-block', marginRight: 10 }}>
                     <Icon iconName={row.project.icon || 'Page'} styles={{ root: { fontSize: 18 } }} />
                 </div>
                 <div style={{ display: 'inline-block' }}>
@@ -42,7 +42,7 @@ const LabelColumn = ({ row }) => {
         */
 const CreateColumns = (weekNumber: number) => {
     return [
-        col('label', '', { minWidth: 260, maxWidth: 260 }, (row: any) => <LabelColumn row={row} />),
+        col('label', '', { minWidth: 270, maxWidth: 270 }, (row: any) => <LabelColumn row={row} />),
         ...Array.from(Array(7).keys()).map(i => {
             const day = moment().week(weekNumber).startOf('isoWeek').add(i, 'days');
             return col(day.format('L'), day.format('ddd Do'), { maxWidth: 70, minWidth: 70 });
