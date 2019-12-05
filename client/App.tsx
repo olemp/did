@@ -16,7 +16,7 @@ initializeIcons();
  * Registry of components
  */
 const COMPONENTS = {
-    WEEK: document.getElementById('app-week'),
+    EVENT_VIEW: document.getElementById('app-eventview'),
     PROJECTS: document.getElementById('app-projects'),
     CUSTOMERS: document.getElementById('app-customers'),
     ADMIN: document.getElementById('app-admin'),
@@ -25,6 +25,7 @@ const COMPONENTS = {
 
 const getProps = (element: HTMLElement) => {
     let props = element.attributes.getNamedItem('data-props').value;
+    console.log(props);
     try {
         return JSON.parse(props);
     } catch {
@@ -32,7 +33,7 @@ const getProps = (element: HTMLElement) => {
     }
 }
 
-if (COMPONENTS.WEEK !== null) ReactDom.render(<ApolloProvider client={client}><EventView visibleWeeks={10} /></ApolloProvider>, COMPONENTS.WEEK);
+if (COMPONENTS.EVENT_VIEW !== null) ReactDom.render(<ApolloProvider client={client}><EventView {...getProps(COMPONENTS.EVENT_VIEW)} /></ApolloProvider>, COMPONENTS.EVENT_VIEW);
 if (COMPONENTS.PROJECTS !== null) ReactDom.render(<ApolloProvider client={client}><Projects /></ApolloProvider>, COMPONENTS.PROJECTS);
 if (COMPONENTS.CUSTOMERS !== null) ReactDom.render(<ApolloProvider client={client}><Customers /></ApolloProvider>, COMPONENTS.CUSTOMERS);
 if (COMPONENTS.ADMIN !== null) ReactDom.render(<ApolloProvider client={client}><AdminView /></ApolloProvider>, COMPONENTS.ADMIN);

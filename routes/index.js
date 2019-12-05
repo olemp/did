@@ -10,6 +10,10 @@ router.get('/week_view', isAuthenticated, (_req, res) => {
   res.render('week_view', { active: { week_view: true } });
 });
 
+router.get('/month_view', isAuthenticated, (_req, res) => {
+  res.render('month_view', { active: { month_view: true } });
+});
+
 router.get('/customers', isAuthenticated, (_req, res) => {
   res.render('customers', { active: { customers: true } });
 });

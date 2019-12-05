@@ -1,3 +1,3 @@
 export interface IEventViewProps {
-    visibleWeeks: number;
+    view: 'month' | 'week';
 }

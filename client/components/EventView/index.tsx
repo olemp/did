@@ -1,6 +1,7 @@
 
 import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 import { UserAllocation } from 'components/UserAllocation';
+import { UserMessage } from 'components/UserMessage';
 import { getValueTyped as value } from 'helpers';
 import { ICalEvent, IProject } from 'models';
 import * as moment from 'moment';
@@ -14,13 +15,13 @@ import { client as graphql } from '../../graphql';
 import { ActionBar } from './ActionBar';
 import CONFIRM_WEEK from './CONFIRM_WEEK';
 import { EventList } from './EventList';
+import { EventOverview } from './EventOverview';
 import GET_EVENT_DATA, { IGetEventData } from './GET_EVENT_DATA';
 import { Header } from './Header';
 import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-import { EventOverview } from './EventOverview';
 require('moment/locale/en-gb');
 
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
@@ -39,6 +40,10 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
     public render() {
         const { loading, period, isConfirmed, data } = this.state;
+
+        if (this.props.view === 'month') {
+            return <UserMessage text='Not implemented yet.' />;
+        }
 
         return (
             <div className='c-eventview'>
