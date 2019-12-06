@@ -26,7 +26,7 @@ export const EventList = (props: IEventListProps) => {
     ].filter(col => (props.hideColumns || []).indexOf(col.key) === -1);
 
     return (
-        <div>
+        <div style={{ marginBottom: 250 }}>
             <List
                 enableShimmer={props.enableShimmer}
                 columns={columns}
