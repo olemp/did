@@ -63,7 +63,7 @@ h5 {
 }
 
 .c-eventview .c-eventview-section-content {
-  margin: 10px 0 0 0;
+  /* margin: 10px 0 0 0; */
 }
 
 .c-createprojectcallout-callout {
@@ -110,7 +110,26 @@ h5 {
 }
 
 .c-eventview-statusbar .c-usermessage {
- margin: 5px 0;
+  margin: 5px 0;
+}
+
+.c-eventview-weekpicker--callout .ms-DatePicker-day--today,
+.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted,
+.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted button {
+  background-color: inherit !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.c-eventview-weekpicker--callout table tbody tr:hover td {
+  background: #f3f2f1 !important;
+  color: #201f1e !important;
+}
+
+.c-eventview-weekpicker--callout table tbody tr:hover * {
+  cursor: pointer !important;
 }
 
 .ms-DetailsRow-cell .c-usermessage {

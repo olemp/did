@@ -19,7 +19,9 @@ export const AdminView = ({ }) => {
 
     return (
         <div>
-            <Pivot defaultSelectedKey='reports'>
+            <Pivot
+                styles={{ root: { display: 'flex', flexWrap: 'wrap' } }}
+                defaultSelectedKey='reports'>
                 <PivotItem itemKey='reports' headerText='Reports' itemIcon='ReportDocument' style={{ padding: 10 }}>
                     <Reports />
                 </PivotItem>

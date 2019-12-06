@@ -11,6 +11,7 @@ import * as format from 'string-format';
 export const ProjectInvalidMatch = ({ matchedKey }) => {
     return (
         <UserMessage
+            style={{ marginTop: 5 }}
             text={format('Event not matched. Found no match for `{0}`.', matchedKey)}
             type={MessageBarType.warning}
             iconName='SearchAndApps' />

@@ -25,7 +25,6 @@ const COMPONENTS = {
 
 const getProps = (element: HTMLElement) => {
     let props = element.attributes.getNamedItem('data-props').value;
-    console.log(props);
     try {
         return JSON.parse(props);
     } catch {

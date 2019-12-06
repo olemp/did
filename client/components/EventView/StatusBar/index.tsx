@@ -15,27 +15,32 @@ export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => 
             <Shimmer isDataLoaded={!loading} />
             <Shimmer isDataLoaded={!loading} />
             {!loading && (
-                <>
-                    <UserMessage
-                        hidden={isConfirmed}
-                        text={getDurationDisplay(totalDuration)}
-                        iconName='ReminderTime' />
-                    <UserMessage
-                        hidden={totalDuration - matchedDuration === 0 || isConfirmed}
-                        text={`You've **${getDurationDisplay(totalDuration - matchedDuration)}** that are not matched.`}
-                        type={MessageBarType.warning}
-                        iconName='BufferTimeBoth' />
-                    <UserMessage
-                        hidden={totalDuration - matchedDuration > 0 || isConfirmed}
-                        text='All your hours are matched. Are you ready to confirm the week?'
-                        type={MessageBarType.success}
-                        iconName='BufferTimeBoth' />
-                    <UserMessage
-                        hidden={!isConfirmed}
-                        text={`The week is confirmed with ${getDurationDisplay(matchedDuration)}. Click **Unconfirm week** if you want to do some adjustments.`}
-                        type={MessageBarType.success}
-                        iconName='CheckMark' />
-                </>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm"
+                            hidden={isConfirmed}>
+                            <UserMessage text={getDurationDisplay(totalDuration)} iconName='ReminderTime' />
+                        </div>
+                        <div className="col-sm" hidden={totalDuration - matchedDuration === 0 || isConfirmed}>
+                            <UserMessage
+                                text={`You've **${getDurationDisplay(totalDuration - matchedDuration)}** that are not matched.`}
+                                type={MessageBarType.warning}
+                                iconName='BufferTimeBoth' />
+                        </div>
+                        <div className="col-sm" hidden={totalDuration - matchedDuration > 0 || isConfirmed}>
+                            <UserMessage
+                                text='All your hours are matched. Are you ready to confirm the week?'
+                                type={MessageBarType.success}
+                                iconName='BufferTimeBoth' />
+                        </div>
+                        <div className="col-sm" hidden={!isConfirmed}>
+                            <UserMessage
+                                text={`The week is confirmed with ${getDurationDisplay(matchedDuration)}. Click **Unconfirm week** if you want to do some adjustments.`}
+                                type={MessageBarType.success}
+                                iconName='CheckMark' />
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

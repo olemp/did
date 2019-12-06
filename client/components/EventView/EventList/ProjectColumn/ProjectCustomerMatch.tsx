@@ -30,6 +30,7 @@ export const ProjectCustomerMatch = ({ event, onProjectAdded }: IProjectCustomer
     return (
         <>
             <UserMessage
+                style={{ marginTop: 5 }}
                 text={text}
                 type={MessageBarType.warning}
                 iconName='ProductList'
