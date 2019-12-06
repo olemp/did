@@ -10,9 +10,9 @@ export function getDurationDisplay(minutes: number, hours?: number): string {
     let hrs = hours ? Math.floor(hours) : Math.floor(minutes / 60);
     let mins = hours ? ((hours % 1) * 60) : minutes % 60;
     return [
-        hrs && (`${hrs} hour`) + (hrs > 1 ? 's' : ''),
-        mins && (`${mins} minute`) + (mins > 1 ? 's' : '')
-    ].filter(c => c).join(', ');
+        hrs && (`${hrs}h`),
+        mins && (`${mins}min`)
+    ].filter(c => c).join(' ');
 }
 
 /**

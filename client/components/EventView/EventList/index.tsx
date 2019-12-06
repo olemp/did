@@ -11,11 +11,11 @@ import { ProjectColumn } from './ProjectColumn';
 
 export const EventList = (props: IEventListProps) => {
     const columns = [
-        col('title', 'Title', { maxWidth: 180 }, (event: ICalEvent) => <a href={event.webLink} target='_blank'>{event.title}</a>),
-        col('startTime', 'Start', { maxWidth: 80 }, (event: ICalEvent) => <DateColumn dateStr={event.startTime} dateFormat={props.dateFormat} />),
-        col('endTime', 'End', { maxWidth: 80 }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={props.dateFormat} />),
-        col('durationMinutes', 'Duration', { maxWidth: 120 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
-        col('project', 'Project', { maxWidth: 240 }, (event: ICalEvent) => (
+        col('title', 'Title', { maxWidth: 270 }, (event: ICalEvent) => <a href={event.webLink} target='_blank'>{event.title}</a>),
+        col('startTime', 'Start', { maxWidth: 35 }, (event: ICalEvent) => <DateColumn dateStr={event.startTime} dateFormat={props.dateFormat} />),
+        col('endTime', 'End', { maxWidth: 40 }, (event: ICalEvent) => <DateColumn dateStr={event.endTime} dateFormat={props.dateFormat} />),
+        col('durationMinutes', 'Duration', { maxWidth: 70 }, (event: ICalEvent) => <DurationDisplay minutes={event.durationMinutes} />),
+        col('project', 'Project', { maxWidth: 270 }, (event: ICalEvent) => (
             <ProjectColumn
                 event={event}
                 isConfirmed={props.isConfirmed}

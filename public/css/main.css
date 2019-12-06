@@ -2,6 +2,7 @@ body {
   padding-top: 4.5rem;
   font-family: "Segoe UI Light", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
     "Helvetica Neue", sans-serif;
+  font-size: 14px;
 }
 
 .alert-pre {
@@ -38,7 +39,9 @@ h5 {
   font-size: 10pt;
 }
 
-.ms-DetailsRow-check, .ms-DetailsRow-cellCheck, .ms-DetailsHeader-cellIsCheck {
+.ms-DetailsRow-check,
+.ms-DetailsRow-cellCheck,
+.ms-DetailsHeader-cellIsCheck {
   display: none;
 }
 
@@ -104,4 +107,30 @@ h5 {
 
 .c-eventview-statusbar {
   min-height: 40px;
+}
+
+.c-eventview-statusbar .c-usermessage {
+ margin: 5px 0;
+}
+
+.ms-DetailsRow-cell .c-usermessage {
+  margin-top: -6px;
+  margin-bottom: -6px;
+}
+
+.ms-DetailsRow-cell span,
+.ms-DetailsRow-cell a {
+  font-size: 12px;
+}
+
+.ms-FocusZone.ms-DetailsRow {
+  border: none;
+}
+
+div.ms-List-page .ms-GroupedList-group {
+  margin-top: 20px;
+}
+
+.ms-MessageBar .ms-MessageBar-text {
+  font-size: 14px;
 }
