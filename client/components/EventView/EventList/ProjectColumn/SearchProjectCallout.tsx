@@ -21,32 +21,42 @@ export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
 
     React.useEffect(() => { (!loading && !!data) && setProjects(data.projects); }, [data, loading]);
 
-
     const getSuggestions = (value: string) => {
         const inputValue = value.trim().toLowerCase();
-        const inputLength = inputValue.length;
-        return inputLength === 0 ? [] : projects.filter(p => (getSuggestionValue(p)).toLowerCase().slice(0, inputLength) === inputValue);
+        if (inputValue.length === 0) return [];
+        return projects.filter(project => [project.name, project.customer.name].join('').toLowerCase().indexOf(inputValue) !== -1);
     };
 
-    const getSuggestionValue = (project: IProject) => `${project.name} (${project.customerKey})`;
+    const getSuggestionValue = (project: IProject) => project.name;
 
     const renderSuggestion = (project: IProject, { query }) => {
-        const matches = AutosuggestHighlightMatch(getSuggestionValue(project), query);
-        const parts = AutosuggestHighlightParse(getSuggestionValue(project), matches);
         return (
-            <div style={{ padding: 4 }}>
-                {parts.map((part, index) => {
-                    const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
-                    return (
-                        <span className={className} key={index}>
-                            {part.text}
-                        </span>
-                    );
-                })}
+            <div style={{ marginLeft: 4, padding: 4 }}>
+                <div>
+                    {AutosuggestHighlightParse(project.name, AutosuggestHighlightMatch(project.name, query)).map((part, index) => {
+                        const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
+                        return (
+                            <span className={className} key={index}>
+                                {part.text}
+                            </span>
+                        );
+                    })}
+                </div>
+                <div style={{ fontSize: '7pt' }}>
+                    <span>for </span>
+                    {AutosuggestHighlightParse(project.customer.name, AutosuggestHighlightMatch(project.customer.name, query)).map((part, index) => {
+                        const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
+                        return (
+                            <span className={className} key={index}>
+                                {part.text}
+                            </span>
+                        );
+                    })}
+                </div>
             </div>
         );
     }
-    
+
     return (
         <Callout
             className='c-searchproject-callout'
