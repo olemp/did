@@ -10,7 +10,7 @@ import { UserMessage } from 'components/UserMessage';
 
 /**
  * @component CreateCustomerForm
- * @description 
+ * @description Form for creating a new Custoner
  */
 export const CreateCustomerForm = ({ emptyModel = { key: '', name: '' } }) => {
     let [message, setMessage] = useState<{ text: string, type: MessageBarType }>(null);
@@ -27,6 +27,16 @@ export const CreateCustomerForm = ({ emptyModel = { key: '', name: '' } }) => {
         setModel(emptyModel);
         window.setTimeout(() => setMessage(null), 5000);
     }
+
+    /**
+     * Validate model
+     * 
+     * @description Temp validation of model
+     */
+    const validateModel = (): boolean => {
+        return model.name.length > 2 && model.key.length > 2;
+    }
+
 
     return (
         <div>
@@ -48,8 +58,8 @@ export const CreateCustomerForm = ({ emptyModel = { key: '', name: '' } }) => {
                 text='Add'
                 iconProps={{ iconName: 'CirclePlus' }}
                 onClick={onFormSubmit}
-                disabled={model.name.length < 3 || model.key.length < 3 || loading || !!message} />
-            {message && <UserMessage marginTop={20} text={message.text} type={message.type} />}
+                disabled={!validateModel || loading || !!message} />
+            {message && <UserMessage style={{ marginTop: 10 }} text={message.text} type={message.type} />}
         </div>
     );
 }

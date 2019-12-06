@@ -10,7 +10,7 @@ import { ICreateProjectFormModel } from './ICreateProjectFormModel';
 
 /**
  * @component CreateProjectForm
- * @description 
+ * @description Form for creating a new Project
  */
 export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: '', name: '' } }) => {
     let [message, setMessage] = useState<{ text: string, type: MessageBarType }>(null);
@@ -28,6 +28,15 @@ export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: 
         window.setTimeout(() => {
             setMessage(null);
         }, 5000);
+    }
+
+    /**
+     * Validate model
+     * 
+     * @description Temp validation of model
+     */
+    const validateModel = (): boolean => {
+        return model.name.length > 2 && model.projectKey.length > 2 && model.name.length > 2;
     }
 
     return (
@@ -57,8 +66,8 @@ export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: 
                 text='Add'
                 iconProps={{ iconName: 'CirclePlus' }}
                 onClick={onFormSubmit}
-                disabled={loading} />
-            {message && <UserMessage marginTop={20} text={message.text} type={message.type} />}
+                disabled={loading || !validateModel()} />
+            {message && <UserMessage style={{ marginTop: 10 }} text={message.text} type={message.type} />}
         </div>
     );
 }

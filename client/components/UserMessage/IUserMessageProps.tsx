@@ -6,7 +6,6 @@ export interface IUserMessageProps {
     type?: MessageBarType;
     iconName?: string;
     hidden?: boolean;
-    marginTop?: number;
     style?: React.CSSProperties;
     children?: any;
 }
