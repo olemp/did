@@ -24,7 +24,10 @@ export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
     const getSuggestions = (value: string) => {
         const inputValue = value.trim().toLowerCase();
         if (inputValue.length === 0) return [];
-        return projects.filter(project => [project.name, project.customer.name].join('').toLowerCase().indexOf(inputValue) !== -1);
+        return projects.filter(project => {
+            let searchString = [project.name, project.customer.name].join(' ').toLowerCase();
+            return searchString.indexOf(inputValue) !== -1;
+        });
     };
 
     const getSuggestionValue = (project: IProject) => project.name;
