@@ -35,7 +35,7 @@ export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => 
                         iconName='BufferTimeBoth' />
                     <UserMessage
                         hidden={!isConfirmed}
-                        text={`The week is confirmed with ${getDurationDisplay(matchedDuration)}. Click **Unconfirm period** if you want to do some adjustments.`}
+                        text={`The week is confirmed with ${getDurationDisplay(matchedDuration)}. Click **Unconfirm week** if you want to do some adjustments.`}
                         type={MessageBarType.success}
                         marginTop={10}
                         iconName='CheckMark' />

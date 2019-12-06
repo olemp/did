@@ -50,13 +50,13 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                             <PivotItem itemKey='overview' headerText='Overview' itemIcon='CalendarWeek'>
                                 <ActionBar
                                     onClick={{
-                                        CONFIRM_PERIOD: this._onConfirmPeriod.bind(this),
-                                        UNCONFIRM_PERIOD: this._onUnconfirmPeriod.bind(this),
+                                        CONFIRM_WEEK: this._onConfirmPeriod.bind(this),
+                                        UNCONFIRM_WEEK: this._onUnconfirmPeriod.bind(this),
                                         RELOAD: () => this._getEventData(false),
                                     }}
                                     disabled={{
-                                        CONFIRM_PERIOD: loading || closed || isConfirmed,
-                                        UNCONFIRM_PERIOD: loading || closed || !isConfirmed,
+                                        CONFIRM_WEEK: loading || closed || isConfirmed,
+                                        UNCONFIRM_WEEK: loading || closed || !isConfirmed,
                                     }}
                                 />
                                 <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
