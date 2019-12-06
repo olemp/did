@@ -1,7 +1,6 @@
-
 import { useMutation } from '@apollo/react-hooks';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { Callout } from 'office-ui-fabric-react/lib/Callout';
+import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import * as React from 'react';
 import { useState } from 'react';
@@ -18,6 +17,10 @@ export const CreateProjectCallout = ({ customerKey, projectKey, target, onDismis
 
     return (
         <Callout
+            setInitialFocus={false}
+            shouldRestoreFocus={false}
+            preventDismissOnScroll={true}
+            directionalHint={DirectionalHint.topAutoEdge}
             className='c-createprojectcallout-callout'
             hidden={!target}
             target={target}

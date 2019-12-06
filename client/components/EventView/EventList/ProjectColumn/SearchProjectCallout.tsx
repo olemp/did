@@ -3,11 +3,11 @@ import { useQuery } from '@apollo/react-hooks';
 import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 import { GET_PROJECTS } from 'components/Projects/GET_PROJECTS';
-import { Callout } from 'office-ui-fabric-react/lib/Callout';
+import { IProject } from 'models';
+import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
 import * as React from 'react';
 import { useState } from 'react';
 import AutoSuggest from 'react-autosuggest';
-import { IProject } from 'models';
 
 /**
  * @component SearchProjectCallout
@@ -62,6 +62,10 @@ export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
 
     return (
         <Callout
+            setInitialFocus={false}
+            shouldRestoreFocus={false}
+            preventDismissOnScroll={true}
+            directionalHint={DirectionalHint.topAutoEdge}
             className='c-searchproject-callout'
             hidden={!target}
             target={target}
