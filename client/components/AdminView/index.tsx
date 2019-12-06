@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { List } from 'components/List';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
+import { CreateCustomerForm } from './CreateCustomerForm';
+import { CreateProjectForm } from './CreateProjectForm';
 import GET_DATA from './GET_DATA';
 import { Reports } from './Reports';
 import { USER_LIST_COLUMNS } from './USER_LIST_COLUMNS';
@@ -26,6 +28,22 @@ export const AdminView = ({ }) => {
                 </PivotItem>
                 <PivotItem itemKey='weeks' headerText='Weeks' itemIcon='CalendarWeek' style={{ padding: 10 }}>
                     <List enableShimmer={loading} items={data && data.weeks} columns={WEEK_LIST_COLUMNS} />
+                </PivotItem>
+                <PivotItem itemKey='customers' headerText='Customers' itemIcon='Work' style={{ padding: 10 }}>
+                    <Pivot defaultSelectedKey='customerform'>
+                        <PivotItem itemKey='customerform' headerText='Create new' itemIcon='CalculatorAddition' style={{ padding: 10 }}>
+                            <CreateCustomerForm />
+                        </PivotItem>
+                        <PivotItem itemKey='editcustomers' headerText='Edit' itemIcon='Edit' style={{ padding: 10 }} headerButtonProps={{ disabled: true }} />
+                    </Pivot>
+                </PivotItem>
+                <PivotItem itemKey='projects' headerText='Projects' itemIcon='ProjectCollection' style={{ padding: 10 }}>
+                    <Pivot defaultSelectedKey='projectform'>
+                        <PivotItem itemKey='projectform' headerText='Create new' itemIcon='CalculatorAddition' style={{ padding: 10 }}>
+                            <CreateProjectForm />
+                        </PivotItem>
+                        <PivotItem itemKey='editprojects' headerText='Edit' itemIcon='Edit' style={{ padding: 10 }} headerButtonProps={{ disabled: true }} />
+                    </Pivot>
                 </PivotItem>
             </Pivot>
         </div>
