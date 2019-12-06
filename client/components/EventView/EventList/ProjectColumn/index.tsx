@@ -25,5 +25,10 @@ export const ProjectColumn = ({ event, isConfirmed, onRefetch, onProjectSelected
         else if (event.customerKey) return <ProjectInvalidMatch matchedKey={event.customerKey + ' ' + event.projectKey} />;
         return <ProjectNoMatch onProjectSelected={onProjectSelected} />
     }
-    return <a href={`/projects#${event.project.id}`}>{event.project.name}</a>;
+    return (
+        <div>
+            <div><a href={`/projects#${event.project.id}`}>{event.project.name}</a></div>
+            <div style={{ fontSize: '7pt' }}>for <a style={{ fontSize: '7pt' }} href={`/customers#${event.customer.id}`}>{event.customer.name}</a></div>
+        </div>
+    );
 }

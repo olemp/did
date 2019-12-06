@@ -76,7 +76,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                     events={value(data, 'events', [])}
                                     dateFormat={groupBy.data.dateFormat}
                                     isLocked={isConfirmed || closed}
-                                    hideColumns={groupBy.data.hideColumns}
+                                    hideColumns={[...groupBy.data.hideColumns, 'customer']}
                                     groups={groupBy.data.groups} />
                             </PivotItem>
                             <PivotItem itemKey='summary' headerText='Summary' itemIcon='List'>
