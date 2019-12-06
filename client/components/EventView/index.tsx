@@ -1,12 +1,10 @@
 
 import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 import { UserAllocation } from 'components/UserAllocation';
-import { UserMessage } from 'components/UserMessage';
 import { getValueTyped as value } from 'helpers';
 import { ICalEvent, IProject } from 'models';
 import * as moment from 'moment';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { IPivotItemProps, Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
 import * as format from 'string-format';
 import { getHash } from 'utils/getHash';
@@ -20,6 +18,7 @@ import GET_EVENT_DATA, { IGetEventData } from './GET_EVENT_DATA';
 import { Header } from './Header';
 import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
+import { PeriodSelector } from './PeriodSelector';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
 require('moment/locale/en-gb');
@@ -41,69 +40,54 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     public render() {
         const { loading, period, isConfirmed, data } = this.state;
 
-        if (this.props.view === 'month') {
-            return <UserMessage text='Not implemented yet.' />;
-        }
-
         return (
             <div className='c-eventview'>
-                <Pivot
-                    className='c-eventview-section-container'
-                    styles={{ root: { display: 'flex', flexWrap: 'wrap' } }}
-                    defaultSelectedKey={period.weekNumber.toString()}
-                    onLinkClick={this._onChangeWeek.bind(this)}>
-                    {this._getSections().map(({ props, renderView, closed }) => (
-                        <PivotItem {...props}>
-                            <div className='c-eventview-section-content'>
-                                {renderView && (
-                                    <>
-                                        <Header weekNumber={period.weekNumber} />
-                                        <Pivot defaultSelectedKey={this.state.selectedView} onLinkClick={item => this.setState({ selectedView: item.props.itemKey })}>
-                                            <PivotItem itemKey='overview' headerText='Overview' itemIcon='CalendarWeek'>
-                                                <ActionBar
-                                                    onClick={{
-                                                        CONFIRM_PERIOD: this._onConfirmWeek.bind(this),
-                                                        UNCONFIRM_PERIOD: this._onUnconfirmWeek.bind(this),
-                                                        RELOAD: () => this._getEventData(false),
-                                                    }}
-                                                    disabled={{
-                                                        CONFIRM_PERIOD: loading || closed || isConfirmed,
-                                                        UNCONFIRM_PERIOD: loading || closed || !isConfirmed,
-                                                    }}
-                                                />
-                                                <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
-                                                <EventList
-                                                    onProjectSelected={this._onProjectSelected.bind(this)}
-                                                    onRefetch={this._getEventData.bind(this)}
-                                                    enableShimmer={loading}
-                                                    events={value(data, 'events', [])}
-                                                    dateFormat='HH:mm'
-                                                    isConfirmed={isConfirmed || closed}
-                                                    groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
-                                            </PivotItem>
-                                            <PivotItem itemKey='summary' headerText='Summary' itemIcon='List'>
-                                                <EventOverview events={value(data, 'events', [])} enableShimmer={loading} weekNumber={period.weekNumber} />
-                                            </PivotItem>
-                                            <PivotItem itemKey='allocation' headerText='Allocation' itemIcon='ReportDocument'>
-                                                <UserAllocation entries={value(data, 'events', [])} charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
-                                            </PivotItem>
-                                        </Pivot>
-                                    </>
-                                )}
-                            </div>
-                        </PivotItem>
-                    ))}
-                </Pivot>
+                <div className='c-eventview-section-container'>
+                    <PeriodSelector period={period} onChangePeriod={this._onChangePeriod.bind(this)} />
+                    <div className='c-eventview-section-content'>
+                        <Header weekNumber={period.weekNumber} />
+                        <Pivot defaultSelectedKey={this.state.selectedView} onLinkClick={item => this.setState({ selectedView: item.props.itemKey })}>
+                            <PivotItem itemKey='overview' headerText='Overview' itemIcon='CalendarWeek'>
+                                <ActionBar
+                                    onClick={{
+                                        CONFIRM_PERIOD: this._onConfirmPeriod.bind(this),
+                                        UNCONFIRM_PERIOD: this._onUnconfirmPeriod.bind(this),
+                                        RELOAD: () => this._getEventData(false),
+                                    }}
+                                    disabled={{
+                                        CONFIRM_PERIOD: loading || closed || isConfirmed,
+                                        UNCONFIRM_PERIOD: loading || closed || !isConfirmed,
+                                    }}
+                                />
+                                <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
+                                <EventList
+                                    onProjectSelected={this._onProjectSelected.bind(this)}
+                                    onRefetch={this._getEventData.bind(this)}
+                                    enableShimmer={loading}
+                                    events={value(data, 'events', [])}
+                                    dateFormat='HH:mm'
+                                    isConfirmed={isConfirmed || closed}
+                                    groups={{ fieldName: 'day', groupNames: moment.weekdays(true) }} />
+                            </PivotItem>
+                            <PivotItem itemKey='summary' headerText='Summary' itemIcon='List'>
+                                <EventOverview events={value(data, 'events', [])} enableShimmer={loading} weekNumber={period.weekNumber} />
+                            </PivotItem>
+                            <PivotItem itemKey='allocation' headerText='Allocation' itemIcon='ReportDocument'>
+                                <UserAllocation entries={value(data, 'events', [])} charts={{ 'project.name': 'Allocation per project', 'customer.name': 'Allocation per customer' }} />
+                            </PivotItem>
+                        </Pivot>
+                    </div>
+                </div>
             </div>
-        )
+        );
     }
 
     /**
      * On project selected
-     * 
-     * @param {ICalEvent} event Event
-     * @param {IProject} project Project
-     */
+     *
+    * @param {ICalEvent} event Event
+    * @param {IProject} project Project
+    */
     private _onProjectSelected(event: ICalEvent, project: IProject) {
         this._storeResolve(event.id, project);
         this.setState(prevState => ({
@@ -121,63 +105,20 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     }
 
     /**
-     * Custom renderer for for item link
-     * 
-     * @param {IPivotItemProps} props Props
-     * @param {Function} defaultRender Default render method
-     * @param {boolean} locked Is locked (renders a lock icon next to it)
-     */
-    private _onRenderItemLink(props: IPivotItemProps, defaultRender: (props: IPivotItemProps) => JSX.Element) {
-        return (
-            <span>
-                <Icon iconName='LockSolid' styles={{ root: { marginRight: 4 } }} hidden={!props.headerButtonProps.disabled} />
-                {defaultRender(props)}
-            </span>
-        );
-    }
-
-    /**
-     * Get sections
-     * 
-     * @param {number} count Number of sections
-     */
-    private _getSections(count: number = 10): { props: IPivotItemProps, renderView: boolean, closed: boolean }[] {
-        const { data, period } = this.state;
-
-        return Array.from(Array(count).keys())
-            .map(i => moment().week() - (count - 1) + i)
-            .map(wn => {
-                let closed = value(data, 'weeks', []).filter(w => w.id === wn.toString() && w.closed).length === 1;
-                let renderView = (wn === period.weekNumber) && !closed;
-                return {
-                    props: {
-                        key: wn.toString(),
-                        itemKey: wn.toString(),
-                        headerText: `Week ${wn}`,
-                        headerButtonProps: { disabled: closed },
-                        onRenderItemLink: this._onRenderItemLink.bind(this),
-                    },
-                    renderView,
-                    closed,
-                }
-            });
-    }
-
-    /**
-     * On change week
-     * 
-     * @param {PivotItem} item The item
-     */
-    private _onChangeWeek(item: PivotItem) {
+    * On change period
+    *
+    * @param {any} _event Event
+    */
+    private _onChangePeriod(item: PivotItem) {
         let weekNumber = parseInt(item.props.itemKey);
         document.location.hash = `w${weekNumber}`;
         this.setState({ period: { weekNumber } }, () => this._getEventData(false));
     };
 
     /**
-     * On unconfirm wek
+     * On unconfirm period
      */
-    private async _onConfirmWeek() {
+    private async _onConfirmPeriod() {
         this.setState({ loading: true });
         const entries = this.state.data.events
             .filter(event => !!event.project)
@@ -189,9 +130,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     };
 
     /**
-     * On unconfirm week
+     * On unconfirm period
      */
-    private async _onUnconfirmWeek() {
+    private async _onUnconfirmPeriod() {
         this._clearResolve();
         this.setState({ loading: true });
         await graphql.mutate({ mutation: UNCONFIRM_WEEK, variables: { weekNumber: this.state.period.weekNumber } });
@@ -202,9 +143,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
     /**
      * Get stored resolves from local storage
-     * 
-     * @param {string} eventId Event id
-     */
+     *
+    * @param {string} eventId Event id
+    */
     private _getStoredResolves(eventId?: string): TypedHash<IProject> {
         let storedResolves = this._store.get(format(this._resolvedKey, this.state.period.weekNumber));
         if (!storedResolves) return {};
@@ -214,10 +155,10 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
     /**
      * Store resolve in local storage
-     * 
-     * @param {string} eventId Event id
-     * @param {IProject} project Project
-     */
+     *
+    * @param {string} eventId Event id
+    * @param {IProject} project Project
+    */
     private _storeResolve(eventId: string, project: IProject) {
         let resolves = this._getStoredResolves();
         resolves[eventId] = project;
@@ -233,9 +174,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
 
     /**
      * Get event data for week number
-     * 
-     * @param {boolean} skipLoading Skips setting loading in state
-     */
+     *
+    * @param {boolean} skipLoading Skips setting loading in state
+    */
     private async _getEventData(skipLoading: boolean = true) {
         if (!skipLoading) this.setState({ loading: true });
         const { data: { eventData, weeks } } = await graphql.query({
