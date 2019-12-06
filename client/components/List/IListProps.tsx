@@ -1,16 +1,7 @@
-import { IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { ISearchBoxProps } from 'office-ui-fabric-react/lib/SearchBox';
-
-export interface IListSelection {
-    mode: SelectionMode;
-    defaultSelectedKey?: string;
-    onChanged: (selected: any) => void;
-}
-
-export interface IListGroups {
-    fieldName: string;
-    groupNames?: string[];
-}
+import { IListGroups } from './IListGroups';
+import { IListSelection } from './IListSelection';
 
 export interface IListProps {
     items: any[];
@@ -20,4 +11,5 @@ export interface IListProps {
     searchBox?: ISearchBoxProps;
     selection?: IListSelection;
     groups?: IListGroups;
+    hidden?: boolean;
 }

@@ -21,7 +21,7 @@ export const List = (props: IListProps) => {
 
     let [items, setItems] = useState(props.items);
 
-    /** Need to updat items state when new props come by using useEffect */
+    /** Need to update items state when new props come by using useEffect */
     useEffect(() => setItems(props.items), [props.items]);
 
     selection = props.selection && new Selection({ onSelectionChanged });
@@ -35,15 +35,22 @@ export const List = (props: IListProps) => {
     }
 
     if (props.groups) {
-        let _ = createGroups(items, props.groups.fieldName, props.groups.groupNames);
+        let _ = createGroups(
+            items,
+            props.groups.fieldName,
+            props.groups.groupNames,
+            props.groups.emptyGroupName,
+            props.groups.totalFunc,
+        );
         groups = _.groups;
         items = _.items;
     }
 
     return (
-        <div style={{ marginBottom: 25 }}>
+        <div style={{ marginBottom: 25 }} hidden={props.hidden}>
             <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
                 <ShimmeredDetailsList
+                    detailsListStyles={{ root: { overflow: 'hidden' } }}
                     enableShimmer={props.enableShimmer}
                     isPlaceholderData={props.enableShimmer}
                     selection={selection}

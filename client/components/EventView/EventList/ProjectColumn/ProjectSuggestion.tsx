@@ -26,6 +26,7 @@ export const ProjectSuggestion = ({ event, onProjectAdded, onProjectSelected, su
     return (
         <>
             <UserMessage
+                style={{ marginTop: 5 }}
                 type={MessageBarType.warning}
                 iconName='Lightbulb'>
                 <p>Event not matched correctly. We found <a href="#" onClick={_event => setCallout(document.getElementById(toggleId))} id={toggleId}>{event.customerKey} {event.projectKey}</a>, but that project does not exist.

@@ -39,7 +39,7 @@ const LabelColumn = ({ row }) => {
  * Create columns
  *
 * @param {number} weekNumber Week number
-        */
+*/
 const CreateColumns = (weekNumber: number) => {
     return [
         col('label', '', { minWidth: 270, maxWidth: 270 }, (row: any) => <LabelColumn row={row} />),

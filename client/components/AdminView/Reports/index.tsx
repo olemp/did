@@ -9,6 +9,7 @@ import { humanize } from 'underscore.string';
 import * as excelUtils from 'utils/exportExcel';
 import { generateColumn } from 'utils/generateColumn';
 import { GET_CONFIRMED_TIME_ENTRIES } from './GET_CONFIRMED_TIME_ENTRIES';
+import { UserMessage } from 'components/UserMessage';
 
 /**
  * @component Reports
@@ -37,6 +38,7 @@ export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeE
     return (
         <div>
             <CommandBar
+                hidden={entries.length === 0}
                 styles={{ root: { margin: '10px 0 10px 0', padding: 0 } }}
                 items={[{
                     key: 'EXPORT_TO_EXCEL',
@@ -46,9 +48,11 @@ export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeE
                     disabled: loading || !!error,
                 }]} />
             <List
+                hidden={entries.length === 0}
                 items={entries}
                 columns={columns}
                 enableShimmer={loading} />
+            <UserMessage hidden={entries.length > 0} text={`There's no confirmed time entries at this time.`} />
         </div>
     );
 }

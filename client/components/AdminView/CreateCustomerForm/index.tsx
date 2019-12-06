@@ -58,7 +58,7 @@ export const CreateCustomerForm = ({ emptyModel = { key: '', name: '' } }) => {
                 text='Add'
                 iconProps={{ iconName: 'CirclePlus' }}
                 onClick={onFormSubmit}
-                disabled={!validateModel || loading || !!message} />
+                disabled={!validateModel() || loading || !!message} />
             {message && <UserMessage style={{ marginTop: 10 }} text={message.text} type={message.type} />}
         </div>
     );

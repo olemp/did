@@ -20,6 +20,7 @@ export const ProjectNoMatch = ({ isOrganizer = true, onProjectSelected }) => {
         return (
             <>
                 <UserMessage
+                    style={{ marginTop: 5, width: 240 }}
                     text={format('Event not matched.<a href="#" id="{0}">Click to resolve</a>.', toggleId)}
                     type={MessageBarType.info}
                     iconName='SearchIssue'
