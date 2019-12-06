@@ -109,7 +109,7 @@ az webapp create --name $SITENAME --plan $PLANNAME --resource-group $RESOURCEGRO
 ### `TODO`
 
 # Branching / Deploying #
-## NB: Ensure you're pushing an updated version of the bundle from `/client` ##
+##### NB: Ensure you're pushing an updated version of the bundle from `/client` #####
 
 To make this easier use `npm run-script git:add:all` instead of `git add --all`.
 
@@ -117,13 +117,13 @@ This will do the same as `git add --all` but it will build a production build of
 
 
 The `/master` branch requires pull requests, and is set up with a CI/CD pipeline which deploys to [did365.azurewebsites.net](https://did365.azurewebsites.net)  
+The `/dev` branch also requires pull requests, and is set up with a CI/CD pipeline which deploys to [https://did365-development.azurewebsites.net](https://did365-development.azurewebsites.net)  
 `/feature/*`-prefixed branches may or may not be included in future releases.
 
 You are encouraged to branch with either of the following prefixes  
-*  hotfix
-*  bugfix
-*  feature
-*  release  
+*  hotfix/
+*  bugfix/
+*  feature/
 
 See also ["A successful Git branching model"](https://nvie.com/posts/a-successful-git-branching-model/)
 
