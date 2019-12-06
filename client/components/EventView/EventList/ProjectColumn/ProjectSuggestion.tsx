@@ -30,13 +30,13 @@ export const ProjectSuggestion = ({ event, onProjectAdded, onProjectSelected, su
                 iconName='Lightbulb'>
                 <p>Event not matched correctly. We found <a href="#" onClick={_event => setCallout(document.getElementById(toggleId))} id={toggleId}>{event.customerKey} {event.projectKey}</a>, but that project does not exist.
                 Did you mean <a href="#" onClick={_ => onProjectSelected(event.suggestedProject)}>{event.suggestedProject.id}</a>?</p>
-        </UserMessage>
-        <CreateProjectCallout
-            target={callout}
-            customerKey={event.customerKey}
-            projectKey={event.projectKey}
-            onDismiss={() => setCallout(null)}
-            onAdded={onProjectAdded} />
+            </UserMessage>
+            <CreateProjectCallout
+                target={callout}
+                customerKey={event.customerKey}
+                projectKey={event.projectKey}
+                onDismiss={() => setCallout(null)}
+                onAdded={onProjectAdded} />
         </>
     );
 }

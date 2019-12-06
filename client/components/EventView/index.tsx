@@ -57,6 +57,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                     disabled={{
                                         CONFIRM_WEEK: loading || closed || isConfirmed,
                                         UNCONFIRM_WEEK: loading || closed || !isConfirmed,
+                                        RELOAD: loading || closed || isConfirmed,
                                     }}
                                 />
                                 <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />

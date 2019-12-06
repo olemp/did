@@ -1,7 +1,7 @@
 const log = require('debug')('middleware/graphql/resolvers/mutation/createProject');
 
 /**
- * Get projects
+ * Create project
  * 
  * @param {*} _obj Unused object
  * @param {*} args Args (customerKey, projectKey, name)
@@ -9,14 +9,13 @@ const log = require('debug')('middleware/graphql/resolvers/mutation/createProjec
  */
 async function createProject(_obj, args, context) {
     try {
-        log('Attempting to project in storage: ', JSON.stringify(args));
-        let { etag } = await context.services.storage.createProject(args.customerKey, args.projectKey, args.name);
+        log('Attempting to create project in storage: ', JSON.stringify(args));
+        await context.services.storage.createProject(args.customerKey, args.projectKey, args.name);
         log('Created project with key %s in storage', args.projectKey);
-        return etag;
+        return { success: true, error: null };
     } catch (error) {
-        console.log(error);
-        log('Failed to create project with key %s in storage', args.projectKey);
-        return null;
+        log('Failed to create project with key %s in storage: %s', args.key, error.message);
+        return { success: false, error: error.message };
     }
 }
 

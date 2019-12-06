@@ -93,6 +93,22 @@ StorageService.prototype.createProject = async function (customerKey, projectKey
     return entity;
 }
 
+/**
+ * Create customer
+ * 
+ * @param {*} key 
+ * @param {*} name 
+ */
+StorageService.prototype.createCustomer = async function (key, name) {
+    let customerId = key.toUpperCase();
+    let entity = await addEntity(CUSTOMERS, {
+        PartitionKey: entGen.String(this.tenantId),
+        RowKey: entGen.String(customerId),
+        Name: entGen.String(name),
+    });
+    return entity;
+}
+
 StorageService.prototype.getCustomers = async function () {
     const query = createQuery(1000, undefined, this.filter);
     const result = await queryTable(CUSTOMERS, query);

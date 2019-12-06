@@ -28,6 +28,7 @@ export const ActionBar = ({ onClick, disabled }) => {
                     name: 'Reload',
                     iconProps: { iconName: 'Refresh' },
                     onClick: onClick.RELOAD,
+                    disabled: disabled.RELOAD,
                 }
             ]}
         />

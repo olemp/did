@@ -6,16 +6,16 @@ import { IUserMessageProps } from './IUserMessageProps';
 
 /**
  * @component UserMessage
- * @description @todo
+ * @description A component that supports a MessageBar with markdown using react-markdown
  */
-export const UserMessage = ({ text, onClick = undefined, type = MessageBarType.info, iconName, hidden, marginTop = 0, style, children }: IUserMessageProps) => {
+export const UserMessage = ({ text, onClick = undefined, type = MessageBarType.info, iconName, hidden, style, children }: IUserMessageProps) => {
     return (
         <div
             className='c-usermessage'
-            style={{ marginTop }}
+            style={style}
             hidden={hidden}
             onClick={onClick}>
-            <MessageBar style={style} messageBarType={type} messageBarIconProps={iconName && { iconName }}>
+            <MessageBar messageBarType={type} messageBarIconProps={iconName && { iconName }}>
                 {text && <ReactMarkdown source={text} escapeHtml={false} skipHtml={false} />}
                 {children && children}
             </MessageBar>
