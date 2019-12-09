@@ -1,5 +1,6 @@
-import { ICalEvent, IProject } from "models";
-import { IListGroups } from "components/List/IListGroups";
+import { ICalEvent, IProject } from 'models';
+import { IListGroups } from 'components/List/IListGroups';
+import { TypedHash } from '@pnp/common';
 
 export interface IEventListProps {
     /**
@@ -41,4 +42,9 @@ export interface IEventListProps {
      * Groups to render
      */
     groups?: IListGroups;
+
+    /**
+     * Column widths
+     */
+    columnWidths?: TypedHash<number>;
 }
