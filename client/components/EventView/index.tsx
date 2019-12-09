@@ -1,9 +1,8 @@
 
 import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
 import { UserAllocation } from 'components/UserAllocation';
-import { getValueTyped as value } from 'helpers';
+import { getValueTyped as value, formatDate, getWeek } from 'helpers';
 import { ICalEvent, IProject } from 'models';
-import * as moment from 'moment';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
@@ -20,7 +19,6 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
-require('moment/locale/en-gb');
 
 /**
  * @component EventView
@@ -33,7 +31,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     constructor(props: IEventViewProps) {
         super(props);
         this.state = {
-            weekNumber: getHash({ parseInt: true }) || moment().week(),
+            weekNumber: getHash({ parseInt: true }) || getWeek(),
             selectedView: 'overview',
             groupBy: GROUP_BY_DAY,
         };
@@ -210,7 +208,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         let resolves = this._getStoredResolves();
         data.events = data.events
             .map(event => {
-                event.day = moment(event.startTime).format('dddd');
+                event.day = formatDate(event.startTime, 'dddd');
                 if (resolves[event.id]) {
                     event.project = resolves[event.id];
                     event.customer = resolves[event.id].customer;

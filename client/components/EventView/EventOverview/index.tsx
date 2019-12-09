@@ -1,13 +1,12 @@
 
 import { List, IColumn } from 'components/List';
-import * as moment from 'moment';
 import * as React from 'react';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IEventOverviewProps } from './IEventOverviewProps';
 import { generateColumn as col } from 'utils/generateColumn';
 import * as _ from 'underscore';
 import { IProject, ICalEvent } from 'models';
-require('moment/locale/en-gb');
+import { startOfWeek, formatDate } from 'helpers';
 
 /**
  * @component LabelColumn
@@ -44,7 +43,7 @@ const CreateColumns = (weekNumber: number) => {
     return [
         col('label', '', { minWidth: 270, maxWidth: 270 }, (row: any) => <LabelColumn row={row} />),
         ...Array.from(Array(7).keys()).map(i => {
-            const day = moment().week(weekNumber).startOf('isoWeek').add(i, 'days');
+            const day = startOfWeek(weekNumber).add(i, 'days');
             return col(day.format('L'), day.format('ddd Do'), { maxWidth: 70, minWidth: 70 });
         }),
         col('sum', 'Sum')
@@ -57,13 +56,13 @@ const CreateColumns = (weekNumber: number) => {
 * @param {IProject[]} projects Project
 * @param {ICalEvent[]} events Events
 * @param {IColumn[]} columns Columns
-            */
+*/
 const GenerateProjectRows = (projects: IProject[], events: ICalEvent[], columns: IColumn[]) => {
     return projects.map(project => {
         let projectEvents = events.filter(event => event.project.id === project.id);
         return [...columns].splice(1, 7).reduce((obj, col) => {
             obj[col.fieldName] = [...projectEvents]
-                .filter(event => moment(event.startTime).format('L') === col.fieldName)
+                .filter(event => formatDate(event.startTime, 'L') === col.fieldName)
                 .reduce((sum, event) => sum += event.durationHours, 0);
             return obj;
         }, {
@@ -83,7 +82,7 @@ const GenerateProjectRows = (projects: IProject[], events: ICalEvent[], columns:
 const GenerateTotalRow = (events: ICalEvent[], columns: IColumn[]) => {
     return [...columns].splice(1, 7).reduce((obj, col) => {
         obj[col.fieldName] = [...events]
-            .filter(event => moment(event.startTime).format('L') === col.fieldName)
+            .filter(event => formatDate(event.startTime, 'L') === col.fieldName)
             .reduce((sum, event) => sum += event.durationHours, 0);
         return obj;
     }, {

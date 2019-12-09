@@ -1,5 +1,3 @@
-
-import * as moment from 'moment';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import { ContextualMenuItemType } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
@@ -9,12 +7,9 @@ import { GROUP_BY_CUSTOMER } from './GROUP_BY_CUSTOMER';
 import { GROUP_BY_DAY } from './GROUP_BY_DAY';
 import { GROUP_BY_PROJECT } from './GROUP_BY_PROJECT';
 import { IActionBarProps } from './IActionBarProps';
-require('moment/locale/en-gb');
-require('twix');
-
+import { getWeek, endOfWeek, startOfWeek, getTimespanString } from 'helpers';
 
 export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek, onGroupByChanged }: IActionBarProps) => {
-    const startOfWeek = moment().week(weekNumber).startOf('isoWeek');
     return (
         <CommandBar
             styles={{ root: { margin: '10px 0 10px 0', padding: 0 } }}
@@ -22,8 +17,8 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                 {
                     key: 'THIS_WEEK',
                     name: 'This week',
-                    onClick: () => onChangeWeek(moment().week()),
-                    disabled: weekNumber === moment().week(),
+                    onClick: () => onChangeWeek(getWeek()),
+                    disabled: weekNumber === getWeek(),
                 },
                 {
                     key: 'PREV_WEEK',
@@ -37,7 +32,7 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                     iconOnly: true,
                     iconProps: { iconName: 'Forward', ...ACTIONBAR_ICON_PROPS },
                     onClick: () => onChangeWeek(weekNumber + 1),
-                    disabled: weekNumber === moment().week(),
+                    disabled: weekNumber ===getWeek(),
                     title: 'Go to next week',
                 },
                 {
@@ -55,19 +50,14 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                                 showCloseButton={true}
                                 showWeekNumbers={true}
                                 showGoToToday={false}
-                                value={startOfWeek.toDate()}
-                                maxDate={moment().endOf('isoWeek').toDate()}
+                                value={startOfWeek(weekNumber).toDate()}
+                                maxDate={endOfWeek().toDate()}
                                 formatDate={date => {
-                                    let start = moment(date).startOf('isoWeek');
-                                    let end = moment(date).endOf('isoWeek');
-                                    return start['twix'](end, { allDay: true }).format({
-                                        monthFormat: 'MMMM',
-                                        yearFormat: 'YYYY',
-                                        hideYear: false,
-                                        implicitYear: false,
-                                    }).toLowerCase();
+                                    let start = startOfWeek(undefined, date.toISOString());
+                                    let end = endOfWeek(undefined, date.toISOString());
+                                    return getTimespanString(start, end);
                                 }}
-                                onSelectDate={date => onChangeWeek(moment(date).week())}
+                                onSelectDate={date => onChangeWeek(getWeek(date.toISOString()))}
                                 firstDayOfWeek={DayOfWeek.Monday} />
                         );
                     }
