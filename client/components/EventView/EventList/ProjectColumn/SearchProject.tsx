@@ -3,17 +3,21 @@ import { useQuery } from '@apollo/react-hooks';
 import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 import { GET_PROJECTS } from 'components/Projects/GET_PROJECTS';
-import { IProject } from 'models';
-import { Callout, DirectionalHint } from 'office-ui-fabric-react/lib/Callout';
+import { IProject, ICustomer } from 'models';
 import * as React from 'react';
 import { useState } from 'react';
 import AutoSuggest from 'react-autosuggest';
 
+interface ISearchProjectProps {
+    onSelected: any;
+    customer: ICustomer;
+}
+
 /**
- * @component SearchProjectCallout
+ * @component SearchProject
  * @description @todo
  */
-export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
+export const SearchProject = ({ onSelected, customer }: ISearchProjectProps) => {
     let [projects, setProjects] = useState<IProject[]>(null);
     let [suggestions, setSuggestions] = useState([]);
     let [value, setValue] = useState('');
@@ -21,20 +25,39 @@ export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
 
     React.useEffect(() => { (!loading && !!data) && setProjects(data.projects); }, [data, loading]);
 
-    const getSuggestions = (value: string) => {
+    /**
+     * Get suggestions for value
+     * 
+     * @param {string} value Value
+     * @param {number} maxSuggestions Max suggestions count
+     */
+    const getSuggestions = (value: string, maxSuggestions: number = 5) => {
         const inputValue = value.trim().toLowerCase();
         if (inputValue.length === 0) return [];
-        return projects.filter(project => {
+        return [...projects].filter(project => {
             let searchString = [project.name, project.customer.name].join(' ').toLowerCase();
-            return searchString.indexOf(inputValue) !== -1;
-        });
+            let isMatch = searchString.indexOf(inputValue) !== -1;
+            if (customer) isMatch = isMatch && project.customer.id === customer.id;
+            return isMatch;
+        }).splice(0, maxSuggestions);
     };
 
+    /**
+     * Get suggestion/project value
+     * 
+     * @param {IProject} project Project
+     */
     const getSuggestionValue = (project: IProject) => project.name;
 
-    const renderSuggestion = (project: IProject, { query }) => {
+    /**
+     * Render suggestion
+     * 
+     * @param {IProject} project Project
+     * @param {any} param1 Params
+     */
+    const renderSuggestion = (project: IProject, { query }: any) => {
         return (
-            <div style={{ marginLeft: 4, padding: 4 }}>
+            <div style={{ marginLeft: 4, padding: 4, cursor: 'pointer' }}>
                 <div>
                     {AutosuggestHighlightParse(project.name, AutosuggestHighlightMatch(project.name, query)).map((part, index) => {
                         const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
@@ -59,32 +82,21 @@ export const SearchProjectCallout = ({ target, onSelected, onDismiss }) => {
             </div>
         );
     }
+    if (!projects) return null;
 
     return (
-        <Callout
-            setInitialFocus={false}
-            shouldRestoreFocus={false}
-            preventDismissOnScroll={true}
-            directionalHint={DirectionalHint.topAutoEdge}
-            className='c-searchproject-callout'
-            hidden={!target}
-            target={target}
-            onDismiss={onDismiss}>
-            {!!projects && (
-                <AutoSuggest
-                    suggestions={suggestions}
-                    onSuggestionsFetchRequested={({ value }) => setSuggestions(getSuggestions(value))}
-                    onSuggestionsClearRequested={() => setSuggestions([])}
-                    getSuggestionValue={getSuggestionValue}
-                    renderSuggestion={renderSuggestion}
-                    onSuggestionSelected={(_event, { suggestion }) => onSelected(suggestion)}
-                    inputProps={{
-                        placeholder: 'Search projects...',
-                        value,
-                        onChange: (_event: any, { newValue }) => setValue(newValue),
-                        width: '100%',
-                    }} />
-            )}
-        </Callout>
+        <AutoSuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={({ value }) => setSuggestions(getSuggestions(value))}
+            onSuggestionsClearRequested={() => setSuggestions([])}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            onSuggestionSelected={(_event, { suggestion }) => onSelected(suggestion)}
+            inputProps={{
+                placeholder: 'Search projects...',
+                value,
+                onChange: (_event: any, { newValue }) => setValue(newValue),
+                width: '100%',
+            }} />
     );
 }

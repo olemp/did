@@ -77,7 +77,14 @@ h5 {
   height: 60px;
 }
 
-.c-searchproject-callout .react-autosuggest__suggestion-match {
+.c-resolveproject-modal {
+  padding: 20px;
+  width: 480px;
+  min-width: 480px;
+  max-width: 480px;
+}
+
+.react-autosuggest__suggestion-match {
   color: #007bff;
 }
 
@@ -85,17 +92,17 @@ h5 {
   width: 100% !important;
 }
 
-.c-searchproject-callout .react-autosuggest__container {
+.react-autosuggest__container {
   width: 100%;
   max-height: 400px;
 }
 
-.c-searchproject-callout .react-autosuggest__input {
+.react-autosuggest__input {
   width: 100%;
   padding: 4px;
 }
 
-.c-searchproject-callout .react-autosuggest__suggestions-container ul {
+.react-autosuggest__suggestions-container ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -137,7 +144,7 @@ h5 {
 }
 
 #app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span,
-#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a{
+#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a {
   vertical-align: middle;
   vertical-align: -webkit-baseline-middle;
 }
