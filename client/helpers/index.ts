@@ -1,4 +1,7 @@
 import * as getValue from 'get-value';
+import * as moment from 'moment-timezone';
+require('moment/locale/en-gb');
+require('twix');
 
 /**
  * Get duration display
@@ -65,4 +68,68 @@ export function currencyDisplay(num: number, currency: string = 'NOK', minimumFr
  * */
 export function getValueTyped<T>(obj: any, exp: string, defaultValue: T): T {
     return getValue(obj, exp, { default: defaultValue });
+}
+
+/**
+ * Format date
+ * 
+ * @param {string} dateStr Date string
+ * @param {string} dateFormat Date format
+ * @param {string} timeZone Time zone
+ */
+export function formatDate(dateStr: string, dateFormat: string, timeZone: string = 'Europe/Oslo'): string {
+    return moment(`${dateStr}Z`).tz(timeZone).format(dateFormat);
+}
+
+/**
+ * Get start of week
+ * 
+ * @param {number} weekNumber Week number
+ * @param {string} dateStr Date string
+ */
+export function startOfWeek(weekNumber: number, dateStr?: string): moment.Moment {
+    let date = moment().week(weekNumber);
+    if (dateStr) date = moment(dateStr);
+    return date.startOf('isoWeek');
+}
+
+/**
+ * Get end of week
+ * 
+ * @param {number} weekNumber Week number
+ * @param {string} dateStr Date string
+ */
+export function endOfWeek(weekNumber: number = getWeek(), dateStr?: string): moment.Moment {
+    let date = moment().week(weekNumber);
+    if (dateStr) date = moment(dateStr);
+    return date.endOf('isoWeek');
+}
+
+/**
+ * Get weekdays
+ */
+export function getWeekdays(): string[] {
+    return moment.weekdays(true);
+}
+
+/**
+ * Get week number
+ * 
+ * @param {string} dateStr Date string
+ */
+export function getWeek(dateStr?: string): number {
+    let date = moment();
+    if (dateStr) date = moment(dateStr);
+    return date.week();
+}
+
+/**
+ * Get timespan string
+ * 
+ * @param {moment.Moment} start Start
+ * @param {moment.Moment} end End
+ * @param {Object} options Options
+ */
+export function getTimespanString(start: moment.Moment, end: moment.Moment, options = { monthFormat: 'MMMM', yearFormat: 'YYYY', hideYear: false, implicitYear: false }) {
+    return start['twix'](end, { allDay: true }).format(options).toLowerCase();
 }

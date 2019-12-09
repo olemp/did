@@ -1,15 +1,13 @@
 
 import { List } from 'components/List';
-import { getValueTyped as value } from 'helpers';
+import { getValueTyped as value, formatDate } from 'helpers';
 import { ICalEvent } from 'models';
-import * as moment from 'moment';
 import * as React from 'react';
 import { generateColumn as col } from 'utils/generateColumn';
 import { CustomerLink } from './CustomerLink';
 import { DurationDisplay } from './DurationDisplay';
 import { IEventListProps } from './IEventListProps';
 import { ProjectColumn } from './ProjectColumn';
-require('moment/locale/en-gb');
 
 export const EventList = (props: IEventListProps) => {
     const columns = [
@@ -26,7 +24,7 @@ export const EventList = (props: IEventListProps) => {
             (event: ICalEvent) => {
                 return (
                     <span>
-                        {moment(new Date(event.startTime)).format(props.dateFormat)} - {moment(new Date(event.endTime)).format(props.dateFormat)}
+                        {formatDate(event.startTime,props.dateFormat)} - {formatDate(event.endTime,props.dateFormat)}
                     </span>
                 )
             }

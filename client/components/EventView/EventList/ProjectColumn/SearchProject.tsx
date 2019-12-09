@@ -60,7 +60,7 @@ export const SearchProject = ({ onSelected, customer, placeholder }: ISearchProj
         return (
             <div style={{ marginLeft: 4, padding: 4, cursor: 'pointer' }}>
                 <div>
-                    {AutosuggestHighlightParse(project.name, AutosuggestHighlightMatch(project.name, query)).map((part, index) => {
+                    {AutosuggestHighlightParse(getSuggestionValue(project), AutosuggestHighlightMatch(getSuggestionValue(project), query)).map((part, index) => {
                         const className = part.highlight ? 'react-autosuggest__suggestion-match' : null;
                         return (
                             <span className={className} key={index}>
