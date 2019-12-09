@@ -11,13 +11,14 @@ import AutoSuggest from 'react-autosuggest';
 interface ISearchProjectProps {
     onSelected: any;
     customer: ICustomer;
+    placeholder: string;
 }
 
 /**
  * @component SearchProject
  * @description @todo
  */
-export const SearchProject = ({ onSelected, customer }: ISearchProjectProps) => {
+export const SearchProject = ({ onSelected, customer, placeholder }: ISearchProjectProps) => {
     let [projects, setProjects] = useState<IProject[]>(null);
     let [suggestions, setSuggestions] = useState([]);
     let [value, setValue] = useState('');
@@ -93,7 +94,7 @@ export const SearchProject = ({ onSelected, customer }: ISearchProjectProps) => 
             renderSuggestion={renderSuggestion}
             onSuggestionSelected={(_event, { suggestion }) => onSelected(suggestion)}
             inputProps={{
-                placeholder: 'Search projects...',
+                placeholder,
                 value,
                 onChange: (_event: any, { newValue }) => setValue(newValue),
                 width: '100%',
