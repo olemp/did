@@ -38,14 +38,13 @@ function getProjectSuggestion(projects, customer, projectKey) {
  * @param {*} categories 
  */
 function findMatch(content, categories) {
-    let regex = /((?<customerKey>[A-Za-z0-9]*?)\s(?<projectKey>[A-Za-z0-9]*))/gm;
+    let regex = /((?<customerKey>[A-Za-z0-9]{2,}?)\s(?<projectKey>[A-Za-z0-9]{2,}))/gm;
     let match = regex.exec(categories);
-    if (match && match.groups) {
-        return match.groups;
-    }
-    regex = /[\(\{\[]((?<customerKey>[A-Za-z0-9]*?)\s(?<projectKey>[A-Za-z0-9]*?))[\)\]\}]/gm;
+    if (match && match.groups) return match.groups;
+    regex = /[\(\{\[]((?<customerKey>[A-Za-z0-9]{2,}?)\s(?<projectKey>[A-Za-z0-9]{2,}?))[\)\]\}]/gm;
     match = regex.exec(content);
-    return match ? match.groups : null;
+    if (match && match.groups) return match.groups;
+    return null;
 }
 
 /**
