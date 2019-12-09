@@ -1,76 +1,17 @@
 
 import * as moment from 'moment';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
-import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
 import { ContextualMenuItemType } from 'office-ui-fabric-react/lib/ContextualMenu';
-import { IIconProps } from 'office-ui-fabric-react/lib/Icon';
+import { DatePicker, DayOfWeek } from 'office-ui-fabric-react/lib/DatePicker';
 import * as React from 'react';
+import { ACTIONBAR_ICON_PROPS } from './ACTIONBAR_ICON_PROPS';
+import { GROUP_BY_CUSTOMER } from './GROUP_BY_CUSTOMER';
+import { GROUP_BY_DAY } from './GROUP_BY_DAY';
+import { GROUP_BY_PROJECT } from './GROUP_BY_PROJECT';
 import { IActionBarProps } from './IActionBarProps';
-import { ICalEvent } from 'models';
-import { getDurationDisplay } from 'helpers';
 require('moment/locale/en-gb');
 require('twix');
 
-const ActionBarIconProps: IIconProps = {
-    styles: { root: { fontSize: 12, color: 'rgb(120, 120, 120)' } },
-}
-
-export const GROUP_BY_DAY = {
-    key: 'GROUP_BY_DAY',
-    name: 'Day',
-    title: 'Group by day of the week',
-    iconProps: { iconName: 'CalendarDay', ...ActionBarIconProps },
-    data: {
-        groups: {
-            fieldName: 'day',
-            groupNames: moment.weekdays(true),
-            totalFunc: (items: ICalEvent[]) => {
-                let totalMins = items.reduce((sum, i) => sum += i.durationMinutes, 0);
-                return ` (${getDurationDisplay(totalMins)})`;
-            },
-        },
-        hideColumns: [],
-        dateFormat: 'HH:mm',
-    },
-};
-
-export const GROUP_BY_PROJECT = {
-    key: 'GROUP_BY_PROJECT',
-    name: 'Project',
-    title: 'Group by Project',
-    iconProps: { iconName: 'ProjectCollection', ...ActionBarIconProps },
-    data: {
-        groups: {
-            fieldName: 'project.name',
-            emptyGroupName: '@Not matched',
-            totalFunc: (items: ICalEvent[]) => {
-                let totalMins = items.reduce((sum, i) => sum += i.durationMinutes, 0);
-                return ` (${getDurationDisplay(totalMins)})`;
-            },
-        },
-        hideColumns: [],
-        dateFormat: 'ddd HH:mm',
-    },
-};
-
-export const GROUP_BY_CUSTOMER = {
-    key: 'GROUP_BY_CUSTOMER',
-    name: 'Customer',
-    title: 'Group by Customer',
-    iconProps: { iconName: 'Work', ...ActionBarIconProps },
-    data: {
-        groups: {
-            fieldName: 'customer.name',
-            emptyGroupName: '@Not matched',
-            totalFunc: (items: ICalEvent[]) => {
-                let totalMins = items.reduce((sum, i) => sum += i.durationMinutes, 0);
-                return ` (${getDurationDisplay(totalMins)})`;
-            },
-        },
-        hideColumns: ['customer'],
-        dateFormat: 'ddd HH:mm',
-    },
-};
 
 export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek, onGroupByChanged }: IActionBarProps) => {
     const startOfWeek = moment().week(weekNumber).startOf('isoWeek');
@@ -87,14 +28,14 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                 {
                     key: 'PREV_WEEK',
                     iconOnly: true,
-                    iconProps: { iconName: 'Back', ...ActionBarIconProps },
+                    iconProps: { iconName: 'Back', ...ACTIONBAR_ICON_PROPS },
                     onClick: () => onChangeWeek(weekNumber - 1),
                     title: 'Go to previous week',
                 },
                 {
                     key: 'NEXT_WEEK',
                     iconOnly: true,
-                    iconProps: { iconName: 'Forward', ...ActionBarIconProps },
+                    iconProps: { iconName: 'Forward', ...ACTIONBAR_ICON_PROPS },
                     onClick: () => onChangeWeek(weekNumber + 1),
                     disabled: weekNumber === moment().week(),
                     title: 'Go to next week',
@@ -109,7 +50,7 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                                 borderless
                                 textField={{
                                     styles: { field: { color: 'rgb(120, 120, 120)' }, root: { width: 250, marginTop: 6 } },
-                                    iconProps: { iconName: 'ChevronDown', ...ActionBarIconProps }
+                                    iconProps: { iconName: 'ChevronDown', ...ACTIONBAR_ICON_PROPS }
                                 }}
                                 showCloseButton={true}
                                 showWeekNumbers={true}
@@ -136,6 +77,15 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                     itemType: ContextualMenuItemType.Divider,
                 },
                 {
+                    key: 'WEEK_NUMBER_TEXT',
+                    itemType: ContextualMenuItemType.Header,
+                    name: `Week ${weekNumber}`,
+                },
+                {
+                    key: 'DIVIDER_1',
+                    itemType: ContextualMenuItemType.Divider,
+                },
+                {
                     ...groupBy,
                     key: 'GROUP_BY',
                     subMenuProps: {
@@ -156,21 +106,21 @@ export const ActionBar = ({ onClick, disabled, weekNumber, groupBy, onChangeWeek
                 {
                     key: 'CONFIRM_WEEK',
                     name: 'Confirm week',
-                    iconProps: { iconName: 'CheckMark', ...ActionBarIconProps },
+                    iconProps: { iconName: 'CheckMark', ...ACTIONBAR_ICON_PROPS },
                     onClick: onClick.CONFIRM_WEEK,
                     disabled: disabled.CONFIRM_WEEK,
                 },
                 {
                     key: 'UNCONFIRM_WEEK',
                     name: 'Unconfirm week',
-                    iconProps: { iconName: 'ErrorBadge', ...ActionBarIconProps },
+                    iconProps: { iconName: 'ErrorBadge', ...ACTIONBAR_ICON_PROPS },
                     onClick: onClick.UNCONFIRM_WEEK,
                     disabled: disabled.UNCONFIRM_WEEK,
                 },
                 {
                     key: 'RELOAD',
                     name: 'Reload',
-                    iconProps: { iconName: 'Refresh', ...ActionBarIconProps },
+                    iconProps: { iconName: 'Refresh', ...ACTIONBAR_ICON_PROPS },
                     onClick: onClick.RELOAD,
                     disabled: disabled.RELOAD,
                 }
