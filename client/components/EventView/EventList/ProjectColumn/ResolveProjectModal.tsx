@@ -28,7 +28,7 @@ interface IResolveProjectModalProps {
  */
 export const ResolveProjectModal = ({ isOpen, onDismiss, onProjectSelected, event }: IResolveProjectModalProps) => {
     const [dismissed, dismiss] = useState<TypedHash<boolean>>({});
-    const [scope, setScope] = useState<boolean>(true);
+    const [scope, setScope] = useState<boolean>(!!event.customer);
 
     /**
      * Dismiss message
@@ -75,13 +75,18 @@ export const ResolveProjectModal = ({ isOpen, onDismiss, onProjectSelected, even
                     style={{ paddingTop: 10 }}>
                     {event.customer && (
                         <Toggle
-                            styles={{ text: { fontSize: 12, color: 'rgb(120, 120, 120)' } }}
+                            styles={{ root: { margin: '4px 0 8px 0' }, text: { fontSize: 12, color: 'rgb(120, 120, 120)' } }}
                             defaultChecked={scope}
                             onChange={(_event, scope) => setScope(scope)}
-                            offText=''
-                            onText={event.customer.name} />
+                            offText='All'
+                            onText={event.customer.name}
+                            label='Customer:'
+                            inlineLabel={true} />
                     )}
-                    <SearchProject onSelected={onProjectSelected} customer={scope && event.customer} />
+                    <SearchProject
+                        onSelected={onProjectSelected}
+                        customer={scope && event.customer}
+                        placeholder='Search in projects..' />
                 </PivotItem>
                 <PivotItem
                     itemKey='suggestions'
