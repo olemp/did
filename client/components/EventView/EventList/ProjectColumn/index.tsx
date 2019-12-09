@@ -1,29 +1,46 @@
 
+import { getId } from '@uifabric/utilities';
+import { UserMessage } from 'components/UserMessage';
+import { ICalEvent, IProject } from 'models';
+import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
-import { IProjectColumnProps } from './IProjectColumnProps';
-import { ProjectCustomerMatch } from './ProjectCustomerMatch';
-import { ProjectInvalidMatch } from './ProjectInvalidMatch';
-import { ProjectNoMatch } from './ProjectNoMatch';
-import { ProjectSuggestion } from './ProjectSuggestion';
+import { useState } from 'react';
+import * as format from 'string-format';
+import { ResolveProjectModal } from './ResolveProjectModal';
+
+interface IProjectColumnProps {
+    event: ICalEvent;
+    isConfirmed?: boolean;
+    onRefetch?: () => void;
+    onProjectSelected?: (project: IProject) => void;
+}
 
 /**
  * @component ProjectColumn
  * @description @todo
  */
 export const ProjectColumn = ({ event, isConfirmed, onRefetch, onProjectSelected }: IProjectColumnProps) => {
+    let toggleId = getId('toggle-callout');
+    const [modal, setModal] = useState<boolean>(false);
+
+
     if (!event.project) {
         if (isConfirmed) return null;
-        if (!event.isOrganizer) return <ProjectNoMatch isOrganizer={false} onProjectSelected={onProjectSelected} />
-        if (event.suggestedProject) return (
-            <ProjectSuggestion
-                event={event}
-                suggestedProject={event.suggestedProject}
-                onProjectSelected={onProjectSelected}
-                onProjectAdded={onRefetch} />
+        return (
+            <>
+                <UserMessage
+                    style={{ width: 240 }}
+                    text={format('Event not matched.<a href="#" id="{0}">Click to resolve</a>.', toggleId)}
+                    type={MessageBarType.info}
+                    iconName='SearchIssue'
+                    onClick={() => setModal(true)} />
+                <ResolveProjectModal
+                    event={event}
+                    onDismiss={() => setModal(false)}
+                    isOpen={modal}
+                    onProjectSelected={onProjectSelected} />
+            </>
         );
-        else if (event.customer) return <ProjectCustomerMatch event={event} onProjectAdded={onRefetch} />;
-        else if (event.customerKey) return <ProjectInvalidMatch matchedKey={event.customerKey + ' ' + event.projectKey} />;
-        return <ProjectNoMatch onProjectSelected={onProjectSelected} />
     }
     return (
         <div>
