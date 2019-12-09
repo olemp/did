@@ -75,7 +75,11 @@ export const ResolveProjectModal = ({ isOpen, onDismiss, onProjectSelected, even
                     style={{ paddingTop: 10 }}>
                     {event.customer && (
                         <Toggle
-                            styles={{ root: { margin: '4px 0 8px 0' }, text: { fontSize: 12, color: 'rgb(120, 120, 120)' } }}
+                            styles={{
+                                root: { margin: '0 0 8px 0' },
+                                text: { fontSize: 12, color: 'rgb(120, 120, 120)' },
+                                label: { fontSize: 12, color: 'rgb(120, 120, 120)' },
+                            }}
                             defaultChecked={scope}
                             onChange={(_event, scope) => setScope(scope)}
                             offText='All'
