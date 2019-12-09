@@ -122,7 +122,7 @@ type BaseResult {
 }
 
 type Mutation {
-	createProject(customerKey: String!, projectKey: String!, name: String!): BaseResult
+	createProject(customerKey: String!, projectKey: String!, name: String!, icon: String): BaseResult
 	createCustomer(key: String!, name: String!): BaseResult
 	confirmWeek(entries: [TimeEntryInput!], weekNumber: Int!): BaseResult!
 	unconfirmWeek(weekNumber: Int!): BaseResult!

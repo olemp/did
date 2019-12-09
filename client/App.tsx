@@ -35,5 +35,5 @@ const getProps = (element: HTMLElement) => {
 if (COMPONENTS.EVENT_VIEW !== null) ReactDom.render(<ApolloProvider client={client}><EventView {...getProps(COMPONENTS.EVENT_VIEW)} /></ApolloProvider>, COMPONENTS.EVENT_VIEW);
 if (COMPONENTS.PROJECTS !== null) ReactDom.render(<ApolloProvider client={client}><Projects /></ApolloProvider>, COMPONENTS.PROJECTS);
 if (COMPONENTS.CUSTOMERS !== null) ReactDom.render(<ApolloProvider client={client}><Customers /></ApolloProvider>, COMPONENTS.CUSTOMERS);
-if (COMPONENTS.ADMIN !== null) ReactDom.render(<ApolloProvider client={client}><AdminView /></ApolloProvider>, COMPONENTS.ADMIN);
+if (COMPONENTS.ADMIN !== null) ReactDom.render(<ApolloProvider client={client}><AdminView {...getProps(COMPONENTS.ADMIN)} /></ApolloProvider>, COMPONENTS.ADMIN);
 if (COMPONENTS.ADMIN_USER !== null) ReactDom.render(<ApolloProvider client={client}><AdminUserView {...getProps(COMPONENTS.ADMIN_USER)} /></ApolloProvider>, COMPONENTS.ADMIN_USER);

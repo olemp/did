@@ -51,6 +51,7 @@ export const CreateCustomerForm = ({ emptyModel = { key: '', name: '' } }) => {
                 styles={{ root: { marginTop: 12, width: 300 } }}
                 minLength={4}
                 placeholder='Name'
+                description='Name of the customer.'
                 onChange={(_event, name) => setModel({ ...model, name })}
                 value={model.name} />
             <PrimaryButton
