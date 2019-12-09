@@ -11,7 +11,7 @@ export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => 
     let matchedDuration = events.filter(event => !!event.project).reduce((sum, event) => sum += event.durationMinutes, 0);
 
     return (
-        <div className='c-eventview-statusbar' style={{ marginTop: 10 }}>
+        <div className='c-eventview-statusbar' style={{ marginTop: 10, marginLeft: -10, marginRight: -10 }}>
             <Shimmer isDataLoaded={!loading} />
             <Shimmer isDataLoaded={!loading} />
             {!loading && (

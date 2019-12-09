@@ -132,9 +132,14 @@ h5 {
   cursor: pointer !important;
 }
 
-.ms-DetailsRow-cell .c-usermessage {
-  margin-top: -6px;
-  margin-bottom: -6px;
+#app-eventview .ms-List-cell .ms-DetailsRow {
+  min-height: 53px;
+}
+
+#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span,
+#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a{
+  vertical-align: middle;
+  vertical-align: -webkit-baseline-middle;
 }
 
 .ms-DetailsRow-cell span,
