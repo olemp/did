@@ -18,7 +18,7 @@ export const Reports = ({ skip = ['id', '__typename'], fileName = 'ApprovedTimeE
     const { loading, error, data } = useQuery(GET_CONFIRMED_TIME_ENTRIES);
 
     const entries = value<any[]>(data, 'result.entries', []).map(entry => {
-        entry.customer = entry.customer.name;
+        entry.customer = value(entry, 'customer.name', '');
         return entry;
     });
 

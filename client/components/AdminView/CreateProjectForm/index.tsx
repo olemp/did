@@ -12,7 +12,7 @@ import { ICreateProjectFormModel } from './ICreateProjectFormModel';
  * @component CreateProjectForm
  * @description Form for creating a new Project
  */
-export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: '', name: '' } }) => {
+export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: '', name: '', icon: 'Page' } }) => {
     let [message, setMessage] = useState<{ text: string, type: MessageBarType }>(null);
     let [model, setModel] = useState<ICreateProjectFormModel>(emptyModel);
     let [addProject, { loading }] = useMutation(CREATE_PROJECT);
@@ -59,8 +59,17 @@ export const CreateProjectForm = ({ emptyModel = { customerKey: '', projectKey: 
                 styles={{ root: { marginTop: 12, width: 300 } }}
                 minLength={4}
                 placeholder='Name'
+                description='Name of the project.'
                 onChange={(_event, name) => setModel({ ...model, name })}
                 value={model.name} />
+            <TextField
+                styles={{ root: { marginTop: 12, width: 300 } }}
+                minLength={4}
+                placeholder='Icon'
+                description='Icon to illustrate the project (https://developer.microsoft.com/en-us/fabric#/styles/web/icons).'
+                onChange={(_event, icon) => setModel({ ...model, icon })}
+                iconProps={{ iconName: model.icon }}
+                value={model.icon} />
             <PrimaryButton
                 styles={{ root: { marginTop: 16 } }}
                 text='Add'

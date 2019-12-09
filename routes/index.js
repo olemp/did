@@ -6,24 +6,32 @@ router.get('/', function (_req, res) {
   res.render('index', { active: { home: true } });
 });
 
-router.get('/week_view', isAuthenticated, (_req, res) => {
-  res.render('week_view', { active: { week_view: true } });
+router.get('/week_view', isAuthenticated, (req, res) => {
+  res.render('week_view', { active: { week_view: true }, props: JSON.stringify(req.params) });
 });
 
-router.get('/month_view', isAuthenticated, (_req, res) => {
-  res.render('month_view', { active: { month_view: true } });
+router.get('/month_view', isAuthenticated, (req, res) => {
+  res.render('month_view', { active: { month_view: true }, props: JSON.stringify(req.params) });
 });
 
-router.get('/customers', isAuthenticated, (_req, res) => {
-  res.render('customers', { active: { customers: true } });
+router.get('/customers', isAuthenticated, (req, res) => {
+  res.render('customers', { active: { customers: true }, props: JSON.stringify(req.params) });
 });
 
-router.get('/projects', isAuthenticated, (_req, res) => {
-  res.render('projects', { active: { projects: true } });
+router.get('/projects', isAuthenticated, (req, res) => {
+  res.render('projects', { active: { projects: true }, props: JSON.stringify(req.params) });
 });
 
-router.get('/admin', isAuthenticated, (_req, res) => {
-  res.render('admin', { active: { admin: true } });
+router.get('/admin', isAuthenticated, (req, res) => {
+  res.render('admin', { active: { admin: true }, props: JSON.stringify({ view: 'reports' }) });
+});
+
+router.get('/admin/:view', isAuthenticated, (req, res) => {
+  res.render('admin', { active: { admin: true }, props: JSON.stringify(req.params) });
+});
+
+router.get('/admin/:view/:subView', isAuthenticated, (req, res) => {
+  res.render('admin', { active: { admin: true }, props: JSON.stringify(req.params) });
 });
 
 router.get('/admin/users/:userId', isAuthenticated, (req, res) => {
