@@ -44,7 +44,7 @@ object-assign
  *
  * Copyright (c) 2015-2017, Jon Schlinkert.
  * Released under the MIT License.
- */var r=n(444),i=n(198),o=n(445);function a(e,t,n){return"function"==typeof e?e(t,n,a.bind(null,null)):e&&"object"==typeof t&&"object"==typeof n?a(null,o(t,e),o(n,e)):r(t,n)}e.exports=function(e,t,n){if(null==e)return[];if(!Array.isArray(e))throw new TypeError("array-sort expects an array.");if(1===arguments.length)return e.sort();var r=function(e){return[].concat.apply([],e)}([].slice.call(arguments,1));return"object"===i(r[r.length-1])&&(n=r.pop()),e.sort(function(e,t){return t=t||{},function(n,r){for(var i,o=e.length,s=-1;++s<o&&0===(i=a(e[s],n,r)););return!0===t.reverse?-1*i:i}}(r,n))}},function(e,t,n){
+ */var r=n(445),i=n(198),o=n(446);function a(e,t,n){return"function"==typeof e?e(t,n,a.bind(null,null)):e&&"object"==typeof t&&"object"==typeof n?a(null,o(t,e),o(n,e)):r(t,n)}e.exports=function(e,t,n){if(null==e)return[];if(!Array.isArray(e))throw new TypeError("array-sort expects an array.");if(1===arguments.length)return e.sort();var r=function(e){return[].concat.apply([],e)}([].slice.call(arguments,1));return"object"===i(r[r.length-1])&&(n=r.pop()),e.sort(function(e,t){return t=t||{},function(n,r){for(var i,o=e.length,s=-1;++s<o&&0===(i=a(e[s],n,r)););return!0===t.reverse?-1*i:i}}(r,n))}},function(e,t,n){
 /*!
  * get-value <https://github.com/jonschlinkert/get-value>
  *
