@@ -69,7 +69,8 @@ export const ProjectDetails = ({ project }: IProjectDetailsProps) => {
                     enableShimmer={loading}
                     events={entries}
                     hideColumns={['project', 'customer']}
-                    dateFormat='MMM Do YYYY' />
+                    dateFormat='MMM Do YYYY HH:mm'
+                    columnWidths={{ time: 250 }} />
             )}
         </div>
     );
