@@ -1,4 +1,4 @@
-import { ICalEvent, IProject } from 'models';
+import { ITimeEntry, IProject } from 'models';
 import { IListGroups } from 'components/List/IListGroups';
 import { TypedHash } from '@pnp/common';
 
@@ -6,7 +6,7 @@ export interface IEventListProps {
     /**
      * List of events
      */
-    events: ICalEvent[];
+    events: ITimeEntry[];
 
     /**
      * Wether the event list is locked (adjustments can be done to project matching)
@@ -14,14 +14,14 @@ export interface IEventListProps {
     isLocked?: boolean;
 
     /**
-     * Callback for refetch
-     */
-    onRefetch?: () => void;
-
-    /**
      * Callback for when a project is selected for an event
      */
-    onProjectSelected?: (event: ICalEvent, project: IProject) => void;
+    onProjectSelected?: (event: ITimeEntry, project: IProject) => void;
+
+    /**
+     * Callback for when the project for an event is cleared
+     */
+    onProjectClear?: (event: ITimeEntry) => void;
 
     /**
      * Enable shimmer

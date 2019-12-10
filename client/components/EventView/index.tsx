@@ -1,8 +1,8 @@
 
-import { PnPClientStorage, PnPClientStore, TypedHash } from '@pnp/common';
+import { PnPClientStorage, PnPClientStore, TypedHash, dateAdd } from '@pnp/common';
 import { UserAllocation } from 'components/UserAllocation';
 import { getValueTyped as value, formatDate, getWeek } from 'helpers';
-import { ICalEvent, IProject } from 'models';
+import { ITimeEntry, IProject } from 'models';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import * as React from 'react';
@@ -70,7 +70,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                 <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
                                 <EventList
                                     onProjectSelected={this._onProjectSelected.bind(this)}
-                                    onRefetch={this._getEventData.bind(this)}
+                                    onProjectClear={this._onProjectClear.bind(this)}
                                     enableShimmer={loading}
                                     events={value(data, 'events', [])}
                                     dateFormat={groupBy.data.dateFormat}
@@ -95,12 +95,34 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     }
 
     /**
+     * On project clear
+     *
+    * @param {ITimeEntry} event Event
+    */
+    private _onProjectClear(event: ITimeEntry) {
+        this._clearResolve(event.id);
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                events: prevState.data.events.map(e => {
+                    if (e.id === event.id) {
+                        e.project = null;
+                        e.customer = null;
+                        e.isManualMatch = false;
+                    }
+                    return e;
+                })
+            }
+        }));
+    }
+
+    /**
      * On project selected
      *
-    * @param {ICalEvent} event Event
+    * @param {ITimeEntry} event Event
     * @param {IProject} project Project
     */
-    private _onProjectSelected(event: ICalEvent, project: IProject) {
+    private _onProjectSelected(event: ITimeEntry, project: IProject) {
         this._storeResolve(event.id, project);
         this.setState(prevState => ({
             data: {
@@ -109,6 +131,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                     if (e.id === event.id) {
                         e.project = project;
                         e.customer = project.customer;
+                        e.isManualMatch = true;
                     }
                     return e;
                 })
@@ -181,14 +204,21 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     private _storeResolve(eventId: string, project: IProject) {
         let resolves = this._getStoredResolves();
         resolves[eventId] = project;
-        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves);
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'week', 1));
     }
 
     /**
      * Clear resolve
+     *
+    * @param {string} eventId Event id
      */
-    private _clearResolve() {
-        this._store.put(format(this._resolvedKey, this.state.weekNumber), {});
+    private _clearResolve(eventId?: string) {
+        let resolves = {};
+        if (eventId) {
+            resolves = this._getStoredResolves();
+            delete resolves[eventId];
+        }
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'week', 1));
     }
 
     /**
@@ -212,6 +242,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                 if (resolves[event.id]) {
                     event.project = resolves[event.id];
                     event.customer = resolves[event.id].customer;
+                    event.isManualMatch = true;
                 }
                 return event;
             });

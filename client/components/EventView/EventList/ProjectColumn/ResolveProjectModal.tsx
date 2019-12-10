@@ -3,7 +3,7 @@ import { TypedHash } from '@pnp/common';
 import { getId } from '@uifabric/utilities';
 import { UserMessage } from 'components/UserMessage';
 import { getValueTyped as value } from 'helpers';
-import { ICalEvent, IProject } from 'models';
+import { ITimeEntry, IProject } from 'models';
 import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { Toggle } from 'office-ui-fabric-react/lib/Toggle';
@@ -16,7 +16,7 @@ const CUSTOMER_MATCH_MSG_ID = getId('customer-match-msg');
 const INFO_MSG_ID = getId('info-msg');
 
 interface IResolveProjectModalProps {
-    event: ICalEvent;
+    event: ITimeEntry;
     isOpen?: boolean;
     onDismiss?: () => void;
     onProjectSelected?: (project: IProject) => void;

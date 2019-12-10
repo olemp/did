@@ -1,5 +1,5 @@
 import { ACTIONBAR_ICON_PROPS } from "./ACTIONBAR_ICON_PROPS";
-import { ICalEvent } from "models";
+import { ITimeEntry } from "models";
 import { getDurationDisplay, getWeekdays } from "helpers";
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 
@@ -12,7 +12,7 @@ export const GROUP_BY_DAY: IContextualMenuItem = {
         groups: {
             fieldName: 'day',
             groupNames: getWeekdays(),
-            totalFunc: (items: ICalEvent[]) => {
+            totalFunc: (items: ITimeEntry[]) => {
                 let totalMins = items.reduce((sum, i) => sum += i.durationMinutes, 0);
                 return ` (${getDurationDisplay(totalMins)})`;
             },

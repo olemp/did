@@ -2,7 +2,7 @@ import { IProject } from './IProject';
 import { IObjectWithKey } from 'office-ui-fabric-react/lib/DetailsList';
 import { ICustomer } from './ICustomer';
 
-export interface ICalEvent extends IObjectWithKey {
+export interface ITimeEntry extends IObjectWithKey {
     id: string;
     title: string;
     isOrganizer: boolean;
@@ -17,4 +17,5 @@ export interface ICalEvent extends IObjectWithKey {
     startTime: string;
     endTime: string;
     day: string;
+    isManualMatch?: boolean;
 }
