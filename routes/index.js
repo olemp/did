@@ -22,6 +22,10 @@ router.get('/projects', isAuthenticated, (req, res) => {
   res.render('projects', { active: { projects: true }, props: JSON.stringify(req.params) });
 });
 
+router.get('/faq', isAuthenticated, (req, res) => {
+  res.render('faq', { active: { faq: true }, props: JSON.stringify(req.params) });
+});
+
 router.get('/admin', isAuthenticated, (req, res) => {
   res.render('admin', { active: { admin: true }, props: JSON.stringify({ view: 'reports' }) });
 });

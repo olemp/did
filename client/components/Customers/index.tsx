@@ -1,4 +1,3 @@
-
 import { useQuery } from '@apollo/react-hooks';
 import { IColumn, List, SelectionMode } from 'components/List';
 import { getValueTyped as value } from 'helpers';

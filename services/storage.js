@@ -8,6 +8,7 @@ const PROJECTS = process.env.AZURE_STORAGE_PROJECTS_TABLE_NAME;
 const CUSTOMERS = process.env.AZURE_STORAGE_CUSTOMERS_TABLE_NAME;
 const CONFIRMEDTIMEENTRIES = process.env.AZURE_STORAGE_CONFIRMEDTIMEENTRIES_TABLE_NAME;
 const WEEKS = 'Weeks';
+const FAQ = 'FAQ';
 
 function StorageService(tid) {
     this.tenantId = tid;
@@ -111,12 +112,21 @@ StorageService.prototype.createCustomer = async function (key, name) {
     return entity;
 }
 
+/**
+ * Get customers
+ */
 StorageService.prototype.getCustomers = async function () {
     const query = createQuery(1000, undefined, this.filter);
     const result = await queryTable(CUSTOMERS, query);
     return parseArray(result, undefined, { idUpper: true });
 }
 
+/**
+ * Get confirmed time entries
+ * 
+ * @param {*} filters 
+ * @param {*} options 
+ */
 StorageService.prototype.getConfirmedTimeEntries = async function (filters, options) {
     filters = filters || {};
     options = options || {};
@@ -135,9 +145,20 @@ StorageService.prototype.getConfirmedTimeEntries = async function (filters, opti
     return result;
 }
 
+/**
+ * Get users
+ */
 StorageService.prototype.getUsers = async function () {
     const query = createQuery(1000, undefined).where(this.filter);
     const result = await queryTable(USERS, query);
+    return parseArray(result);
+}
+/**
+ * Get FAQ
+ */
+StorageService.prototype.getFAQ = async function () {
+    const query = createQuery(1000, undefined).where(this.filter);
+    const result = await queryTable(FAQ, query);
     return parseArray(result);
 }
 
