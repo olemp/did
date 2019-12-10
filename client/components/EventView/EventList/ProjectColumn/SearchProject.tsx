@@ -37,7 +37,7 @@ export const SearchProject = ({ onSelected, customer, placeholder }: ISearchProj
         const inputValue = value.trim().toLowerCase();
         if (inputValue.length === 0) return [];
         return [...projects].filter(project => {
-            let searchString = [project.name, project.customer.name].join(' ').toLowerCase();
+            let searchString = [project.name, project.customer.name, project.id].join(' ').toLowerCase();
             let isMatch = searchString.indexOf(inputValue) !== -1;
             if (customer) isMatch = isMatch && project.customer.id === customer.id;
             return isMatch;
@@ -49,7 +49,7 @@ export const SearchProject = ({ onSelected, customer, placeholder }: ISearchProj
      * 
      * @param {IProject} project Project
      */
-    const getSuggestionValue = (project: IProject) => project.name;
+    const getSuggestionValue = (project: IProject) => `${project.name} [${project.id}]`;
 
     /**
      * Render suggestion
