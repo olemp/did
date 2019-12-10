@@ -1,167 +1,137 @@
 body {
   padding-top: 4.5rem;
-  font-family: "Segoe UI Light", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
-    "Helvetica Neue", sans-serif;
-  font-size: 14px;
-}
+  font-family: "Segoe UI Light", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px; }
 
 .alert-pre {
   word-wrap: break-word;
   word-break: break-all;
-  white-space: pre-wrap;
-}
+  white-space: pre-wrap; }
 
 .navbar-nav .nav-link {
   font-size: 10pt;
-  letter-spacing: 1px;
-}
+  letter-spacing: 1px; }
 
 h1 {
   font-size: 36pt;
-  margin: 15px 0 15px 0;
-}
+  margin: 15px 0 15px 0; }
 
 h2 {
   font-size: 24pt;
-  margin: 15px 0 15px 0;
-}
+  margin: 15px 0 15px 0; }
 
 h3 {
   font-size: 18pt;
-  margin: 15px 0 15px 0;
-}
+  margin: 15px 0 15px 0; }
 
 h4 {
-  font-size: 14pt;
-}
+  font-size: 14pt; }
 
 h5 {
-  font-size: 10pt;
-}
+  font-size: 10pt; }
 
-.ms-DetailsRow-check,
-.ms-DetailsRow-cellCheck,
-.ms-DetailsHeader-cellIsCheck {
-  display: none;
-}
+.ms-DetailsRow-check, .ms-DetailsRow-cellCheck, .ms-DetailsHeader-cellIsCheck {
+  display: none; }
 
-.ms-DetailsHeader-cellName,
-.ms-GroupHeader-title {
+.ms-DetailsHeader-cellName, .ms-GroupHeader-title {
   font-weight: 100;
   font-size: 11pt;
-  letter-spacing: 1px;
-}
+  letter-spacing: 1px; }
 
 .c-usermessage p {
   word-break: break-word;
   white-space: normal;
-  margin: 0;
-}
+  margin: 0; }
 
 .c-eventview .c-eventview-actions {
-  margin: 10px 0 10px 0;
-}
+  margin: 10px 0 10px 0; }
 
 .c-eventview .c-eventview-section-content {
-  /* margin: 10px 0 0 0; */
-}
+  /* margin: 10px 0 0 0; */ }
 
 .c-createprojectcallout-callout {
   padding: 15px;
-  width: 320px;
-}
+  width: 320px; }
 
 .c-searchproject-callout {
   padding: 15px;
   width: 320px;
-  height: 60px;
-}
+  height: 60px; }
 
 .c-resolveproject-modal {
   padding: 20px;
   width: 540px;
   min-width: 540px;
-  max-width: 540px;
-}
+  max-width: 540px; }
 
 .react-autosuggest__suggestion-match {
-  color: #007bff;
-}
+  color: #007bff; }
 
 .c-searchproject-callout .ms-Callout-main {
-  width: 100% !important;
-}
+  width: 100% !important; }
 
 .react-autosuggest__container {
   width: 100%;
-  max-height: 400px;
-}
+  max-height: 400px; }
 
 .react-autosuggest__input {
   width: 100%;
-  padding: 4px;
-}
+  padding: 4px; }
 
 .react-autosuggest__suggestions-container ul {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 
 .c-projectdetails {
-  margin-top: 30px;
-}
+  margin-top: 30px; }
 
 .c-eventview-statusbar {
-  min-height: 40px;
-}
+  min-height: 40px; }
+  .c-eventview-statusbar .c-usermessage {
+    margin: 5px 0; }
 
-.c-eventview-statusbar .c-usermessage {
-  margin: 5px 0;
-}
-
-.c-eventview-weekpicker--callout .ms-DatePicker-day--today,
-.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted,
-.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted button {
+.c-eventview-weekpicker--callout .ms-DatePicker-day--today {
   background-color: inherit !important;
   color: inherit !important;
   font-weight: inherit !important;
   border: none !important;
-  outline: none !important;
-}
+  outline: none !important; }
+
+.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted {
+  background-color: inherit !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+  border: none !important;
+  outline: none !important; }
+  .c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted button {
+    background-color: inherit !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    border: none !important;
+    outline: none !important; }
 
 .c-eventview-weekpicker--callout table tbody tr:hover td {
   background: #f3f2f1 !important;
-  color: #201f1e !important;
-}
+  color: #201f1e !important; }
 
 .c-eventview-weekpicker--callout table tbody tr:hover * {
-  cursor: pointer !important;
-}
+  cursor: pointer !important; }
 
 #app-eventview .ms-List-cell .ms-DetailsRow {
-  min-height: 53px;
-}
+  min-height: 53px; }
+  #app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span, #app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a {
+    vertical-align: middle;
+    vertical-align: -webkit-baseline-middle; }
 
-#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span,
-#app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a {
-  vertical-align: middle;
-  vertical-align: -webkit-baseline-middle;
-}
-
-.ms-DetailsRow-cell span,
-.ms-DetailsRow-cell a {
-  font-size: 12px;
-}
+.ms-DetailsRow-cell span, .ms-DetailsRow-cell a {
+  font-size: 12px; }
 
 .ms-FocusZone.ms-DetailsRow {
-  border: none;
-}
+  border: none; }
 
 div.ms-List-page .ms-GroupedList-group {
-  margin-top: 20px;
-}
+  margin-top: 20px; }
 
 .ms-MessageBar .ms-MessageBar-text {
-  font-size: 14px;
-}
+  font-size: 14px; }
