@@ -73,23 +73,23 @@ export function getValueTyped<T>(obj: any, exp: string, defaultValue: T): T {
 /**
  * Format date
  * 
- * @param {string} dateStr Date string
+ * @param {string} dateIso Date string
  * @param {string} dateFormat Date format
  * @param {string} timeZone Time zone
  */
-export function formatDate(dateStr: string, dateFormat: string, timeZone: string = 'Europe/Oslo'): string {
-    return moment(`${dateStr}Z`).tz(timeZone).format(dateFormat);
+export function formatDate(dateIso: string, dateFormat: string, timeZone: string = 'Europe/Oslo'): string {
+    return moment(dateIso).tz(timeZone).format(dateFormat);
 }
 
 /**
  * Get start of week
  * 
  * @param {number} weekNumber Week number
- * @param {string} dateStr Date string
+ * @param {string} dateIso Date string
  */
-export function startOfWeek(weekNumber: number, dateStr?: string): moment.Moment {
+export function startOfWeek(weekNumber: number, dateIso?: string): moment.Moment {
     let date = moment().week(weekNumber);
-    if (dateStr) date = moment(dateStr);
+    if (dateIso) date = moment(dateIso);
     return date.startOf('isoWeek');
 }
 
@@ -97,11 +97,11 @@ export function startOfWeek(weekNumber: number, dateStr?: string): moment.Moment
  * Get end of week
  * 
  * @param {number} weekNumber Week number
- * @param {string} dateStr Date string
+ * @param {string} dateIso Date string
  */
-export function endOfWeek(weekNumber: number = getWeek(), dateStr?: string): moment.Moment {
+export function endOfWeek(weekNumber: number = getWeek(), dateIso?: string): moment.Moment {
     let date = moment().week(weekNumber);
-    if (dateStr) date = moment(dateStr);
+    if (dateIso) date = moment(dateIso);
     return date.endOf('isoWeek');
 }
 
@@ -115,11 +115,11 @@ export function getWeekdays(): string[] {
 /**
  * Get week number
  * 
- * @param {string} dateStr Date string
+ * @param {string} dateIso Date string
  */
-export function getWeek(dateStr?: string): number {
+export function getWeek(dateIso?: string): number {
     let date = moment();
-    if (dateStr) date = moment(dateStr);
+    if (dateIso) date = moment(dateIso);
     return date.week();
 }
 
@@ -128,8 +128,8 @@ export function getWeek(dateStr?: string): number {
  * 
  * @param {moment.Moment} start Start
  * @param {moment.Moment} end End
- * @param {Object} options Options
+ * @param {object} options Options
  */
-export function getTimespanString(start: moment.Moment, end: moment.Moment, options = { monthFormat: 'MMMM', yearFormat: 'YYYY', hideYear: false, implicitYear: false }) {
+export function getTimespanString(start: moment.Moment, end: moment.Moment, options: object = { monthFormat: 'MMMM', yearFormat: 'YYYY', hideYear: false, implicitYear: false }) {
     return start['twix'](end, { allDay: true }).format(options).toLowerCase();
 }

@@ -53,9 +53,9 @@ GraphService.prototype.getEvents = async function (weekNumber) {
     isOrganizer: evt.isOrganizer,
     categories: evt.categories,
     webLink: evt.webLink,
-    lastModifiedDateTime: evt.lastModifiedDateTime,
-    startTime: evt.start.dateTime,
-    endTime: evt.end.dateTime,
+    lastModifiedDateTime: new Date(evt.lastModifiedDateTime).toISOString(),
+    startTime: new Date(evt.start.dateTime).toISOString(),
+    endTime: new Date(evt.end.dateTime).toISOString(),
     durationHours: utils.getDurationHours(evt.start.dateTime, evt.end.dateTime),
     durationMinutes: utils.getDurationMinutes(evt.start.dateTime, evt.end.dateTime),
   }));

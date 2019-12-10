@@ -4,6 +4,7 @@ import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
 import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 import { GET_PROJECTS } from 'components/Projects/GET_PROJECTS';
 import { IProject, ICustomer } from 'models';
+import { Shimmer } from 'office-ui-fabric-react/lib/Shimmer';
 import * as React from 'react';
 import { useState } from 'react';
 import AutoSuggest from 'react-autosuggest';
@@ -83,7 +84,12 @@ export const SearchProject = ({ onSelected, customer, placeholder }: ISearchProj
             </div>
         );
     }
-    if (!projects) return null;
+    if (!projects) return (
+        <>
+            <Shimmer />
+            <Shimmer />
+        </>
+    );
 
     return (
         <AutoSuggest
