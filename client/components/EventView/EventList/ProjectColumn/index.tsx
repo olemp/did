@@ -14,13 +14,14 @@ interface IProjectColumnProps {
     isConfirmed?: boolean;
     onProjectSelected?: (project: IProject) => void;
     onProjectClear?: (evt: React.MouseEvent<any>) => void;
+    onProjectIgnore?: (evt: React.MouseEvent<any>) => void;
 }
 
 /**
  * @component ProjectColumn
  * @description 
  */
-export const ProjectColumn = ({ event, isConfirmed, onProjectSelected, onProjectClear }: IProjectColumnProps) => {
+export const ProjectColumn = ({ event, isConfirmed, onProjectSelected, onProjectClear, onProjectIgnore }: IProjectColumnProps) => {
     let toggleId = getId('toggle-callout');
     const [modal, setModal] = useState<boolean>(false);
 
@@ -29,11 +30,13 @@ export const ProjectColumn = ({ event, isConfirmed, onProjectSelected, onProject
         return (
             <>
                 <UserMessage
-                    style={{ width: 240 }}
-                    text={format('Event not matched.<a href="#" id="{0}">Click to resolve</a>.', toggleId)}
+                    style={{ width: 260 }}
                     type={MessageBarType.info}
-                    iconName='SearchIssue'
-                    onClick={() => setModal(true)} />
+                    iconName='SearchIssue'>
+                    <p>
+                        Event not matched.<a href="#" onClick={_ => setModal(true)} id={toggleId}>Click to resolve</a> or<a href="#" style={{ color: 'rgb(220, 0, 78)' }} onClick={onProjectIgnore}>click to ignore</a>.
+                    </p>
+                </UserMessage>
                 <ResolveProjectModal
                     event={event}
                     onDismiss={() => setModal(false)}

@@ -19,6 +19,7 @@ import { IEventViewProps } from './IEventViewProps';
 import { IEventViewState } from './IEventViewState';
 import { StatusBar } from './StatusBar';
 import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
+import * as _ from 'underscore';
 
 /**
  * @component EventView
@@ -27,6 +28,7 @@ import UNCONFIRM_WEEK from './UNCONFIRM_WEEK';
 export class EventView extends React.Component<IEventViewProps, IEventViewState> {
     private _store: PnPClientStore;
     private _resolvedKey = 'resolved_projects_{0}';
+    private _ignoredKey = 'ignored_events_{0}';
 
     constructor(props: IEventViewProps) {
         super(props);
@@ -71,6 +73,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                 <EventList
                                     onProjectSelected={this._onProjectSelected.bind(this)}
                                     onProjectClear={this._onProjectClear.bind(this)}
+                                    onProjectIgnore={this._onProjectIgnore.bind(this)}
                                     enableShimmer={loading}
                                     events={value(data, 'events', [])}
                                     dateFormat={groupBy.data.dateFormat}
@@ -112,6 +115,21 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                     }
                     return e;
                 })
+            }
+        }));
+    }
+
+    /**
+     * On project ignore
+     *
+    * @param {ITimeEntry} event Event
+    */
+    private _onProjectIgnore(event: ITimeEntry) {
+        this._storeIgnore(event.id);
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                events: prevState.data.events.filter(e => e.id !== event.id)
             }
         }));
     }
@@ -204,7 +222,7 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     private _storeResolve(eventId: string, project: IProject) {
         let resolves = this._getStoredResolves();
         resolves[eventId] = project;
-        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'week', 1));
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'month', 1));
     }
 
     /**
@@ -218,7 +236,27 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
             resolves = this._getStoredResolves();
             delete resolves[eventId];
         }
-        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'week', 1));
+        this._store.put(format(this._resolvedKey, this.state.weekNumber), resolves, dateAdd(new Date(), 'month', 1));
+    }
+
+    /**
+     * Store ignore in local storage
+     *
+    * @param {string} eventId Event id
+    */
+    private _storeIgnore(eventId: string) {
+        let ignores = this._getStoredIgnores();
+        ignores.push(eventId);
+        this._store.put(format(this._ignoredKey, this.state.weekNumber), ignores, dateAdd(new Date(), 'month', 1));
+    }
+
+    /**
+     * Get stored ignores from local storage
+    */
+    private _getStoredIgnores(): string[] {
+        let storedIgnores = this._store.get(format(this._ignoredKey, this.state.weekNumber));
+        if (!storedIgnores) return [];
+        return storedIgnores;
     }
 
     /**
@@ -236,7 +274,9 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
         let data: IGetEventData = { ...eventData, weeks };
         let isConfirmed = data.confirmedDuration > 0
         let resolves = this._getStoredResolves();
+        let ignores = this._getStoredIgnores();
         data.events = data.events
+            .filter(event => !event.isIgnored && ignores.indexOf(event.id) === -1)
             .map(event => {
                 event.day = formatDate(event.startTime, 'dddd');
                 if (resolves[event.id]) {
