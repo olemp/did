@@ -5,7 +5,7 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { IEventOverviewProps } from './IEventOverviewProps';
 import { generateColumn as col } from 'utils/generateColumn';
 import * as _ from 'underscore';
-import { IProject, ICalEvent } from 'models';
+import { IProject, ITimeEntry } from 'models';
 import { startOfWeek, formatDate } from 'helpers';
 
 /**
@@ -54,10 +54,10 @@ const CreateColumns = (weekNumber: number) => {
  * Generate project rows
  *
 * @param {IProject[]} projects Project
-* @param {ICalEvent[]} events Events
+* @param {ITimeEntry[]} events Events
 * @param {IColumn[]} columns Columns
 */
-const GenerateProjectRows = (projects: IProject[], events: ICalEvent[], columns: IColumn[]) => {
+const GenerateProjectRows = (projects: IProject[], events: ITimeEntry[], columns: IColumn[]) => {
     return projects.map(project => {
         let projectEvents = events.filter(event => event.project.id === project.id);
         return [...columns].splice(1, 7).reduce((obj, col) => {
@@ -76,10 +76,10 @@ const GenerateProjectRows = (projects: IProject[], events: ICalEvent[], columns:
 /**
  * Generate total row
  *
-* @param {ICalEvent[]} events Events
+* @param {ITimeEntry[]} events Events
 * @param {IColumn[]} columns Columns
             */
-const GenerateTotalRow = (events: ICalEvent[], columns: IColumn[]) => {
+const GenerateTotalRow = (events: ITimeEntry[], columns: IColumn[]) => {
     return [...columns].splice(1, 7).reduce((obj, col) => {
         obj[col.fieldName] = [...events]
             .filter(event => formatDate(event.startTime, 'L') === col.fieldName)

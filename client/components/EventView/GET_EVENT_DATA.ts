@@ -1,9 +1,9 @@
 
 import gql from 'graphql-tag';
-import { ICalEvent } from 'models';
+import { ITimeEntry } from 'models';
 
 export interface IGetEventData {
-  events?: ICalEvent[];
+  events?: ITimeEntry[];
   totalDuration?: number;
   confirmedDuration?: number;
   weeks?: { id: string, closed: boolean }[];

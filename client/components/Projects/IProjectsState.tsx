@@ -1,10 +1,10 @@
-import { IProject, ICalEvent } from 'models';
+import { IProject, ITimeEntry } from 'models';
 
 export interface IProjectsState {
     isLoading: boolean;
     error?: any;
     projects?: IProject[];
-    entries?: ICalEvent[];
+    entries?: ITimeEntry[];
     selected?: any;
     customerKey?: string;
     projectKey?: string;

@@ -19,8 +19,6 @@ import { IAdminViewProps } from './IAdminViewProps';
 export const AdminView = ({ view, subView }: IAdminViewProps) => {
     const { data, loading } = useQuery(GET_DATA);
 
-    console.log(view, subView);
-
     return (
         <div>
             <Pivot

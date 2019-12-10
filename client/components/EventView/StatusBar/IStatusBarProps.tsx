@@ -1,7 +1,7 @@
-import { ICalEvent } from 'models';
+import { ITimeEntry } from 'models';
 
 export interface IStatusBarProps {
     loading: boolean;
     isConfirmed: boolean;
-    events: ICalEvent[];
+    events: ITimeEntry[];
 }

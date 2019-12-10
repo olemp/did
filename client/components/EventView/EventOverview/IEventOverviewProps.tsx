@@ -1,7 +1,7 @@
-import { ICalEvent } from "models";
+import { ITimeEntry } from "models";
 
 export interface IEventOverviewProps {
-    events: ICalEvent[];
+    events: ITimeEntry[];
     weekNumber?: number;
     isConfirmed?: boolean;
     enableShimmer?: boolean;
