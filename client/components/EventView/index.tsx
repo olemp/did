@@ -69,7 +69,12 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
                                         RELOAD: loading || closed || isConfirmed,
                                     }}
                                 />
-                                <StatusBar isConfirmed={isConfirmed} events={value(data, 'events', [])} loading={loading} />
+                                <StatusBar
+                                    isConfirmed={isConfirmed}
+                                    events={value(data, 'events', [])}
+                                    loading={loading}
+                                    ignoredEvents={this._getStoredIgnores()}
+                                    onClearIgnores={this._clearIgnores.bind(this)} />
                                 <EventList
                                     onProjectSelected={this._onProjectSelected.bind(this)}
                                     onProjectClear={this._onProjectClear.bind(this)}
@@ -260,16 +265,25 @@ export class EventView extends React.Component<IEventViewProps, IEventViewState>
     }
 
     /**
+     * Clear ignores
+     */
+    private _clearIgnores() {
+        this._store.put(format(this._ignoredKey, this.state.weekNumber), [], dateAdd(new Date(), 'month', 1));
+        this._getEventData(false, 'cache-only');
+    }
+
+    /**
      * Get event data for week number
      *
     * @param {boolean} skipLoading Skips setting loading in state
+    * @param {any} fetchPolicy Fetch policy
     */
-    private async _getEventData(skipLoading: boolean = true) {
+    private async _getEventData(skipLoading: boolean = true, fetchPolicy: any = 'network-only') {
         if (!skipLoading) this.setState({ loading: true });
         const { data: { eventData, weeks } } = await graphql.query({
             query: GET_EVENT_DATA,
             variables: { weekNumber: this.state.weekNumber },
-            fetchPolicy: 'network-only',
+            fetchPolicy,
         });
         let data: IGetEventData = { ...eventData, weeks };
         let isConfirmed = data.confirmedDuration > 0

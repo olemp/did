@@ -6,7 +6,7 @@ import { Shimmer } from 'office-ui-fabric-react/lib/Shimmer';
 import * as React from 'react';
 import { IStatusBarProps } from './IStatusBarProps';
 
-export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => {
+export const StatusBar = ({ loading, isConfirmed, events, ignoredEvents, onClearIgnores }: IStatusBarProps) => {
     let totalDuration = events.reduce((sum, event) => sum += event.durationMinutes, 0);
     let matchedDuration = events.filter(event => !!event.project).reduce((sum, event) => sum += event.durationMinutes, 0);
 
@@ -19,7 +19,7 @@ export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => 
                     <div className="row">
                         <div className="col-sm"
                             hidden={isConfirmed}>
-                            <UserMessage text={getDurationDisplay(totalDuration)} iconName='ReminderTime' />
+                            <UserMessage text={`You have a total of ${getDurationDisplay(totalDuration)} this week`} iconName='ReminderTime' />
                         </div>
                         <div className="col-sm" hidden={totalDuration - matchedDuration === 0 || isConfirmed}>
                             <UserMessage
@@ -38,6 +38,13 @@ export const StatusBar = ({ loading, isConfirmed, events }: IStatusBarProps) => 
                                 text={`The week is confirmed with ${getDurationDisplay(matchedDuration)}. Click **Unconfirm week** if you want to do some adjustments.`}
                                 type={MessageBarType.success}
                                 iconName='CheckMark' />
+                        </div>
+                        <div className="col-sm" hidden={ignoredEvents.length === 0}>
+                            <UserMessage
+                                type={MessageBarType.info}
+                                iconName='StatusCircleErrorX'>
+                                <p>You have {ignoredEvents.length} ignored event(s). <a href="#" onClick={onClearIgnores}>Click to undo</a>.</p>
+                            </UserMessage>
                         </div>
                     </div>
                 </div>
