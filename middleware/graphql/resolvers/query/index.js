@@ -4,6 +4,7 @@ const customers = require('./customers');
 const eventData = require('./eventData');
 const weeks = require('./weeks');
 const users = require('./users');
+const faq = require('./faq');
 
 module.exports = {
     confirmedTimeEntries,
@@ -12,4 +13,5 @@ module.exports = {
     eventData,
     weeks,
     users,
+    faq,
 };

@@ -80,6 +80,13 @@ type User implements BaseEntity {
 	fullName: String!
 }
 
+type FAQ implements BaseEntity {
+	id: String
+	key: String
+	question: String!
+	answer: String!
+}
+
 input TimeEntryInput {
 	id: String
 	projectId: String
@@ -114,6 +121,7 @@ type Query {
 	): ConfirmedTimeEntries
 	weeks: [Week!]!
 	users: [User!]!
+	faq: [FAQ!]!
 }
 
 type BaseResult {
