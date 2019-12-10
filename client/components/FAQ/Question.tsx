@@ -17,7 +17,7 @@ export const Question = ({ id, parent, question, answer }) => {
             </div>
             <div id={id} className="panel-collapse collapse" style={{ height: 0 }}>
                 <div className="panel-body">
-                    <ReactMarkdown source={answer} />
+                    <ReactMarkdown source={answer} escapeHtml={false} skipHtml={false} />
                 </div>
             </div>
         </div>
