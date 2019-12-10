@@ -24,6 +24,11 @@ export interface IEventListProps {
     onProjectClear?: (event: ITimeEntry) => void;
 
     /**
+     * Callback for when the project for an event is ignored
+     */
+    onProjectIgnore?: (event: ITimeEntry) => void;
+
+    /**
      * Enable shimmer
      */
     enableShimmer?: boolean;

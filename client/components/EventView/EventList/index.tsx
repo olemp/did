@@ -48,6 +48,11 @@ export const EventList = (props: IEventListProps) => {
                         evt.stopPropagation();
                         evt.preventDefault();
                         props.onProjectClear(event);
+                    }}
+                    onProjectIgnore={evt => {
+                        evt.stopPropagation();
+                        evt.preventDefault();
+                        props.onProjectIgnore(event);
                     }} />
             )),
         col(
