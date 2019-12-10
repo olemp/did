@@ -8,7 +8,7 @@ import { Question } from './Question';
 
 /**
  * @component FAQ
- * @description 
+ * @description FAQ retrieving questions and answers from Azure Table Storage
  */
 export const FAQ = () => {
     const { loading, data } = useQuery(GET_FAQ, { fetchPolicy: 'cache-first' });

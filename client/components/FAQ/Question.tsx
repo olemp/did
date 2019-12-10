@@ -11,9 +11,9 @@ export const Question = ({ id, parent, question, answer }) => {
     return (
         <div className="panel panel-default ">
             <div className="panel-heading accordion-toggle collapsed question-toggle" data-toggle="collapse" data-parent={parent} data-target={`#${id}`}>
-                <h4 className="panel-title">
+                <h3 className="panel-title">
                     <a href="#" className="ing">{question}</a>
-                </h4>
+                </h3>
             </div>
             <div id={id} className="panel-collapse collapse" style={{ height: 0 }}>
                 <div className="panel-body">
