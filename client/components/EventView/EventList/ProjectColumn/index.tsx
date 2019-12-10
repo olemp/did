@@ -1,12 +1,11 @@
 
 import { getId } from '@uifabric/utilities';
 import { UserMessage } from 'components/UserMessage';
-import { ITimeEntry, IProject } from 'models';
-import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { IProject, ITimeEntry } from 'models';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import * as React from 'react';
 import { useState } from 'react';
-import * as format from 'string-format';
 import { ResolveProjectModal } from './ResolveProjectModal';
 
 interface IProjectColumnProps {

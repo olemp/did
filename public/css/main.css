@@ -30,48 +30,8 @@ h4 {
 h5 {
   font-size: 10pt; }
 
-.ms-DetailsRow-check,
-.ms-DetailsRow-cellCheck,
-.ms-DetailsHeader-cellIsCheck {
-  display: none; }
-
-.ms-DetailsHeader-cellName,
-.ms-GroupHeader-title {
-  font-weight: 100;
-  font-size: 11pt;
-  letter-spacing: 1px; }
-
-.c-usermessage p {
-  word-break: break-word;
-  white-space: normal;
-  margin: 0; }
-
-.c-eventview .c-eventview-actions {
-  margin: 10px 0 10px 0; }
-
-.c-eventview .c-eventview-section-content {
-  /* margin: 10px 0 0 0; */ }
-
-.c-createprojectcallout-callout {
-  padding: 15px;
-  width: 320px; }
-
-.c-searchproject-callout {
-  padding: 15px;
-  width: 320px;
-  height: 60px; }
-
-.c-resolveproject-modal {
-  padding: 20px;
-  width: 540px;
-  min-width: 540px;
-  max-width: 540px; }
-
 .react-autosuggest__suggestion-match {
   color: #007bff; }
-
-.c-searchproject-callout .ms-Callout-main {
-  width: 100% !important; }
 
 .react-autosuggest__container {
   width: 100%;
@@ -86,47 +46,75 @@ h5 {
   margin: 0;
   padding: 0; }
 
-.c-projectdetails {
-  margin-top: 30px; }
+.c-eventview .c-eventview-actions {
+  margin: 10px 0 10px 0; }
 
-.c-eventview-statusbar {
+.c-eventview .c-eventview-statusbar {
   min-height: 40px; }
-  .c-eventview-statusbar .c-usermessage {
+  .c-eventview .c-eventview-statusbar .c-usermessage {
     margin: 5px 0; }
 
-.c-eventview-weekpicker--callout .ms-DatePicker-day--today {
+.c-eventview .c-eventview-weekpicker--callout .ms-DatePicker-day--today {
   background-color: inherit !important;
   color: inherit !important;
   font-weight: inherit !important;
   border: none !important;
   outline: none !important; }
 
-.c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted {
+.c-eventview .c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted {
   background-color: inherit !important;
   color: inherit !important;
   font-weight: inherit !important;
   border: none !important;
   outline: none !important; }
-  .c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted button {
+  .c-eventview .c-eventview-weekpicker--callout .ms-DatePicker-day--highlighted button {
     background-color: inherit !important;
     color: inherit !important;
     font-weight: inherit !important;
     border: none !important;
     outline: none !important; }
 
-.c-eventview-weekpicker--callout table tbody tr:hover td {
+.c-eventview .c-eventview-weekpicker--callout table tbody tr:hover td {
   background: #f3f2f1 !important;
   color: #201f1e !important; }
 
-.c-eventview-weekpicker--callout table tbody tr:hover * {
+.c-eventview .c-eventview-weekpicker--callout table tbody tr:hover * {
   cursor: pointer !important; }
 
-#app-eventview .ms-List-cell .ms-DetailsRow {
+.c-eventview .ms-List-cell .ms-DetailsRow {
   min-height: 53px; }
-  #app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span,
-  #app-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a {
+  .c-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > span,
+  .c-eventview .ms-List-cell .ms-DetailsRow .ms-DetailsRow-cell > a {
     vertical-align: middle;
     vertical-align: -webkit-baseline-middle; }
+
+.c-resolveproject-modal {
+  padding: 20px;
+  width: 540px;
+  min-width: 540px;
+  max-width: 540px; }
+
+.c-projectdetails {
+  margin-top: 30px; }
+
+.c-usermessage p {
+  word-break: break-word;
+  white-space: normal;
+  margin: 0; }
+
+.ms-MessageBar .ms-MessageBar-text {
+  font-size: 14px; }
+
+.ms-DetailsRow-check,
+.ms-DetailsRow-cellCheck,
+.ms-DetailsHeader-cellIsCheck {
+  display: none; }
+
+.ms-DetailsHeader-cellName,
+.ms-GroupHeader-title {
+  font-weight: 100;
+  font-size: 11pt;
+  letter-spacing: 1px; }
 
 .ms-DetailsRow-cell span,
 .ms-DetailsRow-cell a {
@@ -137,9 +125,6 @@ h5 {
 
 div.ms-List-page .ms-GroupedList-group {
   margin-top: 20px; }
-
-.ms-MessageBar .ms-MessageBar-text {
-  font-size: 14px; }
 
 h3.panel-title a {
   color: #444; }
