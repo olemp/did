@@ -1,9 +1,8 @@
 import { useMutation } from '@apollo/react-hooks';
-import { UserMessage } from 'components/UserMessage';
+import { UserMessage, IconPicker } from 'common/components';
 import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
-import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 import * as React from 'react';
 import { useState } from 'react';
 import CREATE_PROJECT from './CREATE_PROJECT';
@@ -11,9 +10,6 @@ import { ICreateProjectFormModel } from './ICreateProjectFormModel';
 import { ICreateProjectFormProps } from './ICreateProjectFormProps';
 import { ICreateProjectFormValidation } from './ICreateProjectFormValidation';
 import { SearchCustomer } from './SearchCustomer';
-import ICONS from 'common/icons';
-import { humanize } from 'underscore.string';
-import { IconPicker } from 'common/components/IconPicker';
 
 /**
  * @component CreateProjectForm

@@ -1,5 +1,5 @@
 
-import { IColumn, List } from 'components/List';
+import { IColumn, List } from 'common/components/List';
 import { formatDate, sortAlphabetically, startOfWeek } from 'helpers';
 import { ICustomer, IProject } from 'interfaces';
 import * as moment from 'moment';
@@ -20,13 +20,13 @@ import * as format from 'string-format';
  *
  * @param {ISummaryViewProps} props Props
 */
-function createColumns({ events, type, period, range }: ISummaryViewProps) {
+function createColumns({ events, type, scope, range }: ISummaryViewProps) {
     let columns = [];
     let onRender = (row: any, _index: number, col: IColumn) => <DurationColumn row={row} column={col} />;
     switch (type) {
         case SummaryViewType.UserWeek: {
             columns = Array.from(Array(7).keys()).map(i => {
-                const day = startOfWeek(period.startDateTime).add(i as moment.DurationInputArg1, 'days' as moment.DurationInputArg2);
+                const day = startOfWeek(scope.startDateTime).add(i as moment.DurationInputArg1, 'days' as moment.DurationInputArg2);
                 return col(day.format('L'), day.format('ddd DD'), { maxWidth: 70, minWidth: 70 }, onRender);
             });
         }
@@ -152,13 +152,17 @@ function generateTotalRow({ type }: ISummaryViewProps, events: any[], columns: I
 * @param {any[]} events Events
 * @param {React.Dispatch<React.SetStateAction<IContextualMenuItem>>} setCustomer Set customer
 */
-function getCustomerOptions(events: any[], setCustomer: React.Dispatch<React.SetStateAction<IContextualMenuItem>>): IContextualMenuItem[] {
+function createCustomerOptions(events: any[], setCustomer: React.Dispatch<React.SetStateAction<IContextualMenuItem>>): IContextualMenuItem[] {
     let customers = _.unique(events.map(e => e.customer), (c: ICustomer) => c.id);
+    customers = _.sortBy(customers, 'name');
 
     return [
         { key: 'All', text: 'All customers' },
         ...customers.map(c => ({ key: c.id, text: c.name })),
-    ].map(opt => ({ ...opt, onClick: () => setCustomer(opt) }));
+    ].map(opt => ({
+        ...opt,
+        onClick: () => setCustomer(opt),
+    }));
 }
 
 /**
@@ -171,7 +175,7 @@ export const SummaryView = (props: ISummaryViewProps) => {
     const [customer, setCustomer] = React.useState<IContextualMenuItem>({ key: 'All', text: 'All customers' });
     const columns = createColumns(props);
     let events = props.events.filter(e => !!e.project);
-    let customerOptions = getCustomerOptions(events, setCustomer);
+    let customerOptions = createCustomerOptions(events, setCustomer);
 
     if (customer.key !== 'All') events = events.filter(e => e.customer.id === customer.key);
 
