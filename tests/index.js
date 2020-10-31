@@ -1,9 +1,9 @@
 const { deepStrictEqual, strictEqual, notStrictEqual } = require('assert')
 const { first, any, isArray } = require('underscore')
-const EventMatching = require('../api/graphql/resolvers/timesheet.matching')
+const EventMatching = require('../server/api/graphql/resolvers/timesheet.matching')
 const ensureTestData = require('./ensureTestData')
-const utils = require('../utils')
-const AzTableUtilities = require('../utils/table')
+const utils = require('../server/utils')
+const AzTableUtilities = require('../server/utils/table')
 
 describe('Event matching', async () => {
   let testEvent = {}

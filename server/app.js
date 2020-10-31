@@ -1,5 +1,5 @@
 require('dotenv').config()
-const pkg = require('./package.json')
+const pkg = require('../package.json')
 const createError = require('http-errors')
 const express = require('express')
 const favicon = require('express-favicon')

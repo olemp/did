@@ -11,14 +11,14 @@
   },
   "scripts": {
     "watch": "concurrently \"webpack\" \"npm run watch:server\" \"node tasks/open.js\" \"node tasks/localtunnel.js\"",
-    "start": "node ./bin/www",
-    "watch:server": "nodemon --ignore client --ignore public --ignore lib ./bin/www",
+    "start": "node ./server",
+    "watch:server": "nodemon --ignore client --ignore public --ignore lib ./server",
     "package:client": "webpack",
     "lint:client": "eslint --ext .ts,.tsx ./client --color --fix && npm run prettier:client",
     "prettier:client": "prettier --config .prettierrc 'client/**/*.ts' --write",
     "prettier:server": "prettier --config .prettierrc './**/*.js' --write",
     "makeDoc": "rimraf ./doc && typedoc --options typedoc.json && graphdoc",
-    "debug": "nodemon --inspect ./bin/www",
+    "debug": "nodemon --inspect ./bin/server",
     "tests": "mocha tests --exit",
     "clean": "rimraf /public/js"
   },

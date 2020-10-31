@@ -1,22 +1,19 @@
-const app = require('../app')
+/* eslint-disable @typescript-eslint/no-var-requires */
+const app = require('./app')
 const http = require('http')
-const env = require('../utils/env')
+const env = require('./utils/env')
 const port = env('PORT', '8080')
 const log = require('debug')('server')
 app._.set('port', port)
 
-var server = http.createServer(app._)
-
-server.listen(port)
-server.on('error', onError)
-server.on('listening', onListening)
+const server = http.createServer(app._)
 
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
 
   switch (error.code) {
     case 'EACCES':
@@ -35,3 +32,9 @@ function onError(error) {
 function onListening() {
   log('\x1b[32m', `[Server listening on port ${port}]`)
 }
+
+server.listen(port)
+server.on('error', onError)
+server.on('listening', onListening)
+
+
