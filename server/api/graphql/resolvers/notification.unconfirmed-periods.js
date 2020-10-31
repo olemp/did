@@ -1,5 +1,5 @@
 const utils = require('../../../utils')
-const { unique, difference, filter, find, first, last, union } = require('underscore')
+const { find } = require('underscore')
 const format = require('string-format')
 const { getPeriods } = require('./timesheet.utils')
 
@@ -17,7 +17,7 @@ module.exports = async function ({ template, ctx, locale }) {
     periods.push(...getPeriods(utils.startOfWeek(currentWeek - i), utils.endOfWeek(currentWeek - i), locale))
   }
 
-  var confirmedPeriods = await ctx.services.azstorage.getConfirmedPeriods({
+  const confirmedPeriods = await ctx.services.azstorage.getConfirmedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
   })

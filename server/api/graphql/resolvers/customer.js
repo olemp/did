@@ -68,7 +68,7 @@ async function createOrUpdateCustomer(_obj, variables, ctx) {
 
 async function deleteCustomer(_obj, variables, ctx) {
   try {
-    let projects = await ctx.services.azstorage.getProjects(variables.key, {
+    const projects = await ctx.services.azstorage.getProjects(variables.key, {
       noParse: true,
     })
     if (projects.length > 0) {

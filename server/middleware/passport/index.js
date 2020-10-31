@@ -1,11 +1,10 @@
 const fs = require('fs')
 const passport = require('passport')
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const { USER_NOT_ENROLLED } = require('./errors')
 const env = require('../../utils/env')
 
 passport.serializeUser((user, done) => done(null, user))
-passport.deserializeUser(async (user, done) => done(null, user))
+passport.deserializeUser((user, done) => done(null, user))
 
 /**
  * Get redirect URL
@@ -13,7 +12,7 @@ passport.deserializeUser(async (user, done) => done(null, user))
 function getRedirectUrl() {
   let redirectUrl = env('OAUTH_REDIRECT_URI')
   if (env('LOCALTUNNEL_SUBDOMAIN')) {
-    let _redirectUrl = fs.readFileSync('.localtunnel', 'utf-8')
+    const _redirectUrl = fs.readFileSync('.localtunnel', 'utf-8')
     if (_redirectUrl) {
       redirectUrl = _redirectUrl
     }

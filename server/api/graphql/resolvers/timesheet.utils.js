@@ -16,7 +16,7 @@ function getPeriods(startDateTime, endDateTime, locale) {
   const endMonthIdx = utils.getMonthIndex(endDateTime)
   const isSplit = endMonthIdx !== startMonthIdx
 
-  let periods = [
+  const periods = [
     {
       id: utils.getPeriod(startDateTime),
       week,
@@ -28,7 +28,7 @@ function getPeriods(startDateTime, endDateTime, locale) {
   ]
 
   if (isSplit) {
-    let startDateTime = utils.startOfMonth(endDateTime)
+    const startDateTime = utils.startOfMonth(endDateTime)
     periods.push({
       id: utils.getPeriod(endDateTime),
       week,

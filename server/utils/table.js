@@ -1,7 +1,6 @@
 const az = require('azure-storage')
-const { omit, contains, isNull } = require('underscore')
+const { omit, isNull } = require('underscore')
 const { decapitalize, capitalize, isBlank, startsWith } = require('underscore.string')
-const { reduceEachLeadingCommentRange } = require('typescript')
 const get = require('get-value')
 
 class AzTableUtilities {
@@ -130,7 +129,7 @@ class AzTableUtilities {
     const { combine, and } = this.query()
     return filters.reduce((combined, [col, value, type, comp]) => {
       if (value) {
-        let filter = type(col, comp, value)
+        const filter = type(col, comp, value)
         combined = combined ? combine(combined, and, filter) : filter
       }
       return combined
@@ -164,10 +163,10 @@ class AzTableUtilities {
    */
   async queryAzTableAll(table, query, columnMap) {
     let token = null
-    let { entries, continuationToken } = await this.queryAzTable(table, query, columnMap, token)
+    const { entries, continuationToken } = await this.queryAzTable(table, query, columnMap, token)
     token = continuationToken
-    while (token != null) {
-      let result = await this.queryAzTable(table, query, columnMap, token)
+    while (token !== null) {
+      const result = await this.queryAzTable(table, query, columnMap, token)
       entries.push(...result.entries)
       token = result.continuationToken
     }

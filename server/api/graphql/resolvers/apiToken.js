@@ -1,4 +1,4 @@
-const { find, pick } = require('underscore')
+const { pick } = require('underscore')
 const jwt = require('jsonwebtoken')
 const { gql } = require('apollo-server-express')
 const env = require('../../../utils/env')
@@ -38,7 +38,7 @@ async function apiTokens(_obj, variables, ctx) {
 }
 
 async function addApiToken(_obj, variables, ctx) {
-  let token = jwt.sign(
+  const token = jwt.sign(
     {
       data: pick(ctx.user, 'id'),
     },

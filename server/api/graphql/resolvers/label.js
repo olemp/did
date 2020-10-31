@@ -43,25 +43,13 @@ const typeDef = gql`
 `
 
 async function labels(_obj, _variables, ctx) {
-  let labels = await ctx.services.azstorage.getLabels()
+  const labels = await ctx.services.azstorage.getLabels()
   return labels
 }
 
 async function addOrUpdateLabel(_obj, variables, ctx) {
   try {
     await ctx.services.azstorage.addOrUpdateLabel(variables.label, ctx.user.id, variables.update)
-    return { success: true, error: null }
-  } catch (error) {
-    return {
-      success: false,
-      error: pick(error, 'name', 'message', 'code', 'statusCode'),
-    }
-  }
-}
-
-async function updateLabel(_obj, variables, ctx) {
-  try {
-    await ctx.services.azstorage.updateLabel(variables.label)
     return { success: true, error: null }
   } catch (error) {
     return {

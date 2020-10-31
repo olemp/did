@@ -15,6 +15,7 @@
     "watch:server": "nodemon --ignore client --ignore public --ignore lib ./server",
     "package:client": "webpack",
     "lint:client": "eslint --ext .ts,.tsx ./client --color --fix && npm run prettier:client",
+    "lint:server": "eslint --ext .js ./server --color --fix && npm run prettier:client",
     "prettier:client": "prettier --config .prettierrc 'client/**/*.ts' --write",
     "prettier:server": "prettier --config .prettierrc 'server/**/*.js' --write",
     "makeDoc": "rimraf ./doc && typedoc --options typedoc.json && graphdoc",

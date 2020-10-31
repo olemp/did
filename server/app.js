@@ -5,11 +5,9 @@ const express = require('express')
 const favicon = require('express-favicon')
 const path = require('path')
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const logger = require('morgan')
 const passport = require('./middleware/passport')
 const serveGzipped = require('./middleware/gzip')
-const SubscriptionService = require('./services/subscription')
 const bearerToken = require('express-bearer-token')
 const { pick } = require('underscore')
 
@@ -95,7 +93,7 @@ class App {
     this._.use((_req, _res, next) => {
       next(createError(404))
     })
-    this._.use((error, _req, res, _next) => {
+    this._.use((error, _req, res) => {
       res.status(error.status || 500)
       res.render('index', { error: JSON.stringify(pick(error, 'name', 'message', 'status')) })
     })

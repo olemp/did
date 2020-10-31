@@ -1,4 +1,4 @@
-const unconfirmed_periods = require('./notification.unconfirmed-periods')
+const unconfirmedPeriods = require('./notification.unconfirmed-periods')
 const forecast = require('./notification.forecast')
 const { gql } = require('apollo-server-express')
 
@@ -33,8 +33,8 @@ const typeDef = gql`
 async function notifications(_obj, variables, ctx) {
   if (!ctx.user.id) return { success: false, error: null }
 
-  let notifications = await Promise.all([
-    unconfirmed_periods({
+  const notifications = await Promise.all([
+    unconfirmedPeriods({
       template: variables.templates.unconfirmedPeriods,
       ctx,
       locale: variables.locale,
@@ -45,6 +45,7 @@ async function notifications(_obj, variables, ctx) {
       locale: variables.locale,
     }),
   ])
+  // eslint-disable-next-line prefer-spread
   return [].concat.apply([], notifications)
 }
 

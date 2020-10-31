@@ -14,10 +14,10 @@ const simpleoauth2 = require('simple-oauth2').create({
 
 class TokenService {
   async refreshAccessToken(req) {
-    var storedToken = simpleoauth2.accessToken.create(req.user.oauthToken)
+    const storedToken = simpleoauth2.accessToken.create(req.user.oauthToken)
     if (storedToken) {
       try {
-        var { token: oauthToken } = await storedToken.refresh()
+        const { token: oauthToken } = await storedToken.refresh()
         log('Successfully refreshed auth token')
         req.user.oauthToken = oauthToken
         return oauthToken

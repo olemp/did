@@ -50,7 +50,7 @@ async function timeentries(_obj, variables, ctx) {
     delete variables.currentUser
     variables.resourceId = ctx.user.id
   }
-  let [users, projects, customers, timeentries] = await Promise.all([
+  const [users, projects, customers, timeentries] = await Promise.all([
     ctx.services.azstorage.getUsers(),
     ctx.services.azstorage.getProjects(),
     ctx.services.azstorage.getCustomers(),
@@ -59,10 +59,10 @@ async function timeentries(_obj, variables, ctx) {
       pick(variables, 'sortAsc', 'forecast')
     ),
   ])
-  let entries = timeentries.map(entry => {
+  const entries = timeentries.map(entry => {
     let project
     let customer
-    let resource = find(users, user => user.id === entry.resourceId)
+    const resource = find(users, user => user.id === entry.resourceId)
     if (!!entry.projectId) {
       project = find(projects, p => p.id === entry.projectId)
       customer = find(customers, c => c.key === first(entry.projectId.split(' ')))

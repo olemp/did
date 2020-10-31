@@ -11,7 +11,6 @@ const { typeDef: Role } = require('./resolvers/role')
 const { typeDef: Notification } = require('./resolvers/notification')
 const { typeDef: ApiToken } = require('./resolvers/apiToken')
 const { MSGraphService, AzStorageService, SubscriptionService } = require('../../services')
-const { filter, pick } = require('underscore')
 const get = require('get-value')
 
 const Query = gql`
@@ -101,9 +100,9 @@ const createContext = async ({ req }) => {
     let subscription = req.user && req.user.subscription
     if (!!req.token) {
       subscription = await SubscriptionService.findSubscriptionWithToken(req.token)
-      if (!subscription) throw new Error("You don't have access to this resource.")
+      if (!subscription) throw new Error('You don\'t have access to this resource.')
     } else if (!req.user) throw new Error()
-    let services = {
+    const services = {
       azstorage: new AzStorageService(subscription),
       subscription: SubscriptionService,
     }

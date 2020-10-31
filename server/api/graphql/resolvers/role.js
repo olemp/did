@@ -36,7 +36,7 @@ const typeDef = gql`
 `
 
 async function roles(_obj, _variables, ctx) {
-  let roles = await ctx.services.azstorage.getRoles()
+  const roles = await ctx.services.azstorage.getRoles()
   return roles
 }
 

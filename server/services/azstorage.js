@@ -1,8 +1,7 @@
 const AzTableUtilities = require('../utils/table')
-const { getDurationHours, getWeek, getMonthIndex, getYear, toArray } = require('../utils')
+const { getDurationHours, toArray } = require('../utils')
 const arraySort = require('array-sort')
-const { omit, pick, isEqual } = require('underscore')
-const { isBlank } = require('underscore.string')
+const { omit, pick } = require('underscore')
 const { createTableService } = require('azure-storage')
 const log = require('debug')('services/storage')
 
@@ -39,7 +38,6 @@ class AzStorageService {
    * @param {*} update Update the existing label
    */
   async addOrUpdateLabel(label, createdBy, update) {
-    const { string } = this.tableUtil.azEntGen()
     const entity = this.tableUtil.convertToAzEntity(label.name, {
       ...omit(label, 'name'),
       createdBy,
@@ -89,7 +87,6 @@ class AzStorageService {
    * @param {*} update Update the existing customer
    */
   async createOrUpdateCustomer(customer, createdBy, update) {
-    const { string } = this.tableUtil.azEntGen()
     const entity = this.tableUtil.convertToAzEntity(customer.key.toUpperCase(), {
       ...omit(customer, 'key'),
       createdBy,
@@ -128,7 +125,6 @@ class AzStorageService {
     const q = this.tableUtil.query()
     const filter = [['PartitionKey', customerKey, q.string, q.equal]]
     const query = this.tableUtil.createAzQuery(1000, undefined, filter)
-    const parse = !options.noParse
     let columnMap = {}
     if (!options.noParse) {
       columnMap = {
@@ -163,9 +159,8 @@ class AzStorageService {
       project.customerKey,
       { removeBlanks: false }
     )
-    let result
-    if (update) result = await this.tableUtil.updateAzEntity(this.tables.projects, entity, true)
-    else result = await this.tableUtil.addAzEntity(this.tables.projects, entity)
+    if (update) await this.tableUtil.updateAzEntity(this.tables.projects, entity, true)
+    else await this.tableUtil.addAzEntity(this.tables.projects, entity)
     return id
   }
 
@@ -201,7 +196,6 @@ class AzStorageService {
    * @param {*} update Update the existing user
    */
   async addOrUpdateUser(user, update) {
-    const { string } = this.tableUtil.azEntGen()
     const entity = this.tableUtil.convertToAzEntity(user.id, omit(user, 'id'))
     let result
     if (update) result = await this.tableUtil.updateAzEntity(this.tables.users, entity, true)
@@ -341,7 +335,7 @@ class AzStorageService {
         ['Year', filterValues.year, q.int, q.equal],
       ]
       const query = this.tableUtil.createAzQuery(1000, undefined, filter)
-      let result = await this.tableUtil.queryAzTableAll(this.tables.confirmedPeriods, query, {
+      const result = await this.tableUtil.queryAzTableAll(this.tables.confirmedPeriods, query, {
         PartitionKey: 'resourceId',
         RowKey: 'periodId',
       })
@@ -364,7 +358,7 @@ class AzStorageService {
         ['Year', filterValues.year, q.int, q.equal],
       ]
       const query = this.tableUtil.createAzQuery(1000, undefined, filter)
-      let result = await this.tableUtil.queryAzTableAll(this.tables.forecastedPeriods, query, {
+      const result = await this.tableUtil.queryAzTableAll(this.tables.forecastedPeriods, query, {
         PartitionKey: 'resourceId',
         RowKey: 'periodId',
       })
@@ -527,7 +521,6 @@ class AzStorageService {
    * @param {*} update Update the existing role
    */
   async addOrUpdateRole(role, update) {
-    const { string } = this.tableUtil.azEntGen()
     const entity = this.tableUtil.convertToAzEntity(role.name, {
       permissions: role.permissions.join('|'),
       icon: role.icon,

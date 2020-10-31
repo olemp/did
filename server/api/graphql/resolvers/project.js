@@ -67,6 +67,7 @@ async function createOrUpdateProject(_obj, variables, ctx) {
 }
 
 async function projects(_obj, variables, ctx) {
+  // eslint-disable-next-line prefer-const
   let [projects, customers, labels] = await Promise.all([
     ctx.services.azstorage.getProjects(variables.customerKey, {
       sortBy: variables.sortBy,

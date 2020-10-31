@@ -33,8 +33,8 @@ class SubscriptionService {
   async findSubscriptionWithToken(token) {
     try {
       const query = this.tableUtil.createAzQuery(1).where('Token eq ?', token)
-      var { entries } = await this.tableUtil.queryAzTable('ApiTokens', query)
-      let tokenEntry = this.tableUtil.parseAzEntity(first(entries))
+      const { entries } = await this.tableUtil.queryAzTable('ApiTokens', query)
+      const tokenEntry = this.tableUtil.parseAzEntity(first(entries))
       if (tokenEntry) return this.getSubscription(tokenEntry.partitionKey)
       return null
     } catch (error) {

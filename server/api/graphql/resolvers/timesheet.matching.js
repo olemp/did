@@ -1,7 +1,6 @@
 const { first, find, filter, contains, isEmpty } = require('underscore')
 const { findBestMatch } = require('string-similarity')
 const get = require('get-value')
-const { EVENT_ERROR } = require('./timesheet.utils')
 
 class EventMatching {
   /**
@@ -65,7 +64,7 @@ class EventMatching {
     if (soft) regex = /((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}))/gim
     const matches = []
     let match
-    while ((match = regex.exec(inputStr)) != null) {
+    while ((match = regex.exec(inputStr)) !== null) {
       matches.push({
         ...match.groups,
         id: `${match.groups.customerKey} ${match.groups.key}`,
@@ -81,7 +80,7 @@ class EventMatching {
    * @param {*} categoriesStr Categories string
    */
   findProjectMatches(inputStr, categoriesStr) {
-    let matches = this.searchString(categoriesStr, true)
+    const matches = this.searchString(categoriesStr, true)
     return matches || this.searchString(inputStr)
   }
 
@@ -103,18 +102,17 @@ class EventMatching {
    * @param {*} event
    */
   matchEvent(event) {
-    let ignore = this.findIgnore(event)
+    const ignore = this.findIgnore(event)
     if (ignore === 'category') {
       return { ...event, isSystemIgnored: true }
     }
-    let categoriesStr = event.categories.join('|').toUpperCase()
-    let srchStr = [event.title, event.body, categoriesStr].join('|').toUpperCase()
-    let matches = this.findProjectMatches(srchStr, categoriesStr)
+    const categoriesStr = event.categories.join('|').toUpperCase()
+    const srchStr = [event.title, event.body, categoriesStr].join('|').toUpperCase()
+    const matches = this.findProjectMatches(srchStr, categoriesStr)
     let projectKey
     if (!isEmpty(matches)) {
-      let i = 0
       for (let i = 0; i < matches.length; i++) {
-        let { id, key, customerKey } = matches[i]
+        const { id, key, customerKey } = matches[i]
         event.customer = find(this.customers, c => customerKey === c.key)
         if (!!event.customer) {
           event.project = find(this.projects, p => p.id === id)

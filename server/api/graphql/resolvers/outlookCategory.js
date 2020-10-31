@@ -28,13 +28,13 @@ const typeDef = gql`
 `
 
 async function outlookCategories(_obj, _variables, ctx) {
-  let categories = await ctx.services.msgraph.getOutlookCategories()
+  const categories = await ctx.services.msgraph.getOutlookCategories()
   return categories.map(c => ({ ...c, key: c.id }))
 }
 
 async function createOutlookCategory(_obj, variables, ctx) {
   try {
-    const category = await ctx.services.msgraph.createOutlookCategory(variables.category)
+    await ctx.services.msgraph.createOutlookCategory(variables.category)
     return { success: true, error: null }
   } catch (error) {
     return {

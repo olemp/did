@@ -1,5 +1,4 @@
 const utils = require('../../../utils')
-const { unique, difference, filter, find, first, last, union } = require('underscore')
 const format = require('string-format')
 const { getPeriods } = require('./timesheet.utils')
 const get = require('get-value')
@@ -24,7 +23,7 @@ module.exports = async function ({ template, ctx, locale }) {
     periods.push(...getPeriods(utils.startOfWeek(currentWeek + i), utils.endOfWeek(currentWeek + i), locale))
   }
 
-  var forecastedPeriods = await ctx.services.azstorage.getForecastedPeriods({
+  const forecastedPeriods = await ctx.services.azstorage.getForecastedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
   })

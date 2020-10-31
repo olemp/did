@@ -72,11 +72,12 @@ const typeDef = gql`
 `
 
 async function adUsers(_obj, _variables, ctx) {
-  let users = await ctx.services.msgraph.getUsers()
+  const users = await ctx.services.msgraph.getUsers()
   return users
 }
 
 async function users(_obj, _variables, ctx) {
+  // eslint-disable-next-line prefer-const
   let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
   users = filter(
     users.map(user => ({

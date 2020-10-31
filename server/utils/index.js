@@ -25,7 +25,7 @@ module.exports = {
    * @param {*} date Date
    */
   getPeriod: date => {
-    let d = moment(date)
+    const d = moment(date)
     return [d.isoWeek(), d.month() + 1, d.year()].join('_')
   },
 
@@ -64,7 +64,7 @@ module.exports = {
    * @param {*} date Date
    */
   startOfMonth: date => {
-    let d = moment(date).startOf('month')
+    const d = moment(date).startOf('month')
     return d.toISOString().replace('Z', '')
   },
 
@@ -74,7 +74,7 @@ module.exports = {
    * @param {*} date Date
    */
   endOfMonth: date => {
-    let d = moment(date).endOf('month')
+    const d = moment(date).endOf('month')
     return d.toISOString().replace('Z', '')
   },
 

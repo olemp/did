@@ -1,9 +1,8 @@
 const { filter, find, pick, contains, isEmpty } = require('underscore')
-const { formatDate, getMonthIndex, getWeek } = require('../../../utils')
+const { formatDate } = require('../../../utils')
 const EventMatching = require('./timesheet.matching')
 const { connectEntities } = require('./project.utils')
 const { getPeriods, connectTimeEntries } = require('./timesheet.utils')
-const value = require('get-value')
 const { gql, AuthenticationError, ApolloError } = require('apollo-server-express')
 
 const typeDef = gql`
@@ -97,8 +96,8 @@ const typeDef = gql`
 async function timesheet(_obj, variables, ctx) {
   if (!ctx.services.msgraph) throw new AuthenticationError()
   try {
-    let periods = getPeriods(variables.startDateTime, variables.endDateTime, variables.locale)
-
+    const periods = getPeriods(variables.startDateTime, variables.endDateTime, variables.locale)
+    // eslint-disable-next-line prefer-const
     let [projects, customers, timeentries, labels] = await Promise.all([
       ctx.services.azstorage.getProjects(),
       ctx.services.azstorage.getCustomers(),
@@ -116,8 +115,8 @@ async function timesheet(_obj, variables, ctx) {
     projects = connectEntities(projects, customers, labels)
 
     for (let i = 0; i < periods.length; i++) {
-      let period = periods[i]
-      let [confirmed, forecasted] = await Promise.all([
+      const period = periods[i]
+      const [confirmed, forecasted] = await Promise.all([
         ctx.services.azstorage.getConfirmedPeriod(ctx.user.id, period.id),
         ctx.services.azstorage.getForecastedPeriod(ctx.user.id, period.id),
       ])
@@ -158,14 +157,14 @@ async function timesheet(_obj, variables, ctx) {
  */
 async function submitPeriod(_obj, variables, ctx) {
   try {
-    let { period, forecast } = { ...variables }
+    const { period, forecast } = { ...variables }
     period.hours = 0
     if (!isEmpty(period.matchedEvents)) {
       const [events, labels] = await Promise.all([
         ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime),
         ctx.services.azstorage.getLabels(),
       ])
-      let timeentries = period.matchedEvents.reduce((arr, event) => {
+      const timeentries = period.matchedEvents.reduce((arr, event) => {
         const entry = {
           ...pick(event, 'projectId', 'manualMatch'),
           event: find(events, e => e.id === event.id),

@@ -11,7 +11,7 @@ TENANT_NOT_ENROLLED.status = 401
 
 const USER_NOT_ENROLLED = new Error()
 USER_NOT_ENROLLED.name = 'I promised to keep it a secret...'
-USER_NOT_ENROLLED.message = "...  but it seems you're not enrolled in did. Please contact your system owner."
+USER_NOT_ENROLLED.message = '...  but it seems you\'re not enrolled in did. Please contact your system owner.'
 USER_NOT_ENROLLED.status = 401
 
 module.exports = {
