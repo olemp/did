@@ -5,7 +5,7 @@ const { getPeriods } = require('./timesheet.utils')
 
 /**
  * Get notifications for unconfirmed periods
- * 
+ *
  * @param {*} param0 {template, ctx, locale}
  */
 module.exports = async function ({ template, ctx, locale }) {

@@ -1,6 +1,6 @@
 const az = require('azure-storage')
 const { omit, contains, isNull } = require('underscore')
-const { decapitalize, capitalize, isBlank,startsWith } = require('underscore.string')
+const { decapitalize, capitalize, isBlank, startsWith } = require('underscore.string')
 const { reduceEachLeadingCommentRange } = require('typescript')
 const get = require('get-value')
 
@@ -13,7 +13,7 @@ class AzTableUtilities {
    * Parse an table storage entity
    *
    * In the azure table entity we'll find the value in _ and the type in $
-   * 
+   *
    * If the value starts with 'json:', we parse it as JSON
    *
    * @param {*} result Result
@@ -32,10 +32,9 @@ class AzTableUtilities {
           obj[decapitalize(key)] = _.toISOString()
           break
         default:
-          if(startsWith(_, 'json:')) {
+          if (startsWith(_, 'json:')) {
             obj[decapitalize(key)] = JSON.parse(_.split('json:')[1])
-          }
-          else obj[decapitalize(key)] = _
+          } else obj[decapitalize(key)] = _
       }
       return obj
     }, {})
@@ -177,11 +176,11 @@ class AzTableUtilities {
 
   /**
    * Converts a JSON object to an Azure Table Storage entity
-   * 
+   *
    * Does a best effort to get the correct type of the values
-   * 
+   *
    * Can be some issues to differ between double and int
-   * 
+   *
    * If unsure, specifiy typeMap in options
    *
    * @param {*} rowKey Row key
@@ -194,29 +193,33 @@ class AzTableUtilities {
     const entity = Object.keys(values)
       .filter(key => !isNull(values[key]))
       .filter(key => (options.removeBlanks ? !isBlank(values[key]) : true))
-      .reduce((obj, key) => {
-        let value = values[key]
-        const type = get(options, `typeMap.${key}`, { default: typeof value })
-        switch (type) {
-          case 'datetime': value = datetime(new Date(value))
-            break
-          case 'boolean': value = boolean(value)
-            break;
-          case 'number':
-            {
-              if (value % 1 === 0) value = int(value)
-              else value = double(value)
-            }
-            break
-          default: {
-            if (!!type) value = this.azEntGen()[type](value)
-            else value = string(value.trim())
+      .reduce(
+        (obj, key) => {
+          let value = values[key]
+          const type = get(options, `typeMap.${key}`, { default: typeof value })
+          switch (type) {
+            case 'datetime':
+              value = datetime(new Date(value))
+              break
+            case 'boolean':
+              value = boolean(value)
+              break
+            case 'number':
+              {
+                if (value % 1 === 0) value = int(value)
+                else value = double(value)
+              }
+              break
+            default:
+              {
+                if (!!type) value = this.azEntGen()[type](value)
+                else value = string(value.trim())
+              }
+              break
           }
-            break
-        }
-        obj[capitalize(key)] = value
-        return obj
-      },
+          obj[capitalize(key)] = value
+          return obj
+        },
         {
           PartitionKey: string(partitionKey),
           RowKey: string(rowKey),

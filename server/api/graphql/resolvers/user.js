@@ -77,10 +77,7 @@ async function adUsers(_obj, _variables, ctx) {
 }
 
 async function users(_obj, _variables, ctx) {
-  let [users, roles] = await Promise.all([
-    ctx.services.azstorage.getUsers(),
-    ctx.services.azstorage.getRoles()
-  ])
+  let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
   users = filter(
     users.map(user => ({
       ...user,

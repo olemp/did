@@ -6,12 +6,12 @@ const get = require('get-value')
 
 /**
  * Get notifications for missing forecasts
- * 
- * Checks subscription settings 
- * 
+ *
+ * Checks subscription settings
+ *
  * * forecast.enabled
  * * forecast.notifications
- * 
+ *
  * @param {*} param0 {template, ctx, locale}
  */
 module.exports = async function ({ template, ctx, locale }) {

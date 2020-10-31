@@ -18,7 +18,7 @@ class AzStorageService {
       customers: 'Customers',
       roles: 'Roles',
       labels: 'Labels',
-      users: 'Users'
+      users: 'Users',
     }
   }
 
@@ -101,7 +101,7 @@ class AzStorageService {
   }
 
   /**
-   * Delete customer from table storage 
+   * Delete customer from table storage
    *
    * @param {*} key Customer key
    */
@@ -195,7 +195,7 @@ class AzStorageService {
   }
 
   /**
-   * Add or update user in table storage 
+   * Add or update user in table storage
    *
    * @param {*} user The user data
    * @param {*} update Update the existing user
@@ -271,23 +271,13 @@ class AzStorageService {
   async addTimeEntries(period, user, timeentries, forecast) {
     let totalDuration = 0
     const entities = timeentries.map(({ projectId, manualMatch, event, labels }) => {
-      const [
-        weekNumber,
-        monthNumber,
-        year
-      ] = period.id.split('_').map(p => parseInt(p, 10))
+      const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
       const duration = getDurationHours(event.startDateTime, event.endDateTime)
       totalDuration += duration
       const entity = this.tableUtil.convertToAzEntity(
         event.id,
         {
-          ...pick(
-            event,
-            'title',
-            'startDateTime',
-            'endDateTime',
-            'webLink'
-          ),
+          ...pick(event, 'title', 'startDateTime', 'endDateTime', 'webLink'),
           projectId,
           manualMatch,
           description: event.body,
@@ -303,7 +293,7 @@ class AzStorageService {
           removeBlanks: true,
           typeMap: {
             startDateTime: 'datetime',
-            endDateTime: 'datetime'
+            endDateTime: 'datetime',
           },
         }
       )
@@ -340,7 +330,7 @@ class AzStorageService {
 
   /**
    * Get confirmed periods from table storage
-   * 
+   *
    * @param {*} filterValues Filtervalues
    */
   async getConfirmedPeriods(filterValues) {
@@ -363,7 +353,7 @@ class AzStorageService {
 
   /**
    * Get forecasted periods from table storage
-   * 
+   *
    * @param {*} filterValues Filtervalues
    */
   async getForecastedPeriods(filterValues) {
@@ -419,15 +409,11 @@ class AzStorageService {
    *
    * @param {*} period Period: id, hours, forecastedHours
    * @param {*} resourceId ID of the resource
-   * 
+   *
    * @returns void
    */
   async addConfirmedPeriod(period, resourceId) {
-    const [
-      weekNumber,
-      monthNumber,
-      year
-    ] = period.id.split('_').map(p => parseInt(p, 10))
+    const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,
       {
@@ -435,15 +421,16 @@ class AzStorageService {
         monthNumber,
         year,
         hours: period.hours,
-        forecastedHours: period.forecastedHours
+        forecastedHours: period.forecastedHours,
       },
       resourceId,
       {
         typeMap: {
           forecastedHours: 'double',
-          hours: 'double'
-        }
-      })
+          hours: 'double',
+        },
+      }
+    )
     await this.tableUtil.addAzEntity(this.tables.confirmedPeriods, entity)
   }
 
@@ -452,15 +439,11 @@ class AzStorageService {
    *
    * @param {*} period Period: id, hours
    * @param {*} resourceId ID of the resource
-   * 
+   *
    * @returns void
    */
   async addForecastedPeriod(period, resourceId) {
-    const [
-      weekNumber,
-      monthNumber,
-      year
-    ] = period.id.split('_').map(p => parseInt(p, 10))
+    const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,
       {
@@ -472,9 +455,10 @@ class AzStorageService {
       resourceId,
       {
         typeMap: {
-          hours: 'double'
-        }
-      })
+          hours: 'double',
+        },
+      }
+    )
 
     await this.tableUtil.addAzEntity(this.tables.forecastedPeriods, entity)
   }

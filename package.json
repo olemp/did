@@ -16,7 +16,7 @@
     "package:client": "webpack",
     "lint:client": "eslint --ext .ts,.tsx ./client --color --fix && npm run prettier:client",
     "prettier:client": "prettier --config .prettierrc 'client/**/*.ts' --write",
-    "prettier:server": "prettier --config .prettierrc './**/*.js' --write",
+    "prettier:server": "prettier --config .prettierrc 'server/**/*.js' --write",
     "makeDoc": "rimraf ./doc && typedoc --options typedoc.json && graphdoc",
     "debug": "nodemon --inspect ./bin/server",
     "tests": "mocha tests --exit",

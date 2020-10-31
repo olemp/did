@@ -71,7 +71,7 @@ async function timeentries(_obj, variables, ctx) {
       ...entry,
       project,
       customer,
-      resource
+      resource,
     }
   })
   return entries

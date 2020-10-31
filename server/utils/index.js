@@ -7,7 +7,7 @@ module.exports = {
    *
    * @param {*} str String
    */
-  stripHtmlString: (str) => stripHtml(str),
+  stripHtmlString: str => stripHtml(str),
 
   /**
    * Get duration between two times in hours
@@ -128,11 +128,16 @@ module.exports = {
 
   /**
    * Generate int
-   * 
+   *
    * @param {*} str String
    * @param {*} mod Modulator
    */
   generateInt(str, mod) {
-    return str.split('').map(c => c.charCodeAt(0)).reduce((a, b) => a + b) % mod
-  }
+    return (
+      str
+        .split('')
+        .map(c => c.charCodeAt(0))
+        .reduce((a, b) => a + b) % mod
+    )
+  },
 }

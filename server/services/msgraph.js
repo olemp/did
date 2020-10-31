@@ -6,12 +6,12 @@ const log = require('debug')('services/msgraph')
 const MSGraphEvent = require('./msgraph.event')
 const { first } = require('underscore')
 const { performance, PerformanceObserver } = require('perf_hooks')
-const appInsights = require("applicationinsights")
+const appInsights = require('applicationinsights')
 
 class MSGraphService {
   /**
-  * Constructs a new MSGraphService
-  */
+   * Constructs a new MSGraphService
+   */
   constructor() {
     appInsights.setup(env('APPINSIGHTS_INSTRUMENTATIONKEY'))
     this.observer = new PerformanceObserver(list => {
@@ -25,10 +25,10 @@ class MSGraphService {
   }
 
   /**
-  * Initializes the MS Graph Service
-  * 
-  * @param {*} req Request 
-  */
+   * Initializes the MS Graph Service
+   *
+   * @param {*} req Request
+   */
   init(req) {
     this.req = req
     this.oauthToken = this.req.user.oauthToken
@@ -161,22 +161,13 @@ class MSGraphService {
         JSON.stringify({
           startDateTime,
           endDateTime,
-          maxDurationHours
+          maxDurationHours,
         })
       )
       const { value } = await this.getClient()
         .api('/me/calendar/calendarView')
         .query({ startDateTime, endDateTime })
-        .select([
-          'id',
-          'subject',
-          'body',
-          'start',
-          'end',
-          'categories',
-          'webLink',
-          'isOrganizer'
-        ])
+        .select(['id', 'subject', 'body', 'start', 'end', 'categories', 'webLink', 'isOrganizer'])
         .filter(`sensitivity ne 'private' and isallday eq false and iscancelled eq false`)
         .orderby('start/dateTime asc')
         .top(500)

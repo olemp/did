@@ -5,7 +5,8 @@ NO_OID_FOUND.status = 401
 
 const TENANT_NOT_ENROLLED = new Error()
 TENANT_NOT_ENROLLED.name = 'I hate to be the one telling you this...'
-TENANT_NOT_ENROLLED.message = '... but your company is not enrolled in did. Please contact <a href="mailto:did@puzzlepart.com">did@puzzlepart.com</a> for more information.'
+TENANT_NOT_ENROLLED.message =
+  '... but your company is not enrolled in did. Please contact <a href="mailto:did@puzzlepart.com">did@puzzlepart.com</a> for more information.'
 TENANT_NOT_ENROLLED.status = 401
 
 const USER_NOT_ENROLLED = new Error()

@@ -1,5 +1,5 @@
 lib
-public
+server
 tests
 tasks
 webpack.config.js

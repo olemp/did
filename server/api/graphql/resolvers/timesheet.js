@@ -89,7 +89,7 @@ const typeDef = gql`
 
 /**
  * Timesheet
- * 
+ *
  * @param {*} _obj {}
  * @param {*} variables Variables: startDateTime, endDateTime, dateFormat, locale
  * @param {*} ctx GraphQL context
@@ -115,12 +115,11 @@ async function timesheet(_obj, variables, ctx) {
 
     projects = connectEntities(projects, customers, labels)
 
-
     for (let i = 0; i < periods.length; i++) {
       let period = periods[i]
       let [confirmed, forecasted] = await Promise.all([
         ctx.services.azstorage.getConfirmedPeriod(ctx.user.id, period.id),
-        ctx.services.azstorage.getForecastedPeriod(ctx.user.id, period.id)
+        ctx.services.azstorage.getForecastedPeriod(ctx.user.id, period.id),
       ])
       period.isForecasted = !!forecasted
       period.forecastedHours = period.isForecasted && forecasted.hours
@@ -130,7 +129,7 @@ async function timesheet(_obj, variables, ctx) {
           filter(timeentries, entry => entry.periodId === period.id),
           projects,
           customers,
-          labels,
+          labels
         )
         period.matchedEvents = period.events
       } else {
@@ -152,7 +151,7 @@ async function timesheet(_obj, variables, ctx) {
 
 /**
  * Submit period
- * 
+ *
  * @param {*} _obj {}
  * @param {*} variables Variables: period, forecast
  * @param {*} ctx GraphQL context
@@ -175,24 +174,12 @@ async function submitPeriod(_obj, variables, ctx) {
         entry.labels = filter(labels, lbl => contains(event.categories, lbl.name)).map(lbl => lbl.name)
         return [...arr, entry]
       }, [])
-      period.hours = await ctx.services.azstorage.addTimeEntries(
-        pick(period, 'id'),
-        ctx.user,
-        timeentries,
-        forecast
-      )
+      period.hours = await ctx.services.azstorage.addTimeEntries(pick(period, 'id'), ctx.user, timeentries, forecast)
     }
     if (forecast) {
-      await ctx.services.azstorage.addForecastedPeriod(
-        pick(period, 'id', 'hours'),
-        ctx.user.id
-      )
-    }
-    else {
-      await ctx.services.azstorage.addConfirmedPeriod(
-        pick(period, 'id', 'hours', 'forecastedHours'),
-        ctx.user.id
-      )
+      await ctx.services.azstorage.addForecastedPeriod(pick(period, 'id', 'hours'), ctx.user.id)
+    } else {
+      await ctx.services.azstorage.addConfirmedPeriod(pick(period, 'id', 'hours', 'forecastedHours'), ctx.user.id)
     }
     return { success: true, error: null }
   } catch (error) {
@@ -205,7 +192,7 @@ async function submitPeriod(_obj, variables, ctx) {
 
 /**
  * Unsubmit period
- * 
+ *
  * @param {*} _obj {}
  * @param {*} variables Variables: period, forecast
  * @param {*} ctx GraphQL context
@@ -215,12 +202,12 @@ async function unsubmitPeriod(_obj, variables, ctx) {
     if (variables.forecast) {
       await Promise.all([
         ctx.services.azstorage.deleteTimeEntries(variables.period.id, ctx.user.id, true),
-        ctx.services.azstorage.removeForecastedPeriod(variables.period.id, ctx.user.id)
+        ctx.services.azstorage.removeForecastedPeriod(variables.period.id, ctx.user.id),
       ])
     } else {
       await Promise.all([
         ctx.services.azstorage.deleteTimeEntries(variables.period.id, ctx.user.id, false),
-        ctx.services.azstorage.removeConfirmedPeriod(variables.period.id, ctx.user.id)
+        ctx.services.azstorage.removeConfirmedPeriod(variables.period.id, ctx.user.id),
       ])
     }
     return { success: true, error: null }

@@ -6,7 +6,7 @@ const { EVENT_ERROR } = require('./timesheet.utils')
 class EventMatching {
   /**
    * Constructs a new EventMatching class
-   * 
+   *
    * @param {*} projects Projects
    * @param {*} customers Customers
    * @param {*} labels Labels
@@ -38,17 +38,17 @@ class EventMatching {
   }
 
   /**
-   * Looks for ignore "tag" in event. 
-   * 
-   * @returns 
+   * Looks for ignore "tag" in event.
+   *
+   * @returns
    * * Returns 'category' if ignore category is found
    * * Returns 'body' if ignore tag is found in body
    * * Otherwise returns nulll
-   * 
-   * @param {*} event 
+   *
+   * @param {*} event
    */
   findIgnore(event) {
-    let ignoreCategory = find(event.categories, c => c.toLowerCase() === 'ignore');
+    const ignoreCategory = find(event.categories, c => c.toLowerCase() === 'ignore')
     if (!!ignoreCategory) return 'category'
     if ((event.body || '').match(/[(\[\{]IGNORE[)\]\}]/gi) !== null) return 'body'
     return null
@@ -63,7 +63,7 @@ class EventMatching {
   searchString(inputStr, soft) {
     let regex = /[\(\{\[]((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}?))[\)\]\}]/gim
     if (soft) regex = /((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}))/gim
-    let matches = []
+    const matches = []
     let match
     while ((match = regex.exec(inputStr)) != null) {
       matches.push({
@@ -122,11 +122,9 @@ class EventMatching {
         }
         if (!!event.project) break
       }
-    }
-    else if (ignore === 'body') {
+    } else if (ignore === 'body') {
       return { ...event, isSystemIgnored: true }
-    }
-    else {
+    } else {
       event.project = find(this.projects, p => !!find(this.searchString(srchStr, true), m => m.id === p.id))
       if (!!event.project) event.customer = find(this.customers, c => c.key === event.project.customerKey)
     }

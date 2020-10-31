@@ -16,6 +16,5 @@ module.exports = session({
   saveUninitialized: false,
   rolling: true,
   cookie: { secure: env('SESSION_SECURE', '0') === '1' },
-  unset: 'destroy'
+  unset: 'destroy',
 })
-

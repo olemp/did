@@ -43,9 +43,9 @@ async function notifications(_obj, variables, ctx) {
       template: variables.templates.forecast,
       ctx,
       locale: variables.locale,
-    })
+    }),
   ])
-  return [].concat.apply([], notifications);
+  return [].concat.apply([], notifications)
 }
 
 module.exports = {
