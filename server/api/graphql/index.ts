@@ -13,6 +13,7 @@ import { typeDef as ApiToken } from './resolvers/apiToken'
 import { MSGraphService, AzStorageService, SubscriptionService } from '../../services'
 import resolvers from './resolvers'
 import get from 'get-value'
+import { IGraphQLContext } from './IGraphQLContext'
 
 const Query = gql`
   """
@@ -95,26 +96,25 @@ const getSchema = () => {
 
 const schema = getSchema()
 
-const createContext = async ({ req }) => {
+const createContext = async ({ req }): Promise<IGraphQLContext> => {
   try {
     let subscription = req.user && req.user.subscription
     if (!!req.token) {
-      subscription = await SubscriptionService.findSubscriptionWithToken(req.token)
+      subscription = await new SubscriptionService().findSubscriptionWithToken(req.token)
       if (!subscription) throw new Error('You don\'t have access to this resource.')
     } else if (!req.user) throw new Error()
     const services = {
       azstorage: new AzStorageService(subscription),
-      subscription: SubscriptionService,
-      msgraph: null,
+      subscription: new SubscriptionService(),
+      msgraph: !!req.user && new MSGraphService().init(req),
     }
-    if (!!req.user) services.msgraph = MSGraphService.init(req)
     return {
       services,
       user: req.user || {},
       subscription,
     }
   } catch (e) {
-    return new Error()
+    throw new Error()
   }
 }
 

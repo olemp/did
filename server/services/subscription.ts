@@ -101,4 +101,4 @@ class SubscriptionService {
   }
 }
 
-export default new SubscriptionService()
+export default SubscriptionService

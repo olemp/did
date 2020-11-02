@@ -195,4 +195,4 @@ class MSGraphService {
   }
 }
 
-export default new MSGraphService()
+export default MSGraphService

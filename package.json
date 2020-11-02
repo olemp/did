@@ -125,6 +125,7 @@
   },
   "devDependencies": {
     "@2fd/graphdoc": "2.4.0",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.164",
     "@types/passport": "^1.0.4",
     "@types/string-strip-html": "^5.0.0",
