@@ -110,7 +110,7 @@ class AzTableUtilities {
    * @param {number} top Number of items to retrieve
    * @param {any[]} filters Filters
    */
-  createAzQuery(top: number, filters: any[]) {
+  createAzQuery(top: number, filters: any[] = null) {
     let query = new azurestorage.TableQuery().top(top)
     if (top) query = query.top(top)
     if (filters) {
@@ -144,7 +144,7 @@ class AzTableUtilities {
    * @param {Object} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    * @param {string} continuationToken Continuation token
    */
-  queryAzTable(table: string, query: azurestorage.TableQuery, columnMap: any, continuationToken: azurestorage.TableService.TableContinuationToken): Promise<azurestorage.TableService.QueryEntitiesResult<any>> {
+  queryAzTable(table: string, query: azurestorage.TableQuery, columnMap: any = {}, continuationToken: azurestorage.TableService.TableContinuationToken = null): Promise<azurestorage.TableService.QueryEntitiesResult<any>> {
     return new Promise<azurestorage.TableService.QueryEntitiesResult<any>>((resolve, reject) => {
       this.tableService.queryEntities(table, query, continuationToken, (error, result) => {
         if (!error) {
@@ -187,7 +187,7 @@ class AzTableUtilities {
    * @param {*} partitionKey Partition key
    * @param {*} options Options (removeBlanks defaults to true, typeMap defaults to empty object)
    */
-  convertToAzEntity(rowKey: string, values: { [x: string]: any }, partitionKey = 'Default', options = { removeBlanks: true, typeMap: {} }) {
+  convertToAzEntity(rowKey: string, values: { [x: string]: any }, partitionKey = 'Default', options: { removeBlanks?: boolean, typeMap?: Record<string,string> } = { removeBlanks: true, typeMap: {} }) {
     const { string, datetime, double, int, boolean } = this.azEntGen()
     const entityDescriptor = Object.keys(values)
       .filter(key => !isNull(values[key]))
@@ -216,7 +216,7 @@ class AzTableUtilities {
               }
               break
           }
-          return {...obj, [capitalize(key)]: value}
+          return { ...obj, [capitalize(key)]: value }
         },
         {
           PartitionKey: string(partitionKey),
@@ -233,8 +233,8 @@ class AzTableUtilities {
    * @param {*} partitionKey Partition key
    * @param {*} rowKey Row key
    */
-  retrieveAzEntity(table: string, partitionKey: string, rowKey: string) {
-    return new Promise((resolve, reject) => {
+  retrieveAzEntity(table: string, partitionKey: string, rowKey: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
       this.tableService.retrieveEntity(table, partitionKey, rowKey, (error, result) => {
         if (error) reject(error)
         else return resolve(result)
@@ -311,4 +311,4 @@ class AzTableUtilities {
   }
 }
 
-module.exports = AzTableUtilities
+export default AzTableUtilities

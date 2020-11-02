@@ -1,12 +1,26 @@
-const AzTableUtilities = require('../utils/table')
-const { getDurationHours, toArray } = require('../utils')
-const arraySort = require('array-sort')
-const { omit, pick } = require('underscore')
-const { createTableService } = require('azure-storage')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('services/storage')
+import AzTableUtilities from '../utils/table'
+import { getDurationHours, toArray } from '../utils'
+import arraySort from 'array-sort'
+import { omit, pick } from 'underscore'
+import { createTableService } from 'azure-storage'
 
 class AzStorageService {
-  constructor(subscription) {
+  public tableUtil: AzTableUtilities
+  public tables: {
+    timeEntries: string;
+    forecastedTimeEntries: string;
+    confirmedPeriods: string;
+    forecastedPeriods: string;
+    projects: string;
+    customers: string;
+    roles: string;
+    labels: string;
+    users: string
+  }
+
+  constructor(subscription: any) {
     this.tableUtil = new AzTableUtilities(createTableService(subscription.connectionString))
     this.tables = {
       timeEntries: 'TimeEntries',
@@ -37,11 +51,12 @@ class AzStorageService {
    * @param {*} createdBy Created by ID
    * @param {*} update Update the existing label
    */
-  async addOrUpdateLabel(label, createdBy, update) {
+  async addOrUpdateLabel(label: any, createdBy: any, update: any) {
     const entity = this.tableUtil.convertToAzEntity(label.name, {
       ...omit(label, 'name'),
       createdBy,
     })
+    let result: any
     if (update) result = await this.tableUtil.updateAzEntity(this.tables.labels, entity, true)
     else result = await this.tableUtil.addAzEntity(this.tables.labels, entity)
     return result
@@ -52,7 +67,7 @@ class AzStorageService {
    *
    * @param {*} name Label name
    */
-  async deleteLabel(name) {
+  async deleteLabel(name: any) {
     const { string } = this.tableUtil.azEntGen()
     try {
       const result = await this.tableUtil.deleteEntity(this.tables.labels, {
@@ -70,7 +85,7 @@ class AzStorageService {
    *
    * @param {*} options Options
    */
-  async getCustomers(options = {}) {
+  async getCustomers(options: any = {}) {
     const query = this.tableUtil.createAzQuery(1000)
     let { entries } = await this.tableUtil.queryAzTable(this.tables.customers, query, {
       RowKey: 'key',
@@ -86,7 +101,7 @@ class AzStorageService {
    * @param {*} createdBy Created by ID
    * @param {*} update Update the existing customer
    */
-  async createOrUpdateCustomer(customer, createdBy, update) {
+  async createOrUpdateCustomer(customer: any, createdBy: any, update: any) {
     const entity = this.tableUtil.convertToAzEntity(customer.key.toUpperCase(), {
       ...omit(customer, 'key'),
       createdBy,
@@ -100,9 +115,9 @@ class AzStorageService {
   /**
    * Delete customer from table storage
    *
-   * @param {*} key Customer key
+   * @param {string} key Customer key
    */
-  async deleteCustomer(key) {
+  async deleteCustomer(key: string) {
     const { string } = this.tableUtil.azEntGen()
     try {
       const result = await this.tableUtil.deleteEntity(this.tables.customers, {
@@ -121,7 +136,7 @@ class AzStorageService {
    * @param {*} customerKey Customer key
    * @param {*} options Options
    */
-  async getProjects(customerKey, options = {}) {
+  async getProjects(customerKey: any, options: any = {}) {
     const q = this.tableUtil.query()
     const filter = [['PartitionKey', customerKey, q.string, q.equal]]
     const query = this.tableUtil.createAzQuery(1000, filter)
@@ -146,7 +161,7 @@ class AzStorageService {
    *
    * @returns The id of the crated project
    */
-  async createOrUpdateProject(project, createdBy, update) {
+  async createOrUpdateProject(project: any, createdBy: any, update: any) {
     const id = [project.customerKey, project.key].join(' ')
     const entity = this.tableUtil.convertToAzEntity(
       project.key,
@@ -180,7 +195,7 @@ class AzStorageService {
    *
    * @param {*} userId The user ID
    */
-  async getUser(userId) {
+  async getUser(userId: any) {
     try {
       const entry = await this.tableUtil.retrieveAzEntity(this.tables.users, 'Default', userId)
       return this.tableUtil.parseAzEntity(entry, { RowKey: 'id' })
@@ -195,7 +210,7 @@ class AzStorageService {
    * @param {*} user The user data
    * @param {*} update Update the existing user
    */
-  async addOrUpdateUser(user, update) {
+  async addOrUpdateUser(user: any, update: any) {
     const entity = this.tableUtil.convertToAzEntity(user.id, omit(user, 'id'))
     let result
     if (update) result = await this.tableUtil.updateAzEntity(this.tables.users, entity, true)
@@ -208,7 +223,7 @@ class AzStorageService {
    *
    * @param {*} users Users to add
    */
-  async bulkAddUsers(users) {
+  async bulkAddUsers(users: any) {
     const entities = users.map(user => {
       const entity = this.tableUtil.convertToAzEntity(user.id, {
         ...omit(user, 'id'),
@@ -217,7 +232,7 @@ class AzStorageService {
       return entity
     })
     const batch = this.tableUtil.createAzBatch()
-    entities.forEach(entity => batch.insertEntity(entity))
+    entities.forEach(entity => batch.insertEntity(entity, {}))
     await this.tableUtil.executeBatch(this.tables.users, batch)
   }
 
@@ -227,7 +242,7 @@ class AzStorageService {
    * @param {*} filterValues Filtervalues
    * @param {*} options Options: sortAsc, forecast
    */
-  async getTimeEntries(filterValues, options = {}) {
+  async getTimeEntries(filterValues: any, options: any = {}) {
     const q = this.tableUtil.query()
     const filter = [
       ['PeriodId', filterValues.periodId, q.string, q.equal],
@@ -249,7 +264,7 @@ class AzStorageService {
     })
     log('Queried %d time entries from %s', result.length, tableName)
     result = result.slice().sort(({ startDateTime: a }, { startDateTime: b }) => {
-      return options.sortAsc ? new Date(a) - new Date(b) : new Date(b) - new Date(a)
+      return options.sortAsc ? new Date(a).getTime() - new Date(b).getTime() : new Date(b).getTime() - new Date(a).getTime()
     })
     return result
   }
@@ -262,7 +277,7 @@ class AzStorageService {
    * @param {*} timeentries Collection of time entries
    * @param {*} forecast Forecast
    */
-  async addTimeEntries(period, user, timeentries, forecast) {
+  async addTimeEntries(period: any, user: any, timeentries: any, forecast: any) {
     let totalDuration = 0
     const entities = timeentries.map(({ projectId, manualMatch, event, labels }) => {
       const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
@@ -294,7 +309,7 @@ class AzStorageService {
       return entity
     })
     const batch = this.tableUtil.createAzBatch()
-    entities.forEach(entity => batch.insertEntity(entity))
+    entities.forEach(entity => batch.insertEntity(entity, {}))
     const tableName = forecast ? 'ForecastedTimeEntries' : this.tables.timeEntries
     await this.tableUtil.executeBatch(tableName, batch)
     return totalDuration
@@ -307,7 +322,7 @@ class AzStorageService {
    * @param {*} resourceId Resource ID
    * @param {*} forecast Forecast (using separate table if specified)
    */
-  async deleteTimeEntries(periodId, resourceId, forecast) {
+  async deleteTimeEntries(periodId: any, resourceId: any, forecast: any) {
     const { string } = this.tableUtil.azEntGen()
     const timeEntries = await this.getTimeEntries({ resourceId, periodId }, { forecast })
     if (timeEntries.length === 0) return
@@ -327,7 +342,7 @@ class AzStorageService {
    *
    * @param {*} filterValues Filtervalues
    */
-  async getConfirmedPeriods(filterValues) {
+  async getConfirmedPeriods(filterValues: any) {
     try {
       const q = this.tableUtil.query()
       const filter = [
@@ -350,7 +365,7 @@ class AzStorageService {
    *
    * @param {*} filterValues Filtervalues
    */
-  async getForecastedPeriods(filterValues) {
+  async getForecastedPeriods(filterValues: any) {
     try {
       const q = this.tableUtil.query()
       const filter = [
@@ -374,7 +389,7 @@ class AzStorageService {
    * @param {*} resourceId ID of the resource
    * @param {*} periodId The period
    */
-  async getConfirmedPeriod(resourceId, periodId) {
+  async getConfirmedPeriod(resourceId: any, periodId: any) {
     try {
       const entry = await this.tableUtil.retrieveAzEntity(this.tables.confirmedPeriods, resourceId, periodId)
       return this.tableUtil.parseAzEntity(entry)
@@ -389,7 +404,7 @@ class AzStorageService {
    * @param {*} resourceId ID of the resource
    * @param {*} periodId The period
    */
-  async getForecastedPeriod(resourceId, periodId) {
+  async getForecastedPeriod(resourceId: any, periodId: any) {
     try {
       const entry = await this.tableUtil.retrieveAzEntity(this.tables.forecastedPeriods, resourceId, periodId)
       return this.tableUtil.parseAzEntity(entry)
@@ -406,7 +421,7 @@ class AzStorageService {
    *
    * @returns void
    */
-  async addConfirmedPeriod(period, resourceId) {
+  async addConfirmedPeriod(period: any, resourceId: any) {
     const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,
@@ -436,7 +451,7 @@ class AzStorageService {
    *
    * @returns void
    */
-  async addForecastedPeriod(period, resourceId) {
+  async addForecastedPeriod(period: any, resourceId: any) {
     const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,
@@ -463,7 +478,7 @@ class AzStorageService {
    * @param {*} periodId The period ID
    * @param {*} resourceId ID of the resource
    */
-  async removeConfirmedPeriod(periodId, resourceId) {
+  async removeConfirmedPeriod(periodId: any, resourceId: any) {
     const { string } = this.tableUtil.azEntGen()
     try {
       const result = await this.tableUtil.deleteEntity(this.tables.confirmedPeriods, {
@@ -482,7 +497,7 @@ class AzStorageService {
    * @param {*} periodId The period ID
    * @param {*} resourceId ID of the resource
    */
-  async removeForecastedPeriod(periodId, resourceId) {
+  async removeForecastedPeriod(periodId: any, resourceId: any) {
     const { string } = this.tableUtil.azEntGen()
     try {
       const result = await this.tableUtil.deleteEntity(this.tables.forecastedPeriods, {
@@ -520,7 +535,7 @@ class AzStorageService {
    * @param {*} role The role data
    * @param {*} update Update the existing role
    */
-  async addOrUpdateRole(role, update) {
+  async addOrUpdateRole(role: any, update: any) {
     const entity = this.tableUtil.convertToAzEntity(role.name, {
       permissions: role.permissions.join('|'),
       icon: role.icon,
@@ -532,4 +547,4 @@ class AzStorageService {
   }
 }
 
-module.exports = AzStorageService
+export default AzStorageService

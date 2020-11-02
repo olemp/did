@@ -8,7 +8,7 @@ const log = require('debug')('env')
  * @param {string} key Key
  * @param {any} fallbackValue Fallback vaue if key is not found
  */
-const getEnvironmentVariable = (key: string, fallbackValue: any) => {
+const getEnvironmentVariable = (key: string, fallbackValue: any = null) => {
   const value = process.env[key]
   if (isBlank(value)) {
     log('Missing environment variable %s', key)

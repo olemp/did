@@ -1,11 +1,14 @@
-const { first } = require('underscore')
-const AzTableUtilities = require('../utils/table')
-const env = require('../utils/env').default
-const { createTableService } = require('azure-storage')
+import { first } from 'underscore'
+import AzTableUtilities from '../utils/table'
+import env from '../utils/env'
+import azurestorage from 'azure-storage'
 
 class SubscriptionService {
+  public tableService: azurestorage.services.table.TableService
+  public tableUtil: AzTableUtilities
+
   constructor() {
-    this.tableService = createTableService(env('AZURE_STORAGE_CONNECTION_STRING'))
+    this.tableService = azurestorage.createTableService(env('AZURE_STORAGE_CONNECTION_STRING'))
     this.tableUtil = new AzTableUtilities(this.tableService)
   }
   /**
@@ -13,9 +16,9 @@ class SubscriptionService {
    *
    * Returns null if there's no active subscription
    *
-   * @param subscriptionId Subscription ID
+   * @param {string} subscriptionId Subscription ID
    */
-  async getSubscription(subscriptionId) {
+  async getSubscription(subscriptionId: string) {
     try {
       const query = this.tableUtil.createAzQuery(1).where('RowKey eq ?', subscriptionId)
       const { entries } = await this.tableUtil.queryAzTable('Subscriptions', query)
@@ -98,4 +101,4 @@ class SubscriptionService {
   }
 }
 
-module.exports = new SubscriptionService()
+export default new SubscriptionService()

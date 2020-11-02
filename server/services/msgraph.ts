@@ -1,14 +1,19 @@
 global.fetch = require('node-fetch')
-const TokenService = require('./tokens')
-const utils = require('../utils')
-const env = require('../utils/env').default
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('services/msgraph')
-const MSGraphEvent = require('./msgraph.event')
-const { first } = require('underscore')
-const { performance, PerformanceObserver } = require('perf_hooks')
-const appInsights = require('applicationinsights')
+import TokenService from './tokens'
+import * as utils from '../utils'
+const env = require('../utils/env').default
+import MSGraphEvent from './msgraph.event'
+import { first } from 'underscore'
+import { performance, PerformanceObserver } from 'perf_hooks'
+import appInsights from 'applicationinsights'
 
 class MSGraphService {
+  public observer: PerformanceObserver
+  public request: any
+  public oauthToken: any
+
   /**
    * Constructs a new MSGraphService
    */
@@ -29,9 +34,9 @@ class MSGraphService {
    *
    * @param {*} req Request
    */
-  init(req) {
-    this.req = req
-    this.oauthToken = this.req.user.oauthToken
+  init(req: any) {
+    this.request = req
+    this.oauthToken = this.request.user.oauthToken
     return this
   }
 
@@ -40,7 +45,7 @@ class MSGraphService {
    *
    * @param {*} measure
    */
-  startMark(measure) {
+  startMark(measure: string) {
     performance.mark(`${measure}-init`)
   }
 
@@ -49,7 +54,7 @@ class MSGraphService {
    *
    * @param {*} measure
    */
-  endMark(measure) {
+  endMark(measure: string) {
     performance.mark(`${measure}-end`)
     performance.measure(`GraphService.${measure}`, `${measure}-init`, `${measure}-end`)
   }
@@ -59,7 +64,7 @@ class MSGraphService {
    */
   getClient() {
     const client = require('@microsoft/microsoft-graph-client').Client.init({
-      authProvider: done => {
+      authProvider: (done: (arg0: any, arg1: any) => void) => {
         done(null, this.oauthToken.access_token)
       },
     })
@@ -83,7 +88,7 @@ class MSGraphService {
     } catch (error) {
       switch (error.statusCode) {
         case 401: {
-          this.oauthToken = await TokenService.refreshAccessToken(this.req)
+          this.oauthToken = await TokenService.refreshAccessToken(this.request)
           return this.getUsers()
         }
         default: {
@@ -98,7 +103,7 @@ class MSGraphService {
    *
    * @param category Category
    */
-  async createOutlookCategory(category) {
+  async createOutlookCategory(category: any) {
     try {
       this.startMark('createOutlookCategory')
       const colorIdx = utils.generateInt(category, 24)
@@ -113,7 +118,7 @@ class MSGraphService {
     } catch (error) {
       switch (error.statusCode) {
         case 401: {
-          this.oauthToken = await TokenService.refreshAccessToken(this.req)
+          this.oauthToken = await TokenService.refreshAccessToken(this.request)
           return this.createOutlookCategory(category)
         }
         default: {
@@ -136,7 +141,7 @@ class MSGraphService {
     } catch (error) {
       switch (error.statusCode) {
         case 401: {
-          this.oauthToken = await TokenService.refreshAccessToken(this.req)
+          this.oauthToken = await TokenService.refreshAccessToken(this.request)
           return this.getOutlookCategories()
         }
         default: {
@@ -149,11 +154,11 @@ class MSGraphService {
   /**
    * Get events for the specified period using Microsoft Graph endpoint /me/calendar/calendarView
    *
-   * @param startDateTime Start date time in ISO format
-   * @param endDateTime End date time in ISO format
-   * @param maxDurationHours Max duration hours (defaults to 24)
+   * @param {string} startDateTime Start date time in ISO format
+   * @param {string} endDateTime End date time in ISO format
+   * @param {number} maxDurationHours Max duration hours (defaults to 24)
    */
-  async getEvents(startDateTime, endDateTime, maxDurationHours = 24) {
+  async getEvents(startDateTime: string, endDateTime: string, maxDurationHours = 24) {
     try {
       this.startMark('getEvents')
       log(
@@ -172,14 +177,14 @@ class MSGraphService {
         .orderby('start/dateTime asc')
         .top(500)
         .get()
-      let events = value.filter(evt => evt.subject).map(evt => new MSGraphEvent(evt))
-      events = events.filter(evt => evt.duration <= maxDurationHours)
+      let events = value.filter((evt: { subject: any }) => evt.subject).map((evt: any) => new MSGraphEvent(evt))
+      events = events.filter((evt: { duration: number }) => evt.duration <= maxDurationHours)
       this.endMark('getEvents')
       return events
     } catch (error) {
       switch (error.statusCode) {
         case 401: {
-          this.oauthToken = await TokenService.refreshAccessToken(this.req)
+          this.oauthToken = await TokenService.refreshAccessToken(this.request)
           return this.getEvents(startDateTime, endDateTime)
         }
         default: {
@@ -190,4 +195,4 @@ class MSGraphService {
   }
 }
 
-module.exports = new MSGraphService()
+export default new MSGraphService()

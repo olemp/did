@@ -1,7 +1,17 @@
-const utils = require('../utils')
+import * as utils from '../utils'
 
 class MSGraphEvent {
-  constructor(evt) {
+  id: any
+  title: any
+  body: any
+  isOrganizer: any
+  categories: any
+  webLink: any
+  startDateTime: any
+  endDateTime: any
+  duration: any
+
+  constructor(evt: any) {
     this.id = evt.id
     this.title = evt.subject
     this.body = utils.stripHtmlString(evt.body.content)
@@ -14,4 +24,4 @@ class MSGraphEvent {
   }
 }
 
-module.exports = MSGraphEvent
+export default MSGraphEvent
