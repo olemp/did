@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
-const pkg = require('../package.json')
 const createError = require('http-errors')
-const express = require('express')
+import * as express from 'express'
 const favicon = require('express-favicon')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -12,14 +12,16 @@ const bearerToken = require('express-bearer-token')
 const { pick } = require('underscore')
 
 class App {
-  constructor(app) {
-    this._ = app
-    this._.use(require('./middleware/helmet'))
-    this._.use(favicon(path.join(__dirname, 'public/images/favicon/favicon.ico')))
-    this._.use(logger('dev'))
-    this._.use(express.json())
-    this._.use(express.urlencoded({ extended: false }))
-    this._.use(bodyParser.json())
+  public instance: express.Application
+
+  constructor(app: express.Application) {
+    this.instance = app
+    this.instance.use(require('./middleware/helmet'))
+    this.instance.use(favicon(path.join(__dirname, 'public/images/favicon/favicon.ico')))
+    this.instance.use(logger('dev'))
+    this.instance.use(express.json())
+    this.instance.use(express.urlencoded({ extended: false }))
+    this.instance.use(bodyParser.json())
     this.setupSession()
     this.setupViewEngine()
     this.setupAssets()
@@ -27,40 +29,40 @@ class App {
     this.setupGraphQL()
     this.setupRoutes()
     this.setupErrorHandling()
-    this._.disable('view cache')
+    this.instance.disable('view cache')
   }
 
   /**
    * Setup sessions
    */
   setupSession() {
-    this._.use(require('./middleware/session'))
+    this.instance.use(require('./middleware/session'))
   }
 
   /**
    * Setup view engine
    */
   setupViewEngine() {
-    this._.set('views', path.join(__dirname, 'views'))
-    this._.set('view engine', 'hbs')
+    this.instance.set('views', path.join(__dirname, 'views'))
+    this.instance.set('view engine', 'hbs')
   }
 
   /**
    * Setup static assets
    */
   setupAssets() {
-    this._.use('/*.js', serveGzipped('text/javascript'))
-    this._.use(express.static(path.join(__dirname, 'public')))
+    this.instance.use('/*.js', serveGzipped('text/javascript'))
+    this.instance.use(express.static(path.join(__dirname, 'public')))
   }
 
   /**
    * Setup authentication
    */
   setupAuth() {
-    this._.use(bearerToken())
-    this._.use(passport.initialize())
-    this._.use(passport.session())
-    this._.use('/auth', require('./routes/auth'))
+    this.instance.use(bearerToken())
+    this.instance.use(passport.initialize())
+    this.instance.use(passport.session())
+    this.instance.use('/auth', require('./routes/auth'))
   }
 
   /**
@@ -69,7 +71,7 @@ class App {
   setupGraphQL() {
     const server = require('./api/graphql')
     server.applyMiddleware({
-      app: this._,
+      app: this.instance,
       path: '/graphql',
     })
   }
@@ -82,28 +84,21 @@ class App {
     index.get('/', (req, res) => {
       res.render('index')
     })
-    this._.use('*', index)
+    this.instance.use('*', index)
   }
 
   /**
    * Setup error handling
    */
   setupErrorHandling() {
-    this._.use((_req, _res, next) => {
+    this.instance.use((_req, _res, next) => {
       next(createError(404))
     })
-    this._.use((error, _req, res) => {
+    this.instance.use((error: any, _req: express.Request, res: express.Response) => {
       res.status(error.status || 500)
       res.render('index', { error: JSON.stringify(pick(error, 'name', 'message', 'status')) })
     })
   }
-
-  /**
-   * App instance
-   */
-  instance() {
-    return this._
-  }
 }
 
-module.exports = new App(express())
+export default new App(express())

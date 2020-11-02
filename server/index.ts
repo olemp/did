@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const app = require('./app')
-const http = require('http')
-const env = require('./utils/env')
+import app from './app'
+import * as http from 'http'
+import * as env from './utils/env'
 const port = env('PORT', '8080')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('server')
-app._.set('port', port)
+app.instance.set('port', port)
 
-const server = http.createServer(app._)
+const server = http.createServer(app.instance)
 
 function onError(error) {
   if (error.syscall !== 'listen') {

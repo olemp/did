@@ -9,7 +9,7 @@
   "scripts": {
     "watch": "concurrently \"webpack\" \"npm run watch:server\" \"node tasks/open.js\" \"node tasks/localtunnel.js\"",
     "start": "ts-node ./server",
-    "watch:server": "nodemon --watch --ignore client --ignore public --ignore lib --exec 'ts-node' app.ts",
+    "watch:server": "nodemon --watch 'server/**/*.ts' --ext 'js,ts,json' --exec 'ts-node' ./server",
     "package:client": "webpack",
     "lint": "npm run lint:client && npm run prettier:client && npm run lint:server && npm run prettier:server",
     "lint:client": "eslint --ext .ts,.tsx ./client --color --fix",
@@ -29,6 +29,7 @@
     "@microsoft/applicationinsights-web": "2.5.4",
     "@microsoft/microsoft-graph-client": "2.0.0",
     "@pnp/common": "2.0.4",
+    "@types/express": "4.17.8",
     "@types/get-value": "3.0.1",
     "@types/react": "16.9.34",
     "@types/react-dom": "16.9.6",
