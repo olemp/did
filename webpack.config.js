@@ -7,6 +7,7 @@ const pkg = require('./package.json')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const LiveReloadPlugin = tryRequire('webpack-livereload-plugin')
 const WebpackBuildNotifierPlugin = tryRequire('webpack-build-notifier')
 
@@ -66,6 +67,7 @@ let config = {
       AppContext: path.resolve(src, 'AppContext'),
     },
     extensions: ['.ts', '.tsx', '.js', '.css', '.scss'],
+    plugins: [new TsconfigPathsPlugin({ configFile: './client/tsconfig.json' })]
   },
   plugins: [
     new MomentLocalesPlugin({ localesToKeep: ['en-gb', 'nb'] }),
