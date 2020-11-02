@@ -11,9 +11,10 @@ import { commandBar } from './commandBar'
 import { createColumns, createRows, createPeriods } from './utils'
 import styles from './SummaryView.module.scss'
 import { reducer } from './reducer'
-import TIME_ENTRIES, { ITimeEntriesVariables } from './TIME_ENTRIES'
+import TIME_ENTRIES from './TIME_ENTRIES'
 import { getScopes, getViewTypes, ISummaryViewProps, ISummaryViewScope } from './types'
 import { ISummaryViewContext } from './context'
+import { ITimeEntriesVariables } from '../../../../server/api/graphql/resolvers/timeentry'
 
 
 export const SummaryView = (props: ISummaryViewProps): JSX.Element => {

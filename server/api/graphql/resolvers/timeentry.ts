@@ -47,13 +47,33 @@ export const typeDef = gql`
 `
 
 /**
+ * Variables for query timeentries
+ * 
+ * NB: The variables used must also be present in the query
+ */
+export interface ITimeEntriesVariables {
+  startDateTime?: string
+  endDateTime?: string
+  projectId?: string
+  resourceId?: string
+  weekNumber?: number
+  monthNumber?: number
+  startMonthIndex?: number
+  endMonthIndex?: number
+  year?: number
+  currentUser?: boolean
+  forecast?: boolean
+  sortAsc?: boolean
+}
+
+/**
  * Get time entries
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {ITimeEntriesVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function timeentries(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function timeentries(_obj: any, variables: ITimeEntriesVariables, ctx: IGraphQLContext) {
   if (variables.currentUser) {
     delete variables.currentUser
     variables.resourceId = ctx.user.id
@@ -68,8 +88,8 @@ async function timeentries(_obj: any, variables: any, ctx: IGraphQLContext) {
     ),
   ])
   const entries = timeentries.map(entry => {
-    let project
-    let customer
+    let project: any
+    let customer: any
     const resource = find(users, user => user.id === entry.resourceId)
     if (!!entry.projectId) {
       project = find(projects, p => p.id === entry.projectId)

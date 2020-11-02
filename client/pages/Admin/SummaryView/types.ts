@@ -1,9 +1,9 @@
 import { ILabelColumnProps } from 'components/LabelColumn/types'
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu'
-import { ITimeEntriesVariables } from './TIME_ENTRIES'
 import { TFunction } from 'i18next'
 import { IPivotItemProps } from 'office-ui-fabric-react'
 import dateUtils from 'utils/date'
+import { ITimeEntriesVariables } from '../../../../server/api/graphql/resolvers/timeentry'
 
 /**
  * Get scopes
