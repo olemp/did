@@ -1,7 +1,6 @@
 require('dotenv').config()
 const tryRequire = require('try-require')
 const path = require('path')
-const env = require('./server/utils/env')
 const src = path.resolve(__dirname, 'client/')
 const pkg = require('./package.json')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -11,7 +10,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const LiveReloadPlugin = tryRequire('webpack-livereload-plugin')
 const WebpackBuildNotifierPlugin = tryRequire('webpack-build-notifier')
 
-const mode = env('NODE_ENV') === 'development' ? 'development' : 'production'
+const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production'
 
 let config = {
   mode,
@@ -89,9 +88,9 @@ switch (mode) {
       config.plugins.push(
         new WebpackBuildNotifierPlugin({
           logo: path.join(__dirname, '/server/public/images/favicon/mstile-150x150.png'),
-          sound: env('WEBPACK_NOTIFICATIONS_SOUND', false),
-          suppressSuccess: env('WEBPACK_NOTIFICATIONS_SUPPRESSSUCCESS') === 'true',
-          showDuration: env('WEBPACK_NOTIFICATIONS_SHOWDURATION') === 'true',
+          sound: process.env.WEBPACK_NOTIFICATIONS_SOUND,
+          suppressSuccess: process.env.WEBPACK_NOTIFICATIONS_SUPPRESSSUCCESS === 'true',
+          showDuration: process.env.WEBPACK_NOTIFICATIONS_SHOWDURATION === 'true',
         })
       )
     }

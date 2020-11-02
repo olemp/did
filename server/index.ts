@@ -1,6 +1,6 @@
 import app from './app'
 import * as http from 'http'
-import * as env from './utils/env'
+import env from './utils/env'
 const port = env('PORT', '8080')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('server')
@@ -8,7 +8,7 @@ app.instance.set('port', port)
 
 const server = http.createServer(app.instance)
 
-function onError(error) {
+function onError(error: any) {
   if (error.syscall !== 'listen') {
     throw error
   }

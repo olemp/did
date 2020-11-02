@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
 const createError = require('http-errors')
-import * as express from 'express'
+import express from 'express'
 const favicon = require('express-favicon')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -14,8 +14,8 @@ const { pick } = require('underscore')
 class App {
   public instance: express.Application
 
-  constructor(app: express.Application) {
-    this.instance = app
+  constructor() {
+    this.instance = express()
     this.instance.use(require('./middleware/helmet'))
     this.instance.use(favicon(path.join(__dirname, 'public/images/favicon/favicon.ico')))
     this.instance.use(logger('dev'))
@@ -101,4 +101,4 @@ class App {
   }
 }
 
-export default new App(express())
+export default new App()

@@ -25,7 +25,7 @@ class AzStorageService {
    * Get labels from table Labels
    */
   async getLabels() {
-    const query = this.tableUtil.createAzQuery(1000, undefined)
+    const query = this.tableUtil.createAzQuery(1000)
     const { entries } = await this.tableUtil.queryAzTable(this.tables.labels, query, { RowKey: 'name' })
     return entries
   }
@@ -124,7 +124,7 @@ class AzStorageService {
   async getProjects(customerKey, options = {}) {
     const q = this.tableUtil.query()
     const filter = [['PartitionKey', customerKey, q.string, q.equal]]
-    const query = this.tableUtil.createAzQuery(1000, undefined, filter)
+    const query = this.tableUtil.createAzQuery(1000, filter)
     let columnMap = {}
     if (!options.noParse) {
       columnMap = {
@@ -168,7 +168,7 @@ class AzStorageService {
    * Get users from table storage
    */
   async getUsers() {
-    const query = this.tableUtil.createAzQuery(1000, undefined)
+    const query = this.tableUtil.createAzQuery(1000)
     const { entries } = await this.tableUtil.queryAzTable(this.tables.users, query, {
       RowKey: 'id',
     })
@@ -241,7 +241,7 @@ class AzStorageService {
       ['StartDateTime', this.tableUtil.convertDate(filterValues.startDateTime), q.date, q.greaterThan],
       ['EndDateTime', this.tableUtil.convertDate(filterValues.endDateTime), q.date, q.lessThan],
     ]
-    const query = this.tableUtil.createAzQuery(1000, undefined, filter)
+    const query = this.tableUtil.createAzQuery(1000, filter)
     const tableName = options.forecast ? this.tables.forecastedTimeEntries : this.tables.timeEntries
     let result = await this.tableUtil.queryAzTableAll(tableName, query, {
       PartitionKey: 'resourceId',
@@ -334,7 +334,7 @@ class AzStorageService {
         ['PartitionKey', filterValues.resourceId, q.string, q.equal],
         ['Year', filterValues.year, q.int, q.equal],
       ]
-      const query = this.tableUtil.createAzQuery(1000, undefined, filter)
+      const query = this.tableUtil.createAzQuery(1000, filter)
       const result = await this.tableUtil.queryAzTableAll(this.tables.confirmedPeriods, query, {
         PartitionKey: 'resourceId',
         RowKey: 'periodId',
@@ -357,7 +357,7 @@ class AzStorageService {
         ['PartitionKey', filterValues.resourceId, q.string, q.equal],
         ['Year', filterValues.year, q.int, q.equal],
       ]
-      const query = this.tableUtil.createAzQuery(1000, undefined, filter)
+      const query = this.tableUtil.createAzQuery(1000, filter)
       const result = await this.tableUtil.queryAzTableAll(this.tables.forecastedPeriods, query, {
         PartitionKey: 'resourceId',
         RowKey: 'periodId',
@@ -500,7 +500,7 @@ class AzStorageService {
    */
   async getRoles() {
     try {
-      const query = this.tableUtil.createAzQuery(1000, undefined)
+      const query = this.tableUtil.createAzQuery(1000)
       let { entries } = await this.tableUtil.queryAzTable(this.tables.roles, query, {
         RowKey: 'name',
       })

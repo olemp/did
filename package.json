@@ -9,7 +9,7 @@
   "scripts": {
     "watch": "concurrently \"webpack\" \"npm run watch:server\" \"node tasks/open.js\" \"node tasks/localtunnel.js\"",
     "start": "ts-node ./server",
-    "watch:server": "nodemon --watch 'server/**/*.ts' --ext 'js,ts,json' --exec 'ts-node' ./server",
+    "watch:server": "ts-node-dev --ignore-watch node_modules server",
     "package:client": "webpack",
     "lint": "npm run lint:client && npm run prettier:client && npm run lint:server && npm run prettier:server",
     "lint:client": "eslint --ext .ts,.tsx ./client --color --fix",
@@ -112,6 +112,7 @@
     "try-require": "1.2.1",
     "ts-loader": "7.0.2",
     "ts-node": "9.0.0",
+    "ts-node-dev": "1.0.0",
     "tsconfig-paths-webpack-plugin": "3.3.0",
     "twix": "1.3.0",
     "typescript": "3.8.3",
