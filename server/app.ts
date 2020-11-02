@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config()
-const createError = require('http-errors')
+import createError from 'http-errors'
 import express from 'express'
-const favicon = require('express-favicon')
-const path = require('path')
-const bodyParser = require('body-parser')
-const logger = require('morgan')
-const passport = require('./middleware/passport')
-const serveGzipped = require('./middleware/gzip')
-const bearerToken = require('express-bearer-token')
-const { pick } = require('underscore')
+import favicon from 'express-favicon'
+import path from 'path'
+import bodyParser from 'body-parser'
+import logger from 'morgan'
+import passport from './middleware/passport'
+import serveGzipped from './middleware/gzip'
+import bearerToken from 'express-bearer-token'
+import { pick } from 'underscore'
+import authRoute from './routes/auth'
 
 class App {
   public instance: express.Application
@@ -62,7 +63,7 @@ class App {
     this.instance.use(bearerToken())
     this.instance.use(passport.initialize())
     this.instance.use(passport.session())
-    this.instance.use('/auth', require('./routes/auth'))
+    this.instance.use('/auth', authRoute)
   }
 
   /**
