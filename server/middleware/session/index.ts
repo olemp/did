@@ -1,9 +1,11 @@
-const session = require('express-session')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const log = require('debug')('middleware/session')
+import session from 'express-session'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const connectAzureTables = require('connect-azuretables')(session)
 const env = require('../../utils/env').default
-const log = require('debug')('middleware/session')
 
-module.exports = session({
+export default session({
   name: env('SESSION_NAME', 'connect.sid'),
   store: connectAzureTables.create({
     table: 'Sessions',

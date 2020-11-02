@@ -11,6 +11,7 @@ import serveGzipped from './middleware/gzip'
 import bearerToken from 'express-bearer-token'
 import { pick } from 'underscore'
 import authRoute from './routes/auth'
+import session from './middleware/session'
 
 class App {
   public instance: express.Application
@@ -37,7 +38,7 @@ class App {
    * Setup sessions
    */
   setupSession() {
-    this.instance.use(require('./middleware/session'))
+    this.instance.use(session)
   }
 
   /**
