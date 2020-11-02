@@ -1,7 +1,7 @@
 const fs = require('fs')
 const passport = require('passport')
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const env = require('../../utils/env')
+const env = require('../../utils/env').default
 
 passport.serializeUser((user, done) => done(null, user))
 passport.deserializeUser((user, done) => done(null, user))
