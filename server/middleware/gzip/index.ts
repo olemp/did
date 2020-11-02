@@ -1,4 +1,4 @@
-const fs = require('fs')
+import fs from 'fs'
 
 const serveGzipped = contentType => (req, res, next) => {
   // does browser support gzip? does the file exist?
@@ -19,4 +19,4 @@ const serveGzipped = contentType => (req, res, next) => {
   next()
 }
 
-module.exports = serveGzipped
+export default serveGzipped

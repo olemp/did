@@ -12,5 +12,5 @@
       "*": ["../node_modules/*"]
     }
   },
-  "include": ["server/**/*.ts","server/**/*.js"]
+  "include": ["server/**/*.ts","server/**/*.js", "server/middleware/gzip/index.td"]
 }
