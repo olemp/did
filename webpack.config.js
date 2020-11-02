@@ -16,7 +16,7 @@ let config = {
   mode,
   entry: { [pkg.name]: './client' },
   output: {
-    path: path.resolve(__dirname, pkg.config.public, 'js'),
+    path: path.resolve(__dirname, 'server/public/js'),
     filename: '[name].[hash].js',
     publicPath: '/js',
   },
@@ -86,7 +86,7 @@ switch (mode) {
       config.plugins.push(new LiveReloadPlugin())
       config.plugins.push(
         new WebpackBuildNotifierPlugin({
-          logo: path.join(__dirname, '/public/images/favicon/mstile-150x150.png'),
+          logo: path.join(__dirname, '/server/public/images/favicon/mstile-150x150.png'),
           sound: env('WEBPACK_NOTIFICATIONS_SOUND', false),
           suppressSuccess: env('WEBPACK_NOTIFICATIONS_SUPPRESSSUCCESS') === 'true',
           showDuration: env('WEBPACK_NOTIFICATIONS_SHOWDURATION') === 'true',

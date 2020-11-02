@@ -27,4 +27,4 @@ jobs:
           npm run tests
         env:
           NODE_ENV: production
-          TESTS_AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=https;AccountName=didsubstoragedev;AccountKey=EIfeW2mbJM56OMbFF3dR6YAXhdOQE2/n+DoFuxKkmgptmSqJ8aoJlgyOidkNtwIaQgB+DAd2+ALrGEGxeq6gHg==;EndpointSuffix=core.windows.net
+          TESTS_AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=https;AccountName=didtestdata;AccountKey=gg22Uv9EbTZ5cHvRhpucHtLMZWxHn+mkZf0yKGNWakIVxiZHdd7v4y/KtQq3c4Ic/i6yieZ+k0wPh1N28dS1MQ==;EndpointSuffix=core.windows.net
