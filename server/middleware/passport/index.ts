@@ -1,7 +1,8 @@
-const fs = require('fs')
-const passport = require('passport')
+import fs from 'fs'
+import passport from 'passport'
+import onVerifySignin from './onVerifySignin'
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
-const env = require('../../utils/env').default
+import env from '../../utils/env'
 
 passport.serializeUser((user, done) => done(null, user))
 passport.deserializeUser((user, done) => done(null, user))
@@ -21,7 +22,6 @@ function getRedirectUrl() {
 }
 
 const strategy = () => {
-  const onVerifySignin = require('./onVerifySignin')
   const redirectUrl = getRedirectUrl()
   return new OIDCStrategy(
     {
@@ -42,4 +42,4 @@ const strategy = () => {
 
 passport.use(strategy())
 
-module.exports = passport
+export default passport

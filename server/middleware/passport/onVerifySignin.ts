@@ -1,7 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('middleware/passport/onVerifySignin')
-const SubscriptionService = require('../../services/subscription')
-const AzStorageService = require('../../services/azstorage')
-const { NO_OID_FOUND, TENANT_NOT_ENROLLED, USER_NOT_ENROLLED } = require('./errors')
+import SubscriptionService from '../../services/subscription'
+import AzStorageService from '../../services/azstorage'
+import { NO_OID_FOUND, TENANT_NOT_ENROLLED, USER_NOT_ENROLLED } from './errors'
 
 async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, oauthToken, done) {
   if (!profile.oid) {
@@ -24,4 +25,4 @@ async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, 
   return done(null, user)
 }
 
-module.exports = onVerifySignin
+export default onVerifySignin
