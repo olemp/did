@@ -1,7 +1,8 @@
-const utils = require('../../../utils')
-const format = require('string-format')
-const { getPeriods } = require('./timesheet.utils')
-const get = require('get-value')
+import * as utils from '../../../utils'
+import format from 'string-format'
+import { getPeriods } from './timesheet.utils'
+import get from 'get-value'
+import { find } from 'underscore'
 
 /**
  * Get notifications for missing forecasts
@@ -13,7 +14,7 @@ const get = require('get-value')
  *
  * @param {*} param0 {template, ctx, locale}
  */
-module.exports = async function ({ template, ctx, locale }) {
+export default async function ({ template, ctx, locale }) {
   if (!get(ctx, 'user.subscription.settings.forecast.enabled', { default: false })) return []
   const currentWeek = utils.getWeek()
   const periods = []
@@ -26,7 +27,7 @@ module.exports = async function ({ template, ctx, locale }) {
   const forecastedPeriods = await ctx.services.azstorage.getForecastedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
-  })
+  }) as any[]
 
   periods.forEach(period => {
     if (!find(forecastedPeriods, cp => cp.periodId === period.id)) unforecastedPeriods.push(period)

@@ -1,8 +1,8 @@
-const unconfirmedPeriods = require('./notification.unconfirmed-periods')
-const forecast = require('./notification.forecast')
-const { gql } = require('apollo-server-express')
+import unconfirmedPeriods from './notification.unconfirmed-periods'
+import forecast from './notification.forecast'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Notification
   """
@@ -49,10 +49,7 @@ async function notifications(_obj, variables, ctx) {
   return [].concat.apply([], notifications)
 }
 
-module.exports = {
-  resolvers: {
-    Query: { notifications },
-    Mutation: {},
-  },
-  typeDef,
+export const resolvers = {
+  Query: { notifications },
+  Mutation: {},
 }

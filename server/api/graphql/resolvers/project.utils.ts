@@ -1,14 +1,14 @@
-const { filter, find } = require('underscore')
-const get = require('get-value')
+import { filter, find } from 'underscore'
+import get from 'get-value'
 
 /**
  * Connects projects, customers and labels
  *
- * @param projects
- * @param customers
- * @param labels
+ * @param {any[]} projects
+ * @param {any[]} customers
+ * @param {any[]} labels
  */
-function connectEntities(projects, customers, labels) {
+export function connectEntities(projects: any[], customers: any[], labels: any[]) {
   return projects
     .map(project => ({
       ...project,
@@ -20,5 +20,3 @@ function connectEntities(projects, customers, labels) {
     }))
     .filter(p => p.customer)
 }
-
-module.exports = { connectEntities }

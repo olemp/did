@@ -1,19 +1,23 @@
-const { first, find, filter, contains, isEmpty } = require('underscore')
-const { findBestMatch } = require('string-similarity')
-const get = require('get-value')
+import { first, find, filter, contains, isEmpty } from 'underscore'
+import { findBestMatch } from 'string-similarity'
+import get from 'get-value'
 
 class EventMatching {
+  public projects: any[]
+  public customers: any[]
+  public labels: any[]
+
   /**
    * Constructs a new EventMatching class
    *
-   * @param {*} projects Projects
-   * @param {*} customers Customers
-   * @param {*} labels Labels
+   * @param {any[]} projects Projects
+   * @param {any[]} customers Customers
+   * @param {any[]} labels Labels
    */
-  constructor(projects, customers, labels) {
+  constructor(projects: any[], customers: any[], labels: any[]) {
     this.projects = projects
     this.customers = customers
-    this.labels = labels
+    this.customers = labels
   }
 
   /**
@@ -22,7 +26,7 @@ class EventMatching {
    * @param {*} customer Customer
    * @param {*} projectKey Project key
    */
-  findProjectSuggestion(customer, projectKey) {
+  findProjectSuggestion(customer: any, projectKey: any) {
     try {
       const customerProjects = this.projects.filter(p => p.customerKey === customer.key)
       const projectKeys = customerProjects.map(p => p.id.split(' ')[1])
@@ -46,7 +50,7 @@ class EventMatching {
    *
    * @param {*} event
    */
-  findIgnore(event) {
+  findIgnore(event: { body: string, categories: string[] }) {
     const ignoreCategory = find(event.categories, c => c.toLowerCase() === 'ignore')
     if (!!ignoreCategory) return 'category'
     if ((event.body || '').match(/[(\[\{]IGNORE[)\]\}]/gi) !== null) return 'body'
@@ -56,10 +60,10 @@ class EventMatching {
   /**
    * Find project match in title/subject/categories
    *
-   * @param {*} inputStr The String object or string literal on which to perform the search.
-   * @param {*} soft Soft search - don't require [], () or {}
+   * @param {string} inputStr The String object or string literal on which to perform the search.
+   * @param {boolean} soft Soft search - don't require [], () or {}
    */
-  searchString(inputStr, soft) {
+  searchString(inputStr: string, soft = false) {
     let regex = /[\(\{\[]((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}?))[\)\]\}]/gim
     if (soft) regex = /((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}))/gim
     const matches = []
@@ -79,7 +83,7 @@ class EventMatching {
    * @param {*} inputStr The String object or string literal on which to perform the search.
    * @param {*} categoriesStr Categories string
    */
-  findProjectMatches(inputStr, categoriesStr) {
+  findProjectMatches(inputStr: any, categoriesStr: any) {
     const matches = this.searchString(categoriesStr, true)
     return matches || this.searchString(inputStr)
   }
@@ -89,7 +93,7 @@ class EventMatching {
    *
    * @param {*} categories
    */
-  findLabels(categories) {
+  findLabels(categories: any) {
     return filter(this.labels, lbl => contains(categories, lbl.name))
   }
 
@@ -101,7 +105,7 @@ class EventMatching {
    *
    * @param {*} event
    */
-  matchEvent(event) {
+  matchEvent(event: any) {
     const ignore = this.findIgnore(event)
     if (ignore === 'category') {
       return { ...event, isSystemIgnored: true }
@@ -139,7 +143,7 @@ class EventMatching {
    *
    * @param {*} event
    */
-  checkInactive(event) {
+  checkInactive(event: any) {
     const inactiveProject = get(event, 'project.inactive')
     const inactiveCustomer = get(event, 'customer.inactive')
     if (event.project && (inactiveProject || inactiveCustomer)) {
@@ -156,9 +160,9 @@ class EventMatching {
    *
    * @param {*} events
    */
-  matchEvents(events) {
+  matchEvents(events: any) {
     return events.map(this.matchEvent.bind(this))
   }
 }
 
-module.exports = EventMatching
+export default EventMatching

@@ -32,18 +32,18 @@ export const getPeriod = (date: any) => {
 /**
  * Get week for the specified date
  *
- * @param {*} date Date
+ * @param {string | moment.Moment} date Date
  */
-export const getWeek = (date: any) => {
+export const getWeek = (date?: string | moment.Moment) => {
   return moment(date).isoWeek()
 }
 
 /**
  * Get year for the specified date
  *
- * @param {*} date Date
+ * @param {string} date Date
  */
-export const getYear = (date: any) => {
+export const getYear = (date?: string) => {
   return moment(date).year()
 }
 

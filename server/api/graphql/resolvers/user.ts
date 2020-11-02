@@ -1,7 +1,7 @@
-const { pick, find, filter } = require('underscore')
-const { gql } = require('apollo-server-express')
+import { pick, find, filter } from 'underscore'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Subscription
   """
@@ -78,7 +78,10 @@ async function adUsers(_obj, _variables, ctx) {
 
 async function users(_obj, _variables, ctx) {
   // eslint-disable-next-line prefer-const
-  let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
+  let [users, roles] = await Promise.all([
+    ctx.services.azstorage.getUsers() as any[],
+    ctx.services.azstorage.getRoles() as any[]
+  ])
   users = filter(
     users.map(user => ({
       ...user,
@@ -93,8 +96,8 @@ async function currentUser(_obj, _variables, ctx) {
   if (!ctx.user) return null
   try {
     const [user, roles] = await Promise.all([
-      ctx.services.azstorage.getUser(ctx.user.id),
-      ctx.services.azstorage.getRoles(),
+      ctx.services.azstorage.getUser(ctx.user.id) as any,
+      ctx.services.azstorage.getRoles() as any[],
     ])
     return {
       ...ctx.user,
@@ -130,10 +133,7 @@ async function bulkAddUsers(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { adUsers, users, currentUser },
-    Mutation: { bulkAddUsers, addOrUpdateUser },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { adUsers, users, currentUser },
+  Mutation: { bulkAddUsers, addOrUpdateUser },
 }

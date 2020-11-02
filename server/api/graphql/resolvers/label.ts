@@ -1,7 +1,7 @@
-const { pick } = require('underscore')
-const { gql } = require('apollo-server-express')
+import { pick } from 'underscore'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Label
   """
@@ -71,10 +71,7 @@ async function deleteLabel(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { labels },
-    Mutation: { addOrUpdateLabel, deleteLabel },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { labels },
+  Mutation: { addOrUpdateLabel, deleteLabel },
 }

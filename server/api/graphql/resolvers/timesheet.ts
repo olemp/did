@@ -1,11 +1,11 @@
-const { filter, find, pick, contains, isEmpty } = require('underscore')
-const { formatDate } = require('../../../utils')
-const EventMatching = require('./timesheet.matching')
-const { connectEntities } = require('./project.utils')
-const { getPeriods, connectTimeEntries } = require('./timesheet.utils')
-const { gql, AuthenticationError, ApolloError } = require('apollo-server-express')
+import { filter, find, pick, contains, isEmpty } from 'underscore'
+import { formatDate } from '../../../utils'
+import EventMatching from './timesheet.matching'
+import { connectEntities } from './project.utils'
+import { getPeriods, connectTimeEntries } from './timesheet.utils'
+import { gql, AuthenticationError, ApolloError } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a TimeEntry
   """
@@ -94,7 +94,7 @@ const typeDef = gql`
  * @param {*} ctx GraphQL context
  */
 async function timesheet(_obj, variables, ctx) {
-  if (!ctx.services.msgraph) throw new AuthenticationError()
+  if (!ctx.services.msgraph) throw new AuthenticationError('')
   try {
     const periods = getPeriods(variables.startDateTime, variables.endDateTime, variables.locale)
     // eslint-disable-next-line prefer-const
@@ -155,17 +155,17 @@ async function timesheet(_obj, variables, ctx) {
  * @param {*} variables Variables: period, forecast
  * @param {*} ctx GraphQL context
  */
-async function submitPeriod(_obj, variables, ctx) {
+async function submitPeriod(_obj, variables: { period: any, forecast: boolean }, ctx) {
   try {
     const { period, forecast } = { ...variables }
     period.hours = 0
     if (!isEmpty(period.matchedEvents)) {
       const [events, labels] = await Promise.all([
-        ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime),
-        ctx.services.azstorage.getLabels(),
+        ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime) as any[],
+        ctx.services.azstorage.getLabels() as any[],
       ])
       const timeentries = period.matchedEvents.reduce((arr, event) => {
-        const entry = {
+        const entry: any = {
           ...pick(event, 'projectId', 'manualMatch'),
           event: find(events, e => e.id === event.id),
         }
@@ -218,10 +218,7 @@ async function unsubmitPeriod(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { timesheet },
-    Mutation: { submitPeriod, unsubmitPeriod },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { timesheet },
+  Mutation: { submitPeriod, unsubmitPeriod },
 }

@@ -1,16 +1,17 @@
-const utils = require('../../../utils')
-const { first, find, filter } = require('underscore')
-const { contains } = require('underscore.string')
-const get = require('get-value')
+import * as utils from '../../../utils'
+import { first, find, filter } from 'underscore'
+import { contains } from 'underscore.string'
+import get from 'get-value'
+import moment from 'moment'
 
 /**
  * Get periods between specified dates
  *
- * @param startDateTime Start date time in ISO format
- * @param endDateTime End date time in ISO format
- * @param locale User locale for moment formatting
+ * @param {string | moment.Moment} startDateTime Start date time in ISO format
+ * @param {string | moment.Moment} endDateTime End date time in ISO format
+ * @param {string} locale User locale for moment formatting
  */
-function getPeriods(startDateTime, endDateTime, locale) {
+export function getPeriods(startDateTime: string| moment.Moment, endDateTime: string| moment.Moment, locale: string): any[] {
   const week = utils.getWeek(startDateTime)
   const startMonthIdx = utils.getMonthIndex(startDateTime)
   const endMonthIdx = utils.getMonthIndex(endDateTime)
@@ -45,12 +46,12 @@ function getPeriods(startDateTime, endDateTime, locale) {
 /**
  * Connect time entries to projects, customers and labels
  *
- * @param timeentries Time entries
- * @param projects Projects
- * @param customers Customers
- * @param labels Labels
+ * @param {any[]} timeentries Time entries
+ * @param {any[]} projects Projects
+ * @param {any[]} customers Customers
+ * @param {any[]} labels Labels
  */
-function connectTimeEntries(timeentries, projects, customers, labels) {
+export function connectTimeEntries(timeentries: any[], projects: any[], customers: any[], labels: any[]) {
   return timeentries.map(entry => {
     const customerKey = first(entry.projectId.split(' '))
     return {
@@ -64,5 +65,3 @@ function connectTimeEntries(timeentries, projects, customers, labels) {
     }
   })
 }
-
-module.exports = { getPeriods, connectTimeEntries }

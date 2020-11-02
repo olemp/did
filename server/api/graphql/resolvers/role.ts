@@ -1,7 +1,7 @@
-const { pick } = require('underscore')
-const { gql } = require('apollo-server-express')
+import { pick } from 'underscore'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Role
   """
@@ -52,10 +52,7 @@ async function addOrUpdateRole(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { roles },
-    Mutation: { addOrUpdateRole },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { roles },
+  Mutation: { addOrUpdateRole },
 }

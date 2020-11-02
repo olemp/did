@@ -1,7 +1,7 @@
-const { find, first, pick, omit } = require('underscore')
-const { gql } = require('apollo-server-express')
+import { find, first, pick, omit } from 'underscore'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a TimeEntry
   """
@@ -51,7 +51,7 @@ async function timeentries(_obj, variables, ctx) {
     variables.resourceId = ctx.user.id
   }
   const [users, projects, customers, timeentries] = await Promise.all([
-    ctx.services.azstorage.getUsers(),
+    ctx.services.azstorage.getUsers() as any[],
     ctx.services.azstorage.getProjects(),
     ctx.services.azstorage.getCustomers(),
     ctx.services.azstorage.getTimeEntries(
@@ -77,10 +77,7 @@ async function timeentries(_obj, variables, ctx) {
   return entries
 }
 
-module.exports = {
-  resolvers: {
-    Query: { timeentries },
-    Mutation: {},
-  },
-  typeDef,
+export const resolvers = {
+  Query: { timeentries },
+  Mutation: {},
 }

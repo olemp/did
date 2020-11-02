@@ -1,8 +1,8 @@
-const { pick } = require('underscore')
-const { connectEntities } = require('./project.utils')
-const { gql } = require('apollo-server-express')
+import { pick } from 'underscore'
+import { connectEntities } from './project.utils'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Project
   """
@@ -79,10 +79,7 @@ async function projects(_obj, variables, ctx) {
   return projects
 }
 
-module.exports = {
-  resolvers: {
-    Query: { projects },
-    Mutation: { createOrUpdateProject },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { projects },
+  Mutation: { createOrUpdateProject },
 }

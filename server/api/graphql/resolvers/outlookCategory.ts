@@ -1,7 +1,7 @@
-const { pick } = require('underscore')
-const { gql } = require('apollo-server-express')
+import { pick } from 'underscore'
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a OutlookCategory
   """
@@ -44,10 +44,7 @@ async function createOutlookCategory(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { outlookCategories },
-    Mutation: { createOutlookCategory },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { outlookCategories },
+  Mutation: { createOutlookCategory },
 }

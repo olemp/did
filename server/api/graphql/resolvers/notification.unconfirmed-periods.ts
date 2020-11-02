@@ -1,14 +1,14 @@
-const utils = require('../../../utils')
-const { find } = require('underscore')
-const format = require('string-format')
-const { getPeriods } = require('./timesheet.utils')
+import * as utils from '../../../utils'
+import { find } from 'underscore'
+import format from 'string-format'
+import { getPeriods } from './timesheet.utils'
 
 /**
  * Get notifications for unconfirmed periods
  *
  * @param {*} param0 {template, ctx, locale}
  */
-module.exports = async function ({ template, ctx, locale }) {
+export default async function ({ template, ctx, locale }) {
   const currentWeek = utils.getWeek()
   const periods = []
   const unconfirmedPeriods = []
@@ -20,7 +20,7 @@ module.exports = async function ({ template, ctx, locale }) {
   const confirmedPeriods = await ctx.services.azstorage.getConfirmedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
-  })
+  }) as any[]
 
   periods.forEach(period => {
     if (!find(confirmedPeriods, cp => cp.periodId === period.id)) {
