@@ -124,6 +124,7 @@
   },
   "devDependencies": {
     "@2fd/graphdoc": "2.4.0",
+    "@types/string-strip-html": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "2.30.0",
     "@typescript-eslint/parser": "2.30.0",
     "assert": "2.0.0",
