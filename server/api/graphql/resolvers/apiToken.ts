@@ -1,9 +1,9 @@
-const { pick } = require('underscore')
-const jwt = require('jsonwebtoken')
-const { gql } = require('apollo-server-express')
-const env = require('../../../utils/env')
+import { pick } from 'underscore'
+import jwt from 'jsonwebtoken'
+import { gql } from 'apollo-server-express'
+import env from '../../../utils/env'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a ApiToken
   """
@@ -60,10 +60,7 @@ async function deleteApiToken(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
+  export const resolvers = {
     Query: { apiTokens },
     Mutation: { addApiToken, deleteApiToken },
-  },
-  typeDef,
-}
+  }

@@ -1,9 +1,9 @@
-const { pick } = require('underscore')
+import { pick } from 'underscore'
 const AzTableUtilities = require('../../../utils/table').default
 const { executeBatch, createAzBatch } = new AzTableUtilities()
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const typeDef = gql`
+export const typeDef = gql`
   """
   A type that describes a Customer
   """
@@ -88,10 +88,7 @@ async function deleteCustomer(_obj, variables, ctx) {
   }
 }
 
-module.exports = {
-  resolvers: {
-    Query: { customers },
-    Mutation: { createOrUpdateCustomer, deleteCustomer },
-  },
-  typeDef,
+export const resolvers = {
+  Query: { customers },
+  Mutation: { createOrUpdateCustomer, deleteCustomer },
 }

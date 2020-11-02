@@ -1,17 +1,18 @@
-const { ApolloServer, gql } = require('apollo-server-express')
-const { makeExecutableSchema } = require('graphql-tools')
-const { typeDef: Customer } = require('./resolvers/customer')
-const { typeDef: Project } = require('./resolvers/project')
-const { typeDef: Timesheet } = require('./resolvers/timesheet')
-const { typeDef: TimeEntry } = require('./resolvers/timeentry')
-const { typeDef: OutlookCategory } = require('./resolvers/outlookCategory')
-const { typeDef: User } = require('./resolvers/user')
-const { typeDef: Label } = require('./resolvers/label')
-const { typeDef: Role } = require('./resolvers/role')
-const { typeDef: Notification } = require('./resolvers/notification')
-const { typeDef: ApiToken } = require('./resolvers/apiToken')
-const { MSGraphService, AzStorageService, SubscriptionService } = require('../../services')
-const get = require('get-value')
+import { ApolloServer, gql } from 'apollo-server-express'
+import { makeExecutableSchema } from 'graphql-tools'
+import { typeDef as Customer } from './resolvers/customer'
+import { typeDef as Project } from './resolvers/project'
+import { typeDef as Timesheet } from './resolvers/timesheet'
+import { typeDef as TimeEntry } from './resolvers/timeentry'
+import { typeDef as OutlookCategory } from './resolvers/outlookCategory'
+import { typeDef as User } from './resolvers/user'
+import { typeDef as Label } from './resolvers/label'
+import { typeDef as Role } from './resolvers/role'
+import { typeDef as Notification } from './resolvers/notification'
+import { typeDef as ApiToken } from './resolvers/apiToken'
+import { MSGraphService, AzStorageService, SubscriptionService } from '../../services'
+import resolvers from './resolvers'
+import get from 'get-value'
 
 const Query = gql`
   """
@@ -83,7 +84,6 @@ const getSchema = () => {
     Notification,
     Timesheet,
   ]
-  const resolvers = require('./resolvers')
   return makeExecutableSchema({
     typeDefs,
     resolvers,
@@ -105,6 +105,7 @@ const createContext = async ({ req }) => {
     const services = {
       azstorage: new AzStorageService(subscription),
       subscription: SubscriptionService,
+      msgraph: null,
     }
     if (!!req.user) services.msgraph = MSGraphService.init(req)
     return {
@@ -124,7 +125,6 @@ module.exports = new ApolloServer({
   context: createContext,
   engine: {
     reportSchema: true,
-    variant: 'current',
     generateClientInfo: ({ context }) => {
       return {
         clientName: get(context, 'subscription.name', { default: '' }),
