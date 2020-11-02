@@ -1,5 +1,6 @@
 import { pick, find, filter } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -71,16 +72,30 @@ export const typeDef = gql`
   }
 `
 
-async function adUsers(_obj, _variables, ctx) {
+/**
+ * Get AD users
+ * 
+ * @param {any} _obj {}
+ * @param {any} _variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function adUsers(_obj: any, _variables: any, ctx: IGraphQLContext) {
   const users = await ctx.services.msgraph.getUsers()
   return users
 }
 
-async function users(_obj, _variables, ctx) {
+/**
+ * Get users
+ * 
+ * @param {any} _obj {}
+ * @param {any} _variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function users(_obj: any, _variables: any, ctx: IGraphQLContext) {
   // eslint-disable-next-line prefer-const
   let [users, roles] = await Promise.all([
-    ctx.services.azstorage.getUsers() as any[],
-    ctx.services.azstorage.getRoles() as any[]
+    ctx.services.azstorage.getUsers(),
+    ctx.services.azstorage.getRoles()
   ])
   users = filter(
     users.map(user => ({
@@ -92,12 +107,19 @@ async function users(_obj, _variables, ctx) {
   return users
 }
 
-async function currentUser(_obj, _variables, ctx) {
+/**
+ * Get current user
+ * 
+ * @param {any} _obj {}
+ * @param {any} _variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function currentUser(_obj: any, _variables: any, ctx: IGraphQLContext) {
   if (!ctx.user) return null
   try {
     const [user, roles] = await Promise.all([
-      ctx.services.azstorage.getUser(ctx.user.id) as any,
-      ctx.services.azstorage.getRoles() as any[],
+      ctx.services.azstorage.getUser(ctx.user.id),
+      ctx.services.azstorage.getRoles(),
     ])
     return {
       ...ctx.user,
@@ -109,7 +131,14 @@ async function currentUser(_obj, _variables, ctx) {
   }
 }
 
-async function addOrUpdateUser(_obj, variables, ctx) {
+/**
+ * Add or update user
+ * 
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function addOrUpdateUser(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.addOrUpdateUser(variables.user, variables.update)
     return { success: true, error: null }
@@ -121,7 +150,14 @@ async function addOrUpdateUser(_obj, variables, ctx) {
   }
 }
 
-async function bulkAddUsers(_obj, variables, ctx) {
+/**
+ * Add or update user
+ * 
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function bulkAddUsers(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.bulkAddUsers(variables.users)
     return { success: true, error: null }

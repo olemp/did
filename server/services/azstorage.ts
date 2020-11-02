@@ -182,7 +182,7 @@ class AzStorageService {
   /**
    * Get users from table storage
    */
-  async getUsers() {
+  async getUsers(): Promise<any[]> {
     const query = this.tableUtil.createAzQuery(1000)
     const { entries } = await this.tableUtil.queryAzTable(this.tables.users, query, {
       RowKey: 'id',
