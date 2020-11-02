@@ -133,10 +133,10 @@ class AzStorageService {
   /**
    * Get projects from table storage
    *
-   * @param {*} customerKey Customer key
-   * @param {*} options Options
+   * @param {string} customerKey Customer key
+   * @param {any} options Options
    */
-  async getProjects(customerKey: any, options: any = {}) {
+  async getProjects(customerKey?: any, options: any = {}) {
     const q = this.tableUtil.query()
     const filter = [['PartitionKey', customerKey, q.string, q.equal]]
     const query = this.tableUtil.createAzQuery(1000, filter)

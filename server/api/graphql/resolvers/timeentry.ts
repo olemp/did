@@ -1,5 +1,6 @@
 import { find, first, pick, omit } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -45,13 +46,20 @@ export const typeDef = gql`
   }
 `
 
-async function timeentries(_obj, variables, ctx) {
+/**
+ * Get time entries
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function timeentries(_obj: any, variables: any, ctx: IGraphQLContext) {
   if (variables.currentUser) {
     delete variables.currentUser
     variables.resourceId = ctx.user.id
   }
   const [users, projects, customers, timeentries] = await Promise.all([
-    ctx.services.azstorage.getUsers() as any[],
+    ctx.services.azstorage.getUsers(),
     ctx.services.azstorage.getProjects(),
     ctx.services.azstorage.getCustomers(),
     ctx.services.azstorage.getTimeEntries(

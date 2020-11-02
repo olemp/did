@@ -4,6 +4,7 @@ import EventMatching from './timesheet.matching'
 import { connectEntities } from './project.utils'
 import { getPeriods, connectTimeEntries } from './timesheet.utils'
 import { gql, AuthenticationError, ApolloError } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -89,11 +90,11 @@ export const typeDef = gql`
 /**
  * Timesheet
  *
- * @param {*} _obj {}
- * @param {*} variables Variables: startDateTime, endDateTime, dateFormat, locale
- * @param {*} ctx GraphQL context
+ * @param {any} _obj {}
+ * @param {any} variables Variables: startDateTime, endDateTime, dateFormat, locale
+ * @param {IGraphQLContext} ctx GraphQL context
  */
-async function timesheet(_obj, variables, ctx) {
+async function timesheet(_obj: any, variables: any, ctx: IGraphQLContext) {
   if (!ctx.services.msgraph) throw new AuthenticationError('')
   try {
     const periods = getPeriods(variables.startDateTime, variables.endDateTime, variables.locale)
@@ -151,18 +152,18 @@ async function timesheet(_obj, variables, ctx) {
 /**
  * Submit period
  *
- * @param {*} _obj {}
- * @param {*} variables Variables: period, forecast
- * @param {*} ctx GraphQL context
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
  */
-async function submitPeriod(_obj, variables: { period: any, forecast: boolean }, ctx) {
+async function submitPeriod(_obj: any, variables: { period: any, forecast: boolean }, ctx: IGraphQLContext) {
   try {
     const { period, forecast } = { ...variables }
     period.hours = 0
     if (!isEmpty(period.matchedEvents)) {
       const [events, labels] = await Promise.all([
-        ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime) as any[],
-        ctx.services.azstorage.getLabels() as any[],
+        ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime),
+        ctx.services.azstorage.getLabels(),
       ])
       const timeentries = period.matchedEvents.reduce((arr, event) => {
         const entry: any = {
@@ -192,11 +193,11 @@ async function submitPeriod(_obj, variables: { period: any, forecast: boolean },
 /**
  * Unsubmit period
  *
- * @param {*} _obj {}
- * @param {*} variables Variables: period, forecast
- * @param {*} ctx GraphQL context
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
  */
-async function unsubmitPeriod(_obj, variables, ctx) {
+async function unsubmitPeriod(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     if (variables.forecast) {
       await Promise.all([

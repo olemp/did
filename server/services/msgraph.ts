@@ -131,7 +131,7 @@ class MSGraphService {
   /**
    * Get Outlook categories
    */
-  async getOutlookCategories() {
+  async getOutlookCategories(): Promise<any[]> {
     try {
       this.startMark('getOutlookCategories')
       log('Querying Graph /me/outlook/masterCategories')
@@ -158,7 +158,7 @@ class MSGraphService {
    * @param {string} endDateTime End date time in ISO format
    * @param {number} maxDurationHours Max duration hours (defaults to 24)
    */
-  async getEvents(startDateTime: string, endDateTime: string, maxDurationHours = 24) {
+  async getEvents(startDateTime: string, endDateTime: string, maxDurationHours = 24): Promise<MSGraphEvent[]> {
     try {
       this.startMark('getEvents')
       log(

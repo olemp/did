@@ -2,6 +2,7 @@ import { pick } from 'underscore'
 const AzTableUtilities = require('../../../utils/table').default
 const { executeBatch, createAzBatch } = new AzTableUtilities()
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -50,11 +51,25 @@ export const typeDef = gql`
   }
 `
 
-async function customers(_obj, variables, ctx) {
+/**
+ * Get customers
+ * 
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function customers(_obj: any, variables: any, ctx: IGraphQLContext) {
   return await ctx.services.azstorage.getCustomers({ sortBy: variables.sortBy })
 }
 
-async function createOrUpdateCustomer(_obj, variables, ctx) {
+/**
+ * Create or update customer
+ * 
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function createOrUpdateCustomer(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.createOrUpdateCustomer(variables.customer, ctx.user.id, variables.update)
     return { success: true, error: null }
@@ -66,7 +81,14 @@ async function createOrUpdateCustomer(_obj, variables, ctx) {
   }
 }
 
-async function deleteCustomer(_obj, variables, ctx) {
+/**
+ * Delete customer
+ * 
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function deleteCustomer(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     const projects = await ctx.services.azstorage.getProjects(variables.key, {
       noParse: true,

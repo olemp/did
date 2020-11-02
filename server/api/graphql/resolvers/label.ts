@@ -1,5 +1,6 @@
 import { pick } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -42,12 +43,26 @@ export const typeDef = gql`
   }
 `
 
-async function labels(_obj, _variables, ctx) {
+/**
+ * Get labels
+ *
+ * @param {any} _obj {}
+ * @param {any} _variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function labels(_obj: any, _variables: any, ctx: IGraphQLContext) {
   const labels = await ctx.services.azstorage.getLabels()
   return labels
 }
 
-async function addOrUpdateLabel(_obj, variables, ctx) {
+/**
+ * Add or update label
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function addOrUpdateLabel(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.addOrUpdateLabel(variables.label, ctx.user.id, variables.update)
     return { success: true, error: null }
@@ -59,7 +74,14 @@ async function addOrUpdateLabel(_obj, variables, ctx) {
   }
 }
 
-async function deleteLabel(_obj, variables, ctx) {
+/**
+ * Delete label
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function deleteLabel(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.deleteLabel(variables.name)
     return { success: true, error: null }

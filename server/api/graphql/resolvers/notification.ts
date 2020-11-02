@@ -1,6 +1,7 @@
 import unconfirmedPeriods from './notification.unconfirmed-periods'
 import forecast from './notification.forecast'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -30,7 +31,14 @@ export const typeDef = gql`
   }
 `
 
-async function notifications(_obj, variables, ctx) {
+/**
+ * Get notifications
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function notifications(_obj: any, variables: any, ctx: IGraphQLContext) {
   if (!ctx.user.id) return { success: false, error: null }
 
   const notifications = await Promise.all([

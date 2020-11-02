@@ -1,5 +1,6 @@
 import { pick } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -35,12 +36,26 @@ export const typeDef = gql`
   }
 `
 
-async function roles(_obj, _variables, ctx) {
+/**
+ * Get roles
+ *
+ * @param {any} _obj {}
+ * @param {any} _variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function roles(_obj: any, _variables: any, ctx: IGraphQLContext) {
   const roles = await ctx.services.azstorage.getRoles()
   return roles
 }
 
-async function addOrUpdateRole(_obj, variables, ctx) {
+/**
+ * Add or update role
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function addOrUpdateRole(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.addOrUpdateRole(variables.role, variables.update)
     return { success: true, error: null }

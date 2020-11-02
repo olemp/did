@@ -1,5 +1,6 @@
 import { pick } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { IGraphQLContext } from '../IGraphQLContext'
 
 export const typeDef = gql`
   """
@@ -27,12 +28,26 @@ export const typeDef = gql`
   }
 `
 
-async function outlookCategories(_obj, _variables, ctx) {
+/**
+ * Get Outlook categories
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function outlookCategories(_obj: any, _variables, ctx: IGraphQLContext) {
   const categories = await ctx.services.msgraph.getOutlookCategories()
   return categories.map(c => ({ ...c, key: c.id }))
 }
 
-async function createOutlookCategory(_obj, variables, ctx) {
+/**
+ * Create Outlook category
+ *
+ * @param {any} _obj {}
+ * @param {any} variables Variables
+ * @param {IGraphQLContext} ctx GraphQL context
+ */
+async function createOutlookCategory(_obj: any, variables: any, ctx: IGraphQLContext) {
   try {
     await ctx.services.msgraph.createOutlookCategory(variables.category)
     return { success: true, error: null }
