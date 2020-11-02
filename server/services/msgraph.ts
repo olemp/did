@@ -7,7 +7,7 @@ const env = require('../utils/env').default
 import MSGraphEvent from './msgraph.event'
 import { first } from 'underscore'
 import { performance, PerformanceObserver } from 'perf_hooks'
-import appInsights from 'applicationinsights'
+import * as appInsights from 'applicationinsights'
 
 class MSGraphService {
   public observer: PerformanceObserver
