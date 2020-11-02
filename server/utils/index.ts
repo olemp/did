@@ -7,15 +7,15 @@ import stripHtml from 'string-strip-html'
  *
  * @param {string} str String
  */
-export const stripHtmlString = (str: string) => stripHtml(str),
+export const stripHtmlString = (str: string) => stripHtml(str)
 
 /**
  * Get duration between two times in hours
  *
- * @param {*} startDateTime Start time
- * @param {*} endDateTime End time
+ * @param {string} startDateTime Start time
+ * @param {string} endDateTime End time
  */
-export const getDurationHours = (startDateTime, endDateTime) => {
+export const getDurationHours = (startDateTime: string, endDateTime: string) => {
   return moment.duration(moment(endDateTime).diff(moment(startDateTime))).asHours()
 }
 
@@ -24,7 +24,7 @@ export const getDurationHours = (startDateTime, endDateTime) => {
  *
  * @param {*} date Date
  */
-export const getPeriod = date => {
+export const getPeriod = (date: any) => {
   const d = moment(date)
   return [d.isoWeek(), d.month() + 1, d.year()].join('_')
 }
@@ -34,7 +34,7 @@ export const getPeriod = date => {
  *
  * @param {*} date Date
  */
-export const getWeek = date => {
+export const getWeek = (date: any) => {
   return moment(date).isoWeek()
 }
 
@@ -43,9 +43,9 @@ export const getWeek = date => {
  *
  * @param {*} date Date
  */
-export const getYear = date => {
+export const getYear = (date: any) => {
   return moment(date).year()
-},
+}
 
 /**
  * Get month index for the specified date
@@ -54,7 +54,7 @@ export const getYear = date => {
  *
  * @param {*} date Date
  */
-export const getMonthIndex = date => {
+export const getMonthIndex = (date: any) => {
   return moment(date).month() + 1
 }
 
@@ -63,7 +63,7 @@ export const getMonthIndex = date => {
  *
  * @param {*} date Date
  */
-export const startOfMonth = date => {
+export const startOfMonth = (date: any) => {
   const d = moment(date).startOf('month')
   return d.toISOString().replace('Z', '')
 }
@@ -73,7 +73,7 @@ export const startOfMonth = date => {
  *
  * @param {*} date Date
  */
-export const endOfMonth = date => {
+export const endOfMonth = (date: any) => {
   const d = moment(date).endOf('month')
   return d.toISOString().replace('Z', '')
 }
@@ -83,7 +83,7 @@ export const endOfMonth = date => {
  *
  * @param {*} week Week number
  */
-export const startOfWeek = week => {
+export const startOfWeek = (week: any) => {
   return moment().week(week).startOf('isoWeek')
 }
 
@@ -92,7 +92,7 @@ export const startOfWeek = week => {
  *
  * @param {*} week Week number
  */
-export const endOfWeek = week => {
+export const endOfWeek = (week: any) => {
   return moment().week(week).endOf('isoWeek')
 }
 
@@ -103,8 +103,8 @@ export const endOfWeek = week => {
  * @param {*} dateFormat Date format
  * @param {*} locale Locale
  */
-export const formatDate = (date, dateFormat, locale, timeZone = 'Europe/Oslo') => {
-  return moment(date).locale(locale).tz(timeZone).format(dateFormat)
+export const formatDate = (date: any, dateFormat: any, locale: any, timeZone = 'Europe/Oslo') => {
+  return (moment(date) as any).locale(locale).tz(timeZone).format(dateFormat)
 }
 
 /**
@@ -112,7 +112,7 @@ export const formatDate = (date, dateFormat, locale, timeZone = 'Europe/Oslo') =
  *
  * @param {*} date Date
  */
-export const isAfterToday = date => {
+export const isAfterToday = (date: any) => {
   return moment(date).isAfter(moment())
 }
 
@@ -122,7 +122,7 @@ export const isAfterToday = date => {
  * @param {*} str String
  * @param {*} separator String separator
  */
-export const toArray = (str, separator = '|') => {
+export const toArray = (str: string, separator: any = '|') => {
   return (str || '').split(separator).filter(p => p)
 }
 
