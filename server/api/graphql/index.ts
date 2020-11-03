@@ -1,13 +1,12 @@
-import createDebug from 'debug'
-const debug = createDebug('api/graphql')
 import { ApolloServer } from 'apollo-server-express'
+import createDebug from 'debug'
+import express from 'express'
 import get from 'get-value'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
-import { AzStorageService, MSGraphService, SubscriptionService } from '../../services'
-import { IGraphQLContext } from './IGraphQLContext'
+import { createContext } from './context'
 import * as resolvers from './resolvers'
-import express from 'express'
+const debug = createDebug('api/graphql')
 
 /**
  * Get schema
@@ -32,28 +31,6 @@ const getSchema = async () => {
   return schema
 }
 
-const createContext = async ({ req }): Promise<IGraphQLContext> => {
-  try {
-    let subscription = req.user && req.user.subscription
-    if (!!req.token) {
-      subscription = await new SubscriptionService().findSubscriptionWithToken(req.token)
-      // eslint-disable-next-line quotes
-      if (!subscription) throw new Error("You don't have access to this resource.")
-    } else if (!req.user) throw new Error()
-    const services = {
-      azstorage: new AzStorageService(subscription),
-      subscription: new SubscriptionService(),
-      msgraph: !!req.user && new MSGraphService().init(req),
-    }
-    return {
-      services,
-      user: req.user || {},
-      subscription,
-    }
-  } catch (error) {
-    throw error
-  }
-}
 export default async (app: express.Application): Promise<void> => {
   try {
     const schema = await getSchema()

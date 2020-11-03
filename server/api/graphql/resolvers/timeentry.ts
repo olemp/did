@@ -1,6 +1,6 @@
 import { Arg, Ctx, Query, Resolver } from 'type-graphql'
 import { find, first } from 'underscore'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { TimeEntriesQuery, TimeEntry } from './timeentry.types'
 
 @Resolver(TimeEntry)
@@ -12,7 +12,7 @@ export class TimeEntryResolver {
    * @param {boolean} sortAsc Sort ascending
    * @param {boolean} forecast Forecast
    * @param {TimeEntriesQuery} query Query
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [TimeEntry])
   async timeentries(
@@ -20,7 +20,7 @@ export class TimeEntryResolver {
     @Arg('sortAsc', { nullable: true }) sortAsc: boolean,
     @Arg('forecast', { nullable: true }) forecast: boolean,
     @Arg('query') query: TimeEntriesQuery,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ) {
     if (currentUser) query.resourceId = ctx.user.id
     const [users, projects, customers, timeentries] = await Promise.all([

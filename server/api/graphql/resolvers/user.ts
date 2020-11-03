@@ -2,7 +2,7 @@
 import 'reflect-metadata'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { filter, find, pick } from 'underscore'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { BaseResult } from '../types'
 import { User, UserInput } from './user.types'
 
@@ -11,10 +11,10 @@ export class UserResolver {
   /**
    * Get current user
    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => User)
-  async currentUser(@Ctx() ctx: IGraphQLContext) {
+  async currentUser(@Ctx() ctx: Context) {
     if (!ctx.user) return null
     try {
       const [user, roles] = await Promise.all([
@@ -34,10 +34,10 @@ export class UserResolver {
   /**
    * Get AD users
    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [User])
-  async adUsers(@Ctx() ctx: IGraphQLContext) {
+  async adUsers(@Ctx() ctx: Context) {
     const users = await ctx.services.msgraph.getUsers()
     return users
   }
@@ -45,10 +45,10 @@ export class UserResolver {
   /**
    * Get users
    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [User])
-  async users(@Ctx() ctx: IGraphQLContext) {
+  async users(@Ctx() ctx: Context) {
     // eslint-disable-next-line prefer-const
     let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
     users = filter(
@@ -66,13 +66,13 @@ export class UserResolver {
    *
    * @param {UserInput} user User
    * @param {boolean} update Update
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async addOrUpdateUser(
     @Arg('user', () => UserInput) user: UserInput,
     @Arg('update', { nullable: true }) update: boolean,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ): Promise<BaseResult> {
     try {
       await ctx.services.azstorage.addOrUpdateUser(user, update)
@@ -89,12 +89,12 @@ export class UserResolver {
    * Bulk add users
    *
    * @param {UserInput[]} users Users
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async bulkAddUsers(
     @Arg('users', () => [UserInput]) users: UserInput[],
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ): Promise<BaseResult> {
     try {
       await ctx.services.azstorage.bulkAddUsers(users)

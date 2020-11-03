@@ -2,7 +2,7 @@ import { ApolloError, AuthenticationError } from 'apollo-server-express'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { contains, filter, find, isEmpty, pick } from 'underscore'
 import { formatDate } from '../../../utils'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { BaseResult } from '../types'
 import { connectEntities } from './project.utils'
 import EventMatching from './timesheet.matching'
@@ -17,14 +17,14 @@ export class TimesheetResolver {
    * @param {TimesheetQuery} query Query
    * @param {string} locale Locale
    * @param {string} dateFormat Date format
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [TimesheetPeriodObject])
   async timesheet(
     @Arg('query') query: TimesheetQuery,
     @Arg('locale') locale: string,
     @Arg('dateFormat') dateFormat: string,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ) {
     if (!ctx.services.msgraph) throw new AuthenticationError('')
     try {
@@ -85,13 +85,13 @@ export class TimesheetResolver {
    *
    * @param {TimesheetPeriodInput} period Period
    * @param {boolean} forecast Forecast
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async submitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,
     @Arg('forecast', { nullable: true }) forecast: boolean,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ): Promise<BaseResult> {
     try {
       let hours = 0
@@ -130,13 +130,13 @@ export class TimesheetResolver {
    *
    * @param {TimesheetPeriodInput} period Period
    * @param {boolean} forecast Forecast
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async unsubmitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,
     @Arg('forecast', { nullable: true }) forecast: boolean,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ): Promise<BaseResult> {
     try {
       if (forecast) {

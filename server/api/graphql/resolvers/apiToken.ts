@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import env from '../../../utils/env'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { BaseResult } from '../types'
 import { ApiToken } from './apiToken.types'
 
@@ -12,10 +12,10 @@ export class ApiTokenResolver {
   /**
    * Get API tokens
    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [ApiToken])
-  async apiTokens(@Ctx() ctx: IGraphQLContext) {
+  async apiTokens(@Ctx() ctx: Context) {
     const tokens = await ctx.services.subscription.getApiTokens(ctx.user.subscription.id)
     return tokens
   }
@@ -24,10 +24,10 @@ export class ApiTokenResolver {
    * Delete API tokens
    *
    * @param {string} name Name    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => String)
-  async addApiToken(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
+  async addApiToken(@Arg('name') name: string, @Ctx() ctx: Context) {
     const token = jwt.sign(
       {
         data: pick(ctx.user, 'id'),
@@ -42,10 +42,10 @@ export class ApiTokenResolver {
    * Delete API tokens
    *
    * @param {string} name Name
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
-  async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
+  async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: Context) {
     await ctx.services.subscription.deleteApiToken(name, ctx.user.subscription.id)
     return { success: true, error: null }
   }

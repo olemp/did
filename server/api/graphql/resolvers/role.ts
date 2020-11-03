@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { BaseResult } from '../types'
 import { Role, RoleInput } from './role.types'
 
@@ -9,10 +9,10 @@ export class RoleResolver {
   /**
    * Get roles
    *
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [Role])
-  async roles(@Ctx() ctx: IGraphQLContext) {
+  async roles(@Ctx() ctx: Context) {
     return await ctx.services.azstorage.getRoles()
   }
 
@@ -21,13 +21,13 @@ export class RoleResolver {
    *
    * @param {RoleInput} role Role
    * @param {boolean} update Update
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async addOrUpdateRole(
     @Arg('role', () => RoleInput) role: RoleInput,
     @Arg('update', { nullable: true }) update: boolean,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ) {
     try {
       await ctx.services.azstorage.addOrUpdateRole(role, update)

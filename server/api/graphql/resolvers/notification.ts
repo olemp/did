@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Arg, Ctx, Query, Resolver } from 'type-graphql'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import forecast from './notification.forecast'
 import { Notification, NotificationTemplates } from './notification.types'
 import unconfirmedPeriods from './notification.unconfirmed-periods'
@@ -12,13 +12,13 @@ export class NotificationResolver {
    *
    * @param {NotificationTemplates} templates Templates
    * @param {string} locale Locale
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [Notification])
   async notifications(
     @Arg('templates', () => NotificationTemplates) templates: NotificationTemplates,
     @Arg('locale') locale: string,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ) {
     if (!ctx.user.id) return { success: false, error: null }
 

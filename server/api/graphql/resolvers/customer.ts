@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import AzTableUtilities from '../../../utils/table'
-import { IGraphQLContext } from '../IGraphQLContext'
+import { Context } from '../context'
 import { BaseResult } from '../types'
 import { Customer, CustomerInput } from './customer.types'
 const { executeBatch, createAzBatch } = new AzTableUtilities()
@@ -13,10 +13,10 @@ export class CustomerResolver {
    * Get customers
    *
    * @param {string} sortBy Sort by
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Query(() => [Customer])
-  async customers(@Arg('sortBy', { nullable: true }) sortBy: string, @Ctx() ctx: IGraphQLContext) {
+  async customers(@Arg('sortBy', { nullable: true }) sortBy: string, @Ctx() ctx: Context) {
     return await ctx.services.azstorage.getCustomers({ sortBy })
   }
 
@@ -25,13 +25,13 @@ export class CustomerResolver {
    *
    * @param {CustomerInput} customer Customer
    * @param {boolean} update Update
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async createOrUpdateCustomer(
     @Arg('customer', () => CustomerInput) customer: CustomerInput,
     @Arg('update', { nullable: true }) update: boolean,
-    @Ctx() ctx: IGraphQLContext
+    @Ctx() ctx: Context
   ) {
     try {
       await ctx.services.azstorage.createOrUpdateCustomer(customer, ctx.user.id, update)
@@ -48,10 +48,10 @@ export class CustomerResolver {
    * Delete customer
    *
    * @param {string} key Key
-   * @param {IGraphQLContext} ctx GraphQL context
+   * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
-  async deleteCustomer(@Arg('key') key: string, @Ctx() ctx: IGraphQLContext) {
+  async deleteCustomer(@Arg('key') key: string, @Ctx() ctx: Context) {
     try {
       const projects = await ctx.services.azstorage.getProjects(key, {
         noParse: true,
