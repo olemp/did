@@ -1,8 +1,8 @@
 import app from './app'
 import * as http from 'http'
 import env from './utils/env'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const log = require('debug')('server')
+import createDebug from 'debug'
+const debug = createDebug('server')
 
 async function startServer(port: string) {
   await app.setup()
@@ -19,11 +19,11 @@ async function startServer(port: string) {
 
     switch (error.code) {
       case 'EACCES':
-        log('\x1b[31m', `[${bind} requires elevated privileges]`)
+        debug('\x1b[31m', `[${bind} requires elevated privileges]`)
         process.exit(1)
         break
       case 'EADDRINUSE':
-        log('\x1b[31m', `[${bind} is already in use]`)
+        debug('\x1b[31m', `[${bind} is already in use]`)
         process.exit(1)
         break
       default:
@@ -32,7 +32,7 @@ async function startServer(port: string) {
   }
 
   function onListening() {
-    log('\x1b[32m', `[Server listening on port ${port}]`)
+    debug('\x1b[32m', `[Server listening on port ${port}]`)
   }
 
   server.listen(port)
