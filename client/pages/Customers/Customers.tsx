@@ -14,7 +14,7 @@ import { find } from 'underscore'
 import { CustomerDetails } from './CustomerDetails'
 import { CustomerList } from './CustomerList'
 import GET_CUSTOMERS from './GET_CUSTOMERS'
-import { ICustomersParams, IGetCustomersData } from './types'
+import { ICustomersParams } from './types'
 
 
 export const Customers = () => {
@@ -23,7 +23,7 @@ export const Customers = () => {
     const history = useHistory()
     const params = useParams<ICustomersParams>()
     const [selected, setSelected] = useState<ICustomer>(null)
-    const { loading, error, data } = useQuery<IGetCustomersData>(
+    const { loading, error, data } = useQuery(
         GET_CUSTOMERS,
         {
             variables: { sortBy: 'name' },

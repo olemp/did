@@ -1,4 +1,4 @@
-import { ICustomer } from './ICustomer'
+import { ICustomer } from './'
 import { IProject } from './IProject'
 import { IEntityLabel } from './IEntityLabel'
 

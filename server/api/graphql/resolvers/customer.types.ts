@@ -1,3 +1,13 @@
+export interface ICustomer {
+  key: string
+  name: string
+  description: string
+  webLink: string
+  externalSystemURL: string
+  icon: string
+  inactive?: boolean
+}
+
 /**
  * Variables for query customers
  */
@@ -9,7 +19,7 @@ export interface ICustomersQueryVariables {
  * Variables for mutation createOrUpdateCustomer
  */
 export interface ICreateOrUpdateCustomerVariables {
-  customer: any;
+  customer: ICustomer;
   update: boolean;
 }
 
