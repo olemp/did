@@ -1,4 +1,4 @@
-global.fetch = require('node-fetch')
+global['fetch'] = require('node-fetch')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('services/msgraph')
 import TokenService from './tokens'
