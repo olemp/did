@@ -9,8 +9,19 @@ type BaseResult {
   success: Boolean!
 }
 
-"""The Customer model"""
+"""A type that describes a Customer"""
 type Customer {
+  description: String!
+  externalSystemURL: String!
+  icon: String!
+  inactive: Boolean!
+  key: String!
+  name: String!
+  webLink: String!
+}
+
+"""Input object for Customer used in Mutation createOrUpdateCustomer"""
+input CustomerInput {
   description: String!
   externalSystemURL: String!
   icon: String!
@@ -31,6 +42,8 @@ type Error {
 type Mutation {
   addOrUpdateUser(update: Boolean!, user: UserInput!): BaseResult!
   bulkAddUsers(users: [UserInput!]!): BaseResult!
+  createOrUpdateCustomer(customer: CustomerInput!, update: Boolean!): BaseResult!
+  deleteCustomer(key: String!): BaseResult!
 }
 
 """A type that describes a Notification"""
@@ -51,7 +64,7 @@ input NotificationTemplates {
 type Query {
   adUsers: [User!]!
   currentUser: User!
-  customers: [Customer!]!
+  customers(sortBy: String!): [Customer!]!
   notifications(locale: String!, templates: NotificationTemplates!): [Notification!]!
   users: [User!]!
 }

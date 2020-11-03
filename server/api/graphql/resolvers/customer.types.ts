@@ -1,8 +1,33 @@
+/* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { ObjectType, Field } from 'type-graphql'
+import { ObjectType, InputType, Field } from 'type-graphql'
 
-@ObjectType({ description: 'The Customer model' })
+@ObjectType({ description: 'A type that describes a Customer' })
 export class Customer {
+  @Field() 
+  key: string
+
+  @Field() 
+  name: string
+
+  @Field() 
+  description: string
+
+  @Field() 
+  webLink: string
+
+  @Field() 
+  externalSystemURL: string
+
+  @Field() 
+  icon: string
+
+  @Field() 
+  inactive?: boolean
+}
+
+@InputType({ description: 'Input object for Customer used in Mutation createOrUpdateCustomer' })
+export class CustomerInput {
   @Field() 
   key: string
 

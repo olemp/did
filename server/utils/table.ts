@@ -6,7 +6,7 @@ import get from 'get-value'
 class AzTableUtilities {
   public tableService: azurestorage.services.table.TableService
 
-  constructor(tableService: azurestorage.services.table.TableService) {
+  constructor(tableService: azurestorage.services.table.TableService = null) {
     this.tableService = tableService
   }
 
