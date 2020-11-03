@@ -166,13 +166,13 @@ async function submitPeriod(_obj: any, variables: ISubmitPeriodVariables, ctx: I
         ctx.services.msgraph.getEvents(period.startDateTime, period.endDateTime),
         ctx.services.azstorage.getLabels(),
       ])
-      const timeentries = period.matchedEvents.reduce((arr, event) => {
+      const timeentries = period.matchedEvents.reduce((arr, me) => {
         const entry: any = {
-          ...pick(event, 'projectId', 'manualMatch'),
-          event: find(events, e => e.id === event.id),
+          ...pick(me, 'projectId', 'manualMatch'),
+          event: find(events, e => e.id === me.id),
         }
         if (!entry.event) return arr
-        entry.labels = filter(labels, lbl => contains(event.categories, lbl.name)).map(lbl => lbl.name)
+        entry.labels = filter(labels, lbl => contains(entry.event.categories, lbl.name)).map(lbl => lbl.name)
         return [...arr, entry]
       }, [])
       period.hours = await ctx.services.azstorage.addTimeEntries(pick(period, 'id'), ctx.user, timeentries, forecast)

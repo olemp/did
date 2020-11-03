@@ -18,7 +18,6 @@ import styles from './Timesheet.module.scss'
 import {
     ITimesheetContext,
     ITimesheetParams,
-    ITimesheetPeriod,
     TimesheetContext,
     TimesheetPeriod,
     TimesheetScope,
@@ -36,7 +35,7 @@ export const Timesheet = () => {
         scope: new TimesheetScope(params),
         selectedView: params.view || 'overview'
     })
-    const query = useQuery<{ timesheet: ITimesheetPeriod[] }>(graphql.query.timesheet, {
+    const query = useQuery(graphql.query.timesheet, {
         variables: {
             ...state.scope.dateStrings,
             dateFormat: 'dddd DD',
@@ -76,7 +75,7 @@ export const Timesheet = () => {
             period: state.selectedPeriod.data,
             forecast
         }
-        unsubmitPeriod({ variables }).then(query.refetch)
+        unsubmitPeriod({ variables }).then(() => query.refetch())
     }
 
     const context: ITimesheetContext = useMemo(() => ({

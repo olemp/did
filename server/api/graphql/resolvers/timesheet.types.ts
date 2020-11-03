@@ -3,6 +3,8 @@ import { ILabel } from './label.types'
 
 export interface IEvent {
   id: string
+  key: string
+  day: string
   title: string
   body: string
   isOrganizer: boolean
@@ -17,8 +19,107 @@ export interface IEvent {
   suggestedProject: any
   webLink: string
   labels: ILabel[]
-  isSystemIgnored: boolean
   error: any
+  manualMatch?: boolean
+  isSystemIgnored?: boolean
+}
+
+export interface ITimesheetPeriod {
+  /**
+   * Identifier for the period week_month_year
+   */
+  id: string
+
+  /**
+   * Week number
+   */
+  week: number
+
+  /**
+   * Month string
+   */
+  month: string
+
+  /**
+   * Start date time ISO string
+   */
+  startDateTime: string
+
+  /**
+   * End date time ISO string
+   */
+  endDateTime: string
+
+  /**
+   * Period confirmed
+   */
+  isConfirmed: boolean
+
+  /**
+   * Events
+   */
+  events: IEvent[]
+
+  /**
+   * Is there an active forecast for the period
+   */
+  isForecasted: boolean
+
+  /**
+   * Is the period in the future
+   */
+  isForecast: boolean
+
+  /**
+   * Forecasted hours
+   */
+  forecastedHours: number
+}
+
+
+/**
+ * Timesheet period data used when submitting/unsubmitting the period
+ */
+export interface ITimesheetPeriodData {
+  /**
+   * Identifier for the period week_month_year
+   */
+  id: string;
+
+  /**
+   * Start date time ISO string
+   */
+  startDateTime: string;
+
+  /**
+   * End date time ISO string
+   */
+  endDateTime: string;
+
+  /**
+   * Matched events
+   *
+   * * {string} id
+   * * {string} projectId
+   * * {boolean} manualMatch
+   */
+  matchedEvents: ITimesheetPeriodMatchedEvent[];
+
+  /**
+   * Forecasted hours
+   */
+  forecastedHours: number;
+
+  /**
+   * Hours
+   */
+  hours?: number;
+}
+
+export interface ITimesheetPeriodMatchedEvent {
+  id: string
+  projectId: string
+  manualMatch: boolean
 }
 
 /**
@@ -35,7 +136,7 @@ export interface ITimesheetQueryVariables {
  * Variables for mutation submitPeriod
  */
 export interface ISubmitPeriodVariables {
- period: any;
+ period: ITimesheetPeriodData;
  forecast: boolean;
 }
 
@@ -43,6 +144,6 @@ export interface ISubmitPeriodVariables {
  * Variables for mutation unsubmitPeriod
  */
 export interface IUnsubmitPeriodVariables {
-  period: any;
+  period: ITimesheetPeriodData;
   forecast: boolean;
 }

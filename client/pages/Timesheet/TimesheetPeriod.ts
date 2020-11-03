@@ -1,105 +1,13 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
-import { IProject } from 'types'
+import { IEvent, IProject, ITimesheetPeriod, ITimesheetPeriodData, ITimesheetPeriodMatchedEvent } from 'types'
 import { ITimeEntry } from 'types'
 import { omit, filter } from 'underscore'
 import { isBlank } from 'underscore.string'
 import { capitalize } from 'underscore.string'
 import dateUtils, { moment } from 'utils/date'
 import { ITimesheetParams } from './types'
-
-export interface ITimesheetPeriod {
-  /**
-   * Identifier for the period week_month_year
-   */
-  id: string
-
-  /**
-   * Week number
-   */
-  week: number
-
-  /**
-   * Month string
-   */
-  month: string
-
-  /**
-   * Start date time ISO string
-   */
-  startDateTime: string
-
-  /**
-   * End date time ISO string
-   */
-  endDateTime: string
-
-  /**
-   * Period confirmed
-   */
-  isConfirmed: boolean
-
-  /**
-   * Events
-   */
-  events: ITimeEntry[]
-
-  /**
-   * Is there an active forecast for the period
-   */
-  isForecasted: boolean
-
-  /**
-   * Is the period in the future
-   */
-  isForecast: boolean
-
-  /**
-   * Forecasted hours
-   */
-  forecastedHours: number
-}
-
-export interface ITimesheetPeriodMatchedEvent {
-  id: string
-  projectId: string
-  manualMatch: boolean
-}
-
-/**
- * Timesheet period data used when submitting/unsubmitting the period
- */
-export interface ITimesheetPeriodData {
-  /**
-   * Identifier for the period week_month_year
-   */
-  id: string
-
-  /**
-   * Start date time ISO string
-   */
-  startDateTime: string
-
-  /**
-   * End date time ISO string
-   */
-  endDateTime: string
-
-  /**
-   * Matched events
-   *
-   * * {string} id
-   * * {string} projectId
-   * * {boolean} manualMatch
-   */
-  matchedEvents: ITimesheetPeriodMatchedEvent[]
-
-  /**
-   * Forecasted hours
-   */
-  forecastedHours: number
-}
 
 /**
  * Timesheet period. Divided by week, month and year.
@@ -221,9 +129,9 @@ export class TimesheetPeriod {
   /**
    * Check manual match
    *
-   * @param {ITimeEntry} event Event
+   * @param {IEvent} event Event
    */
-  private _checkManualMatch(event: ITimeEntry) {
+  private _checkManualMatch(event: IEvent) {
     const manualMatch = this._uiMatchedEvents[event.id]
     if (event.manualMatch && !manualMatch) {
       event.manualMatch = false
