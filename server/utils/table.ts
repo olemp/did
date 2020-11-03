@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import azurestorage from 'azure-storage'
 import { omit, isNull } from 'underscore'
 import { decapitalize, capitalize, isBlank, startsWith } from 'underscore.string'
@@ -267,11 +268,11 @@ class AzTableUtilities {
    * @param {string} table Table name
    * @param {*} entityDescriptor Entity descriptor
    */
-  addAzEntity(table: string, entityDescriptor: any) {
+  addAzEntity(table: string, entityDescriptor: any): Promise<azurestorage.TableService.EntityMetadata> {
     return new Promise((resolve, reject) => {
       this.tableService.insertEntity(table, entityDescriptor, (error, result) => {
         if (error) reject(error)
-        else return resolve(result['.metadata'])
+        else return resolve(result)
       })
     })
   }
@@ -279,11 +280,11 @@ class AzTableUtilities {
   /**
    * Updates the entity
    *
-   * @param {*} table Table name
-   * @param {*} entityDescriptor Entity descriptor
-   * @param {*} merge If the entity should be inserted using insertOrMergeEntity
+   * @param {string} table Table name
+   * @param {any} entityDescriptor Entity descriptor
+   * @param {boolean} merge If the entity should be inserted using insertOrMergeEntity
    */
-  updateAzEntity(table: string, entityDescriptor: any, merge: any) {
+  updateAzEntity(table: string, entityDescriptor: any, merge: boolean): Promise<azurestorage.TableService.EntityMetadata> {
     return new Promise((resolve, reject) => {
       if (merge) {
         this.tableService.insertOrMergeEntity(table, entityDescriptor, undefined, (error, result) => {

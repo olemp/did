@@ -4,6 +4,7 @@ import express from 'express'
 import get from 'get-value'
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
+import { authChecker } from './authChecker'
 import { createContext } from './context'
 import * as resolvers from './resolvers'
 const debug = createDebug('api/graphql')
@@ -27,6 +28,7 @@ const getSchema = async () => {
     ],
     emitSchemaFile: true,
     validate: false,
+    authChecker
   })
   return schema
 }
@@ -50,8 +52,6 @@ export default async (app: express.Application): Promise<void> => {
     })
     server.applyMiddleware({ app, path: '/graphql' })
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
     debug(error)
   }
 }

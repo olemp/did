@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import 'reflect-metadata'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import env from '../../../utils/env'
 import { Context } from '../context'
@@ -15,7 +15,7 @@ export class ApiTokenResolver {
    * @param {Context} ctx GraphQL context
    */
   @Query(() => [ApiToken])
-  async apiTokens(@Ctx() ctx: Context) {
+  async apiTokens(@Ctx() ctx: Context): Promise<ApiToken[]> {
     const tokens = await ctx.services.subscription.getApiTokens(ctx.user.subscription.id)
     return tokens
   }
@@ -27,7 +27,7 @@ export class ApiTokenResolver {
    * @param {Context} ctx GraphQL context
    */
   @Mutation(() => String)
-  async addApiToken(@Arg('name') name: string, @Ctx() ctx: Context) {
+  async addApiToken(@Arg('name') name: string, @Ctx() ctx: Context): Promise<string> {
     const token = jwt.sign(
       {
         data: pick(ctx.user, 'id'),
@@ -45,14 +45,16 @@ export class ApiTokenResolver {
    * @param {Context} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
-  async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: Context) {
-    await ctx.services.subscription.deleteApiToken(name, ctx.user.subscription.id)
-    return { success: true, error: null }
-  }
-  catch(error) {
-    return {
-      success: false,
-      error: pick(error, 'name', 'message', 'code', 'statusCode'),
+  async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: Context): Promise<BaseResult> {
+    try {
+      await ctx.services.subscription.deleteApiToken(name, ctx.user.subscription.id)
+      return { success: true, error: null }
+    }
+    catch (error) {
+      return {
+        success: false,
+        error: pick(error, 'name', 'message', 'code', 'statusCode'),
+      }
     }
   }
 }
