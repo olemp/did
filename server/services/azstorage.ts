@@ -203,6 +203,7 @@ class AzStorageService {
   async getUser(userId: string) {
     try {
       const entry = await this.tableUtil.retrieveAzEntity(this.tables.users, 'Default', userId)
+      log('getUser: %s', JSON.stringify(entry))
       return this.tableUtil.parseAzEntity(entry, { RowKey: 'id' })
     } catch (error) {
       return null

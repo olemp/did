@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const log = require('debug')('services/subscription')
 import { first } from 'underscore'
 import AzTableUtilities from '../utils/table'
 import env from '../utils/env'
@@ -21,8 +23,9 @@ class SubscriptionService {
   async getSubscription(subscriptionId: string) {
     try {
       const query = this.tableUtil.createAzQuery(1).where('RowKey eq ?', subscriptionId)
-      const { entries } = await this.tableUtil.queryAzTable('Subscriptions', query)
-      return this.tableUtil.parseAzEntity(first(entries), { RowKey: 'id' })
+      const { entries } = await this.tableUtil.queryAzTable('Subscriptions', query, { RowKey: 'id' })
+      log('getSubscription: %s', JSON.stringify(entries))
+      return first(entries)
     } catch (error) {
       return null
     }

@@ -4,7 +4,18 @@ import SubscriptionService from '../../services/subscription'
 import AzStorageService from '../../services/azstorage'
 import { NO_OID_FOUND, TENANT_NOT_ENROLLED, USER_NOT_ENROLLED } from './errors'
 
-async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, oauthToken, done) {
+/**
+ * On verify signin
+ * 
+ * @param _iss 
+ * @param _sub 
+ * @param profile 
+ * @param _accessToken 
+ * @param _refreshToken 
+ * @param oauthToken 
+ * @param done 
+ */
+export default async function(_iss, _sub, profile, _accessToken, _refreshToken, oauthToken, done) {
   if (!profile.oid) {
     log('No oid found. Returning error NO_OID_FOUND.')
     return done(NO_OID_FOUND, null)
@@ -24,5 +35,3 @@ async function onVerifySignin(_iss, _sub, profile, _accessToken, _refreshToken, 
   user.oauthToken = oauthToken
   return done(null, user)
 }
-
-export default onVerifySignin
