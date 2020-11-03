@@ -3,6 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""A type that describes a ApiToken"""
+type ApiToken {
+  name: String!
+  timestamp: String!
+}
+
 """A type that describes a BaseResult"""
 type BaseResult {
   error: Error!
@@ -45,10 +51,12 @@ type LabelObject {
 }
 
 type Mutation {
+  addApiToken(name: String!): String!
   addOrUpdateLabel(label: LabelInput!, update: Boolean!): BaseResult!
   addOrUpdateUser(update: Boolean!, user: UserInput!): BaseResult!
   bulkAddUsers(users: [UserInput!]!): BaseResult!
   createOrUpdateCustomer(customer: CustomerInput!, update: Boolean!): BaseResult!
+  deleteApiToken(name: String!): BaseResult!
   deleteCustomer(key: String!): BaseResult!
   deleteLabel(name: String!): BaseResult!
 }
@@ -70,6 +78,7 @@ input NotificationTemplates {
 
 type Query {
   adUsers: [User!]!
+  apiTokens: [ApiToken!]!
   currentUser: User!
   customers: [LabelObject!]!
   notifications(locale: String!, templates: NotificationTemplates!): [Notification!]!
