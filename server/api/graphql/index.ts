@@ -1,3 +1,6 @@
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const log = require('debug')('api/graphql')
 import { ApolloServer } from 'apollo-server-express'
 import get from 'get-value'
 import 'reflect-metadata'
@@ -73,7 +76,6 @@ export default async (app: express.Application) => {
     })
     server.applyMiddleware({ app, path: '/graphql' })
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
+    log(error)
   }
 }
