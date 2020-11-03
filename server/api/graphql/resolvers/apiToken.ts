@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import { gql } from 'apollo-server-express'
 import env from '../../../utils/env'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { IAddApiTokenVariables, IDeleteApiTokenVariables } from './apiToken.types'
 
 export const typeDef = gql`
   """
@@ -32,20 +33,6 @@ export const typeDef = gql`
     deleteApiToken(name: String): BaseResult
   }
 `
-
-/**
- * Variables for mutation addApiToken
- */
-export interface IAddApiTokenVariables {
-  name: string;
-}
-
-/**
- * Variables for mutation deleteApiToken
- */
-export interface IDeleteApiTokenVariables {
-  name: string;
-}
 
 /**
  * Get API tokens
@@ -100,3 +87,5 @@ export const resolvers = {
   Query: { apiTokens },
   Mutation: { addApiToken, deleteApiToken },
 }
+
+export * from './apiToken.types'

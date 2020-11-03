@@ -3,6 +3,7 @@ const AzTableUtilities = require('../../../utils/table').default
 const { executeBatch, createAzBatch } = new AzTableUtilities()
 import { gql } from 'apollo-server-express'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { ICreateOrUpdateCustomerVariables, ICustomersQueryVariables, IDeleteCustomerVariables } from './customer.types'
 
 export const typeDef = gql`
   """
@@ -55,10 +56,10 @@ export const typeDef = gql`
  * Get customers
  * 
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {ICustomersQueryVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function customers(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function customers(_obj: any, variables: ICustomersQueryVariables, ctx: IGraphQLContext) {
   return await ctx.services.azstorage.getCustomers({ sortBy: variables.sortBy })
 }
 
@@ -66,10 +67,10 @@ async function customers(_obj: any, variables: any, ctx: IGraphQLContext) {
  * Create or update customer
  * 
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {ICreateOrUpdateCustomerVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function createOrUpdateCustomer(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function createOrUpdateCustomer(_obj: any, variables: ICreateOrUpdateCustomerVariables, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.createOrUpdateCustomer(variables.customer, ctx.user.id, variables.update)
     return { success: true, error: null }
@@ -85,10 +86,10 @@ async function createOrUpdateCustomer(_obj: any, variables: any, ctx: IGraphQLCo
  * Delete customer
  * 
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IDeleteCustomerVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function deleteCustomer(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function deleteCustomer(_obj: any, variables: IDeleteCustomerVariables, ctx: IGraphQLContext) {
   try {
     const projects = await ctx.services.azstorage.getProjects(variables.key, {
       noParse: true,
@@ -114,3 +115,5 @@ export const resolvers = {
   Query: { customers },
   Mutation: { createOrUpdateCustomer, deleteCustomer },
 }
+
+export * from './customer.types'
