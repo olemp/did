@@ -2,20 +2,11 @@ import gql from 'graphql-tag'
 
 export const TIME_ENTRIES = gql`
   query(
-    $startDateTime: String
-    $endDateTime: String
-    $weekNumber: Int
-    $monthNumber: Int
-    $year: Int
+    $query: TimeEntriesQuery!
     $forecast: Boolean
     $sortAsc: Boolean
   ) {
-    timeentries(
-      startDateTime: $startDateTime
-      endDateTime: $endDateTime
-      weekNumber: $weekNumber
-      monthNumber: $monthNumber
-      year: $year
+    timeentries(query: $query
       forecast: $forecast
       sortAsc: $sortAsc
     ) {

@@ -1,94 +1,86 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { Field, InputType, ObjectType } from 'type-graphql'
-import { EventError, Project } from '../types'
+import { Field, Float, InputType, ObjectType } from 'type-graphql'
+import { Project, User } from '../types'
 import { Customer } from './customer.types'
-import { LabelObject } from './label.types'
 
-@ObjectType({description: 'A type that describes a TimeEntry'})
+@ObjectType({ description: 'A type that describes a TimeEntry' })
 export class TimeEntry {
   @Field()
   id: string
 
   @Field()
   key: string
-  
+
   @Field()
   title: string
-  
+
   @Field()
-  isOrganizer: boolean
-  
+  description: string
+
+  @Field()
+  startDateTime: string
+
+  @Field()
+  endDateTime: string
+
+  @Field()
+  webLink: string
+
+  @Field(() => Float)
+  duration: number
+
+  @Field()
+  projectId: string
+
+  @Field()
+  weekNumber: number
+
+  @Field()
+  monthNumber: number
+
+  @Field()
+  year: number
+
+  @Field()
+  webUrl: string
+
   @Field(() => Project)
   project: Project
 
-
-  @Field(() => Project)
-  suggestedProject: Project
-  
   @Field(() => Customer)
   customer: Customer
-  
-  @Field()
-  projectKey: string
-  
-  @Field()
-  customerKey: string
-  
-  @Field()
-  webLink: string
-  
-  @Field()
-  duration: number
-  
-  @Field()
-  startDateTime: string
-  
-  @Field()
-  endDateTime: string
-  
-  @Field()
-  day: string
-  
-  @Field()
-  manualMatch?: boolean
-  
-  @Field()
-  isSystemIgnored?: boolean
-  
-  @Field(() => EventError)
-  error?: EventError
-  
-  @Field(() => [LabelObject])
-  labels?: LabelObject[]
+
+  @Field(() => User)
+  resource: User
 }
 
-@InputType({})
+@InputType()
 export class TimeEntriesQuery {
-  @Field()
-  startDateTime?: string
+  @Field({ nullable: true })
+  startDateTime: string
 
-  @Field()
-  endDateTime?: string
-  
-  @Field()
-  projectId?: string
-  
-  @Field()
-  resourceId?: string
-  
-  @Field()
-  weekNumber?: number
-  
-  @Field()
-  monthNumber?: number
-  
-  @Field()
-  startMonthIndex?: number
-  
-  @Field()
-  endMonthIndex?: number
-  
-  @Field()
-  year?: number
+  @Field({ nullable: true })
+  endDateTime: string
+
+  @Field({ nullable: true })
+  projectId: string
+
+  @Field({ nullable: true })
+  resourceId: string
+
+  @Field({ nullable: true })
+  weekNumber: number
+
+  @Field({ nullable: true })
+  monthNumber: number
+
+  @Field({ nullable: true })
+  startMonthIndex: number
+
+  @Field({ nullable: true })
+  endMonthIndex: number
+
+  @Field({ nullable: true })
+  year: number
 }

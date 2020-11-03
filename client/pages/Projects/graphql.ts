@@ -33,8 +33,8 @@ const projects = gql`
 `
 
 const timeentries = gql`
-  query($projectId: String) {
-    timeentries(projectId: $projectId) {
+  query($query: TimeEntriesQuery!) {
+    timeentries(query: $query) {
       title
       duration
       startDateTime

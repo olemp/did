@@ -16,9 +16,9 @@ export class TimeEntryResolver {
    */
   @Query(() => [TimeEntry])
   async timeentries(
-    @Arg('currentUser') currentUser: boolean,
-    @Arg('sortAsc') sortAsc: boolean,
-    @Arg('forecast') forecast: boolean,
+    @Arg('currentUser', { nullable: true }) currentUser: boolean,
+    @Arg('sortAsc', { nullable: true }) sortAsc: boolean,
+    @Arg('forecast', { nullable: true }) forecast: boolean,
     @Arg('query') query: TimeEntriesQuery,
     @Ctx() ctx: IGraphQLContext
   ) {

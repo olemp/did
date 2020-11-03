@@ -2,6 +2,7 @@ import { IListGroups } from 'components/List/types'
 import { TFunction } from 'i18next'
 import { IContextualMenuItem } from 'office-ui-fabric-react'
 import { TimeEntriesQuery } from 'types'
+import { omit } from 'underscore'
 import { capitalize } from 'underscore.string'
 import dateUtils from 'utils/date'
 
@@ -71,7 +72,7 @@ export function getQueries<T = IReportsQuery>(t: TFunction): T[] {
             key: 'LAST_MONTH',
             text: t('common.exportTypeLastMonth', lastMonth),
             iconName: 'CalendarDay',
-            variables: { query: lastMonth },
+            variables: { query: omit(lastMonth, 'monthName') },
             exportFileName: `TimeEntries-${capitalize(lastMonth.monthName)}-{0}.xlsx`,
         } as unknown as T,
         {
@@ -79,7 +80,7 @@ export function getQueries<T = IReportsQuery>(t: TFunction): T[] {
             key: 'CURRENT_MONTH',
             text: t('common.exportTypeCurrentMonth', currentMonth),
             iconName: 'Calendar',
-            variables: { query: currentMonth },
+            variables: { query: omit(currentMonth, 'monthName') },
             exportFileName: `TimeEntries-${capitalize(currentMonth.monthName)}-{0}.xlsx`,
         } as unknown as T,
         {

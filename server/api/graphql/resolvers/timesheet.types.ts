@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { Field, InputType, ObjectType } from 'type-graphql'
+import { Field, Float, InputType, ObjectType } from 'type-graphql'
 import { EventError, Project } from '../types'
 import { Customer } from './customer.types'
 import { LabelObject } from './label.types'
@@ -34,7 +34,7 @@ export class EventObject {
   @Field()
   date: string
 
-  @Field()
+  @Field(() => Float)
   duration: number
 
   @Field(() => Project, { nullable: true })
@@ -76,7 +76,7 @@ export class EventInput {
   @Field()
   projectId: string
 
-  @Field()
+  @Field({ nullable: true })
   manualMatch: boolean
 }
 
@@ -103,13 +103,13 @@ export class TimesheetPeriodObject {
   @Field(() => [EventObject])
   events: EventObject[]
 
-  @Field()
+  @Field({ nullable: true })
   isForecasted: boolean
 
-  @Field()
+  @Field({ nullable: true })
   isForecast: boolean
 
-  @Field()
+  @Field({ nullable: true })
   forecastedHours: number
 }
 
@@ -127,7 +127,7 @@ export class TimesheetPeriodInput {
   @Field(() => [EventInput])
   matchedEvents: EventInput[]
 
-  @Field()
+  @Field({ nullable: true })
   forecastedHours: number
 }
 

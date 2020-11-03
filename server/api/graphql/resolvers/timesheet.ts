@@ -90,7 +90,7 @@ export class TimesheetResolver {
   @Mutation(() => BaseResult)
   async submitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,
-    @Arg('forecast') forecast: boolean,
+    @Arg('forecast', { nullable: true }) forecast: boolean,
     @Ctx() ctx: IGraphQLContext
   ): Promise<BaseResult> {
     try {
@@ -135,7 +135,7 @@ export class TimesheetResolver {
   @Mutation(() => BaseResult)
   async unsubmitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,
-    @Arg('forecast') forecast: boolean,
+    @Arg('forecast', { nullable: true }) forecast: boolean,
     @Ctx() ctx: IGraphQLContext
   ): Promise<BaseResult> {
     try {
