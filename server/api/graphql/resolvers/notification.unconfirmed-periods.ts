@@ -17,10 +17,10 @@ export default async function ({ template, ctx, locale }) {
     periods.push(...getPeriods(utils.startOfWeek(currentWeek - i), utils.endOfWeek(currentWeek - i), locale))
   }
 
-  const confirmedPeriods = await ctx.services.azstorage.getConfirmedPeriods({
+  const confirmedPeriods = (await ctx.services.azstorage.getConfirmedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
-  }) as any[]
+  })) as any[]
 
   periods.forEach(period => {
     if (!find(confirmedPeriods, cp => cp.periodId === period.id)) {

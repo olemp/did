@@ -54,7 +54,7 @@ export const typeDef = gql`
 
 /**
  * Get customers
- * 
+ *
  * @param {any} _obj {}
  * @param {ICustomersQueryVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -65,7 +65,7 @@ async function customers(_obj: any, variables: ICustomersQueryVariables, ctx: IG
 
 /**
  * Create or update customer
- * 
+ *
  * @param {any} _obj {}
  * @param {ICreateOrUpdateCustomerVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -84,7 +84,7 @@ async function createOrUpdateCustomer(_obj: any, variables: ICreateOrUpdateCusto
 
 /**
  * Delete customer
- * 
+ *
  * @param {any} _obj {}
  * @param {IDeleteCustomerVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context

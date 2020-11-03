@@ -15,21 +15,21 @@ export interface IProject {
   outlookCategory?: IOutlookCategory
   inactive?: boolean
   labels?: ILabel[]
-  createOutlookCategory?: boolean;
+  createOutlookCategory?: boolean
 }
 
 /**
  * Variables for query projects
  */
 export interface IProjectsQueryVariables {
-  customerKey: string;
-  sortBy: string;
+  customerKey: string
+  sortBy: string
 }
 
 /**
  * Variables for mutation createOrUpdateProject
  */
 export interface ICreateOrUpdateProjectVariables {
-  project: IProject;
-  update: boolean;
+  project: IProject
+  update: boolean
 }

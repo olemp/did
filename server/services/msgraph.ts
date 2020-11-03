@@ -173,7 +173,7 @@ class MSGraphService {
         .api('/me/calendar/calendarView')
         .query({ startDateTime, endDateTime })
         .select(['id', 'subject', 'body', 'start', 'end', 'categories', 'webLink', 'isOrganizer'])
-        .filter('sensitivity ne \'private\' and isallday eq false and iscancelled eq false')
+        .filter("sensitivity ne 'private' and isallday eq false and iscancelled eq false")
         .orderby('start/dateTime asc')
         .top(500)
         .get()

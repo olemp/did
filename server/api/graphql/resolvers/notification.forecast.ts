@@ -24,10 +24,10 @@ export default async function ({ template, ctx, locale }) {
     periods.push(...getPeriods(utils.startOfWeek(currentWeek + i), utils.endOfWeek(currentWeek + i), locale))
   }
 
-  const forecastedPeriods = await ctx.services.azstorage.getForecastedPeriods({
+  const forecastedPeriods = (await ctx.services.azstorage.getForecastedPeriods({
     resourceId: ctx.user.id,
     year: utils.getYear(),
-  }) as any[]
+  })) as any[]
 
   periods.forEach(period => {
     if (!find(forecastedPeriods, cp => cp.periodId === period.id)) unforecastedPeriods.push(period)

@@ -49,7 +49,10 @@ class AzTableUtilities {
    * @param {*} result Result
    * @param {Record<string, string>} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    */
-  parseAzEntities({ entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<unknown>, columnMap: Record<string, string>) {
+  parseAzEntities(
+    { entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<unknown>,
+    columnMap: Record<string, string>
+  ) {
     entries = entries.map((ent: any) => this.parseAzEntity(ent, columnMap))
     return { entries, continuationToken }
   }
@@ -144,7 +147,12 @@ class AzTableUtilities {
    * @param {Object} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    * @param {string} continuationToken Continuation token
    */
-  queryAzTable(table: string, query: azurestorage.TableQuery, columnMap: any = {}, continuationToken: azurestorage.TableService.TableContinuationToken = null): Promise<azurestorage.TableService.QueryEntitiesResult<any>> {
+  queryAzTable(
+    table: string,
+    query: azurestorage.TableQuery,
+    columnMap: any = {},
+    continuationToken: azurestorage.TableService.TableContinuationToken = null
+  ): Promise<azurestorage.TableService.QueryEntitiesResult<any>> {
     return new Promise<azurestorage.TableService.QueryEntitiesResult<any>>((resolve, reject) => {
       this.tableService.queryEntities(table, query, continuationToken, (error, result) => {
         if (!error) {
@@ -166,7 +174,12 @@ class AzTableUtilities {
     const { entries, continuationToken } = await this.queryAzTable(table, query, columnMap, token)
     token = continuationToken
     while (token !== null) {
-      const result: azurestorage.TableService.QueryEntitiesResult<any> = await this.queryAzTable(table, query, columnMap, token)
+      const result: azurestorage.TableService.QueryEntitiesResult<any> = await this.queryAzTable(
+        table,
+        query,
+        columnMap,
+        token
+      )
       entries.push(...result.entries)
       token = result.continuationToken
     }
@@ -187,7 +200,12 @@ class AzTableUtilities {
    * @param {string} partitionKey Partition key
    * @param {*} options Options (removeBlanks defaults to true, typeMap defaults to empty object)
    */
-  convertToAzEntity(rowKey: string, values: Record<string, any>, partitionKey = 'Default', options: { removeBlanks?: boolean, typeMap?: Record<string, string> } = { removeBlanks: true, typeMap: {} }) {
+  convertToAzEntity(
+    rowKey: string,
+    values: Record<string, any>,
+    partitionKey = 'Default',
+    options: { removeBlanks?: boolean; typeMap?: Record<string, string> } = { removeBlanks: true, typeMap: {} }
+  ) {
     const { string, datetime, double, int, boolean } = this.azEntGen()
     const entityDescriptor = Object.keys(values)
       .filter(key => !isNull(values[key]))
@@ -223,7 +241,9 @@ class AzTableUtilities {
           RowKey: string(rowKey),
         }
       )
-    return omit(entityDescriptor, (prop: azurestorage.TableUtilities.entityGenerator.EntityProperty<any>) => (options.removeBlanks ? isBlank(prop._) : false))
+    return omit(entityDescriptor, (prop: azurestorage.TableUtilities.entityGenerator.EntityProperty<any>) =>
+      options.removeBlanks ? isBlank(prop._) : false
+    )
   }
 
   /**

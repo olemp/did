@@ -15,13 +15,13 @@ export interface ILabelsQueryVariables {}
  * Variables for mutation addOrUpdateLabel
  */
 export interface IAddOrUpdateLabelVariables {
-  label: ILabel;
-  update: boolean;
+  label: ILabel
+  update: boolean
 }
 
 /**
  * Variables for mutation deleteLabel
  */
 export interface IDeleteLabelVariables {
-  name: string;
+  name: string
 }

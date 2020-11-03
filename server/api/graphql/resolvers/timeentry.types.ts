@@ -24,7 +24,7 @@ export interface ITimeEntry {
 
 /**
  * Variables for query timeentries
- * 
+ *
  * NB: The variables used must also be present in the query
  */
 export interface ITimeEntriesQueryVariables {

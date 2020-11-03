@@ -36,7 +36,7 @@ export const typeDef = gql`
 
 /**
  * Get API tokens
- * 
+ *
  * @param {any} _obj {}
  * @param {any} _variables {}
  * @param {IGraphQLContext} ctx GraphQL context
@@ -48,7 +48,7 @@ async function apiTokens(_obj: any, _variables: any, ctx: IGraphQLContext) {
 
 /**
  * Add API tokens
- * 
+ *
  * @param {any} _obj {}
  * @param {IAddApiTokenVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -66,7 +66,7 @@ async function addApiToken(_obj: any, variables: IAddApiTokenVariables, ctx: IGr
 
 /**
  * Delete API tokens
- * 
+ *
  * @param {any} _obj {}
  * @param {IDeleteApiTokenVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context

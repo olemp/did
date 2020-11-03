@@ -1,7 +1,6 @@
 import moment from 'moment'
 import stripHtml from 'string-strip-html'
 
-
 /**
  * Strip html from string using string-strip-html
  *
@@ -132,7 +131,7 @@ export const toArray = (str: string, separator: any = '|') => {
  * @param {string} str String
  * @param {number} mod Modulator
  */
-export const generateInt = (str: string, mod: number) =>{
+export const generateInt = (str: string, mod: number) => {
   return (
     str
       .split('')

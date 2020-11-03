@@ -75,7 +75,7 @@ export const typeDef = gql`
 
 /**
  * Get AD users
- * 
+ *
  * @param {any} _obj {}
  * @param {any} _variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -87,17 +87,14 @@ async function adUsers(_obj: any, _variables: any, ctx: IGraphQLContext) {
 
 /**
  * Get users
- * 
+ *
  * @param {any} _obj {}
  * @param {IUsersQueryVariables} _variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
 async function users(_obj: any, _variables: IUsersQueryVariables, ctx: IGraphQLContext) {
   // eslint-disable-next-line prefer-const
-  let [users, roles] = await Promise.all([
-    ctx.services.azstorage.getUsers(),
-    ctx.services.azstorage.getRoles()
-  ])
+  let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
   users = filter(
     users.map(user => ({
       ...user,
@@ -110,7 +107,7 @@ async function users(_obj: any, _variables: IUsersQueryVariables, ctx: IGraphQLC
 
 /**
  * Get current user
- * 
+ *
  * @param {any} _obj {}
  * @param {any} _variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -134,7 +131,7 @@ async function currentUser(_obj: any, _variables: any, ctx: IGraphQLContext) {
 
 /**
  * Add or update user
- * 
+ *
  * @param {any} _obj {}
  * @param {IAddOrUpdateUserVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
@@ -153,7 +150,7 @@ async function addOrUpdateUser(_obj: any, variables: IAddOrUpdateUserVariables, 
 
 /**
  * Add or update user
- * 
+ *
  * @param {any} _obj {}
  * @param {IBulkAddUsersVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context

@@ -14,7 +14,7 @@ const simpleoauth2 = require('simple-oauth2').create({
 })
 
 class TokenService {
- public async refreshAccessToken(req: any) {
+  public async refreshAccessToken(req: any) {
     const storedToken = simpleoauth2.accessToken.create(req.user.oauthToken)
     if (storedToken) {
       try {

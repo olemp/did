@@ -2,12 +2,12 @@
  * Variables for mutation addApiToken
  */
 export interface IAddApiTokenVariables {
-  name: string;
+  name: string
 }
 
 /**
  * Variables for mutation deleteApiToken
  */
 export interface IDeleteApiTokenVariables {
-  name: string;
+  name: string
 }

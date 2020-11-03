@@ -101,7 +101,7 @@ const createContext = async ({ req }): Promise<IGraphQLContext> => {
     let subscription = req.user && req.user.subscription
     if (!!req.token) {
       subscription = await new SubscriptionService().findSubscriptionWithToken(req.token)
-      if (!subscription) throw new Error('You don\'t have access to this resource.')
+      if (!subscription) throw new Error("You don't have access to this resource.")
     } else if (!req.user) throw new Error()
     const services = {
       azstorage: new AzStorageService(subscription),

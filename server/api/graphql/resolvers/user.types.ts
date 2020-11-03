@@ -37,13 +37,13 @@ export interface ICurrentUserQueryVariables {}
  * Variables for mutation addOrUpdateUser
  */
 export interface IAddOrUpdateUserVariables {
-  user: IUser;
-  update: boolean;
+  user: IUser
+  update: boolean
 }
 
 /**
  * Variables for mutation bulkAddUsers
  */
 export interface IBulkAddUsersVariables {
-  users: IUser[];
+  users: IUser[]
 }

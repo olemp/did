@@ -12,20 +12,20 @@ export interface ICustomer {
  * Variables for query customers
  */
 export interface ICustomersQueryVariables {
-  sortBy: string;
+  sortBy: string
 }
 
 /**
  * Variables for mutation createOrUpdateCustomer
  */
 export interface ICreateOrUpdateCustomerVariables {
-  customer: ICustomer;
-  update: boolean;
+  customer: ICustomer
+  update: boolean
 }
 
 /**
  * Variables for mutation createOrUpdateCustomer
  */
 export interface IDeleteCustomerVariables {
-  key: string;
+  key: string
 }

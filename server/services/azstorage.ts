@@ -9,21 +9,21 @@ import { createTableService } from 'azure-storage'
 class AzStorageService {
   public tableUtil: AzTableUtilities
   public tables: {
-    timeEntries: string;
-    forecastedTimeEntries: string;
-    confirmedPeriods: string;
-    forecastedPeriods: string;
-    projects: string;
-    customers: string;
-    roles: string;
-    labels: string;
+    timeEntries: string
+    forecastedTimeEntries: string
+    confirmedPeriods: string
+    forecastedPeriods: string
+    projects: string
+    customers: string
+    roles: string
+    labels: string
     users: string
   }
 
   /**
    * Constructor
-   * 
-   * @param {any} subscription 
+   *
+   * @param {any} subscription
    */
   constructor(subscription: any) {
     this.tableUtil = new AzTableUtilities(createTableService(subscription.connectionString))
@@ -269,7 +269,9 @@ class AzStorageService {
     })
     log('Queried %d time entries from %s', result.length, tableName)
     result = result.slice().sort(({ startDateTime: a }, { startDateTime: b }) => {
-      return options.sortAsc ? new Date(a).getTime() - new Date(b).getTime() : new Date(b).getTime() - new Date(a).getTime()
+      return options.sortAsc
+        ? new Date(a).getTime() - new Date(b).getTime()
+        : new Date(b).getTime() - new Date(a).getTime()
     })
     return result
   }
@@ -426,7 +428,7 @@ class AzStorageService {
    *
    * @returns void
    */
-  async addConfirmedPeriod(period: { id: string, hours: number, forecastedHours: number }, resourceId: string) {
+  async addConfirmedPeriod(period: { id: string; hours: number; forecastedHours: number }, resourceId: string) {
     const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,
@@ -454,7 +456,7 @@ class AzStorageService {
    * @param {{id: string, hours: number}} period Period
    * @param {string} resourceId ID of the resource
    */
-  async addForecastedPeriod(period:  {id: string, hours: number}, resourceId: string) {
+  async addForecastedPeriod(period: { id: string; hours: number }, resourceId: string) {
     const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
       period.id,

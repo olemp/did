@@ -11,7 +11,11 @@ import moment from 'moment'
  * @param {string | moment.Moment} endDateTime End date time in ISO format
  * @param {string} locale User locale for moment formatting
  */
-export function getPeriods(startDateTime: string| moment.Moment, endDateTime: string| moment.Moment, locale: string): any[] {
+export function getPeriods(
+  startDateTime: string | moment.Moment,
+  endDateTime: string | moment.Moment,
+  locale: string
+): any[] {
   const week = utils.getWeek(startDateTime)
   const startMonthIdx = utils.getMonthIndex(startDateTime)
   const endMonthIdx = utils.getMonthIndex(endDateTime)

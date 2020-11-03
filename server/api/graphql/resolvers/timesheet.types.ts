@@ -76,7 +76,6 @@ export interface ITimesheetPeriod {
   forecastedHours: number
 }
 
-
 /**
  * Timesheet period data used when submitting/unsubmitting the period
  */
@@ -84,17 +83,17 @@ export interface ITimesheetPeriodData {
   /**
    * Identifier for the period week_month_year
    */
-  id: string;
+  id: string
 
   /**
    * Start date time ISO string
    */
-  startDateTime: string;
+  startDateTime: string
 
   /**
    * End date time ISO string
    */
-  endDateTime: string;
+  endDateTime: string
 
   /**
    * Matched events
@@ -103,17 +102,17 @@ export interface ITimesheetPeriodData {
    * * {string} projectId
    * * {boolean} manualMatch
    */
-  matchedEvents: ITimesheetPeriodMatchedEvent[];
+  matchedEvents: ITimesheetPeriodMatchedEvent[]
 
   /**
    * Forecasted hours
    */
-  forecastedHours: number;
+  forecastedHours: number
 
   /**
    * Hours
    */
-  hours?: number;
+  hours?: number
 }
 
 export interface ITimesheetPeriodMatchedEvent {
@@ -126,24 +125,24 @@ export interface ITimesheetPeriodMatchedEvent {
  * Variables for query timesheet
  */
 export interface ITimesheetQueryVariables {
-  startDateTime: string;
-  endDateTime: string;
-  dateFormat: string;
-  locale: string;
+  startDateTime: string
+  endDateTime: string
+  dateFormat: string
+  locale: string
 }
 
 /**
  * Variables for mutation submitPeriod
  */
 export interface ISubmitPeriodVariables {
- period: ITimesheetPeriodData;
- forecast: boolean;
+  period: ITimesheetPeriodData
+  forecast: boolean
 }
 
 /**
  * Variables for mutation unsubmitPeriod
  */
 export interface IUnsubmitPeriodVariables {
-  period: ITimesheetPeriodData;
-  forecast: boolean;
+  period: ITimesheetPeriodData
+  forecast: boolean
 }
