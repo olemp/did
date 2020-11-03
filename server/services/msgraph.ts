@@ -81,6 +81,7 @@ class MSGraphService {
       this.startMark('getUsers')
       const { value } = await this.getClient()
         .api('/users')
+        // eslint-disable-next-line quotes
         .filter("userType eq 'Member'")
         .select('id', 'givenName', 'surname', 'jobTitle', 'displayName', 'mobilePhone', 'mail', 'preferredLanguage')
         .top(999)
@@ -175,6 +176,7 @@ class MSGraphService {
         .api('/me/calendar/calendarView')
         .query({ startDateTime, endDateTime })
         .select(['id', 'subject', 'body', 'start', 'end', 'categories', 'webLink', 'isOrganizer'])
+        // eslint-disable-next-line quotes
         .filter("sensitivity ne 'private' and isallday eq false and iscancelled eq false")
         .orderby('start/dateTime asc')
         .top(500)
