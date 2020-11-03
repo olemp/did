@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
 import { Field, InputType, ObjectType } from 'type-graphql'
-import { EventError } from '../types'
+import { EventError, Project } from '../types'
 import { Customer } from './customer.types'
 import { LabelObject } from './label.types'
 
@@ -37,20 +37,20 @@ export class EventObject {
   @Field()
   duration: number
   
-  @Field()
-  project: any
+  @Field(() => Project)
+  project?: Project
+  
+  @Field(() => Project)
+  suggestedProject?: Project
   
   @Field(() => Customer)
-  customer: Customer
+  customer?: Customer
   
   @Field()
   projectKey: string
   
   @Field()
   customerKey: string
-  
-  @Field()
-  suggestedProject: any
 
   @Field()
   webLink: string
@@ -69,9 +69,14 @@ export class EventObject {
 }
 
 @InputType({description: 'Input object for Event used in Mutation submitPeriod'})
-export class EventInput {
+export class EventInput {  
+  @Field()
   id: string
+  
+  @Field()
   projectId: string
+  
+  @Field()
   manualMatch: boolean
 }
 
@@ -127,7 +132,10 @@ export class TimesheetPeriodInput {
 }
 
 @InputType()
-export class TimesheetQuery {
+export class TimesheetQuery {  
+  @Field()
   startDateTime: string
+  
+  @Field()
   endDateTime: string
 }

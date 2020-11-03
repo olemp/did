@@ -23,7 +23,7 @@ export class TimesheetResolver {
   async timesheet(
     @Arg('query') query: TimesheetQuery,
     @Arg('locale') locale: string,
-    @Arg('locadateFormatle') dateFormat: string,
+    @Arg('dateFormat') dateFormat: string,
     @Ctx() ctx: IGraphQLContext
   ) {
     if (!ctx.services.msgraph) throw new AuthenticationError('')

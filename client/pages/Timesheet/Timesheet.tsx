@@ -30,7 +30,7 @@ export const Timesheet = () => {
     })
     const query = useQuery(TIMESHEET, {
         variables: {
-            ...state.scope.dateStrings,
+            query: state.scope.dateStrings,
             dateFormat: 'dddd DD',
             locale: app.user.preferredLanguage,
         },
