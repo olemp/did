@@ -11,7 +11,8 @@
     "experimentalDecorators": true,
     "lib": ["es2018", "esnext.asynciterable"],
     "baseUrl": "./",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["express"]
   },
   "include": ["server/**/*.ts", "server/**/*.js", "server/middleware/gzip/index.td"],
   "exclude": ["node_modules"]

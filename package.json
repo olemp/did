@@ -8,7 +8,8 @@
   },
   "scripts": {
     "watch": "concurrently \"webpack\" \"npm run watch:server\" \"node tasks/open.js\" \"node tasks/localtunnel.js\"",
-    "start": "ts-node ./server -T",
+    "prestart": "npm run build:server",
+    "start": "node ./server",
     "watch:server": "ts-node-dev --ignore-watch node_modules server",
     "package:client": "webpack",
     "build:server": "tsc --project tsconfig.json",
