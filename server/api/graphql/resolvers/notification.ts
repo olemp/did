@@ -2,6 +2,7 @@ import unconfirmedPeriods from './notification.unconfirmed-periods'
 import forecast from './notification.forecast'
 import { gql } from 'apollo-server-express'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { INotificationsQueryVariables } from './notification.types'
 
 export const typeDef = gql`
   """
@@ -35,10 +36,10 @@ export const typeDef = gql`
  * Get notifications
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {INotificationsQueryVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function notifications(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function notifications(_obj: any, variables: INotificationsQueryVariables, ctx: IGraphQLContext) {
   if (!ctx.user.id) return { success: false, error: null }
 
   const notifications = await Promise.all([
@@ -61,3 +62,5 @@ export const resolvers = {
   Query: { notifications },
   Mutation: {},
 }
+
+export * from './notification.types'
