@@ -1,66 +1,42 @@
-import unconfirmedPeriods from './notification.unconfirmed-periods'
-import forecast from './notification.forecast'
-import { gql } from 'apollo-server-express'
+import 'reflect-metadata'
+import { Arg, Ctx, Query, Resolver } from 'type-graphql'
 import { IGraphQLContext } from '../IGraphQLContext'
-import { INotificationsQueryVariables } from './notification.types'
+import forecast from './notification.forecast'
+import { Notification, NotificationTemplates } from './notification.types'
+import unconfirmedPeriods from './notification.unconfirmed-periods'
 
-export const typeDef = gql`
-  """
-  A type that describes a Notification
-  """
-  type Notification {
-    id: String
-    type: Int!
-    severity: Int!
-    text: String!
-    moreLink: String
+@Resolver(Notification)
+export class UserResolver {
+  /**
+  * Get notifications
+  *
+  * @param {NotificationTemplates} templates Templates
+  * @param {string} locale Locale
+  * @param {IGraphQLContext} ctx GraphQL context
+  */
+  @Query(() => [Notification])
+  async currentUser(
+    @Arg('templates', () => NotificationTemplates) templates: NotificationTemplates, 
+    @Arg('locale') locale: string,
+    @Ctx() ctx: IGraphQLContext
+    ) {
+    if (!ctx.user.id) return { success: false, error: null }
+
+    const notifications = await Promise.all([
+      unconfirmedPeriods({
+        template: templates.unconfirmedPeriods,
+        ctx,
+        locale,
+      }),
+      forecast({
+        template: templates.forecast,
+        ctx,
+        locale,
+      }),
+    ])
+    // eslint-disable-next-line prefer-spread
+    return [].concat.apply([], notifications)
   }
-
-  """
-  Input object for Notification template used in Query notifications
-  """
-  input NotificationTemplates {
-    unconfirmedPeriods: String!
-    forecast: String!
-  }
-
-  extend type Query {
-    """
-    Get notifications
-    """
-    notifications(templates: NotificationTemplates!, locale: String!): [Notification!]!
-  }
-`
-
-/**
- * Get notifications
- *
- * @param {any} _obj {}
- * @param {INotificationsQueryVariables} variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function notifications(_obj: any, variables: INotificationsQueryVariables, ctx: IGraphQLContext) {
-  if (!ctx.user.id) return { success: false, error: null }
-
-  const notifications = await Promise.all([
-    unconfirmedPeriods({
-      template: variables.templates.unconfirmedPeriods,
-      ctx,
-      locale: variables.locale,
-    }),
-    forecast({
-      template: variables.templates.forecast,
-      ctx,
-      locale: variables.locale,
-    }),
-  ])
-  // eslint-disable-next-line prefer-spread
-  return [].concat.apply([], notifications)
-}
-
-export const resolvers = {
-  Query: { notifications },
-  Mutation: {},
 }
 
 export * from './notification.types'

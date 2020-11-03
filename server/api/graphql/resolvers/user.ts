@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-import { Base } from 'applicationinsights/out/Declarations/Contracts'
 import 'reflect-metadata'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { filter, find, pick } from 'underscore'
