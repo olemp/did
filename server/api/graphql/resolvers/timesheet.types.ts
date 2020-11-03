@@ -19,10 +19,10 @@ export class EventObject {
   @Field()
   title: string
 
-  @Field()
+  @Field({ nullable: true })
   body: string
 
-  @Field()
+  @Field({ nullable: true })
   isOrganizer: boolean
 
   @Field()
@@ -31,7 +31,7 @@ export class EventObject {
   @Field()
   endDateTime: string
 
-  @Field()
+  @Field({ nullable: true })
   date: string
 
   @Field(() => Float)
@@ -46,13 +46,13 @@ export class EventObject {
   @Field(() => Customer, { nullable: true })
   customer: Customer
 
-  @Field()
+  @Field({ nullable: true })
   projectKey: string
 
-  @Field()
+  @Field({ nullable: true })
   customerKey: string
 
-  @Field()
+  @Field({ nullable: true })
   webLink: string
 
   @Field(() => [LabelObject], { nullable: true })
