@@ -90,7 +90,7 @@ export class UserResolver {
      * @param {IGraphQLContext} ctx GraphQL context
      */
     @Mutation(() => BaseResult)
-    async bulkAddUsers(@Arg('users', () => [UserInput]) users: User[], ctx: IGraphQLContext): Promise<BaseResult> {
+    async bulkAddUsers(@Arg('users', () => [UserInput]) users: UserInput[], ctx: IGraphQLContext): Promise<BaseResult> {
         try {
             await ctx.services.azstorage.bulkAddUsers(users)
             return { success: true, error: null }

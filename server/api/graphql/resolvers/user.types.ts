@@ -3,13 +3,13 @@ import 'reflect-metadata'
 import { Field, InputType, ObjectType } from 'type-graphql'
 import { Role } from './role.types'
 
-@ObjectType({ description: 'The ISubscription model' })
+@ObjectType({ description: 'A type that describes a Subscription' })
 export class Subscription {
     @Field()
     name: string
 }
 
-@ObjectType({ description: 'The User model' })
+@ObjectType({ description: 'A type that describes a User' })
 export class User {
     @Field()
     id?: string
@@ -42,7 +42,7 @@ export class User {
     subscription?: Subscription
 }
 
-@InputType()
+@InputType({ description: 'Input object for Role used in Mutation addOrUpdateUser/bulkAddUsers' })
 export class UserInput implements Partial<User> {
     @Field()
     id?: string
