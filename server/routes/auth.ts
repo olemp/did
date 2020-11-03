@@ -21,7 +21,7 @@ router.post('/callback', (request, response, next) => {
 
 router.get('/signout', (request, response) => {
   request['session'].destroy(() => {
-    request.logOut()
+    request['logout']()
     response.redirect('/')
   })
 })
