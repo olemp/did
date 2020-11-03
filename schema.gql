@@ -56,6 +56,7 @@ type Mutation {
   addOrUpdateUser(update: Boolean!, user: UserInput!): BaseResult!
   bulkAddUsers(users: [UserInput!]!): BaseResult!
   createOrUpdateCustomer(customer: CustomerInput!, update: Boolean!): BaseResult!
+  createOutlookCategory(category: String!): BaseResult!
   deleteApiToken(name: String!): BaseResult!
   deleteCustomer(key: String!): BaseResult!
   deleteLabel(name: String!): BaseResult!
