@@ -1,148 +1,133 @@
+/* eslint-disable max-classes-per-file */
+import 'reflect-metadata'
+import { Field, InputType, ObjectType } from 'type-graphql'
+import { EventError } from '../types'
 import { Customer } from './customer.types'
 import { LabelObject } from './label.types'
 
-export interface IEvent {
+@ObjectType({description: 'A type that describes a Event'})
+export class EventObject {  
+  @Field()
   id: string
+  
+  @Field()
   key: string
+  
+  @Field()
   day: string
+  
+  @Field()
   title: string
+  
+  @Field()
   body: string
+  
+  @Field()
   isOrganizer: boolean
+  
+  @Field()
   startDateTime: string
+  
+  @Field()
   endDateTime: string
+  
+  @Field()
   date: string
+  
+  @Field()
   duration: number
+  
+  @Field()
   project: any
+  
+  @Field(() => Customer)
   customer: Customer
+  
+  @Field()
   projectKey: string
+  
+  @Field()
   customerKey: string
+  
+  @Field()
   suggestedProject: any
+
+  @Field()
   webLink: string
+
+  @Field(() => [LabelObject])
   labels: LabelObject[]
-  error: any
+
+  @Field(() => EventError)
+  error: EventError
+
+  @Field()
   manualMatch?: boolean
+
+  @Field()
   isSystemIgnored?: boolean
 }
 
-export interface ITimesheetPeriod {
-  /**
-   * Identifier for the period week_month_year
-   */
-  id: string
-
-  /**
-   * Week number
-   */
-  week: number
-
-  /**
-   * Month string
-   */
-  month: string
-
-  /**
-   * Start date time ISO string
-   */
-  startDateTime: string
-
-  /**
-   * End date time ISO string
-   */
-  endDateTime: string
-
-  /**
-   * Period confirmed
-   */
-  isConfirmed: boolean
-
-  /**
-   * Events
-   */
-  events: IEvent[]
-
-  /**
-   * Is there an active forecast for the period
-   */
-  isForecasted: boolean
-
-  /**
-   * Is the period in the future
-   */
-  isForecast: boolean
-
-  /**
-   * Forecasted hours
-   */
-  forecastedHours: number
-}
-
-/**
- * Timesheet period data used when submitting/unsubmitting the period
- */
-export interface ITimesheetPeriodData {
-  /**
-   * Identifier for the period week_month_year
-   */
-  id: string
-
-  /**
-   * Start date time ISO string
-   */
-  startDateTime: string
-
-  /**
-   * End date time ISO string
-   */
-  endDateTime: string
-
-  /**
-   * Matched events
-   *
-   * * {string} id
-   * * {string} projectId
-   * * {boolean} manualMatch
-   */
-  matchedEvents: ITimesheetPeriodMatchedEvent[]
-
-  /**
-   * Forecasted hours
-   */
-  forecastedHours: number
-
-  /**
-   * Hours
-   */
-  hours?: number
-}
-
-export interface ITimesheetPeriodMatchedEvent {
+@InputType({description: 'Input object for Event used in Mutation submitPeriod'})
+export class EventInput {
   id: string
   projectId: string
   manualMatch: boolean
 }
 
-/**
- * Variables for query timesheet
- */
-export interface ITimesheetQueryVariables {
+@ObjectType({description: 'A type that describes a TimesheetPeriod'})
+export class TimesheetPeriodObject {
+  @Field()
+  id: string
+
+  @Field()
+  week: number
+  
+  @Field()
+  month: string
+  
+  @Field()
+  startDateTime: string
+  
+  @Field()
+  endDateTime: string
+  
+  @Field()
+  isConfirmed: boolean
+  
+  @Field(() => [EventObject])
+  events: EventObject[]
+  
+  @Field()
+  isForecasted: boolean
+  
+  @Field()
+  isForecast: boolean
+  
+  @Field()
+  forecastedHours: number
+}
+
+@InputType({description: 'Input object for TimesheetPeriod used in Mutation unsubmitPeriod'})
+export class TimesheetPeriodInput {
+  @Field()
+  id: string
+
+  @Field()
+  startDateTime: string
+  
+  @Field()
+  endDateTime: string
+  
+  @Field(() => [EventInput])
+  matchedEvents: EventInput[]
+  
+  @Field()
+  forecastedHours: number
+}
+
+@InputType()
+export class TimesheetQuery {
   startDateTime: string
   endDateTime: string
-  dateFormat: string
-  locale: string
-}
-
-/**
- * Variables for mutation submitPeriod
- */
-export interface ISubmitPeriodVariables {
-  period: ITimesheetPeriodData
-  forecast: boolean
-}
-
-/**
- * Variables for mutation unsubmitPeriod
- */
-export interface IUnsubmitPeriodVariables {
-  period: ITimesheetPeriodData
-  forecast: boolean
 }

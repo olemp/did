@@ -8,6 +8,10 @@ export class TimeEntryResolver {
   /**
    * Get time entries
    * 
+   * @param {boolean} currentUser Current user
+   * @param {boolean} sortAsc Sort ascending
+   * @param {boolean} forecast Forecast
+   * @param {TimeEntriesQuery} query Query
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [TimeEntry])

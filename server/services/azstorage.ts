@@ -423,21 +423,21 @@ class AzStorageService {
   /**
    * Add entry for the confirmed period to table storage
    *
-   * @param {{id: string, hours: number, forecastedHours: number}} period Period
    * @param {string} resourceId ID of the resource
-   *
-   * @returns void
+   * @param {string} periodId Period ID
+   * @param {number} hours Hours
+   * @param {number} forecastedHours Forecasted hours
    */
-  async addConfirmedPeriod(period: { id: string; hours: number; forecastedHours: number }, resourceId: string) {
-    const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
+  async addConfirmedPeriod(resourceId: string, periodId: string, hours: number, forecastedHours: number) {
+    const [weekNumber, monthNumber, year] = periodId.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
-      period.id,
+      periodId,
       {
         weekNumber,
         monthNumber,
         year,
-        hours: period.hours,
-        forecastedHours: period.forecastedHours,
+        hours,
+        forecastedHours
       },
       resourceId,
       {
@@ -453,18 +453,19 @@ class AzStorageService {
   /**
    * Add entry for the forecasted period to table storage
    *
-   * @param {{id: string, hours: number}} period Period
    * @param {string} resourceId ID of the resource
+   * @param {string} periodId Period ID
+   * @param {number} hours Hours
    */
-  async addForecastedPeriod(period: { id: string; hours: number }, resourceId: string) {
-    const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
+  async addForecastedPeriod(resourceId: string, periodId: string, hours: number) {
+    const [weekNumber, monthNumber, year] = periodId.split('_').map(p => parseInt(p, 10))
     const entity = this.tableUtil.convertToAzEntity(
-      period.id,
+      periodId,
       {
         weekNumber,
         monthNumber,
         year,
-        hours: period.hours,
+        hours,
       },
       resourceId,
       {
