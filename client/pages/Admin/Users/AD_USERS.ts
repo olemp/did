@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const GET_DATA = gql`
+export const AD_USERS = gql`
   query {
     adUsers {
       id
