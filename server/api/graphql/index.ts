@@ -5,6 +5,7 @@ import { buildSchema } from 'type-graphql'
 import { AzStorageService, MSGraphService, SubscriptionService } from '../../services'
 import { IGraphQLContext } from './IGraphQLContext'
 import * as resolvers from './resolvers'
+import express from 'express'
 
 /**
  * Get schema
@@ -14,13 +15,14 @@ const getSchema = async () => {
     resolvers: [
       resolvers.ApiTokenResolver,
       resolvers.CustomerResolver,
-      resolvers.UserResolver,
       resolvers.NotificationResolver,
       resolvers.OutlookCategoryResolver,
       resolvers.ProjectResolver,
       resolvers.RoleResolver,
       resolvers.TimeEntryResolver,
-      resolvers.LabelResolver
+      resolvers.LabelResolver,
+      resolvers.TimesheetResolver,
+      resolvers.UserResolver
     ],
     emitSchemaFile: true,
     validate: false,
@@ -52,7 +54,7 @@ const createContext = async ({ req }): Promise<IGraphQLContext> => {
     throw new Error()
   }
 }
-export default async (app) => {
+export default async (app: express.Application) => {
   try {
     const schema = await getSchema()
     const server = new ApolloServer({

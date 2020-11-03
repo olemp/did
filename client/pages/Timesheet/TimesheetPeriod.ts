@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
-import { IEvent, Project, ITimesheetPeriod, ITimesheetPeriodData, ITimesheetPeriodMatchedEvent } from 'types'
+import { EventInput, EventObject, Project, TimesheetPeriodInput, TimesheetPeriodObject } from 'types'
 import { TimeEntry } from 'types'
 import { omit, filter } from 'underscore'
 import { isBlank } from 'underscore.string'
@@ -93,10 +93,10 @@ export class TimesheetPeriod {
   /**
    * Creates a new instance of TimesheetPeriod
    *
-   * @param {ITimesheetPeriod} _period Period
+   * @param {TimesheetPeriodObject} _period Period
    * @param {ITimesheetPeriod} params Params
    */
-  constructor(private _period?: ITimesheetPeriod, params?: ITimesheetParams) {
+  constructor(private _period?: TimesheetPeriodObject, params?: ITimesheetParams) {
     if (params) this.id = [params.week, params.month, params.year].filter(p => p).join('_')
     if (!_period) return
     this.id = _period.id
@@ -129,9 +129,9 @@ export class TimesheetPeriod {
   /**
    * Check manual match
    *
-   * @param {IEvent} event Event
+   * @param {EventObject} event Event
    */
-  private _checkManualMatch(event: IEvent) {
+  private _checkManualMatch(event: EventObject) {
     const manualMatch = this._uiMatchedEvents[event.id]
     if (event.manualMatch && !manualMatch) {
       event.manualMatch = false
@@ -243,14 +243,14 @@ export class TimesheetPeriod {
    * * {string} projectId
    * * {boolean} manualMatch
    */
-  private get matchedEvents(): ITimesheetPeriodMatchedEvent[] {
+  private get matchedEvents(): EventInput[] {
     const events = filter([...this.events], event => !!event.project).map(
       event =>
         ({
           id: event.id,
           projectId: event.project.id,
           manualMatch: event.manualMatch,
-        } as ITimesheetPeriodMatchedEvent)
+        } as EventInput)
     )
     return events
   }
@@ -258,9 +258,9 @@ export class TimesheetPeriod {
   /**
    * Get data for the period
    *
-   * @returns {ITimesheetPeriodData} Data for the period
+   * @returns {TimesheetPeriodInput} Data for the period
    */
-  public get data(): ITimesheetPeriodData {
+  public get data(): TimesheetPeriodInput {
     if (!this.isLoaded) return null
     return {
       id: this.id,
@@ -268,7 +268,6 @@ export class TimesheetPeriod {
       endDateTime: this._endDateTime.toISOString(),
       matchedEvents: this.matchedEvents,
       forecastedHours: this.forecastedHours,
-      hours: null,
     }
   }
 
