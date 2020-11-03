@@ -17,14 +17,6 @@ module.exports = {
       jsx: true, // Allows for the parsing of JSX
     },
   },
-  overrides: [
-    {
-      files: ['server/**/*.js'],
-      rules: {
-        '@typescript-eslint/no-var-requires': 'off'
-      }
-    }
-  ],
   rules: {
     /**
      * 0 = off, 1 = warn, 2 = error
