@@ -33,10 +33,26 @@ type Mutation {
   bulkAddUsers(users: [UserInput!]!): BaseResult!
 }
 
+"""A type that describes a Notification"""
+type Notification {
+  id: String!
+  moreLink: String!
+  severity: Float!
+  text: String!
+  type: Float!
+}
+
+"""Input object for Notification template used in Query notifications"""
+input NotificationTemplates {
+  forecast: String!
+  unconfirmedPeriods: String!
+}
+
 type Query {
   adUsers: [User!]!
   currentUser: User!
   customers: [Customer!]!
+  notifications(locale: String!, templates: NotificationTemplates!): [Notification!]!
   users: [User!]!
 }
 

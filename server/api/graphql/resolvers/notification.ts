@@ -6,7 +6,7 @@ import { Notification, NotificationTemplates } from './notification.types'
 import unconfirmedPeriods from './notification.unconfirmed-periods'
 
 @Resolver(Notification)
-export class UserResolver {
+export class NotificationResolver {
   /**
   * Get notifications
   *
@@ -15,7 +15,7 @@ export class UserResolver {
   * @param {IGraphQLContext} ctx GraphQL context
   */
   @Query(() => [Notification])
-  async currentUser(
+  async notifications(
     @Arg('templates', () => NotificationTemplates) templates: NotificationTemplates, 
     @Arg('locale') locale: string,
     @Ctx() ctx: IGraphQLContext
