@@ -28,6 +28,9 @@ class App {
     this.instance.disable('view cache')
   }
 
+  /**
+  * Setup app
+  */
   public async setup() {
     this.setupSession()
     this.setupViewEngine()

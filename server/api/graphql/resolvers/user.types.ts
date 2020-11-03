@@ -6,6 +6,9 @@ import { Role } from './role.types'
 @ObjectType({ description: 'A type that describes a Subscription' })
 export class Subscription {
   @Field()
+  id: string
+
+  @Field()
   name: string
 }
 

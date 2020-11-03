@@ -109,7 +109,7 @@ export class TimesheetResolver {
           entry.labels = filter(labels, lbl => contains(entry.event.categories, lbl.name)).map(lbl => lbl.name)
           return [...arr, entry]
         }, [])
-        hours = await ctx.services.azstorage.addTimeEntries(pick(period, 'id'), ctx.user, timeentries, forecast)
+        hours = await ctx.services.azstorage.addTimeEntries(ctx.user.id, period.id, timeentries, forecast)
       }
       if (forecast) {
         await ctx.services.azstorage.addForecastedPeriod(ctx.user.id, period.id, hours)

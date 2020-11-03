@@ -13,6 +13,9 @@ export class Context {
   public subscription: Subscription;
 }
 
+/**
+ * Create context
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createContext = async ({ req }): Promise<Context> => {
   try {

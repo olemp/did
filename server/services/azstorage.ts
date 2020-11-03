@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import AzTableUtilities from '../utils/table'
 import { getDurationHours, toArray } from '../utils'
 import arraySort from 'array-sort'
@@ -276,15 +277,15 @@ class AzStorageService {
   /**
    * Add time entries
    *
-   * @param {{ id: string }} period Period
-   * @param {{ id: string }} user User
+   * @param {string} resourceId ID of the resource
+   * @param {string} periodId Period ID
    * @param {any[]} timeentries Collection of time entries
    * @param {boolean} forecast Forecast
    */
-  async addTimeEntries(period: { id: string }, user: { id: string }, timeentries: any[], forecast: boolean) {
+  async addTimeEntries(resourceId: string, periodId: string, timeentries: any[], forecast: boolean) {
     let totalDuration = 0
     const entities = timeentries.map(({ projectId, manualMatch, event, labels }) => {
-      const [weekNumber, monthNumber, year] = period.id.split('_').map(p => parseInt(p, 10))
+      const [weekNumber, monthNumber, year] = periodId.split('_').map(p => parseInt(p, 10))
       const duration = getDurationHours(event.startDateTime, event.endDateTime)
       totalDuration += duration
       const entity = this.tableUtil.convertToAzEntity(
@@ -298,10 +299,10 @@ class AzStorageService {
           year,
           weekNumber,
           monthNumber,
-          periodId: period.id,
+          periodId: periodId,
           labels: labels.join('|'),
         },
-        user.id,
+        resourceId,
         {
           removeBlanks: true,
           typeMap: {
