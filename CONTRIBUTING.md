@@ -11,7 +11,7 @@ Folder/File | Description
 `/client/common` | Common elements like icons etc 
 `/client/components` | React components reusable throughout the solution 
 `/client/config` | Conifguration 
-`client/graphql` | Graphql implementation for the client using `apollo-client` 
+`client/graphql` | Graphql implementation for the client using `@apollo/client` 
 `client/helpers` | Helper functions 
 `client/pages` | Main pages of the solution 
 `client/types` | Types, models and interfaces 

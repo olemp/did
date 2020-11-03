@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { EntityLabel } from 'components/EntityLabel'
 import { UserMessage } from 'components/UserMessage'
 import { Icon } from 'office-ui-fabric-react/lib/Icon'

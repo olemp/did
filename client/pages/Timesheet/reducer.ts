@@ -1,4 +1,4 @@
-import { QueryResult } from '@apollo/react-hooks'
+import { QueryResult } from '@apollo/client'
 import { getValue } from 'helpers'
 import { TFunction } from 'i18next'
 import { Project } from 'types'

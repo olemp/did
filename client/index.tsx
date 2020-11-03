@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { ApolloProvider } from '@apollo/react-common'
+import { ApolloProvider } from '@apollo/client'
 import { initializeIcons } from '@uifabric/icons'
 import 'core-js/stable'
 import i18n from 'i18next'

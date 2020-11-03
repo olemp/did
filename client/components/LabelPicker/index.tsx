@@ -3,14 +3,14 @@ import { Icon } from 'office-ui-fabric-react/lib/Icon'
 import React, { useRef, useState, useEffect } from 'react'
 import { EntityLabel } from 'components/EntityLabel'
 import styles from './LabelPicker.module.scss'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { GET_LABELS, ILabelPickerProps } from './types'
 import { LabelObject } from 'types'
 import { SelectCallout } from './SelectCallout'
 import { omit } from 'underscore'
 import { useTranslation } from 'react-i18next'
 
-export const LabelPicker = (props: ILabelPickerProps) => {
+export const LabelPicker: React.FunctionComponent<ILabelPickerProps> = (props: ILabelPickerProps) => {
     const { t } = useTranslation()
     const { data } = useQuery(GET_LABELS, { fetchPolicy: 'cache-and-network' })
     const toggleRef = useRef()

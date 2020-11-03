@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import { EntityLabel, List } from 'components'
 import { LabelObject } from 'types'
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button'

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { FilterPanel, IFilter, List, UserMessage } from 'components'
 import { getValue } from 'helpers'
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot'

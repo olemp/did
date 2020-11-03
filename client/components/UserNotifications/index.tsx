@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { dateAdd, IPnPClientStore, PnPClientStorage } from '@pnp/common'
 import { AppContext } from 'AppContext'
 import { getValue } from 'helpers'

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import { AppContext } from 'AppContext'
 import { HotkeyModal } from 'components'
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot'

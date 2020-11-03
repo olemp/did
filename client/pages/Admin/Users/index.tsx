@@ -1,5 +1,5 @@
 
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import List from 'components/List'
 import { User } from 'types'
 import { ISpinnerProps, Spinner } from 'office-ui-fabric-react/lib/Spinner'

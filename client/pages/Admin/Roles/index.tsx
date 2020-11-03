@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { List } from 'components'
 import { PermissionList } from 'components/PermissionList'
 import { Role } from 'types'

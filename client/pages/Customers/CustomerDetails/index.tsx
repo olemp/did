@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { UserMessage } from 'components/UserMessage'
 import { getValue } from 'helpers'
 import { Project } from 'types'

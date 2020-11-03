@@ -1,5 +1,5 @@
 
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { Customer } from 'types'
 import GET_CUSTOMERS from 'pages/Customers/GET_CUSTOMERS'
 import React, { useMemo } from 'react'

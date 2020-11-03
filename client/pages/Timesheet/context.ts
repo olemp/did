@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from  '@apollo/react-hooks'
+import { ApolloQueryResult } from  '@apollo/client'
 import { TFunction } from 'i18next'
 import { createContext } from 'react'
 import { TimesheetAction } from './reducer'

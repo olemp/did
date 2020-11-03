@@ -1,5 +1,5 @@
 
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { UserMessage } from 'components'
 import List from 'components/List'
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot'

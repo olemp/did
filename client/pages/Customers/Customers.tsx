@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { AppContext } from 'AppContext'
 import { manageCustomers } from 'config/security/permissions'
 import { getValue } from 'helpers'

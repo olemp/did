@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import { AppContext } from 'AppContext'
 import { manageProjects } from 'config/security/permissions'
 import { IBaseResult } from 'graphql'
