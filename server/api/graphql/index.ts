@@ -18,6 +18,7 @@ const getSchema = async () => {
       resolvers.NotificationResolver,
       resolvers.OutlookCategoryResolver,
       resolvers.ProjectResolver,
+      resolvers.RoleResolver,
       resolvers.LabelResolver
     ],
     emitSchemaFile: true,

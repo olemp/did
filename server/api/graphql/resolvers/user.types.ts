@@ -1,18 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
 import { Field, InputType, ObjectType } from 'type-graphql'
-
-@ObjectType({ description: 'The Role model' })
-export class Role {
-    @Field()
-    name?: string
-
-    @Field()
-    icon?: string
-
-    @Field(() => [String])
-    permissions?: string[]
-}
+import { Role } from './role.types'
 
 @ObjectType({ description: 'The ISubscription model' })
 export class Subscription {
