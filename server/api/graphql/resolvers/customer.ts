@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import 'reflect-metadata'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import AzTableUtilities from '../../../utils/table'
 import { Context } from '../context'
@@ -15,6 +16,7 @@ export class CustomerResolver {
    * @param {string} sortBy Sort by
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [Customer])
   async customers(@Arg('sortBy', { nullable: true }) sortBy: string, @Ctx() ctx: Context) {
     return await ctx.services.azstorage.getCustomers({ sortBy })
@@ -27,6 +29,7 @@ export class CustomerResolver {
    * @param {boolean} update Update
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async createOrUpdateCustomer(
     @Arg('customer', () => CustomerInput) customer: CustomerInput,
@@ -50,6 +53,7 @@ export class CustomerResolver {
    * @param {string} key Key
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async deleteCustomer(@Arg('key') key: string, @Ctx() ctx: Context) {
     try {

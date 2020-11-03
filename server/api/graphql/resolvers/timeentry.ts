@@ -1,4 +1,5 @@
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql'
 import { find, first } from 'underscore'
 import { Context } from '../context'
 import { TimeEntriesQuery, TimeEntry } from './timeentry.types'
@@ -14,6 +15,7 @@ export class TimeEntryResolver {
    * @param {TimeEntriesQuery} query Query
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [TimeEntry])
   async timeentries(
     @Arg('currentUser', { nullable: true }) currentUser: boolean,

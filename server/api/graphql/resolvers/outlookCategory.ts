@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import { Context } from '../context'
 import { BaseResult, OutlookCategory } from '../types'
@@ -12,6 +13,7 @@ export class OutlookCategoryResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [OutlookCategory])
   async outlookCategories(@Ctx() ctx: Context) {
     const categories = await ctx.services.msgraph.getOutlookCategories()
@@ -24,6 +26,7 @@ export class OutlookCategoryResolver {
    * @param {string} category Category
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async createOutlookCategory(@Arg('category') category: string, @Ctx() ctx: Context) {
     try {
