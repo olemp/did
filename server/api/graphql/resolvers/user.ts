@@ -70,7 +70,11 @@ export class UserResolver {
      * @param {IGraphQLContext} ctx GraphQL context
      */
     @Mutation(() => BaseResult)
-    async addOrUpdateUser(@Arg('user', () => UserInput) user: UserInput, @Arg('update') update: boolean, ctx: IGraphQLContext): Promise<BaseResult> {
+    async addOrUpdateUser(
+        @Arg('user', () => UserInput) user: UserInput,
+        @Arg('update', { nullable: true }) update: boolean,
+        @Ctx() ctx: IGraphQLContext,
+    ): Promise<BaseResult> {
         try {
             await ctx.services.azstorage.addOrUpdateUser(user, update)
             return { success: true, error: null }
@@ -89,7 +93,7 @@ export class UserResolver {
      * @param {IGraphQLContext} ctx GraphQL context
      */
     @Mutation(() => BaseResult)
-    async bulkAddUsers(@Arg('users', () => [UserInput]) users: UserInput[], ctx: IGraphQLContext): Promise<BaseResult> {
+    async bulkAddUsers(@Arg('users', () => [UserInput]) users: UserInput[], @Ctx() ctx: IGraphQLContext): Promise<BaseResult> {
         try {
             await ctx.services.azstorage.bulkAddUsers(users)
             return { success: true, error: null }

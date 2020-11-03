@@ -26,7 +26,7 @@ export class RoleResolver {
   @Mutation(() => BaseResult)
   async addOrUpdateRole(
     @Arg('role', () => RoleInput) role: RoleInput,
-    @Arg('update') update: boolean,
+    @Arg('update', { nullable: true }) update: boolean,
     @Ctx() ctx: IGraphQLContext
   ) {
     try {

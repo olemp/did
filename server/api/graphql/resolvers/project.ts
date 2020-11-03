@@ -41,7 +41,7 @@ export class ProjectResolver {
   @Mutation(() => BaseResult)
   async createOrUpdateProject(
     @Arg('project', () => ProjectInput) project: ProjectInput,
-    @Arg('update') update: boolean,
+    @Arg('update', { nullable: true }) update: boolean,
     @Ctx() ctx: IGraphQLContext
   ) {
     try {

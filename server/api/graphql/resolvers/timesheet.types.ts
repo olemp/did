@@ -66,6 +66,8 @@ export class EventObject {
 
   @Field({ nullable: true })
   isSystemIgnored?: boolean
+
+  categories?: string[]
 }
 
 @InputType({ description: 'Input object for Event used in Mutation submitPeriod' })

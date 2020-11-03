@@ -16,7 +16,7 @@ export class CustomerResolver {
  * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [Customer])
-  async customers(@Arg('sortBy') sortBy: string, @Ctx() ctx: IGraphQLContext) {
+  async customers(@Arg('sortBy', { nullable: true }) sortBy: string, @Ctx() ctx: IGraphQLContext) {
     return await ctx.services.azstorage.getCustomers({ sortBy })
   }
 
@@ -30,7 +30,7 @@ export class CustomerResolver {
   @Mutation(() => BaseResult)
   async createOrUpdateCustomer(
     @Arg('customer', () => CustomerInput) customer: CustomerInput,
-    @Arg('update') update: boolean,
+    @Arg('update',{nullable:true}) update: boolean,
     @Ctx() ctx: IGraphQLContext
   ) {
     try {

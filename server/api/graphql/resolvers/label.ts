@@ -27,7 +27,7 @@ export class LabelResolver {
   @Mutation(() => BaseResult)
   async addOrUpdateLabel(
     @Arg('label', () => LabelInput) label: LabelInput,
-    @Arg('update') update: boolean,
+    @Arg('update', { nullable: true }) update: boolean,
     @Ctx() ctx: IGraphQLContext
   ) {
     try {

@@ -1,23 +1,24 @@
 import { first, find, filter, contains, isEmpty } from 'underscore'
 import { findBestMatch } from 'string-similarity'
 import get from 'get-value'
+import { Customer, EventObject, LabelObject, Project } from '../types'
 
 class EventMatching {
-  public projects: any[]
-  public customers: any[]
-  public labels: any[]
+  public projects: Project[]
+  public customers: Customer[]
+  public labels: LabelObject[]
 
   /**
    * Constructs a new EventMatching class
    *
-   * @param {any[]} projects Projects
-   * @param {any[]} customers Customers
-   * @param {any[]} labels Labels
+   * @param {Project[]} projects Projects
+   * @param {Customer[]} customers Customers
+   * @param {LabelObject[]} labels Labels
    */
-  constructor(projects: any[], customers: any[], labels: any[]) {
+  constructor(projects: Project[], customers: Customer[], labels: LabelObject[]) {
     this.projects = projects
     this.customers = customers
-    this.customers = labels
+    this.labels = labels
   }
 
   /**
@@ -48,9 +49,9 @@ class EventMatching {
    * * Returns 'body' if ignore tag is found in body
    * * Otherwise returns nulll
    *
-   * @param {*} event
+   * @param {EventObject} event
    */
-  findIgnore(event: { body: string; categories: string[] }) {
+  findIgnore(event: EventObject) {
     const ignoreCategory = find(event.categories, c => c.toLowerCase() === 'ignore')
     if (!!ignoreCategory) return 'category'
     if ((event.body || '').match(/[(\[\{]IGNORE[)\]\}]/gi) !== null) return 'body'
