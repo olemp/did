@@ -1,7 +1,7 @@
 
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import List from 'components/List'
-import { IUser } from 'types/IUser'
+import { IUser } from 'types'
 import { ISpinnerProps, Spinner } from 'office-ui-fabric-react/lib/Spinner'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

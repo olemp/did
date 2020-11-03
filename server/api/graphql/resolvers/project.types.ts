@@ -27,7 +27,7 @@ export interface IProjectsQueryVariables {
 }
 
 /**
- * Variables for mutation createOrUpdateCustomer
+ * Variables for mutation createOrUpdateProject
  */
 export interface ICreateOrUpdateProjectVariables {
   project: IProject;

@@ -1,4 +1,4 @@
-import { IUser } from 'types/IUser'
+import { IUser } from 'types'
 import * as React from 'react'
 
 export interface IAppContext {

@@ -1,6 +1,7 @@
 import { pick, find, filter } from 'underscore'
 import { gql } from 'apollo-server-express'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { IAddOrUpdateUserVariables, IBulkAddUsersVariables, IUsersQueryVariables } from './user.types'
 
 export const typeDef = gql`
   """
@@ -88,10 +89,10 @@ async function adUsers(_obj: any, _variables: any, ctx: IGraphQLContext) {
  * Get users
  * 
  * @param {any} _obj {}
- * @param {any} _variables Variables
+ * @param {IUsersQueryVariables} _variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function users(_obj: any, _variables: any, ctx: IGraphQLContext) {
+async function users(_obj: any, _variables: IUsersQueryVariables, ctx: IGraphQLContext) {
   // eslint-disable-next-line prefer-const
   let [users, roles] = await Promise.all([
     ctx.services.azstorage.getUsers(),
@@ -135,10 +136,10 @@ async function currentUser(_obj: any, _variables: any, ctx: IGraphQLContext) {
  * Add or update user
  * 
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IAddOrUpdateUserVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function addOrUpdateUser(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function addOrUpdateUser(_obj: any, variables: IAddOrUpdateUserVariables, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.addOrUpdateUser(variables.user, variables.update)
     return { success: true, error: null }
@@ -154,10 +155,10 @@ async function addOrUpdateUser(_obj: any, variables: any, ctx: IGraphQLContext) 
  * Add or update user
  * 
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IBulkAddUsersVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function bulkAddUsers(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function bulkAddUsers(_obj: any, variables: IBulkAddUsersVariables, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.bulkAddUsers(variables.users)
     return { success: true, error: null }
@@ -173,3 +174,5 @@ export const resolvers = {
   Query: { adUsers, users, currentUser },
   Mutation: { bulkAddUsers, addOrUpdateUser },
 }
+
+export * from './user.types'
