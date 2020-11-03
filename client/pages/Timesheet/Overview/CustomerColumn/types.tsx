@@ -1,6 +1,6 @@
-import { ITimeEntry } from 'types'
+import { TimeEntry } from 'types'
 
 
 export interface ICustomerColumnProps {
-    event: ITimeEntry;
+    event: TimeEntry;
 }

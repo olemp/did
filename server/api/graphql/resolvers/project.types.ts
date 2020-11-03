@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { Field, ObjectType } from 'type-graphql'
+import { Field, InputType, ObjectType } from 'type-graphql'
 import { Customer } from './customer.types'
 import { LabelObject } from './label.types'
 import { OutlookCategory } from './outlookCategory'
@@ -44,7 +44,7 @@ export class Project {
   labels?: LabelObject[]
 }
 
-@ObjectType({ description: 'Input object for Project used in Mutation createOrUpdateProject' })
+@InputType({ description: 'Input object for Project used in Mutation createOrUpdateProject' })
 export class ProjectInput {
   @Field()
   id?: string

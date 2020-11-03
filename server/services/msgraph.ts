@@ -9,10 +9,11 @@ import env from '../utils/env'
 import MSGraphEvent from './msgraph.event'
 import TokenService from './tokens'
 import get from 'get-value'
+import { Request } from 'express'
 
 class MSGraphService {
   public observer: PerformanceObserver
-  public request: Express.Request
+  public request: Request
   public oauthToken: any
 
   /**
@@ -33,9 +34,9 @@ class MSGraphService {
   /**
    * Initializes the MS Graph Service
    *
-   * @param {Express.Request} req Request
+   * @param {Request} req Request
    */
-  init(req: Express.Request) {
+  init(req: Request) {
     this.request = req
     this.oauthToken = get(this.request, 'user.oauthToken')
     return this

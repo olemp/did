@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
-import { IEvent, IProject, ITimesheetPeriod, ITimesheetPeriodData, ITimesheetPeriodMatchedEvent } from 'types'
-import { ITimeEntry } from 'types'
+import { IEvent, Project, ITimesheetPeriod, ITimesheetPeriodData, ITimesheetPeriodMatchedEvent } from 'types'
+import { TimeEntry } from 'types'
 import { omit, filter } from 'underscore'
 import { isBlank } from 'underscore.string'
 import { capitalize } from 'underscore.string'
@@ -148,7 +148,7 @@ export class TimesheetPeriod {
   /**
    * Get events
    */
-  public get events(): ITimeEntry[] {
+  public get events(): TimeEntry[] {
     if (this._period) {
       return [...this._period.events]
         .filter(event => !event.isSystemIgnored && this._uiIgnoredEvents.indexOf(event.id) === -1)
@@ -199,9 +199,9 @@ export class TimesheetPeriod {
    * Save manual match in browser storage
    *
    * @param {string} eventId Event id
-   * @param {IProject} project Project
+   * @param {Project} project Project
    */
-  public setManualMatch(eventId: string, project: IProject) {
+  public setManualMatch(eventId: string, project: Project) {
     const matches = this._uiMatchedEvents
     matches[eventId] = project
     this._localStorage.put(this._uiMatchedEventsStorageKey, matches, this._storageDefaultExpire)

@@ -1,7 +1,7 @@
 import { QueryResult } from '@apollo/react-common'
 import { getValue } from 'helpers'
 import { TFunction } from 'i18next'
-import { IProject } from 'types'
+import { Project } from 'types'
 import { find, first } from 'underscore'
 import { ITimesheetScopeOptions, ITimesheetState, TimesheetPeriod, TimesheetScope, TimesheetView } from './types'
 
@@ -18,7 +18,7 @@ export type TimesheetAction =
   | { type: 'UNSUBMITTING_PERIOD'; payload: { t: TFunction; forecast: boolean } }
   | { type: 'CHANGE_PERIOD'; payload: string }
   | { type: 'CHANGE_VIEW'; payload: TimesheetView }
-  | { type: 'MANUAL_MATCH'; payload: { eventId: string; project: IProject } }
+  | { type: 'MANUAL_MATCH'; payload: { eventId: string; project: Project } }
   | { type: 'CLEAR_MANUAL_MATCH'; payload: string }
   | { type: 'IGNORE_EVENT'; payload: string }
   | { type: 'CLEAR_IGNORES' }

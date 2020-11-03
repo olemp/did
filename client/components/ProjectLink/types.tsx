@@ -1,5 +1,5 @@
-import { IProject } from 'types'
+import { Project } from 'types'
 
 export interface IProjectLinkProps {
-    project: IProject;
+    project: Project;
 }

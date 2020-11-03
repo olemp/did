@@ -1,8 +1,8 @@
-import { Customer, IProject } from 'types'
+import { Customer, Project } from 'types'
 
 
 export interface ILabelColumnProps {
     label: string;
-    project?: IProject;
+    project?: Project;
     customer?: Customer;
 }

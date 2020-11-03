@@ -5,7 +5,7 @@ import { Panel } from 'office-ui-fabric-react/lib/Panel'
 import { ITimesheetContext, TimesheetContext } from 'pages/Timesheet/context'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IProject } from 'types'
+import { Project } from 'types'
 import styles from './MatchEventPanel.module.scss'
 import { IMatchEventPanelProps } from './types'
 
@@ -20,9 +20,9 @@ export const MatchEventPanel = ({ event }: IMatchEventPanelProps) => {
     /**
      * On manual match. Dispatches action type MANUAL_MATCH
      * 
-     * @param {IProject} project Project to match the event to
+     * @param {Project} project Project to match the event to
      */
-    const onManualMatch = (project: IProject) => {
+    const onManualMatch = (project: Project) => {
         hidePanel()
         dispatch({ type: 'MANUAL_MATCH', payload: { eventId: event.id, project } })
     }

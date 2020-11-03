@@ -9,7 +9,7 @@ import { ProjectForm } from 'pages/Projects/ProjectForm'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
-import { IProject } from 'types'
+import { Project } from 'types'
 import { find } from 'underscore'
 import graphql from './graphql'
 import { ProjectDetails } from './ProjectDetails'
@@ -22,7 +22,7 @@ export const Projects = () => {
     const { hasPermission } = useContext(AppContext)
     const history = useHistory()
     const params = useParams<IProjectsParams>()
-    const [selected, setSelected] = useState<IProject>(null)
+    const [selected, setSelected] = useState<Project>(null)
     const { loading, error, data, refetch } = useQuery<{ projects: any[]; outlookCategories: any[] }>(
         graphql.query.projects,
         {

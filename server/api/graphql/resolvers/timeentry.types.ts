@@ -21,9 +21,10 @@ export class TimeEntry {
   
   @Field(() => Project)
   project: Project
-  
-  @Field()
-  suggestedProject: any
+
+
+  @Field(() => Project)
+  suggestedProject: Project
   
   @Field(() => Customer)
   customer: Customer
@@ -39,8 +40,6 @@ export class TimeEntry {
   
   @Field()
   duration: number
-  
-  @Field()
   
   @Field()
   startDateTime: string

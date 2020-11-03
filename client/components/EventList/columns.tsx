@@ -1,6 +1,6 @@
 
 import * as helpers from 'helpers'
-import { ITimeEntry } from 'types'
+import { TimeEntry } from 'types'
 import * as React from 'react'
 import dateUtils from 'utils/date'
 import { generateColumn as col } from 'utils/generateColumn'
@@ -41,7 +41,7 @@ export const titleColumn = (props: IEventListProps, name: string, fieldName = 't
     fieldName,
     name,
     { ...getSizing(props, fieldName, 320, 400), isMultiline: true },
-    (event: ITimeEntry) => (
+    (event: TimeEntry) => (
         <div className={styles.titleColumn}>
             <Link href={event.webLink}
                 target='_blank'
@@ -73,7 +73,7 @@ export const timeColumn = (props: IEventListProps, name: string, fieldName = 'ti
     fieldName,
     name,
     { ...getSizing(props, fieldName, 90, 90) },
-    (event: ITimeEntry) => {
+    (event: TimeEntry) => {
         const startTime = dateUtils.formatDate(event.startDateTime, props.dateFormat)
         const endTime = dateUtils.formatDate(event.endDateTime, props.dateFormat)
         return (
@@ -105,7 +105,7 @@ export const durationColumn = (props: IEventListProps, name: string, fieldName =
     fieldName,
     name,
     { ...getSizing(props, fieldName, 75, 75) },
-    (event: ITimeEntry) => (
+    (event: TimeEntry) => (
         <BrowserView renderWithFragment={true}>
             <DurationDisplay duration={event.duration} />
         </BrowserView>

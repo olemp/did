@@ -18,9 +18,7 @@ export class TimeEntryResolver {
     @Arg('query') query: TimeEntriesQuery,
     @Ctx() ctx: IGraphQLContext
   ) {
-    if (currentUser) {
-      query.resourceId = ctx.user.id
-    }
+    if (currentUser) query.resourceId = ctx.user.id
     const [users, projects, customers, timeentries] = await Promise.all([
       ctx.services.azstorage.getUsers(),
       ctx.services.azstorage.getProjects(),

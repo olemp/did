@@ -8,7 +8,6 @@ import { format } from 'office-ui-fabric-react/lib/Utilities'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
-import { ITimeEntriesQueryVariables } from 'types'
 import { filter, find, isEmpty } from 'underscore'
 import dateUtils from 'utils/date'
 import { exportExcel } from 'utils/exportExcel'
@@ -32,7 +31,7 @@ export const Reports = () => {
             emptyGroupName: t('common.all'),
         }
     })
-    const { loading, data } = useQuery<any, ITimeEntriesQueryVariables>(
+    const { loading, data } = useQuery(
         TIME_ENTRIES,
         {
             skip: !state.query,

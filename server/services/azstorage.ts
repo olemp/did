@@ -244,22 +244,22 @@ class AzStorageService {
   /**
    * Get time entries from table storage
    *
-   * @param {any} filterValues Filtervalues
-   * @param {any} options Options: sortAsc, forecast
+   * @param {any} queryValues Query values
+   * @param {any} options Options
    */
-  async getTimeEntries(filterValues: any, options: any = {}) {
+  async getTimeEntries(queryValues: any, options: any = {}) {
     const q = this.tableUtil.query()
     const filter = [
-      ['PeriodId', filterValues.periodId, q.string, q.equal],
-      ['ProjectId', filterValues.projectId, q.string, q.equal],
-      ['PartitionKey', filterValues.resourceId, q.string, q.equal],
-      ['WeekNumber', filterValues.weekNumber, q.int, q.equal],
-      ['MonthNumber', filterValues.monthNumber, q.int, q.equal],
-      ['MonthNumber', filterValues.startMonthIndex, q.int, q.greaterThanOrEqual],
-      ['MonthNumber', filterValues.endMonthIndex, q.int, q.lessThanOrEqual],
-      ['Year', filterValues.year, q.int, q.equal],
-      ['StartDateTime', this.tableUtil.convertDate(filterValues.startDateTime), q.date, q.greaterThan],
-      ['EndDateTime', this.tableUtil.convertDate(filterValues.endDateTime), q.date, q.lessThan],
+      ['PeriodId', queryValues.periodId, q.string, q.equal],
+      ['ProjectId', queryValues.projectId, q.string, q.equal],
+      ['PartitionKey', queryValues.resourceId, q.string, q.equal],
+      ['WeekNumber', queryValues.weekNumber, q.int, q.equal],
+      ['MonthNumber', queryValues.monthNumber, q.int, q.equal],
+      ['MonthNumber', queryValues.startMonthIndex, q.int, q.greaterThanOrEqual],
+      ['MonthNumber', queryValues.endMonthIndex, q.int, q.lessThanOrEqual],
+      ['Year', queryValues.year, q.int, q.equal],
+      ['StartDateTime', this.tableUtil.convertDate(queryValues.startDateTime), q.date, q.greaterThan],
+      ['EndDateTime', this.tableUtil.convertDate(queryValues.endDateTime), q.date, q.lessThan],
     ]
     const query = this.tableUtil.createAzQuery(1000, filter)
     const tableName = options.forecast ? this.tables.forecastedTimeEntries : this.tables.timeEntries

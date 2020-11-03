@@ -1,7 +1,7 @@
 import { IListGroups } from 'components/List/types'
 import { TFunction } from 'i18next'
 import { IContextualMenuItem } from 'office-ui-fabric-react'
-import { ITimeEntriesQueryVariables } from 'types'
+import { TimeEntriesQuery } from 'types'
 import { capitalize } from 'underscore.string'
 import dateUtils from 'utils/date'
 
@@ -9,7 +9,11 @@ export interface IReportsQuery extends IContextualMenuItem {
     /**
      * Variables used for graphl query
      */
-    variables: ITimeEntriesQueryVariables;
+    variables: {
+        query: TimeEntriesQuery,
+        forecast?: boolean,
+        sortAsc?: boolean
+    }
 
     /**
      * Export file name
@@ -67,7 +71,7 @@ export function getQueries<T = IReportsQuery>(t: TFunction): T[] {
             key: 'LAST_MONTH',
             text: t('common.exportTypeLastMonth', lastMonth),
             iconName: 'CalendarDay',
-            variables: lastMonth,
+            variables: { query: lastMonth },
             exportFileName: `TimeEntries-${capitalize(lastMonth.monthName)}-{0}.xlsx`,
         } as unknown as T,
         {
@@ -75,7 +79,7 @@ export function getQueries<T = IReportsQuery>(t: TFunction): T[] {
             key: 'CURRENT_MONTH',
             text: t('common.exportTypeCurrentMonth', currentMonth),
             iconName: 'Calendar',
-            variables: currentMonth,
+            variables: { query: currentMonth },
             exportFileName: `TimeEntries-${capitalize(currentMonth.monthName)}-{0}.xlsx`,
         } as unknown as T,
         {
@@ -92,7 +96,9 @@ export function getQueries<T = IReportsQuery>(t: TFunction): T[] {
             variables: {
                 sortAsc: true,
                 forecast: true,
-                startDateTime: new Date().toISOString(),
+                query: {
+                    startDateTime: new Date().toISOString(),
+                }
             },
             exportFileName: 'Forecast-{0}.xlsx',
         } as unknown as T,

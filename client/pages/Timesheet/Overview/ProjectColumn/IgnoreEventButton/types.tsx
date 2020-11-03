@@ -1,5 +1,5 @@
-import { ITimeEntry } from 'types'
+import { TimeEntry } from 'types'
 
 export interface IIgnoreEventButtonProps {
-    event: ITimeEntry;
+    event: TimeEntry;
 }
