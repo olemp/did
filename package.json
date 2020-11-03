@@ -8,9 +8,10 @@
   },
   "scripts": {
     "watch": "concurrently \"webpack\" \"npm run watch:server\" \"node tasks/open.js\" \"node tasks/localtunnel.js\"",
-    "start": "ts-node ./server",
+    "start": "ts-node ./server -T",
     "watch:server": "ts-node-dev --ignore-watch node_modules server",
     "package:client": "webpack",
+    "build:server": "webpack",
     "lint": "eslint --ext .ts,.tsx ./client ./server --color --fix && npm run prettier",
     "prettier": "prettier --config .prettierrc '**/*.ts' --write",
     "makeDoc": "rimraf ./doc && typedoc --options typedoc.json",
