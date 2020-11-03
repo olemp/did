@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import { EntityLabel, List } from 'components'
-import { IEntityLabel } from 'types/IEntityLabel'
+import { ILabel } from 'types'
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,14 +21,14 @@ export const Labels = () => {
             'name',
             t('common.nameFieldLabel'),
             { maxWidth: 180 },
-            (label: IEntityLabel) => <EntityLabel label={label} />,
+            (label: ILabel) => <EntityLabel label={label} />,
         ),
         col('description', t('common.descriptionFieldLabel')),
         col(
             'edit_delete',
             '',
             { minWidth: 180 },
-            (label: IEntityLabel) => (
+            (label: ILabel) => (
                 <>
                     <DefaultButton
                         styles={{ root: { marginRight: 4 } }}

@@ -1,6 +1,6 @@
 import { ICustomer } from './'
 import { IProject } from './IProject'
-import { IEntityLabel } from './IEntityLabel'
+import { ILabel } from './'
 
 export interface ITimeEntry {
   id: string
@@ -20,5 +20,5 @@ export interface ITimeEntry {
   manualMatch?: boolean
   isSystemIgnored?: boolean
   error?: { code: string }
-  labels?: IEntityLabel[]
+  labels?: ILabel[]
 }

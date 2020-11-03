@@ -1,4 +1,3 @@
-export * from './IEntityLabel'
 export * from './IOutlookCategory'
 export * from './IPermission'
 export * from './IProject'

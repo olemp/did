@@ -5,7 +5,7 @@ import { EntityLabel } from 'components/EntityLabel'
 import styles from './LabelPicker.module.scss'
 import { useQuery } from '@apollo/react-hooks'
 import { GET_LABELS, ILabelPickerProps } from './types'
-import { IEntityLabel } from 'types'
+import { ILabel } from 'types'
 import { SelectCallout } from './SelectCallout'
 import { omit } from 'underscore'
 import { useTranslation } from 'react-i18next'
@@ -14,11 +14,11 @@ export const LabelPicker = (props: ILabelPickerProps) => {
     const { t } = useTranslation()
     const { data } = useQuery(GET_LABELS, { fetchPolicy: 'cache-and-network' })
     const toggleRef = useRef()
-    const [labels, setLabels] = useState<IEntityLabel[]>([])
-    const [selectedLabels, setSelectedLabels] = useState<IEntityLabel[]>([])
+    const [labels, setLabels] = useState<ILabel[]>([])
+    const [selectedLabels, setSelectedLabels] = useState<ILabel[]>([])
     const [showCallout, setShowCallout] = useState<boolean>(false)
 
-    function onToggleLabel(label: IEntityLabel) {
+    function onToggleLabel(label: ILabel) {
         const _selectedLabels = [...selectedLabels]
         const index = _selectedLabels.indexOf(label)
         if (index === -1) {
@@ -33,7 +33,7 @@ export const LabelPicker = (props: ILabelPickerProps) => {
 
     useEffect(() => {
         if (data?.labels) {
-            const _labels: IEntityLabel[] = data.labels.map((lbl: any) => omit(lbl, '__typename'))
+            const _labels: ILabel[] = data.labels.map((lbl: any) => omit(lbl, '__typename'))
             setLabels(_labels)
             if (props.defaultSelectedKeys) {
                 const _selectedLabels = _labels.filter(lbl => props.defaultSelectedKeys.indexOf(lbl.name) !== -1)

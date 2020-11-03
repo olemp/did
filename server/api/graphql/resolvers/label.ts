@@ -1,6 +1,7 @@
-import { pick } from 'underscore'
 import { gql } from 'apollo-server-express'
+import { pick } from 'underscore'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { IAddOrUpdateLabelVariables, IDeleteLabelVariables, ILabelsQueryVariables } from './label.types'
 
 export const typeDef = gql`
   """
@@ -47,10 +48,10 @@ export const typeDef = gql`
  * Get labels
  *
  * @param {any} _obj {}
- * @param {any} _variables Variables
+ * @param {ILabelsQueryVariables} _variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function labels(_obj: any, _variables: any, ctx: IGraphQLContext) {
+async function labels(_obj: any, _variables: ILabelsQueryVariables, ctx: IGraphQLContext) {
   const labels = await ctx.services.azstorage.getLabels()
   return labels
 }
@@ -59,10 +60,10 @@ async function labels(_obj: any, _variables: any, ctx: IGraphQLContext) {
  * Add or update label
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IAddOrUpdateLabelVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function addOrUpdateLabel(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function addOrUpdateLabel(_obj: any, variables: IAddOrUpdateLabelVariables, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.addOrUpdateLabel(variables.label, ctx.user.id, variables.update)
     return { success: true, error: null }
@@ -78,10 +79,10 @@ async function addOrUpdateLabel(_obj: any, variables: any, ctx: IGraphQLContext)
  * Delete label
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IDeleteLabelVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function deleteLabel(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function deleteLabel(_obj: any, variables: IDeleteLabelVariables, ctx: IGraphQLContext) {
   try {
     await ctx.services.azstorage.deleteLabel(variables.name)
     return { success: true, error: null }
@@ -97,3 +98,5 @@ export const resolvers = {
   Query: { labels },
   Mutation: { addOrUpdateLabel, deleteLabel },
 }
+
+export * from './label.types'

@@ -1,5 +1,5 @@
 import { ICustomer, IOutlookCategory } from '.'
-import { IEntityLabel } from './IEntityLabel'
+import { ILabel } from './'
 
 export interface IProject {
   id?: string
@@ -13,5 +13,5 @@ export interface IProject {
   customer?: ICustomer
   outlookCategory?: IOutlookCategory
   inactive?: boolean
-  labels?: IEntityLabel[]
+  labels?: ILabel[]
 }
