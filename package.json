@@ -17,7 +17,7 @@
     "prettier": "prettier --config .prettierrc '**/*.ts' --write",
     "makeDoc": "rimraf ./doc && typedoc --options typedoc.json",
     "tests": "mocha tests --exit",
-    "clean": "rimraf /public/js"
+    "create-env": "node tasks/create-dot-env.js"
   },
   "dependencies": {
     "@apollo/react-common": "3.1.3",
