@@ -50,11 +50,11 @@ const createContext = async ({ req }): Promise<IGraphQLContext> => {
       user: req.user || {},
       subscription,
     }
-  } catch (e) {
-    throw new Error()
+  } catch (error) {
+    throw error
   }
 }
-export default async (app: express.Application) => {
+export default async (app: express.Application): Promise<void> => {
   try {
     const schema = await getSchema()
     const server = new ApolloServer({
@@ -73,6 +73,8 @@ export default async (app: express.Application) => {
     })
     server.applyMiddleware({ app, path: '/graphql' })
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
     debug(error)
   }
 }

@@ -21,11 +21,11 @@ initializeIcons()
  */
 const getContext = async (): Promise<IAppContext> => {
     const context: IAppContext = {
-        error:  JSON.parse(document.getElementById('app').getAttribute('data-error') || '{}')
+        error: JSON.parse(document.getElementById('app').getAttribute('data-error') || '{}')
     }
     try {
         const { data } = await client.query({ query: GET_CURRENT_USER })
-        context.user = data?.currentUser
+        context.user = { ...data?.currentUser }
         let { preferredLanguage } = context.user
         preferredLanguage = contains(supportedLanguages, preferredLanguage) ? preferredLanguage : 'en-GB'
         context.user.preferredLanguage = preferredLanguage
