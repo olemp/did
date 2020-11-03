@@ -28,6 +28,6 @@ export class LabelInput {
   @Field()
   color: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: null })
   icon?: string
 }

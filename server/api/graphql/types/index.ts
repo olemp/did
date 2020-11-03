@@ -19,10 +19,10 @@ export class Error {
 
 @ObjectType({ description: 'A type that describes a BaseResult' })
 export class BaseResult {
-    @Field()
+    @Field({ nullable: true, defaultValue: false })
     success: boolean
 
-    @Field(() => Error)
+    @Field(() => Error, { nullable: true })
     error: Error
 }
 

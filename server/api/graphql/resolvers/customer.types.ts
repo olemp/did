@@ -34,19 +34,19 @@ export class CustomerInput {
   @Field()
   name: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: '' })
   description: string
 
-  @Field()
-  webLink: string
+  @Field({ nullable: true, defaultValue: null })
+  webLink?: string
 
-  @Field()
-  externalSystemURL: string
+  @Field({ nullable: true, defaultValue: null })
+  externalSystemURL?: string
 
   @Field()
   icon: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: false })
   inactive?: boolean
 }
 
