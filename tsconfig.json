@@ -13,5 +13,6 @@
     "baseUrl": "./",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["server/**/*.ts", "server/**/*.js", "server/middleware/gzip/index.td"]
+  "include": ["server/**/*.ts", "server/**/*.js", "server/middleware/gzip/index.td"],
+  "exclude": ["node_modules"]
 }

@@ -121,11 +121,13 @@ server/public/css
 server/views/index.hbs
 server/views/index.hbs.gz
 
+server/**/*.js
+server/**/*.js.map
+
 # Lock files
 pnpm-lock.yaml
 package-lock.json
 
-azcopy/
 client/**/*.d.ts
 client/**/*js
 client/**/*js.map
