@@ -46,8 +46,8 @@ export class Project {
 
 @InputType({ description: 'Input object for Project used in Mutation createOrUpdateProject' })
 export class ProjectInput {
-  @Field()
-  id?: string
+  @Field({ nullable: true })
+  id: string
 
   @Field()
   key: string
@@ -58,24 +58,24 @@ export class ProjectInput {
   @Field()
   name: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: '' })
   description: string
 
   @Field()
   icon: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: null })
   webLink?: string
 
-  @Field()
+  @Field({ nullable: true, defaultValue: null })
   externalSystemURL?: string
 
-  @Field()
+  @Field({ nullable: true })
   inactive?: boolean
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   labels?: string[]
 
-  @Field()
+  @Field({ nullable: true, defaultValue: false })
   createOutlookCategory?: boolean
 }

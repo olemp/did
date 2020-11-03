@@ -4,49 +4,49 @@ import { ObjectType, InputType, Field } from 'type-graphql'
 
 @ObjectType({ description: 'A type that describes a Customer' })
 export class Customer {
-  @Field() 
+  @Field()
   key: string
 
-  @Field() 
+  @Field()
   name: string
 
-  @Field() 
+  @Field({ nullable: true, defaultValue: '' })
   description: string
 
-  @Field() 
+  @Field({ nullable: true, defaultValue: null })
   webLink: string
 
-  @Field() 
+  @Field({ nullable: true, defaultValue: null })
   externalSystemURL: string
 
-  @Field() 
+  @Field({ nullable: true, defaultValue: null })
   icon: string
 
-  @Field() 
+  @Field({ nullable: true, defaultValue: false })
   inactive?: boolean
 }
 
 @InputType({ description: 'Input object for Customer used in Mutation createOrUpdateCustomer' })
 export class CustomerInput {
-  @Field() 
+  @Field()
   key: string
 
-  @Field() 
+  @Field()
   name: string
 
-  @Field() 
+  @Field()
   description: string
 
-  @Field() 
+  @Field()
   webLink: string
 
-  @Field() 
+  @Field()
   externalSystemURL: string
 
-  @Field() 
+  @Field()
   icon: string
 
-  @Field() 
+  @Field()
   inactive?: boolean
 }
 
