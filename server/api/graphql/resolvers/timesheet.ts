@@ -5,6 +5,7 @@ import { connectEntities } from './project.utils'
 import { getPeriods, connectTimeEntries } from './timesheet.utils'
 import { gql, AuthenticationError, ApolloError } from 'apollo-server-express'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { ISubmitPeriodVariables, ITimesheetQueryVariables, IUnsubmitPeriodVariables } from './timesheet.types'
 
 export const typeDef = gql`
   """
@@ -91,10 +92,10 @@ export const typeDef = gql`
  * Timesheet
  *
  * @param {any} _obj {}
- * @param {any} variables Variables: startDateTime, endDateTime, dateFormat, locale
+ * @param {ITimesheetQueryVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function timesheet(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function timesheet(_obj: any, variables: ITimesheetQueryVariables, ctx: IGraphQLContext) {
   if (!ctx.services.msgraph) throw new AuthenticationError('')
   try {
     const periods = getPeriods(variables.startDateTime, variables.endDateTime, variables.locale)
@@ -153,10 +154,10 @@ async function timesheet(_obj: any, variables: any, ctx: IGraphQLContext) {
  * Submit period
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {ISubmitPeriodVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function submitPeriod(_obj: any, variables: { period: any, forecast: boolean }, ctx: IGraphQLContext) {
+async function submitPeriod(_obj: any, variables: ISubmitPeriodVariables, ctx: IGraphQLContext) {
   try {
     const { period, forecast } = { ...variables }
     period.hours = 0
@@ -194,10 +195,10 @@ async function submitPeriod(_obj: any, variables: { period: any, forecast: boole
  * Unsubmit period
  *
  * @param {any} _obj {}
- * @param {any} variables Variables
+ * @param {IUnsubmitPeriodVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function unsubmitPeriod(_obj: any, variables: any, ctx: IGraphQLContext) {
+async function unsubmitPeriod(_obj: any, variables: IUnsubmitPeriodVariables, ctx: IGraphQLContext) {
   try {
     if (variables.forecast) {
       await Promise.all([
@@ -223,3 +224,5 @@ export const resolvers = {
   Query: { timesheet },
   Mutation: { submitPeriod, unsubmitPeriod },
 }
+
+export * from './timeentry.types'
