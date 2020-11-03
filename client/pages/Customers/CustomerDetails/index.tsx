@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import { UserMessage } from 'components/UserMessage'
 import { get } from 'helpers'
-import { IProject } from 'types/IProject'
+import { IProject } from 'types'
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button'
 import { Icon } from 'office-ui-fabric-react/lib/Icon'
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar'

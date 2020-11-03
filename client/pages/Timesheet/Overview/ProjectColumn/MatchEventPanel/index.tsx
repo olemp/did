@@ -5,7 +5,7 @@ import { Panel } from 'office-ui-fabric-react/lib/Panel'
 import { ITimesheetContext, TimesheetContext } from 'pages/Timesheet/context'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IProject } from 'types/IProject'
+import { IProject } from 'types'
 import styles from './MatchEventPanel.module.scss'
 import { IMatchEventPanelProps } from './types'
 

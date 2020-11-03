@@ -1,6 +1,4 @@
-export * from './IOutlookCategory'
 export * from './IPermission'
-export * from './IProject'
 export * from './IRole'
 export * from './ISubscription'
 export * from './IUser'

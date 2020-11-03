@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from 'apollo-client'
 import { createContext } from 'react'
-import { IProject } from 'types/IProject'
+import { IProject } from 'types'
 
 
 export interface IProjectsContext {
