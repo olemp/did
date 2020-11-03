@@ -1,102 +1,64 @@
-import { gql } from 'apollo-server-express'
+import 'reflect-metadata'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import { IGraphQLContext } from '../IGraphQLContext'
-import { IAddOrUpdateLabelVariables, IDeleteLabelVariables, ILabelsQueryVariables } from './label.types'
+import { BaseResult } from '../types'
+import { LabelObject, LabelInput } from './label.types'
 
-export const typeDef = gql`
-  """
-  A type that describes a Label
-  """
-  type Label {
-    name: String!
-    description: String
-    color: String!
-    icon: String
+@Resolver(LabelObject)
+export class LabelResolver {
+  /**
+   * Get labels
+   * 
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Query(() => [LabelObject])
+  async customers(@Ctx() ctx: IGraphQLContext) {
+    return await ctx.services.azstorage.getLabels()
   }
 
-  """
-  Input object for Label used in Mutation addOrUpdateLabel
-  """
-  input LabelInput {
-    name: String!
-    description: String
-    color: String!
-    icon: String
-  }
-
-  extend type Query {
-    """
-    Get labels
-    """
-    labels: [Label!]!
-  }
-
-  extend type Mutation {
-    """
-    Add or update label
-    """
-    addOrUpdateLabel(label: LabelInput!, update: Boolean): BaseResult
-
-    """
-    Delete label
-    """
-    deleteLabel(name: String!): BaseResult
-  }
-`
-
-/**
- * Get labels
- *
- * @param {any} _obj {}
- * @param {ILabelsQueryVariables} _variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function labels(_obj: any, _variables: ILabelsQueryVariables, ctx: IGraphQLContext) {
-  const labels = await ctx.services.azstorage.getLabels()
-  return labels
-}
-
-/**
- * Add or update label
- *
- * @param {any} _obj {}
- * @param {IAddOrUpdateLabelVariables} variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function addOrUpdateLabel(_obj: any, variables: IAddOrUpdateLabelVariables, ctx: IGraphQLContext) {
-  try {
-    await ctx.services.azstorage.addOrUpdateLabel(variables.label, ctx.user.id, variables.update)
-    return { success: true, error: null }
-  } catch (error) {
-    return {
-      success: false,
-      error: pick(error, 'name', 'message', 'code', 'statusCode'),
+  /**
+   * Add or update label
+   * 
+   * @param {LabelInput} label Label
+   * @param {boolean} update Update
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Mutation(() => BaseResult)
+  async addOrUpdateLabel(
+    @Arg('label', () => LabelInput) label: LabelInput,
+    @Arg('update') update: boolean,
+    @Ctx() ctx: IGraphQLContext
+  ) {
+    try {
+      await ctx.services.azstorage.addOrUpdateLabel(label, ctx.user.id, update)
+      return { success: true, error: null }
+    } catch (error) {
+      return {
+        success: false,
+        error: pick(error, 'name', 'message', 'code', 'statusCode'),
+      }
     }
   }
-}
 
-/**
- * Delete label
- *
- * @param {any} _obj {}
- * @param {IDeleteLabelVariables} variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function deleteLabel(_obj: any, variables: IDeleteLabelVariables, ctx: IGraphQLContext) {
-  try {
-    await ctx.services.azstorage.deleteLabel(variables.name)
-    return { success: true, error: null }
-  } catch (error) {
-    return {
-      success: false,
-      error: pick(error, 'name', 'message', 'code', 'statusCode'),
+  /**
+   * Delete label
+   * 
+   * @param {string} name Name 
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Mutation(() => BaseResult)
+  async deleteLabel(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
+    try {
+      await ctx.services.azstorage.deleteLabel(name)
+      return { success: true, error: null }
+    } catch (error) {
+      return {
+        success: false,
+        error: pick(error, 'name', 'message', 'code', 'statusCode'),
+      }
     }
   }
-}
-
-export const resolvers = {
-  Query: { labels },
-  Mutation: { addOrUpdateLabel, deleteLabel },
 }
 
 export * from './label.types'

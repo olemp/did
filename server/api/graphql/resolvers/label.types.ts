@@ -1,27 +1,33 @@
-export interface ILabel {
+/* eslint-disable max-classes-per-file */
+import 'reflect-metadata'
+import { ObjectType, InputType, Field } from 'type-graphql'
+
+@ObjectType({ description: 'A type that describes a LabelObject' })
+export class LabelObject { 
+  @Field()
   name: string
+
+  @Field()
   description: string
+
+  @Field()
   color: string
+
+  @Field()
   icon?: string
 }
 
-/**
- * Variables for query laabels
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ILabelsQueryVariables {}
-
-/**
- * Variables for mutation addOrUpdateLabel
- */
-export interface IAddOrUpdateLabelVariables {
-  label: ILabel
-  update: boolean
-}
-
-/**
- * Variables for mutation deleteLabel
- */
-export interface IDeleteLabelVariables {
+@InputType({ description: 'Input object for Label used in Mutation addOrUpdateLabel' })
+export class LabelInput { 
+  @Field()
   name: string
+  
+  @Field()
+  description: string
+
+  @Field()
+  color: string
+
+  @Field()
+  icon?: string
 }

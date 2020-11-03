@@ -1,5 +1,5 @@
 import { Customer } from './customer.types'
-import { ILabel } from './label.types'
+import { LabelObject } from './label.types'
 
 export interface IEvent {
   id: string
@@ -18,7 +18,7 @@ export interface IEvent {
   customerKey: string
   suggestedProject: any
   webLink: string
-  labels: ILabel[]
+  labels: LabelObject[]
   error: any
   manualMatch?: boolean
   isSystemIgnored?: boolean

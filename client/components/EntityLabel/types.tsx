@@ -1,6 +1,6 @@
-import { ILabel } from 'types'
+import { LabelObject } from 'types'
 
 export interface IEntityLabelProps {
-    label: ILabel;
+    label: LabelObject;
     size?: 'xsmall' | 'small' | 'medium' | 'large';
 }

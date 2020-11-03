@@ -1,5 +1,5 @@
 import { Customer } from './customer.types'
-import { ILabel } from './label.types'
+import { LabelObject } from './label.types'
 import { IOutlookCategory } from './outlookCategory.types'
 
 export interface IProject {
@@ -14,7 +14,7 @@ export interface IProject {
   customer?: Customer
   outlookCategory?: IOutlookCategory
   inactive?: boolean
-  labels?: ILabel[]
+  labels?: LabelObject[]
   createOutlookCategory?: boolean
 }
 

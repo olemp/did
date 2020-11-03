@@ -9,17 +9,6 @@ type BaseResult {
   success: Boolean!
 }
 
-"""A type that describes a Customer"""
-type Customer {
-  description: String!
-  externalSystemURL: String!
-  icon: String!
-  inactive: Boolean!
-  key: String!
-  name: String!
-  webLink: String!
-}
-
 """Input object for Customer used in Mutation createOrUpdateCustomer"""
 input CustomerInput {
   description: String!
@@ -39,11 +28,29 @@ type Error {
   statusCode: String!
 }
 
+"""Input object for Label used in Mutation addOrUpdateLabel"""
+input LabelInput {
+  color: String!
+  description: String!
+  icon: String!
+  name: String!
+}
+
+"""A type that describes a LabelObject"""
+type LabelObject {
+  color: String!
+  description: String!
+  icon: String!
+  name: String!
+}
+
 type Mutation {
+  addOrUpdateLabel(label: LabelInput!, update: Boolean!): BaseResult!
   addOrUpdateUser(update: Boolean!, user: UserInput!): BaseResult!
   bulkAddUsers(users: [UserInput!]!): BaseResult!
   createOrUpdateCustomer(customer: CustomerInput!, update: Boolean!): BaseResult!
   deleteCustomer(key: String!): BaseResult!
+  deleteLabel(name: String!): BaseResult!
 }
 
 """A type that describes a Notification"""
@@ -64,7 +71,7 @@ input NotificationTemplates {
 type Query {
   adUsers: [User!]!
   currentUser: User!
-  customers(sortBy: String!): [Customer!]!
+  customers: [LabelObject!]!
   notifications(locale: String!, templates: NotificationTemplates!): [Notification!]!
   users: [User!]!
 }

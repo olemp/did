@@ -1,5 +1,5 @@
-// import { ICustomer } from './customer.types'
-import { ILabel } from './label.types'
+import { Customer } from './customer.types'
+import { LabelObject } from './label.types'
 
 export interface ITimeEntry {
   id: string
@@ -8,7 +8,7 @@ export interface ITimeEntry {
   isOrganizer: boolean
   project: any
   suggestedProject: any
-  customer: any
+  customer: Customer
   projectKey: string
   customerKey: string
   webLink: string
@@ -19,7 +19,7 @@ export interface ITimeEntry {
   manualMatch?: boolean
   isSystemIgnored?: boolean
   error?: { code: string }
-  labels?: ILabel[]
+  labels?: LabelObject[]
 }
 
 /**

@@ -4,7 +4,7 @@ import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
 import { AzStorageService, MSGraphService, SubscriptionService } from '../../services'
 import { IGraphQLContext } from './IGraphQLContext'
-import { CustomerResolver, UserResolver, NotificationResolver } from './resolvers'
+import { CustomerResolver, UserResolver, NotificationResolver, LabelResolver } from './resolvers'
 
 /**
  * Get schema
@@ -14,7 +14,8 @@ const getSchema = async () => {
     resolvers: [
       CustomerResolver,
       UserResolver,
-      NotificationResolver
+      NotificationResolver,
+      LabelResolver
     ],
     emitSchemaFile: true,
     validate: false,
