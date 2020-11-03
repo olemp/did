@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
-import { Field, InputType, ObjectType } from 'type-graphql'
+import { Field, ID, InputType, ObjectType } from 'type-graphql'
 import { Role } from './role.types'
 
 @ObjectType({ description: 'A type that describes a Subscription' })
@@ -11,35 +11,35 @@ export class Subscription {
 
 @ObjectType({ description: 'A type that describes a User' })
 export class User {
-    @Field()
+    @Field(() => ID)
     id?: string
 
     @Field()
     displayName?: string
 
-    @Field()
+    @Field({ nullable: true })
     givenName?: string
 
-    @Field()
+    @Field({ nullable: true })
     surname?: string
 
-    @Field()
+    @Field({ nullable: true })
     jobTitle?: string
 
-    @Field()
+    @Field({ nullable: true })
     mobilePhone?: string
 
-    @Field()
+    @Field({ nullable: true })
     mail?: string
 
-    @Field()
-    preferredLanguage?: string
+    @Field({ nullable: true })
+    preferredLanguage: string
 
     @Field(() => Role)
-    role?: Role
+    role: Role
 
     @Field(() => Subscription)
-    subscription?: Subscription
+    subscription: Subscription
 }
 
 @InputType({ description: 'Input object for Role used in Mutation addOrUpdateUser/bulkAddUsers' })

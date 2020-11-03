@@ -48,9 +48,8 @@ export class UserResolver {
      *
      * @param {IGraphQLContext} ctx GraphQL context
      */
-
     @Query(() => [User])
-    async users(ctx: IGraphQLContext) {
+    async users(@Ctx() ctx: IGraphQLContext) {
         // eslint-disable-next-line prefer-const
         let [users, roles] = await Promise.all([ctx.services.azstorage.getUsers(), ctx.services.azstorage.getRoles()])
         users = filter(

@@ -52,7 +52,7 @@ class SubscriptionService {
    * @param {string} subscriptionId Subscription id
    * @param {string} token Request token
    */
-  async addApiToken(name, subscriptionId: string, token: string) {
+  async addApiToken(name: string, subscriptionId: string, token: string) {
     try {
       const { string } = this.tableUtil.azEntGen()
       const entity = await this.tableUtil.addAzEntity('ApiTokens', {
@@ -93,8 +93,8 @@ class SubscriptionService {
   async getApiTokens(subscriptionId: string) {
     try {
       const query = this.tableUtil.createAzQuery(100).where('PartitionKey eq ?', subscriptionId)
-      const result = await this.tableUtil.queryAzTable('ApiTokens', query)
-      return this.tableUtil.parseAzEntities(result, { RowKey: 'name' }).entries
+      const result = await this.tableUtil.queryAzTable('ApiTokens', query, { RowKey: 'name' })
+      return result.entries
     } catch (error) {
       return null
     }

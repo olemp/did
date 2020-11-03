@@ -23,6 +23,7 @@ class AzTableUtilities {
   parseAzEntity(entityDescriptor: { [x: string]: { _: any; $: any } }, columnMap: Record<string, string> = {}) {
     return Object.keys(entityDescriptor).reduce((obj: { [x: string]: any }, key: string) => {
       const { _, $ } = entityDescriptor[key]
+      let value = _
       if (_ === undefined || _ === null) return obj
       if (columnMap[key]) {
         obj[columnMap[key]] = _
@@ -30,14 +31,12 @@ class AzTableUtilities {
       }
       switch ($) {
         case 'Edm.DateTime':
-          obj[decapitalize(key)] = _.toISOString()
+          value = value.toISOString()
           break
         default:
-          if (startsWith(_, 'json:')) {
-            obj[decapitalize(key)] = JSON.parse(_.split('json:')[1])
-          } else obj[decapitalize(key)] = _
+          if (startsWith(_, 'json:')) value = JSON.parse(value.split('json:')[1])
       }
-      return obj
+      return { ...obj, [decapitalize(key)]: value }
     }, {})
   }
 
@@ -46,14 +45,14 @@ class AzTableUtilities {
    *
    * Adds {RowKey} as 'id' and 'key, skips {PartitionKey}
    *
-   * @param {*} result Result
+   * @param {azurestorage.TableService.QueryEntitiesResult<any} result Result
    * @param {Record<string, string>} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    */
   parseAzEntities(
-    { entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<unknown>,
+    { entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<any>,
     columnMap: Record<string, string>
   ) {
-    entries = entries.map((ent: any) => this.parseAzEntity(ent, columnMap))
+    entries = entries.map(ent => this.parseAzEntity(ent, columnMap))
     return { entries, continuationToken }
   }
 

@@ -4,9 +4,9 @@ import { Field, ObjectType } from 'type-graphql'
 
 @ObjectType({ description: 'A type that describes a ApiToken' })
 export class ApiToken {
-    @Field()
+    @Field({ nullable: true, defaultValue: null })
     name: string
 
-    @Field()
+    @Field({ nullable: true, defaultValue: null })
     timestamp: string
 }

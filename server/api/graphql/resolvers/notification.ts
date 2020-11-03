@@ -20,22 +20,23 @@ export class NotificationResolver {
     @Arg('locale') locale: string,
     @Ctx() ctx: IGraphQLContext
     ) {
-    if (!ctx.user.id) return { success: false, error: null }
+    // if (!ctx.user.id) return { success: false, error: null }
 
-    const notifications = await Promise.all([
-      unconfirmedPeriods({
-        template: templates.unconfirmedPeriods,
-        ctx,
-        locale,
-      }),
-      forecast({
-        template: templates.forecast,
-        ctx,
-        locale,
-      }),
-    ])
+    // const notifications = await Promise.all([
+    //   unconfirmedPeriods({
+    //     template: templates.unconfirmedPeriods,
+    //     ctx,
+    //     locale,
+    //   }),
+    //   forecast({
+    //     template: templates.forecast,
+    //     ctx,
+    //     locale,
+    //   }),
+    // ])
     // eslint-disable-next-line prefer-spread
-    return [].concat.apply([], notifications)
+    // return [].concat.apply([], notifications)
+    return []
   }
 }
 

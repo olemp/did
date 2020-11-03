@@ -13,7 +13,7 @@ export class LabelResolver {
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [LabelObject])
-  async customers(@Ctx() ctx: IGraphQLContext) {
+  async labels(@Ctx() ctx: IGraphQLContext) {
     return await ctx.services.azstorage.getLabels()
   }
 
