@@ -17,7 +17,7 @@ import GET_CUSTOMERS from './GET_CUSTOMERS'
 import { ICustomersParams } from './types'
 
 
-export const Customers = () => {
+export const Customers: React.FunctionComponent = () => {
     const { t } = useTranslation()
     const { hasPermission } = useContext(AppContext)
     const history = useHistory()
