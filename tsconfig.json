@@ -14,6 +14,6 @@
     "typeRoots": ["./node_modules/@types"],
     "types": ["express"]
   },
-  "include": ["server/**/*.ts", "server/**/*.js", "server/middleware/gzip/index.td"],
+  "include": ["server/**/*.ts"],
   "exclude": ["node_modules"]
 }
