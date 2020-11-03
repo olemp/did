@@ -18,7 +18,7 @@ class App {
 
   constructor() {
     this.instance = express()
-    this.instance.use(require('./middleware/helmet'))
+    this.instance.use(require('./middleware/helmet').default)
     this.instance.use(favicon(path.join(__dirname, 'public/images/favicon/favicon.ico')))
     this.instance.use(logger('dev'))
     this.instance.use(express.json())
