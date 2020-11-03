@@ -1,6 +1,7 @@
 import { find, first, pick, omit } from 'underscore'
 import { gql } from 'apollo-server-express'
 import { IGraphQLContext } from '../IGraphQLContext'
+import { ITimeEntriesQueryVariables } from './timeentry.types'
 
 export const typeDef = gql`
   """
@@ -47,33 +48,13 @@ export const typeDef = gql`
 `
 
 /**
- * Variables for query timeentries
- * 
- * NB: The variables used must also be present in the query
- */
-export interface ITimeEntriesVariables {
-  startDateTime?: string
-  endDateTime?: string
-  projectId?: string
-  resourceId?: string
-  weekNumber?: number
-  monthNumber?: number
-  startMonthIndex?: number
-  endMonthIndex?: number
-  year?: number
-  currentUser?: boolean
-  forecast?: boolean
-  sortAsc?: boolean
-}
-
-/**
  * Get time entries
  *
  * @param {any} _obj {}
- * @param {ITimeEntriesVariables} variables Variables
+ * @param {ITimeEntriesQueryVariables} variables Variables
  * @param {IGraphQLContext} ctx GraphQL context
  */
-async function timeentries(_obj: any, variables: ITimeEntriesVariables, ctx: IGraphQLContext) {
+async function timeentries(_obj: any, variables: ITimeEntriesQueryVariables, ctx: IGraphQLContext) {
   if (variables.currentUser) {
     delete variables.currentUser
     variables.resourceId = ctx.user.id
@@ -109,3 +90,5 @@ export const resolvers = {
   Query: { timeentries },
   Mutation: {},
 }
+
+export * from './timeentry.types'

@@ -1,4 +1,4 @@
-import { ITimeEntry } from 'types/ITimeEntry'
+import { ITimeEntry } from 'types'
 
 
 export interface ICustomerColumnProps {

@@ -3,7 +3,7 @@ import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu'
 import { TFunction } from 'i18next'
 import { IPivotItemProps } from 'office-ui-fabric-react'
 import dateUtils from 'utils/date'
-import { ITimeEntriesVariables } from '../../../../server/api/graphql/resolvers/timeentry'
+import { ITimeEntriesQueryVariables } from 'types'
 
 /**
  * Get scopes
@@ -113,7 +113,7 @@ export interface ISummaryViewState {
   /**
    * Variables for timeentries query
    */
-  variables?: ITimeEntriesVariables
+  variables?: ITimeEntriesQueryVariables
 }
 
 export interface ISummaryViewRow extends ILabelColumnProps {

@@ -1,7 +1,7 @@
 import { IListGroups } from 'components/List/types'
 import { TFunction } from 'i18next'
 import { IContextualMenuItem } from 'office-ui-fabric-react'
-import { ITimeEntriesQueryVariables } from 'types/graphql'
+import { ITimeEntriesQueryVariables } from 'types'
 import { capitalize } from 'underscore.string'
 import dateUtils from 'utils/date'
 

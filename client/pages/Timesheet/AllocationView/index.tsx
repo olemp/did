@@ -1,6 +1,6 @@
 
 import { get as get } from 'helpers'
-import { ITimeEntry } from 'types/ITimeEntry'
+import { ITimeEntry } from 'types'
 import React, { useLayoutEffect, useState, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Bar, BarChart, Legend, Tooltip, XAxis, YAxis } from 'recharts'

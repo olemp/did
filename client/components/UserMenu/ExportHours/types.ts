@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next'
 import { IChoiceGroupOption } from 'office-ui-fabric-react'
 import { getQueries } from 'pages/Reports'
-import { ITimeEntriesQueryVariables } from 'types/graphql'
+import { ITimeEntriesQueryVariables } from 'types'
 import { filter } from 'underscore'
 
 export interface IExportType extends IChoiceGroupOption {

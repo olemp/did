@@ -2,7 +2,7 @@
 import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
 import { IProject } from 'types/IProject'
-import { ITimeEntry } from 'types/ITimeEntry'
+import { ITimeEntry } from 'types'
 import { omit, filter } from 'underscore'
 import { isBlank } from 'underscore.string'
 import { capitalize } from 'underscore.string'

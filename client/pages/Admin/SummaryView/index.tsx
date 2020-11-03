@@ -14,7 +14,7 @@ import { reducer } from './reducer'
 import TIME_ENTRIES from './TIME_ENTRIES'
 import { getScopes, getViewTypes, ISummaryViewProps, ISummaryViewScope } from './types'
 import { ISummaryViewContext } from './context'
-import { ITimeEntriesVariables } from '../../../../server/api/graphql/resolvers/timeentry'
+import { ITimeEntriesQueryVariables } from 'types'
 
 
 export const SummaryView = (props: ISummaryViewProps): JSX.Element => {
@@ -29,7 +29,7 @@ export const SummaryView = (props: ISummaryViewProps): JSX.Element => {
         type: first(types),
         scope: first(scopes),
     })
-    const { data, loading } = useQuery<any, ITimeEntriesVariables>(TIME_ENTRIES, {
+    const { data, loading } = useQuery<any, ITimeEntriesQueryVariables>(TIME_ENTRIES, {
         fetchPolicy: 'cache-first',
         variables: {
             year: state.year,
