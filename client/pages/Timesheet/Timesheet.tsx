@@ -17,7 +17,7 @@ import { SummaryView } from './SummaryView'
 import styles from './Timesheet.module.scss'
 import { ITimesheetContext, ITimesheetParams, TimesheetContext, TimesheetPeriod, TimesheetScope, TimesheetView } from './types'
 
-export const Timesheet = () => {
+export const Timesheet: React.FunctionComponent = () => {
     const app = useContext(AppContext)
     const { t } = useTranslation()
     const history = useHistory()
