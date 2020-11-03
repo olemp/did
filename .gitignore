@@ -123,6 +123,7 @@ server/views/index.hbs.gz
 
 server/**/*.js
 server/**/*.js.map
+server-dist
 
 # Lock files
 pnpm-lock.yaml

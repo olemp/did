@@ -12,7 +12,8 @@
     "lib": ["es2018", "esnext.asynciterable"],
     "baseUrl": "./",
     "typeRoots": ["./node_modules/@types"],
-    "types": ["express"]
+    "types": ["express"],
+    "outDir": "server-dist"
   },
   "include": ["server/**/*.ts"],
   "exclude": ["node_modules"]
