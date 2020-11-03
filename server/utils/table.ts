@@ -18,9 +18,9 @@ class AzTableUtilities {
    * If the value starts with 'json:', we parse it as JSON
    *
    * @param {Object} result Result
-   * @param {Object} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
+   * @param {Record<string, string>} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    */
-  parseAzEntity(entityDescriptor: { [x: string]: { _: any; $: any } }, columnMap: { [x: string]: string } = {}) {
+  parseAzEntity(entityDescriptor: { [x: string]: { _: any; $: any } }, columnMap: Record<string, string> = {}) {
     return Object.keys(entityDescriptor).reduce((obj: { [x: string]: any }, key: string) => {
       const { _, $ } = entityDescriptor[key]
       if (_ === undefined || _ === null) return obj
@@ -47,9 +47,9 @@ class AzTableUtilities {
    * Adds {RowKey} as 'id' and 'key, skips {PartitionKey}
    *
    * @param {*} result Result
-   * @param {*} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
+   * @param {Record<string, string>} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    */
-  parseAzEntities({ entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<unknown>, columnMap: {}) {
+  parseAzEntities({ entries, continuationToken }: azurestorage.TableService.QueryEntitiesResult<unknown>, columnMap: Record<string, string>) {
     entries = entries.map((ent: any) => this.parseAzEntity(ent, columnMap))
     return { entries, continuationToken }
   }
@@ -90,7 +90,7 @@ class AzTableUtilities {
   /**
    * Converts the date string to azure table storage date format
    *
-   * @param dateString The date string to convert
+   * @param {string | number | Date} dateString The date string to convert
    */
   convertDate(dateString: string | number | Date) {
     if (dateString) return this.azEntGen().datetime(new Date(dateString))._
@@ -110,7 +110,7 @@ class AzTableUtilities {
    * @param {number} top Number of items to retrieve
    * @param {any[]} filters Filters
    */
-  createAzQuery(top: number, filters: any[] = null) {
+  createAzQuery(top: number, filters: any[] = null): azurestorage.TableQuery {
     let query = new azurestorage.TableQuery().top(top)
     if (top) query = query.top(top)
     if (filters) {
@@ -123,7 +123,7 @@ class AzTableUtilities {
   /**
    * Combine an array of filters
    *
-   * @param filters Filter array
+   * @param {any[]} filters Filter array
    */
   combineAzFilters(filters: any[]) {
     const { combine, and } = this.query()
@@ -157,11 +157,11 @@ class AzTableUtilities {
   /**
    * Queries all entries in a table using the specified query
    *
-   * @param {*} table Table name
-   * @param {*} query Table query
-   * @param {*} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
+   * @param {string} table Table name
+   * @param {azurestorage.TableQuery} query Table query
+   * @param {Record<string, string>} columnMap Column mapping, e.g. for mapping RowKey and PartitionKey
    */
-  async queryAzTableAll(table: any, query: any, columnMap: any) {
+  async queryAzTableAll(table: string, query: azurestorage.TableQuery, columnMap: Record<string, string>) {
     let token = null
     const { entries, continuationToken } = await this.queryAzTable(table, query, columnMap, token)
     token = continuationToken
@@ -182,12 +182,12 @@ class AzTableUtilities {
    *
    * If unsure, specifiy typeMap in options
    *
-   * @param {*} rowKey Row key
-   * @param {*} values Values
-   * @param {*} partitionKey Partition key
+   * @param {string} rowKey Row key
+   * @param {Record} values Values
+   * @param {string} partitionKey Partition key
    * @param {*} options Options (removeBlanks defaults to true, typeMap defaults to empty object)
    */
-  convertToAzEntity(rowKey: string, values: { [x: string]: any }, partitionKey = 'Default', options: { removeBlanks?: boolean, typeMap?: Record<string,string> } = { removeBlanks: true, typeMap: {} }) {
+  convertToAzEntity(rowKey: string, values: Record<string, any>, partitionKey = 'Default', options: { removeBlanks?: boolean, typeMap?: Record<string, string> } = { removeBlanks: true, typeMap: {} }) {
     const { string, datetime, double, int, boolean } = this.azEntGen()
     const entityDescriptor = Object.keys(values)
       .filter(key => !isNull(values[key]))
@@ -227,7 +227,7 @@ class AzTableUtilities {
   }
 
   /**
-   * Retrieves an entity
+   * Retrieves an entity by partion key and row key
    *
    * @param {*} table Table name
    * @param {*} partitionKey Partition key
@@ -246,11 +246,11 @@ class AzTableUtilities {
    * Adds an entity
    *
    * @param {string} table Table name
-   * @param {*} entity Entity
+   * @param {*} entityDescriptor Entity descriptor
    */
-  addAzEntity(table: string, entity: any) {
+  addAzEntity(table: string, entityDescriptor: any) {
     return new Promise((resolve, reject) => {
-      this.tableService.insertEntity(table, entity, (error, result) => {
+      this.tableService.insertEntity(table, entityDescriptor, (error, result) => {
         if (error) reject(error)
         else return resolve(result['.metadata'])
       })
@@ -284,11 +284,11 @@ class AzTableUtilities {
    * Delete entity
    *
    * @param {*} table Table name
-   * @param {*} entity Entity
+   * @param {*} entityDescriptor Entity desccriptor
    */
-  deleteEntity(table: string, entity: any) {
+  deleteEntity(table: string, entityDescriptor: any) {
     return new Promise((resolve, reject) => {
-      this.tableService.deleteEntity(table, entity, undefined, (error, result) => {
+      this.tableService.deleteEntity(table, entityDescriptor, undefined, (error, result) => {
         if (error) reject(error)
         else resolve(result)
       })
