@@ -7,59 +7,6 @@ import { IGraphQLContext } from './IGraphQLContext'
 import { CustomerResolver } from './resolvers/customer'
 import { UserResolver } from './resolvers/user'
 
-// const Query = gql`
-//   """
-//   A type that describes a Error
-//   """
-//   type Error {
-//     name: String
-//     message: String
-//     code: String
-//     statusCode: String
-//   }
-
-//   """
-//   A type that describes a EventError
-//   """
-//   type EventError {
-//     code: String
-//   }
-
-//   """
-//   Result for Mutations
-//   """
-//   type BaseResult {
-//     success: Boolean
-//     error: Error
-//     data: String
-//   }
-
-//   """
-//   The Query type is a special type that defines the entry point of every
-//   GraphQL query. Otherwise, the Query type is the same as any other
-//   GraphQL object type, and its fields work exactly the same way.
-//   """
-//   type Query {
-//     """
-//     Query cannot be initialized empty
-//     """
-//     _: String
-//   }
-
-//   """
-//   The Mutation type is a special type that is used to modify server-side data.
-//   Just like in queries, if the mutation field returns an object type,
-//   you can ask for nested fields. It can also contain multiple fields.
-//   However, unlike queries, mutation fields run in series, one after the other.
-//   """
-//   type Mutation {
-//     """
-//     Mutation cannot be initialized empty
-//     """
-//     _: String
-//   }
-// `
-
 /**
  * Get schema
  */

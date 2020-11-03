@@ -1,3 +1,36 @@
+/* eslint-disable max-classes-per-file */
+import { ObjectType, Field } from 'type-graphql'
+
+@ObjectType({ description: 'A type that describes a Error' })
+export class Error {
+    @Field()
+    name: string
+
+    @Field()
+    message: string
+
+    @Field()
+    code: string
+
+    @Field()
+    statusCode: string
+}
+
+@ObjectType({ description: 'A type that describes a BaseResult' })
+export class BaseResult {
+    @Field()
+    success: boolean
+
+    @Field(() => Error)
+    error: Error
+}
+
+@ObjectType({ description: 'A type that describes a EventError' })
+export class EventError {
+    @Field()
+    code: string
+}
+
 export * from '../resolvers/apiToken.types'
 export * from '../resolvers/customer.types'
 export * from '../resolvers/label.types'

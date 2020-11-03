@@ -20,31 +20,6 @@ export class Subscription {
     name: string
 }
 
-
-@ObjectType({ description: 'The Error model' })
-export class Error {
-    @Field()
-    name: string
-
-    @Field()
-    message: string
-
-    @Field()
-    code: string
-
-    @Field()
-    statusCode: string
-}
-
-@ObjectType({ description: 'The BaseResult model' })
-export class BaseResult {
-    @Field()
-    success: boolean
-
-    @Field(() => Error)
-    error: boolean
-}
-
 @ObjectType({ description: 'The User model' })
 export class User {
     @Field()

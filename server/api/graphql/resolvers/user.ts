@@ -1,9 +1,11 @@
 /* eslint-disable max-classes-per-file */
+import { Base } from 'applicationinsights/out/Declarations/Contracts'
 import 'reflect-metadata'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { filter, find, pick } from 'underscore'
 import { IGraphQLContext } from '../IGraphQLContext'
-import { BaseResult, User, UserInput } from './user.types'
+import { BaseResult } from '../types'
+import { User, UserInput } from './user.types'
 
 
 @Resolver(User)
@@ -70,7 +72,7 @@ export class UserResolver {
      * @param {IGraphQLContext} ctx GraphQL context
      */
     @Mutation(() => BaseResult)
-    async addOrUpdateUser(@Arg('user', () => UserInput) user: UserInput, @Arg('update') update: boolean, ctx: IGraphQLContext) {
+    async addOrUpdateUser(@Arg('user', () => UserInput) user: UserInput, @Arg('update') update: boolean, ctx: IGraphQLContext): Promise<BaseResult> {
         try {
             await ctx.services.azstorage.addOrUpdateUser(user, update)
             return { success: true, error: null }
@@ -89,7 +91,7 @@ export class UserResolver {
      * @param {IGraphQLContext} ctx GraphQL context
      */
     @Mutation(() => BaseResult)
-    async bulkAddUsers(@Arg('users', () => [UserInput]) users: User[], ctx: IGraphQLContext) {
+    async bulkAddUsers(@Arg('users', () => [UserInput]) users: User[], ctx: IGraphQLContext): Promise<BaseResult> {
         try {
             await ctx.services.azstorage.bulkAddUsers(users)
             return { success: true, error: null }

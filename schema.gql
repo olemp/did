@@ -3,7 +3,7 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""The BaseResult model"""
+"""A type that describes a BaseResult"""
 type BaseResult {
   error: Error!
   success: Boolean!
@@ -20,7 +20,7 @@ type Customer {
   webLink: String!
 }
 
-"""The Error model"""
+"""A type that describes a Error"""
 type Error {
   code: String!
   message: String!
