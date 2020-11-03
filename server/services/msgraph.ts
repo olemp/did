@@ -1,13 +1,14 @@
 global['fetch'] = require('node-fetch')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('services/msgraph')
-import TokenService from './tokens'
-import * as utils from '../utils'
-const env = require('../utils/env').default
-import MSGraphEvent from './msgraph.event'
-import { first } from 'underscore'
-import { performance, PerformanceObserver } from 'perf_hooks'
 import * as appInsights from 'applicationinsights'
+import { performance, PerformanceObserver } from 'perf_hooks'
+import { first } from 'underscore'
+import * as utils from '../utils'
+import env from '../utils/env'
+import MSGraphEvent from './msgraph.event'
+import TokenService from './tokens'
+import get from 'get-value'
 
 class MSGraphService {
   public observer: PerformanceObserver
@@ -36,7 +37,7 @@ class MSGraphService {
    */
   init(req: Express.Request) {
     this.request = req
-    this.oauthToken = this.request.user['oauthToken']
+    this.oauthToken = get(this.request, 'user.oauthToken')
     return this
   }
 

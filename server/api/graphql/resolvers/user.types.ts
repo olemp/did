@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql'
 export type String = string;
 
 @ObjectType({ description: 'The Role model' })

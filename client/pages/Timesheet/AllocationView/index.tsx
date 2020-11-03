@@ -1,5 +1,5 @@
 
-import { get as get } from 'helpers'
+import { getValue as getValue } from 'helpers'
 import { ITimeEntry } from 'types'
 import React, { useLayoutEffect, useState, useContext, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,7 +18,7 @@ import styles from './AllocationView.module.scss'
  */
 export const GetAllocation = (entries: ITimeEntry[], exp: string): Array<{ name: string; hours: number }> => {
     const items = entries.reduce((_items, entry) => {
-        const name = get(entry, exp, null)
+        const name = getValue(entry, exp, null)
         if (name) {
             const item = _.find(_items, i => i.name === name)
             if (item) item.hours += entry.duration
