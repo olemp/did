@@ -1,5 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const log = require('debug')('middleware/passport/onVerifySignin')
+import createDebug from 'debug'
+const debug = createDebug('middleware/passport/onVerifySignin')
 import SubscriptionService from '../../services/subscription'
 import AzStorageService from '../../services/azstorage'
 import { NO_OID_FOUND, TENANT_NOT_ENROLLED, USER_NOT_ENROLLED } from './errors'
@@ -17,18 +17,18 @@ import { NO_OID_FOUND, TENANT_NOT_ENROLLED, USER_NOT_ENROLLED } from './errors'
  */
 export default async function (_iss, _sub, profile, _accessToken, _refreshToken, oauthToken, done) {
   if (!profile.oid) {
-    log('No oid found. Returning error NO_OID_FOUND.')
+    debug('No oid found. Returning error NO_OID_FOUND.')
     return done(NO_OID_FOUND, null)
   }
   const subscription = await new SubscriptionService().getSubscription(profile._json.tid)
   if (!subscription) {
-    log('No subscription found for %s', profile._json.tid)
+    debug('No subscription found for %s', profile._json.tid)
     return done(TENANT_NOT_ENROLLED, null)
   }
-  log('Subscription found for %s', profile._json.tid)
+  debug('Subscription found for %s', profile._json.tid)
   const user = await new AzStorageService(subscription).getUser(profile.oid)
   if (!user) {
-    log('User %s is not registered for %s', profile.oid, subscription.name)
+    debug('User %s is not registered for %s', profile.oid, subscription.name)
     return done(USER_NOT_ENROLLED, null)
   }
   user.subscription = subscription

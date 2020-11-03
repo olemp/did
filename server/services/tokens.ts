@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const log = require('debug')('services/tokens')
 import env from '../utils/env'
 const simpleoauth2 = require('simple-oauth2').create({
   client: {
@@ -19,7 +17,6 @@ class TokenService {
     if (storedToken) {
       try {
         const { token: oauthToken } = await storedToken.refresh()
-        log('Successfully refreshed auth token')
         req.user.oauthToken = oauthToken
         return oauthToken
       } catch (error) {

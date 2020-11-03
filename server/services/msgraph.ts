@@ -1,6 +1,6 @@
 global['fetch'] = require('node-fetch')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const log = require('debug')('services/msgraph')
+import createDebug from 'debug'
+const debug = createDebug('services/msgraph')
 import * as appInsights from 'applicationinsights'
 import { performance, PerformanceObserver } from 'perf_hooks'
 import { first } from 'underscore'
@@ -136,7 +136,7 @@ class MSGraphService {
   async getOutlookCategories(): Promise<any[]> {
     try {
       this.startMark('getOutlookCategories')
-      log('Querying Graph /me/outlook/masterCategories')
+      debug('Querying Graph /me/outlook/masterCategories')
       const { value } = await this.getClient().api('/me/outlook/masterCategories').get()
       this.endMark('getOutlookCategories')
       return value
@@ -163,7 +163,7 @@ class MSGraphService {
   async getEvents(startDateTime: string, endDateTime: string, maxDurationHours = 24): Promise<MSGraphEvent[]> {
     try {
       this.startMark('getEvents')
-      log(
+      debug(
         'Querying Graph /me/calendar/calendarView: %s',
         JSON.stringify({
           startDateTime,

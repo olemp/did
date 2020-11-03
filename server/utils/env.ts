@@ -1,6 +1,6 @@
 import { isBlank } from 'underscore.string'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const log = require('debug')('env')
+import createDebug from 'debug'
+const debug = createDebug('env')
 
 /**
  * Get environment variable by key with optional fallbackvalue
@@ -11,7 +11,7 @@ const log = require('debug')('env')
 const getEnvironmentVariable = (key: string, fallbackValue: any = null) => {
   const value = process.env[key]
   if (isBlank(value)) {
-    log('Missing environment variable %s', key)
+    debug('Missing environment variable %s', key)
     return fallbackValue || null
   }
   return value
