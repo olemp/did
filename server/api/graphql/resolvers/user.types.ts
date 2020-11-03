@@ -1,49 +1,106 @@
-export interface IRole {
-  name?: string
-  icon?: string
-  permissions?: string[]
+/* eslint-disable max-classes-per-file */
+import { Field, InputType, ObjectType } from 'type-graphql';
+export type String = string;
+
+@ObjectType({ description: 'The Role model' })
+export class Role {
+    @Field()
+    name?: string
+
+    @Field()
+    icon?: string
+
+    @Field(() => [String])
+    permissions?: string[]
 }
 
-export interface ISubscription {
-  name: string
+@ObjectType({ description: 'The ISubscription model' })
+export class Subscription {
+    @Field()
+    name: string
 }
 
-export interface IUser {
-  id?: string
-  displayName?: string
-  givenName?: string
-  surname?: string
-  jobTitle?: string
-  mobilePhone?: string
-  mail?: string
-  preferredLanguage?: string
-  subscription?: ISubscription
-  role?: IRole
+
+@ObjectType({ description: 'The Error model' })
+export class Error {
+    @Field()
+    name: string
+
+    @Field()
+    message: string
+
+    @Field()
+    code: string
+
+    @Field()
+    statusCode: string
 }
 
-/**
- * Variables for query users
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IUsersQueryVariables {}
+@ObjectType({ description: 'The BaseResult model' })
+export class BaseResult {
+    @Field()
+    success: boolean
 
-/**
- * Variables for query users
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ICurrentUserQueryVariables {}
-
-/**
- * Variables for mutation addOrUpdateUser
- */
-export interface IAddOrUpdateUserVariables {
-  user: IUser
-  update: boolean
+    @Field(() => Error)
+    error: boolean
 }
 
-/**
- * Variables for mutation bulkAddUsers
- */
-export interface IBulkAddUsersVariables {
-  users: IUser[]
+@ObjectType({ description: 'The User model' })
+export class User {
+    @Field()
+    id?: string
+
+    @Field()
+    displayName?: string
+
+    @Field()
+    givenName?: string
+
+    @Field()
+    surname?: string
+
+    @Field()
+    jobTitle?: string
+
+    @Field()
+    mobilePhone?: string
+
+    @Field()
+    mail?: string
+
+    @Field()
+    preferredLanguage?: string
+
+    @Field(() => Role)
+    role?: Role
+
+    @Field(() => Subscription)
+    subscription?: Subscription
+}
+
+@InputType()
+export class UserInput implements Partial<User> {
+    @Field()
+    id?: string
+
+    @Field()
+    displayName?: string
+
+    @Field()
+    givenName?: string
+
+    @Field()
+    surname?: string
+
+    @Field()
+    jobTitle?: string
+
+    @Field()
+    mobilePhone?: string
+
+    @Field()
+    mail?: string
+
+    @Field()
+    preferredLanguage?: string
 }

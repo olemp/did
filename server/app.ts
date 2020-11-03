@@ -12,6 +12,7 @@ import bearerToken from 'express-bearer-token'
 import { pick } from 'underscore'
 import authRoute from './routes/auth'
 import session from './middleware/session'
+import graphql from './api/graphql'
 
 class App {
   public instance: express.Application
@@ -24,14 +25,17 @@ class App {
     this.instance.use(express.json())
     this.instance.use(express.urlencoded({ extended: false }))
     this.instance.use(bodyParser.json())
+    this.instance.disable('view cache')
+  }
+
+  public async setup() {
     this.setupSession()
     this.setupViewEngine()
     this.setupAssets()
     this.setupAuth()
-    this.setupGraphQL()
+    await this.setupGraphQL()
     this.setupRoutes()
     this.setupErrorHandling()
-    this.instance.disable('view cache')
   }
 
   /**
@@ -70,12 +74,8 @@ class App {
   /**
    * Setup graphql
    */
-  setupGraphQL() {
-    const server = require('./api/graphql')
-    server.applyMiddleware({
-      app: this.instance,
-      path: '/graphql',
-    })
+  async setupGraphQL() {
+    await graphql(this.instance)
   }
 
   /**
@@ -83,7 +83,7 @@ class App {
    */
   setupRoutes() {
     const index = express.Router()
-    index.get('/', (req, res) => {
+    index.get('/', (_req, res) => {
       res.render('index')
     })
     this.instance.use('*', index)
