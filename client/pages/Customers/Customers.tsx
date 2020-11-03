@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { AppContext } from 'AppContext'
 import { manageCustomers } from 'config/security/permissions'
 import { get } from 'helpers'
-import { ICustomer } from 'types'
+import { Customer } from 'types'
 import { SelectionMode } from 'office-ui-fabric-react/lib/DetailsList'
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react/lib/MessageBar'
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot'
@@ -22,7 +22,7 @@ export const Customers = () => {
     const { hasPermission } = useContext(AppContext)
     const history = useHistory()
     const params = useParams<ICustomersParams>()
-    const [selected, setSelected] = useState<ICustomer>(null)
+    const [selected, setSelected] = useState<Customer>(null)
     const { loading, error, data } = useQuery(
         GET_CUSTOMERS,
         {
@@ -30,7 +30,7 @@ export const Customers = () => {
             fetchPolicy: 'cache-first'
         })
 
-    const customers = get<ICustomer[]>(data, 'customers', [])
+    const customers = get<Customer[]>(data, 'customers', [])
 
     useEffect(() => {
         if (!selected && params.key) {

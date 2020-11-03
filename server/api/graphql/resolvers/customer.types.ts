@@ -1,10 +1,27 @@
-export interface ICustomer {
+import 'reflect-metadata'
+import { ObjectType, Field } from 'type-graphql'
+
+@ObjectType({ description: 'The Customer model' })
+export class Customer {
+  @Field() 
   key: string
+
+  @Field() 
   name: string
+
+  @Field() 
   description: string
+
+  @Field() 
   webLink: string
+
+  @Field() 
   externalSystemURL: string
+
+  @Field() 
   icon: string
+
+  @Field() 
   inactive?: boolean
 }
 
@@ -19,7 +36,7 @@ export interface ICustomersQueryVariables {
  * Variables for mutation createOrUpdateCustomer
  */
 export interface ICreateOrUpdateCustomerVariables {
-  customer: ICustomer
+  customer: Customer
   update: boolean
 }
 

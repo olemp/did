@@ -1,4 +1,4 @@
-import { ICustomer } from './customer.types'
+import { Customer } from './customer.types'
 import { ILabel } from './label.types'
 import { IOutlookCategory } from './outlookCategory.types'
 
@@ -11,7 +11,7 @@ export interface IProject {
   icon: string
   webLink?: string
   externalSystemURL?: string
-  customer?: ICustomer
+  customer?: Customer
   outlookCategory?: IOutlookCategory
   inactive?: boolean
   labels?: ILabel[]

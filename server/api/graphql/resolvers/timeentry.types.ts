@@ -1,4 +1,4 @@
-import { ICustomer } from './customer.types'
+// import { ICustomer } from './customer.types'
 import { ILabel } from './label.types'
 
 export interface ITimeEntry {
@@ -8,7 +8,7 @@ export interface ITimeEntry {
   isOrganizer: boolean
   project: any
   suggestedProject: any
-  customer: ICustomer
+  customer: any
   projectKey: string
   customerKey: string
   webLink: string

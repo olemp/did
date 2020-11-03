@@ -1,4 +1,4 @@
-import { ICustomer } from './customer.types'
+import { Customer } from './customer.types'
 import { ILabel } from './label.types'
 
 export interface IEvent {
@@ -13,7 +13,7 @@ export interface IEvent {
   date: string
   duration: number
   project: any
-  customer: ICustomer
+  customer: Customer
   projectKey: string
   customerKey: string
   suggestedProject: any
@@ -112,7 +112,7 @@ export interface ITimesheetPeriodData {
   /**
    * Hours
    */
-  hours: number
+  hours?: number
 }
 
 export interface ITimesheetPeriodMatchedEvent {

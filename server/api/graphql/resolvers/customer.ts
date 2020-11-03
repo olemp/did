@@ -1,9 +1,11 @@
+import { gql } from 'apollo-server-express'
+import 'reflect-metadata'
+import { Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
+import { IGraphQLContext } from '../IGraphQLContext'
+import { Customer, ICreateOrUpdateCustomerVariables, ICustomersQueryVariables, IDeleteCustomerVariables } from './customer.types'
 const AzTableUtilities = require('../../../utils/table').default
 const { executeBatch, createAzBatch } = new AzTableUtilities()
-import { gql } from 'apollo-server-express'
-import { IGraphQLContext } from '../IGraphQLContext'
-import { ICreateOrUpdateCustomerVariables, ICustomersQueryVariables, IDeleteCustomerVariables } from './customer.types'
 
 export const typeDef = gql`
   """
@@ -51,6 +53,7 @@ export const typeDef = gql`
     deleteCustomer(key: String!): BaseResult
   }
 `
+
 
 /**
  * Get customers
@@ -114,6 +117,14 @@ async function deleteCustomer(_obj: any, variables: IDeleteCustomerVariables, ct
 export const resolvers = {
   Query: { customers },
   Mutation: { createOrUpdateCustomer, deleteCustomer },
+}
+
+@Resolver(Customer)
+export class CustomerResolver {
+  @Query(() => [Customer])
+  async customers(obj, variables, ctx) {
+    return await ctx.services.azstorage.getCustomers({ sortBy: variables.sortBy })
+  }
 }
 
 export * from './customer.types'
