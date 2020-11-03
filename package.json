@@ -1,6 +1,6 @@
 {
   "name": "did",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "engines": {
     "node": ">=10.14.1",
@@ -118,6 +118,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/morgan": "^1.9.2",
     "@types/passport": "^1.0.4",
+    "@types/string-similarity": "^3.0.0",
     "@types/string-strip-html": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "4.6.1",
     "@typescript-eslint/parser": "4.6.1",
