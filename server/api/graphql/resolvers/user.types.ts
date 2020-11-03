@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
+import 'reflect-metadata'
 import { Field, InputType, ObjectType } from 'type-graphql'
-export type String = string;
 
 @ObjectType({ description: 'The Role model' })
 export class Role {

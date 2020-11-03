@@ -1,13 +1,12 @@
-/**
- * Variables for mutation addApiToken
- */
-export interface IAddApiTokenVariables {
-  name: string
-}
+/* eslint-disable max-classes-per-file */
+import 'reflect-metadata'
+import { Field, ObjectType } from 'type-graphql'
 
-/**
- * Variables for mutation deleteApiToken
- */
-export interface IDeleteApiTokenVariables {
-  name: string
+@ObjectType({ description: 'A type that describes a ApiToken' })
+export class ApiToken {
+    @Field()
+    name: string
+
+    @Field()
+    timestamp: string
 }

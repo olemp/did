@@ -1,91 +1,59 @@
-import { pick } from 'underscore'
 import jwt from 'jsonwebtoken'
-import { gql } from 'apollo-server-express'
+import 'reflect-metadata'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { pick } from 'underscore'
 import env from '../../../utils/env'
 import { IGraphQLContext } from '../IGraphQLContext'
-import { IAddApiTokenVariables, IDeleteApiTokenVariables } from './apiToken.types'
+import { BaseResult } from '../types'
+import { ApiToken } from './apiToken.types'
 
-export const typeDef = gql`
-  """
-  A type that describes a ApiToken
-  """
-  type ApiToken {
-    name: String
-    timestamp: String
+@Resolver(ApiToken)
+export class ApiTokenResolver {
+  /**
+   * Get API tokens
+   * 
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Query(() => [ApiToken])
+  async apiTokens(@Ctx() ctx: IGraphQLContext) {
+    const tokens = await ctx.services.subscription.getApiTokens(ctx.user.subscription.id)
+    return tokens
   }
 
-  extend type Query {
-    """
-    Get all API tokens for the subscription
-    """
-    apiTokens: [ApiToken!]!
+  /**
+   * Delete API tokens
+   * 
+   * @param {string} name Name    * 
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Mutation(() => String)
+  async addApiToken(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
+    const token = jwt.sign(
+      {
+        data: pick(ctx.user, 'id'),
+      },
+      env('API_TOKEN_SECRET')
+    )
+    const entry = await ctx.services.subscription.addApiToken(name, ctx.user.subscription.id, token)
+    return entry ? token : null
   }
 
-  extend type Mutation {
-    """
-    Add API token with the specified name
-    """
-    addApiToken(name: String!): String
-
-    """
-    Delete the API token with the specified name
-    """
-    deleteApiToken(name: String): BaseResult
-  }
-`
-
-/**
- * Get API tokens
- *
- * @param {any} _obj {}
- * @param {any} _variables {}
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function apiTokens(_obj: any, _variables: any, ctx: IGraphQLContext) {
-  const tokens = await ctx.services.subscription.getApiTokens(ctx.user.subscription.id)
-  return tokens
-}
-
-/**
- * Add API tokens
- *
- * @param {any} _obj {}
- * @param {IAddApiTokenVariables} variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function addApiToken(_obj: any, variables: IAddApiTokenVariables, ctx: IGraphQLContext) {
-  const token = jwt.sign(
-    {
-      data: pick(ctx.user, 'id'),
-    },
-    env('API_TOKEN_SECRET')
-  )
-  const entry = await ctx.services.subscription.addApiToken(variables.name, ctx.user.subscription.id, token)
-  return entry ? token : null
-}
-
-/**
- * Delete API tokens
- *
- * @param {any} _obj {}
- * @param {IDeleteApiTokenVariables} variables Variables
- * @param {IGraphQLContext} ctx GraphQL context
- */
-async function deleteApiToken(_obj: any, variables: IDeleteApiTokenVariables, ctx: IGraphQLContext) {
-  try {
-    await ctx.services.subscription.deleteApiToken(variables.name, ctx.user.subscription.id)
+  /**
+   * Delete API tokens
+   * 
+   * @param {string} name Name 
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
+  @Mutation(() => BaseResult)
+  async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
+    await ctx.services.subscription.deleteApiToken(name, ctx.user.subscription.id)
     return { success: true, error: null }
-  } catch (error) {
+  } catch(error) {
     return {
       success: false,
       error: pick(error, 'name', 'message', 'code', 'statusCode'),
     }
   }
-}
-
-export const resolvers = {
-  Query: { apiTokens },
-  Mutation: { addApiToken, deleteApiToken },
 }
 
 export * from './apiToken.types'
