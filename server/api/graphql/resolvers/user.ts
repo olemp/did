@@ -1,6 +1,6 @@
-/* eslint-disable max-classes-per-file */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import 'reflect-metadata'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { filter, find, pick } from 'underscore'
 import { Context } from '../context'
 import { BaseResult } from '../types'
@@ -13,6 +13,7 @@ export class UserResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => User)
   async currentUser(@Ctx() ctx: Context) {
     if (!ctx.user) return null
@@ -36,6 +37,7 @@ export class UserResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [User])
   async adUsers(@Ctx() ctx: Context) {
     const users = await ctx.services.msgraph.getUsers()
@@ -47,6 +49,7 @@ export class UserResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [User])
   async users(@Ctx() ctx: Context) {
     // eslint-disable-next-line prefer-const
@@ -68,6 +71,7 @@ export class UserResolver {
    * @param {boolean} update Update
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async addOrUpdateUser(
     @Arg('user', () => UserInput) user: UserInput,
@@ -91,6 +95,7 @@ export class UserResolver {
    * @param {UserInput[]} users Users
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async bulkAddUsers(
     @Arg('users', () => [UserInput]) users: UserInput[],

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { ApolloError, AuthenticationError } from 'apollo-server-express'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { contains, filter, find, isEmpty, pick } from 'underscore'
 import { formatDate } from '../../../utils'
 import { Context } from '../context'
@@ -19,6 +20,7 @@ export class TimesheetResolver {
    * @param {string} dateFormat Date format
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [TimesheetPeriodObject])
   async timesheet(
     @Arg('query') query: TimesheetQuery,
@@ -87,6 +89,7 @@ export class TimesheetResolver {
    * @param {boolean} forecast Forecast
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async submitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,
@@ -132,6 +135,7 @@ export class TimesheetResolver {
    * @param {boolean} forecast Forecast
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async unsubmitPeriod(
     @Arg('period', () => TimesheetPeriodInput) period: TimesheetPeriodInput,

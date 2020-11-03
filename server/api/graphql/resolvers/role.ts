@@ -1,4 +1,5 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import { Context } from '../context'
 import { BaseResult } from '../types'
@@ -11,6 +12,7 @@ export class RoleResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [Role])
   async roles(@Ctx() ctx: Context) {
     return await ctx.services.azstorage.getRoles()
@@ -23,6 +25,7 @@ export class RoleResolver {
    * @param {boolean} update Update
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async addOrUpdateRole(
     @Arg('role', () => RoleInput) role: RoleInput,

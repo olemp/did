@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import 'reflect-metadata'
-import { Arg, Ctx, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql'
 import { Context } from '../context'
 import forecast from './notification.forecast'
 import { Notification, NotificationTemplates } from './notification.types'
@@ -14,6 +15,7 @@ export class NotificationResolver {
    * @param {string} locale Locale
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [Notification])
   async notifications(
     @Arg('templates', () => NotificationTemplates) templates: NotificationTemplates,

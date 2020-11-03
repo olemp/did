@@ -1,4 +1,5 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import { Context } from '../context'
 import { BaseResult, Project, ProjectInput } from '../types'
@@ -13,6 +14,7 @@ export class ProjectResolver {
    * @param {string} sortBy Sort by
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [Project])
   async projects(
     @Arg('customerKey', { nullable: true }) customerKey: string,
@@ -38,6 +40,7 @@ export class ProjectResolver {
    * @param {boolean} update Update
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async createOrUpdateProject(
     @Arg('project', () => ProjectInput) project: ProjectInput,

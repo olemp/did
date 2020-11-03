@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import 'reflect-metadata'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { pick } from 'underscore'
 import { Context } from '../context'
 import { BaseResult } from '../types'
@@ -12,6 +13,7 @@ export class LabelResolver {
    *
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Query(() => [LabelObject])
   async labels(@Ctx() ctx: Context) {
     return await ctx.services.azstorage.getLabels()
@@ -24,6 +26,7 @@ export class LabelResolver {
    * @param {boolean} update Update
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async addOrUpdateLabel(
     @Arg('label', () => LabelInput) label: LabelInput,
@@ -47,6 +50,7 @@ export class LabelResolver {
    * @param {string} name Name
    * @param {Context} ctx GraphQL context
    */
+  @Authorized()
   @Mutation(() => BaseResult)
   async deleteLabel(@Arg('name') name: string, @Ctx() ctx: Context) {
     try {
