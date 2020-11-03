@@ -27,7 +27,7 @@ class EventMatching {
    * @param {*} customer Customer
    * @param {*} projectKey Project key
    */
-  findProjectSuggestion(customer: any, projectKey: any) {
+  private _findProjectSuggestion(customer: any, projectKey: any) {
     try {
       const customerProjects = this.projects.filter(p => p.customerKey === customer.key)
       const projectKeys = customerProjects.map(p => p.id.split(' ')[1])
@@ -51,7 +51,7 @@ class EventMatching {
    *
    * @param {EventObject} event
    */
-  findIgnore(event: EventObject) {
+  private _findIgnore(event: EventObject) {
     const ignoreCategory = find(event.categories, c => c.toLowerCase() === 'ignore')
     if (!!ignoreCategory) return 'category'
     if ((event.body || '').match(/[(\[\{]IGNORE[)\]\}]/gi) !== null) return 'body'
@@ -64,11 +64,11 @@ class EventMatching {
    * @param {string} inputStr The String object or string literal on which to perform the search.
    * @param {boolean} soft Soft search - don't require [], () or {}
    */
-  searchString(inputStr: string, soft = false) {
+  private _searchString(inputStr: string, soft = false) {
     let regex = /[\(\{\[]((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}?))[\)\]\}]/gim
     if (soft) regex = /((?<customerKey>[\wæøåÆØÅ]{2,}?)\s(?<key>[\wæøåÆØÅ]{2,}))/gim
     const matches = []
-    let match
+    let match: RegExpExecArray
     while ((match = regex.exec(inputStr)) !== null) {
       matches.push({
         ...match.groups,
@@ -81,20 +81,20 @@ class EventMatching {
   /**
    * Find project match in title/body/categories
    *
-   * @param {*} inputStr The String object or string literal on which to perform the search.
-   * @param {*} categoriesStr Categories string
+   * @param {string} inputStr The String object or string literal on which to perform the search.
+   * @param {string} categoriesStr Categories string
    */
-  findProjectMatches(inputStr: any, categoriesStr: any) {
-    const matches = this.searchString(categoriesStr, true)
-    return matches || this.searchString(inputStr)
+  private _findProjectMatches(inputStr: string, categoriesStr: string) {
+    const matches = this._searchString(categoriesStr, true)
+    return matches || this._searchString(inputStr)
   }
 
   /**
    * Find label matches in categories
    *
-   * @param {*} categories
+   * @param {string[]} categories
    */
-  findLabels(categories: any) {
+  private _findLabels(categories: string[]) {
     return filter(this.labels, lbl => contains(categories, lbl.name))
   }
 
@@ -104,16 +104,16 @@ class EventMatching {
    * 1. Checks category/title/description for tokens
    * 2. Checks title/description for key without any brackets/parantheses
    *
-   * @param {*} event
+   * @param {EventObject} event
    */
-  matchEvent(event: any) {
-    const ignore = this.findIgnore(event)
+  private _matchEvent(event: EventObject) {
+    const ignore = this._findIgnore(event)
     if (ignore === 'category') {
       return { ...event, isSystemIgnored: true }
     }
     const categoriesStr = event.categories.join('|').toUpperCase()
     const srchStr = [event.title, event.body, categoriesStr].join('|').toUpperCase()
-    const matches = this.findProjectMatches(srchStr, categoriesStr)
+    const matches = this._findProjectMatches(srchStr, categoriesStr)
     let projectKey
     if (!isEmpty(matches)) {
       for (let i = 0; i < matches.length; i++) {
@@ -128,14 +128,14 @@ class EventMatching {
     } else if (ignore === 'body') {
       return { ...event, isSystemIgnored: true }
     } else {
-      event.project = find(this.projects, p => !!find(this.searchString(srchStr, true), m => m.id === p.id))
+      event.project = find(this.projects, p => !!find(this._searchString(srchStr, true), m => m.id === p.id))
       if (!!event.project) event.customer = find(this.customers, c => c.key === event.project.customerKey)
     }
     if (!!event.customer && !event.project) {
-      event.suggestedProject = this.findProjectSuggestion(event.customer, projectKey)
+      event.suggestedProject = this._findProjectSuggestion(event.customer, projectKey)
     }
-    event.labels = this.findLabels(event.categories)
-    event = this.checkInactive(event)
+    event.labels = this._findLabels(event.categories)
+    event = this._checkInactive(event)
     return event
   }
 
@@ -144,7 +144,7 @@ class EventMatching {
    *
    * @param {*} event
    */
-  checkInactive(event: any) {
+  private _checkInactive(event: any) {
     const inactiveProject = get(event, 'project.inactive')
     const inactiveCustomer = get(event, 'customer.inactive')
     if (event.project && (inactiveProject || inactiveCustomer)) {
@@ -161,8 +161,8 @@ class EventMatching {
    *
    * @param {*} events
    */
-  matchEvents(events: any) {
-    return events.map(this.matchEvent.bind(this))
+  public matchEvents(events: any) {
+    return events.map(this._matchEvent.bind(this))
   }
 }
 

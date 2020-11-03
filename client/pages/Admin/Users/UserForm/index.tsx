@@ -17,6 +17,7 @@ import styles from './UserFormModal.module.scss'
 export const UserForm = (props: IUserFormProps) => {
     const { adUsers, roles } = useContext(UsersContext)
     const { t } = useTranslation()
+    
     const [model, setModel] = useState<User>(props.user || {
         id: '',
         displayName: '',

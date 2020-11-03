@@ -33,13 +33,13 @@ export class User {
     mail?: string
 
     @Field({ nullable: true })
-    preferredLanguage: string
+    preferredLanguage?: string
 
     @Field(() => Role)
-    role: Role
+    role?: Role
 
     @Field(() => Subscription)
-    subscription: Subscription
+    subscription?: Subscription
 }
 
 @InputType({ description: 'Input object for Role used in Mutation addOrUpdateUser/bulkAddUsers' })
@@ -56,15 +56,15 @@ export class UserInput implements Partial<User> {
     @Field()
     surname?: string
 
-    @Field()
+    @Field({ nullable: true })
     jobTitle?: string
 
-    @Field()
+    @Field({ nullable: true })
     mobilePhone?: string
 
-    @Field()
+    @Field({ nullable: true })
     mail?: string
 
-    @Field()
+    @Field({ nullable: true })
     preferredLanguage?: string
 }

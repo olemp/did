@@ -2,10 +2,8 @@
 import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
 import { EventInput, EventObject, Project, TimesheetPeriodInput, TimesheetPeriodObject } from 'types'
-import { TimeEntry } from 'types'
-import { omit, filter } from 'underscore'
-import { isBlank } from 'underscore.string'
-import { capitalize } from 'underscore.string'
+import { filter, omit } from 'underscore'
+import { capitalize, isBlank } from 'underscore.string'
 import dateUtils, { moment } from 'utils/date'
 import { ITimesheetParams } from './types'
 
@@ -148,7 +146,7 @@ export class TimesheetPeriod {
   /**
    * Get events
    */
-  public get events(): TimeEntry[] {
+  public get events(): EventObject[] {
     if (this._period) {
       return [...this._period.events]
         .filter(event => !event.isSystemIgnored && this._uiIgnoredEvents.indexOf(event.id) === -1)

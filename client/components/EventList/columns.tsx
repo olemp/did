@@ -1,6 +1,6 @@
 
 import * as helpers from 'helpers'
-import { TimeEntry } from 'types'
+import { EventObject, TimeEntry } from 'types'
 import * as React from 'react'
 import dateUtils from 'utils/date'
 import { generateColumn as col } from 'utils/generateColumn'
@@ -41,7 +41,7 @@ export const titleColumn = (props: IEventListProps, name: string, fieldName = 't
     fieldName,
     name,
     { ...getSizing(props, fieldName, 320, 400), isMultiline: true },
-    (event: TimeEntry) => (
+    (event: EventObject) => (
         <div className={styles.titleColumn}>
             <Link href={event.webLink}
                 target='_blank'

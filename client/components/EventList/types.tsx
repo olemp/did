@@ -1,6 +1,6 @@
 import { ITypedHash } from '@pnp/common'
 import { IListGroups } from 'components/List/types'
-import { TimeEntry } from 'types'
+import { EventObject } from 'types'
 import { IColumn } from 'office-ui-fabric-react/lib/DetailsList'
 
 
@@ -8,7 +8,7 @@ export interface IEventListProps extends React.HTMLProps<HTMLDivElement> {
     /**
      * List of events
      */
-    events: TimeEntry[];
+    events: EventObject[];
 
 
     /**
