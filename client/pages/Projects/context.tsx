@@ -1,7 +1,6 @@
-import { ApolloQueryResult } from 'apollo-client'
 import { createContext } from 'react'
 import { Project } from 'types'
-
+import { ApolloQueryResult } from '@apollo/react-hooks'
 
 export interface IProjectsContext {
     outlookCategories: any[];

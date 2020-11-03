@@ -14,7 +14,7 @@ import { ProjectDetailsContext } from './ProjectDetailsContext'
 import {TIME_ENTRIES} from '../graphql'
 import { TimeEntry } from '../../../../server/api/graphql/types'
 
-export const ProjectDetails = (props: IProjectDetailsProps) => {
+export const ProjectDetails: React.FunctionComponent<IProjectDetailsProps> = (props: IProjectDetailsProps) => {
     const { t } = useTranslation()
     const [project, setProject] = useState({ ...props.project })
     const { loading, error, data } = useQuery<{ timeentries: TimeEntry[] }>(

@@ -17,7 +17,7 @@ import { ProjectDetails } from './ProjectDetails'
 import ProjectList from './ProjectList'
 import { IProjectsParams } from './types'
 
-export const Projects: React.FunctionComponent<{}> = () => {
+export const Projects: React.FunctionComponent<null> = () => {
     const { t } = useTranslation()
     const { hasPermission } = useContext(AppContext)
     const history = useHistory()
