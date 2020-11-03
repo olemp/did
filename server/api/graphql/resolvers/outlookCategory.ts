@@ -13,13 +13,13 @@ export class OutlookCategoryResolver {
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [OutlookCategory])
-  async customers(@Ctx() ctx: IGraphQLContext) {
+  async outlookCategories(@Ctx() ctx: IGraphQLContext) {
     const categories = await ctx.services.msgraph.getOutlookCategories()
     return categories.map(c => ({ ...c, key: c.id }))
   }
 
   /**
-   * Create or update customer
+   * Create Outlook category
    * 
    * @param {string} category Category
    * @param {IGraphQLContext} ctx GraphQL context

@@ -15,8 +15,8 @@ export class ProjectResolver {
    */
   @Query(() => [Project])
   async projects(
-    @Arg('customerKey') customerKey: string,
-    @Arg('sortBy') sortBy: string,
+    @Arg('customerKey', { nullable: true }) customerKey: string,
+    @Arg('sortBy', { nullable: true }) sortBy: string,
     @Ctx() ctx: IGraphQLContext
   ) {
     // eslint-disable-next-line prefer-const
