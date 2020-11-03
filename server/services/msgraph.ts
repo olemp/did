@@ -11,7 +11,7 @@ import * as appInsights from 'applicationinsights'
 
 class MSGraphService {
   public observer: PerformanceObserver
-  public request: any
+  public request: Express.Request
   public oauthToken: any
 
   /**
@@ -32,18 +32,18 @@ class MSGraphService {
   /**
    * Initializes the MS Graph Service
    *
-   * @param {*} req Request
+   * @param {Express.Request} req Request
    */
-  init(req: any) {
+  init(req: Express.Request) {
     this.request = req
-    this.oauthToken = this.request.user.oauthToken
+    this.oauthToken = this.request.user['oauthToken']
     return this
   }
 
   /**
    * Starts a performance mark
    *
-   * @param {*} measure
+   * @param {string} measure
    */
   startMark(measure: string) {
     performance.mark(`${measure}-init`)
@@ -52,7 +52,7 @@ class MSGraphService {
   /**
    * Ends a performance mark
    *
-   * @param {*} measure
+   * @param {string} measure
    */
   endMark(measure: string) {
     performance.mark(`${measure}-end`)
@@ -101,9 +101,9 @@ class MSGraphService {
   /**
    * Create Outlook category
    *
-   * @param category Category
+   * @param {string} category Category
    */
-  async createOutlookCategory(category: any) {
+  async createOutlookCategory(category: string) {
     try {
       this.startMark('createOutlookCategory')
       const colorIdx = utils.generateInt(category, 24)

@@ -31,9 +31,9 @@ class SubscriptionService {
   /**
    * Find subscription for the specified token
    *
-   * @param token Request token
+   * @param {string} token Request token
    */
-  async findSubscriptionWithToken(token) {
+  async findSubscriptionWithToken(token: string) {
     try {
       const query = this.tableUtil.createAzQuery(1).where('Token eq ?', token)
       const { entries } = await this.tableUtil.queryAzTable('ApiTokens', query)
@@ -48,11 +48,11 @@ class SubscriptionService {
   /**
    * Add token for the user subscription
    *
-   * @param name Token name
-   * @param subscriptionId Subscription id
-   * @param token Request token
+   * @param {string} {string} name Token name
+   * @param {string} subscriptionId Subscription id
+   * @param {string} token Request token
    */
-  async addApiToken(name, subscriptionId, token) {
+  async addApiToken(name, subscriptionId: string, token: string) {
     try {
       const { string } = this.tableUtil.azEntGen()
       const entity = await this.tableUtil.addAzEntity('ApiTokens', {
@@ -69,10 +69,10 @@ class SubscriptionService {
   /**
    * Remove token for the user subscription
    *
-   * @param name Token name
-   * @param subscriptionId Subscription id
+   * @param {string} name Token name
+   * @param {string} subscriptionId Subscription id
    */
-  async deleteApiToken(name, subscriptionId) {
+  async deleteApiToken(name: string, subscriptionId: string) {
     try {
       const { string } = this.tableUtil.azEntGen()
       const result = await this.tableUtil.deleteEntity('ApiTokens', {
@@ -88,9 +88,9 @@ class SubscriptionService {
   /**
    * Get tokens for the user subscription
    *
-   * @param subscriptionId Subscription id
+   * @param {string} subscriptionId Subscription id
    */
-  async getApiTokens(subscriptionId) {
+  async getApiTokens(subscriptionId: string) {
     try {
       const query = this.tableUtil.createAzQuery(100).where('PartitionKey eq ?', subscriptionId)
       const result = await this.tableUtil.queryAzTable('ApiTokens', query)

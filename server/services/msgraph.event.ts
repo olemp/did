@@ -1,15 +1,15 @@
 import * as utils from '../utils'
 
-class MSGraphEvent {
-  id: any
-  title: any
-  body: any
-  isOrganizer: any
-  categories: any
-  webLink: any
-  startDateTime: any
-  endDateTime: any
-  duration: any
+export default class MSGraphEvent {
+  public id: any
+  public title: any
+  public body: any
+  public isOrganizer: any
+  public categories: any
+  public webLink: any
+  public startDateTime: any
+  public endDateTime: any
+  public duration: any
 
   constructor(evt: any) {
     this.id = evt.id
@@ -23,5 +23,3 @@ class MSGraphEvent {
     this.duration = utils.getDurationHours(evt.start.dateTime, evt.end.dateTime)
   }
 }
-
-export default MSGraphEvent
