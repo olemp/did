@@ -37,7 +37,7 @@ export interface IEventListProps extends React.HTMLProps<HTMLDivElement> {
     showEmptyDays?: boolean;
 
     /**
-     * Column widths
+     * Column width overrides
      */
     columnWidths?: ITypedHash<number>;
 

@@ -4,10 +4,10 @@ import { Project } from 'types'
 import * as React from 'react'
 import { Autocomplete, ISuggestionItem } from '../Autocomplete'
 import { ISearchProjectProps } from './types'
-import graphql from 'pages/Projects/graphql'
+import { GET_PROJECTS } from 'pages/Projects/graphql'
 
 export const SearchProject = (props: ISearchProjectProps) => {
-    const { loading, data } = useQuery<{ projects: Project[] }>(graphql.query.projects, {
+    const { loading, data } = useQuery<{ projects: Project[] }>(GET_PROJECTS, {
         variables: { sortBy: 'name' },
         fetchPolicy: 'cache-first'
     })
