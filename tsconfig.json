@@ -8,9 +8,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "baseUrl": "./",
-    "paths": {
-      "*": ["../node_modules/*"]
-    }
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["server/**/*.ts","server/**/*.js", "server/middleware/gzip/index.td"]
+  "include": ["server/**/*.ts", "server/**/*.js", "server/middleware/gzip/index.td"]
 }

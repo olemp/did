@@ -112,7 +112,7 @@ export interface ITimesheetPeriodData {
   /**
    * Hours
    */
-  hours?: number
+  hours: number
 }
 
 export interface ITimesheetPeriodMatchedEvent {
