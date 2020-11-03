@@ -78,7 +78,6 @@
     "i18next": "19.3.4",
     "install": "0.13.0",
     "jsonwebtoken": "8.5.1",
-    "lodash": "4.17.15",
     "loglevel": "1.6.7",
     "loglevel-plugin-prefix": "0.8.4",
     "moment": "2.24.0",
@@ -127,7 +126,6 @@
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/lodash": "^4.14.164",
     "@types/morgan": "^1.9.2",
     "@types/passport": "^1.0.4",
     "@types/string-strip-html": "^5.0.0",
