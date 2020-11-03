@@ -11,9 +11,9 @@ const { executeBatch, createAzBatch } = new AzTableUtilities()
 export class CustomerResolver {
   /**
    * Get customers
-   * 
+   *
    * @param {string} sortBy Sort by
- * @param {IGraphQLContext} ctx GraphQL context
+   * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [Customer])
   async customers(@Arg('sortBy', { nullable: true }) sortBy: string, @Ctx() ctx: IGraphQLContext) {
@@ -22,7 +22,7 @@ export class CustomerResolver {
 
   /**
    * Create or update customer
-   * 
+   *
    * @param {CustomerInput} customer Customer
    * @param {boolean} update Update
    * @param {IGraphQLContext} ctx GraphQL context
@@ -30,7 +30,7 @@ export class CustomerResolver {
   @Mutation(() => BaseResult)
   async createOrUpdateCustomer(
     @Arg('customer', () => CustomerInput) customer: CustomerInput,
-    @Arg('update',{nullable:true}) update: boolean,
+    @Arg('update', { nullable: true }) update: boolean,
     @Ctx() ctx: IGraphQLContext
   ) {
     try {
@@ -46,8 +46,8 @@ export class CustomerResolver {
 
   /**
    * Delete customer
-   * 
-   * @param {string} key Key 
+   *
+   * @param {string} key Key
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Mutation(() => BaseResult)

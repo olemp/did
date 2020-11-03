@@ -9,7 +9,7 @@ import { LabelObject, LabelInput } from './label.types'
 export class LabelResolver {
   /**
    * Get labels
-   * 
+   *
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [LabelObject])
@@ -19,7 +19,7 @@ export class LabelResolver {
 
   /**
    * Add or update label
-   * 
+   *
    * @param {LabelInput} label Label
    * @param {boolean} update Update
    * @param {IGraphQLContext} ctx GraphQL context
@@ -43,8 +43,8 @@ export class LabelResolver {
 
   /**
    * Delete label
-   * 
-   * @param {string} name Name 
+   *
+   * @param {string} name Name
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Mutation(() => BaseResult)

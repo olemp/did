@@ -12,13 +12,13 @@ import { connectTimeEntries, getPeriods } from './timesheet.utils'
 @Resolver(TimesheetPeriodObject)
 export class TimesheetResolver {
   /**
-  * Get timesheet
-  *
-  * @param {TimesheetQuery} query Query
-  * @param {string} locale Locale
-  * @param {string} dateFormat Date format
-  * @param {IGraphQLContext} ctx GraphQL context
-  */
+   * Get timesheet
+   *
+   * @param {TimesheetQuery} query Query
+   * @param {string} locale Locale
+   * @param {string} dateFormat Date format
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
   @Query(() => [TimesheetPeriodObject])
   async timesheet(
     @Arg('query') query: TimesheetQuery,

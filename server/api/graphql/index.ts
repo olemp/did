@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const log = require('debug')('api/graphql')
 import { ApolloServer } from 'apollo-server-express'
@@ -25,15 +24,13 @@ const getSchema = async () => {
       resolvers.TimeEntryResolver,
       resolvers.LabelResolver,
       resolvers.TimesheetResolver,
-      resolvers.UserResolver
+      resolvers.UserResolver,
     ],
     emitSchemaFile: true,
     validate: false,
   })
   return schema
 }
-
-
 
 const createContext = async ({ req }): Promise<IGraphQLContext> => {
   try {

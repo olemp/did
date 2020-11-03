@@ -4,15 +4,15 @@ import { Field, ID, ObjectType } from 'type-graphql'
 
 @ObjectType({ description: 'A type that describes a OutlookCategory' })
 export class OutlookCategory {
-  @Field(() => ID) 
+  @Field(() => ID)
   id: string
 
-  @Field() 
+  @Field()
   key: string
 
-  @Field() 
+  @Field()
   displayName: string
 
-  @Field() 
+  @Field()
   color: string
 }

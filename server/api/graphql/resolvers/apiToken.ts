@@ -11,7 +11,7 @@ import { ApiToken } from './apiToken.types'
 export class ApiTokenResolver {
   /**
    * Get API tokens
-   * 
+   *
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [ApiToken])
@@ -22,8 +22,8 @@ export class ApiTokenResolver {
 
   /**
    * Delete API tokens
-   * 
-   * @param {string} name Name    * 
+   *
+   * @param {string} name Name    *
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Mutation(() => String)
@@ -40,15 +40,16 @@ export class ApiTokenResolver {
 
   /**
    * Delete API tokens
-   * 
-   * @param {string} name Name 
+   *
+   * @param {string} name Name
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Mutation(() => BaseResult)
   async deleteApiToken(@Arg('name') name: string, @Ctx() ctx: IGraphQLContext) {
     await ctx.services.subscription.deleteApiToken(name, ctx.user.subscription.id)
     return { success: true, error: null }
-  } catch(error) {
+  }
+  catch(error) {
     return {
       success: false,
       error: pick(error, 'name', 'message', 'code', 'statusCode'),

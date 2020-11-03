@@ -1,15 +1,8 @@
 import gql from 'graphql-tag'
 
 export const TIME_ENTRIES = gql`
-  query(
-    $query: TimeEntriesQuery!
-    $forecast: Boolean
-    $sortAsc: Boolean
-  ) {
-    timeentries(query: $query
-      forecast: $forecast
-      sortAsc: $sortAsc
-    ) {
+  query($query: TimeEntriesQuery!, $forecast: Boolean, $sortAsc: Boolean) {
+    timeentries(query: $query, forecast: $forecast, sortAsc: $sortAsc) {
       title
       duration
       startDateTime

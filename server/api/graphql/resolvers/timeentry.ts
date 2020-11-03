@@ -7,7 +7,7 @@ import { TimeEntriesQuery, TimeEntry } from './timeentry.types'
 export class TimeEntryResolver {
   /**
    * Get time entries
-   * 
+   *
    * @param {boolean} currentUser Current user
    * @param {boolean} sortAsc Sort ascending
    * @param {boolean} forecast Forecast
@@ -27,10 +27,7 @@ export class TimeEntryResolver {
       ctx.services.azstorage.getUsers(),
       ctx.services.azstorage.getProjects(),
       ctx.services.azstorage.getCustomers(),
-      ctx.services.azstorage.getTimeEntries(
-        query,
-        { sortAsc, forecast }
-      ),
+      ctx.services.azstorage.getTimeEntries(query, { sortAsc, forecast }),
     ])
     const entries = timeentries.map(entry => {
       let project: any

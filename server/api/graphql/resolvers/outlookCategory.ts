@@ -9,7 +9,7 @@ import { BaseResult, OutlookCategory } from '../types'
 export class OutlookCategoryResolver {
   /**
    * Get Outlook categories
-   * 
+   *
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [OutlookCategory])
@@ -20,7 +20,7 @@ export class OutlookCategoryResolver {
 
   /**
    * Create Outlook category
-   * 
+   *
    * @param {string} category Category
    * @param {IGraphQLContext} ctx GraphQL context
    */

@@ -434,7 +434,7 @@ class AzStorageService {
         monthNumber,
         year,
         hours,
-        forecastedHours
+        forecastedHours,
       },
       resourceId,
       {

@@ -4,32 +4,32 @@ import { ObjectType, Field } from 'type-graphql'
 
 @ObjectType({ description: 'A type that describes a Error' })
 export class Error {
-    @Field()
-    name: string
+  @Field()
+  name: string
 
-    @Field()
-    message: string
+  @Field()
+  message: string
 
-    @Field()
-    code: string
+  @Field()
+  code: string
 
-    @Field()
-    statusCode: string
+  @Field()
+  statusCode: string
 }
 
 @ObjectType({ description: 'A type that describes a BaseResult' })
 export class BaseResult {
-    @Field({ nullable: true, defaultValue: false })
-    success: boolean
+  @Field({ nullable: true, defaultValue: false })
+  success: boolean
 
-    @Field(() => Error, { nullable: true })
-    error: Error
+  @Field(() => Error, { nullable: true })
+  error: Error
 }
 
 @ObjectType({ description: 'A type that describes a EventError' })
 export class EventError {
-    @Field()
-    code: string
+  @Field()
+  code: string
 }
 
 export * from '../resolvers/apiToken.types'

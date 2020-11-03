@@ -8,7 +8,7 @@ import { Role, RoleInput } from './role.types'
 export class RoleResolver {
   /**
    * Get roles
-   * 
+   *
    * @param {IGraphQLContext} ctx GraphQL context
    */
   @Query(() => [Role])
@@ -18,7 +18,7 @@ export class RoleResolver {
 
   /**
    * Add or update role
-   * 
+   *
    * @param {RoleInput} role Role
    * @param {boolean} update Update
    * @param {IGraphQLContext} ctx GraphQL context

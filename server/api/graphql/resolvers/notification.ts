@@ -8,12 +8,12 @@ import unconfirmedPeriods from './notification.unconfirmed-periods'
 @Resolver(Notification)
 export class NotificationResolver {
   /**
-  * Get notifications
-  *
-  * @param {NotificationTemplates} templates Templates
-  * @param {string} locale Locale
-  * @param {IGraphQLContext} ctx GraphQL context
-  */
+   * Get notifications
+   *
+   * @param {NotificationTemplates} templates Templates
+   * @param {string} locale Locale
+   * @param {IGraphQLContext} ctx GraphQL context
+   */
   @Query(() => [Notification])
   async notifications(
     @Arg('templates', () => NotificationTemplates) templates: NotificationTemplates,

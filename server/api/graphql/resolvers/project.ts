@@ -8,7 +8,7 @@ import { connectEntities } from './project.utils'
 export class ProjectResolver {
   /**
    * Get projects
-   * 
+   *
    * @param {string} customerKey Customer key
    * @param {string} sortBy Sort by
    * @param {IGraphQLContext} ctx GraphQL context
@@ -33,7 +33,7 @@ export class ProjectResolver {
 
   /**
    * Create or update project
-   * 
+   *
    * @param {ProjectInput} project Project
    * @param {boolean} update Update
    * @param {IGraphQLContext} ctx GraphQL context
