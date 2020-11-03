@@ -162,7 +162,7 @@ export default new (class DateUtils {
   getTimespanString(
     start: moment.Moment,
     end: moment.Moment,
-    options: object = {
+    options: Record<string, any> = {
       monthFormat: 'MMMM',
       yearFormat: 'YYYY',
       hideYear: false,
@@ -171,7 +171,7 @@ export default new (class DateUtils {
   ): string {
     return start
       .locale(this._momentLocale)
-      ['twix'](end.locale(this._momentLocale), { allDay: true })
+    ['twix'](end.locale(this._momentLocale), { allDay: true })
       .format(options)
       .toLowerCase()
   }
