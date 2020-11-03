@@ -258,13 +258,7 @@ export class TimesheetPeriod {
   /**
    * Get data for the period
    *
-   * @returns
-   * * {string} id
-   * * {string} startDateTime
-   * * {string} endDateTime
-   * * {ITimesheetPeriodMatchedEvent[]} matchedEvents
-   * * {boolean} forecast
-   * * {number} forecastedHours
+   * @returns {ITimesheetPeriodData} Data for the period
    */
   public get data(): ITimesheetPeriodData {
     if (!this.isLoaded) return null
@@ -274,6 +268,7 @@ export class TimesheetPeriod {
       endDateTime: this._endDateTime.toISOString(),
       matchedEvents: this.matchedEvents,
       forecastedHours: this.forecastedHours,
+      hours: null,
     }
   }
 

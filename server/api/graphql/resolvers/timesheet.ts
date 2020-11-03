@@ -178,9 +178,9 @@ async function submitPeriod(_obj: any, variables: ISubmitPeriodVariables, ctx: I
       period.hours = await ctx.services.azstorage.addTimeEntries(pick(period, 'id'), ctx.user, timeentries, forecast)
     }
     if (forecast) {
-      await ctx.services.azstorage.addForecastedPeriod(pick(period, 'id', 'hours'), ctx.user.id)
+      await ctx.services.azstorage.addForecastedPeriod(period, ctx.user.id)
     } else {
-      await ctx.services.azstorage.addConfirmedPeriod(pick(period, 'id', 'hours', 'forecastedHours'), ctx.user.id)
+      await ctx.services.azstorage.addConfirmedPeriod(period, ctx.user.id)
     }
     return { success: true, error: null }
   } catch (error) {
