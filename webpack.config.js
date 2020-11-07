@@ -66,7 +66,7 @@ const config = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-modules-typescript-loader' },
-          { loader: 'css-loader', options: { modules: true } },
+          { loader: 'css-loader', options: { modules: { auto: true } } },
           { loader: 'sass-loader' },
         ],
       },
@@ -117,7 +117,7 @@ const config = {
 if (IS_DEVELOPMENT) {
   config.stats = 'normal'
   config.watch = true
-  config.watchOptions = { aggregateTimeout: 1000 }
+  config.watchOptions = { aggregateTimeout: 250 }
   config.plugins.push(
     new LiveReloadPlugin(),
     new WebpackBuildNotifierPlugin({

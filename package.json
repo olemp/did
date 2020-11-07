@@ -91,6 +91,7 @@
     "office-ui-fabric-react": "7.106.3",
     "passport": "0.4.1",
     "passport-azure-ad": "4.2.1",
+    "randomcolor": "^0.6.2",
     "react": "16.13.1",
     "react-color": "2.19.3",
     "react-device-detect": "1.14.0",
@@ -126,6 +127,7 @@
     "with-default-props": "0.2.1"
   },
   "devDependencies": {
+    "@types/randomcolor": "^0.5.5",
     "@types/set-value": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "4.6.1",
     "@typescript-eslint/parser": "4.6.1",
