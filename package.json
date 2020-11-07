@@ -137,9 +137,8 @@
     "mocha": "7.1.2",
     "open": "7.2.1",
     "prettier": "^2.1.1",
-    "rimraf": "3.0.2",
-    "ts-node-dev": "1.0.0",
     "webpack-build-notifier": "2.1.0",
+    "webpack-bundle-analyzer": "4.1.0",
     "webpack-livereload-plugin": "2.3.0"
   },
   "resolutions": {
