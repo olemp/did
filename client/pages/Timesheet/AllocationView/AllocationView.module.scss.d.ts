@@ -2,8 +2,13 @@
 // Please do not change this file!
 interface CssExports {
   'chart': string;
+  'chartContainer': string;
   'root': string;
+  'subTitle': string;
+  'summary': string;
   'title': string;
+  'tooltip': string;
+  'value': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
