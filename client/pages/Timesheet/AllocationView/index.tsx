@@ -1,49 +1,20 @@
 
+import { UserMessage } from 'components'
 import { getValue as getValue } from 'helpers'
 import color from 'randomcolor'
-import React, { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 import FadeIn from 'react-fade-in'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, Cell, Tooltip, TooltipProps, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
 import { EventObject } from 'types'
-import { find, first } from 'underscore'
+import { find } from 'underscore'
 import { truncateString } from 'utils/truncateString'
 import { TimesheetContext } from '../context'
 import styles from './AllocationView.module.scss'
-import { IChartConfig, IChartItem } from './types'
 import './Theme.scss'
-import { UserMessage } from 'components'
+import { IChartConfig, IChartItem } from './types'
 
-/**
- * Calculates durations based on key
- * 
- * @param {EventObject[]} events Events
- * @param {IChartConfig} chart Chart
- */
-function getData<T>(events: EventObject[], chart: IChartConfig): IChartItem<T>[] {
-    const items = events.reduce((_items, entry) => {
-        const data = getValue(entry, chart.key, null)
-        if (!data) return _items
-        const item = find(_items, ({ id }) => id === data[chart.idKey])
-        if (item) item.value += getValue(entry, chart.valueKey)
-        else {
-            _items.push({
-                id: data[chart.idKey],
-                chart,
-                data,
-                value: getValue(entry, chart.valueKey)
-            })
-        }
-        return _items
-    }, [])
-    return items.map(i => ({
-        ...i,
-        label: truncateString(i.data[chart.textKey], 15),
-        value: parseFloat(i.value.toFixed(1))
-    }))
-}
-
-export const AllocationView = (): JSX.Element => {
+export const AllocationView = (getData: (events: EventObject[], chart: IChartConfig) => IChartItem<any>[]) => (): JSX.Element => {
     const { t } = useTranslation()
     const { selectedPeriod } = useContext(TimesheetContext)
 
@@ -97,7 +68,9 @@ export const AllocationView = (): JSX.Element => {
     ]
 
     return (
-        <div className={styles.root} key={selectedPeriod.id}>
+        <div
+            key={`allocation_${selectedPeriod.id}`}
+            className={styles.root}>
             {charts.map((c) => {
                 const data = getData(selectedPeriod.events, c)
                 return (
@@ -141,3 +114,17 @@ export const AllocationView = (): JSX.Element => {
         </div>
     )
 }
+
+
+export default AllocationView((events: EventObject[], chart: IChartConfig) => {
+    const items = events.reduce((_items, entry) => {
+        const data = getValue(entry, chart.key, null)
+        if (!data) return _items
+        const item = find(_items, ({ id }) => id === data[chart.idKey])
+        const value = getValue(entry, chart.valueKey)
+        if (item) item.value += value
+        else _items.push({ id: data[chart.idKey], chart, data, value })
+        return _items
+    }, [])
+    return items.map(i => ({ ...i, label: truncateString(i.data[chart.textKey], 15), value: parseFloat(i.value.toFixed(1)) }))
+})

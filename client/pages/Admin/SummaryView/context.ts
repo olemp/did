@@ -1,6 +1,6 @@
 import { TFunction } from 'i18next'
 import { IColumn } from 'office-ui-fabric-react/lib/DetailsList'
-import { IContextualMenuItem, } from 'office-ui-fabric-react/lib/ContextualMenu'
+import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu'
 import { IPivotItemProps } from 'office-ui-fabric-react/lib/Pivot'
 import { SummaryViewAction } from './reducer'
 import { ISummaryViewRow, ISummaryViewScope, ISummaryViewState } from './types'
