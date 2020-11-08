@@ -3,41 +3,22 @@ import { UserMessage } from 'components'
 import { getValue as getValue } from 'helpers'
 import color from 'randomcolor'
 import React, { useContext } from 'react'
-import FadeIn from 'react-fade-in'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { EventObject } from 'types'
 import { find } from 'underscore'
 import { truncateString } from 'utils/truncateString'
 import { TimesheetContext } from '../context'
 import styles from './AllocationView.module.scss'
+import { CustomTooltip } from './CustomTooltip'
 import './Theme.scss'
 import { IChartConfig, IChartItem } from './types'
 
 export const AllocationView = (getData: (events: EventObject[], chart: IChartConfig) => IChartItem<any>[]) => (): JSX.Element => {
     const { t } = useTranslation()
-    const { selectedPeriod } = useContext(TimesheetContext)
+    const {loading, selectedPeriod } = useContext(TimesheetContext)
 
-    /**
-     * Render tooltip
-     * 
-     * @param {TooltipProps} props Properties
-     * @param {IChartConfig} chart Chart config
-     */
-    const renderTooltip = (props: TooltipProps, chart: IChartConfig) => {
-        const { data, value } = getValue<any>(props, 'payload.0.payload.data', {})
-        if (!data) return null
-        return (
-            <FadeIn className={styles.tooltip}>
-                <div className={styles.text}>{getValue(data, chart.textKey)}</div>
-                {chart.subTextKey && <div className={styles.subText}>{getValue(data, chart.subTextKey, '')}</div>}
-                <p className={styles.summary}>{data.description}</p>
-                <p className={styles.value}>{value} {chart.valuePostfix}</p>
-            </FadeIn>
-        )
-    }
-
-    if (selectedPeriod.totalDuration === 0) {
+    if (!loading && selectedPeriod.totalDuration === 0) {
         return (
             <div className={styles.root}>
                 <UserMessage text={'No data to show for the selected period.'} />
@@ -89,7 +70,7 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
                                         angle: -90,
                                         position: 'insideLeft'
                                     }} />
-                                <Tooltip content={({ payload }) => renderTooltip(payload, c)} />
+                                <Tooltip content={({ payload }) => <CustomTooltip item={payload} chart={c}  />} />
                                 <Bar
                                     dataKey='value'
                                     animationEasing='ease-in-out'
@@ -115,8 +96,8 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
     )
 }
 
-
-export default AllocationView((events: EventObject[], chart: IChartConfig) => {
+export default AllocationView(
+    (events: EventObject[], chart: IChartConfig) => {
     const items = events.reduce((_items, entry) => {
         const data = getValue(entry, chart.key, null)
         if (!data) return _items
@@ -127,4 +108,5 @@ export default AllocationView((events: EventObject[], chart: IChartConfig) => {
         return _items
     }, [])
     return items.map(i => ({ ...i, label: truncateString(i.data[chart.textKey], 15), value: parseFloat(i.value.toFixed(1)) }))
-})
+}
+)

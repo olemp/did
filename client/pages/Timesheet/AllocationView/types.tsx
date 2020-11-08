@@ -1,3 +1,4 @@
+import { TooltipProps } from 'recharts'
 
 export interface IChartConfig {
     key: string;
@@ -15,4 +16,9 @@ export interface IChartItem<T> {
     label: string;
     data: T;
     value: number;
+}
+
+export interface ICustomTooltipProps {
+    item:TooltipProps;
+    chart: IChartConfig
 }

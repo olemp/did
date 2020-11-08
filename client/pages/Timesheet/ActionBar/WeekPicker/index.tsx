@@ -63,3 +63,6 @@ export const WeekPicker = () => {
         </>
     )
 }
+
+
+export {default as weekPickerCommand} from './weekPickerCommand'
