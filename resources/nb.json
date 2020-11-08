@@ -9,8 +9,6 @@
     "overviewHeaderText": "Oversikt",
     "summaryHeaderText": "Sammendrag",
     "allocationHeaderText": "Allokering",
-    "projectChartTitle": "Prosjekterer",
-    "customerChartTitle": "Kunder",
     "confirmHoursText": "Bekreft timer",
     "unconfirmHoursText": "Angre bekreft timer",
     "goToCurrentWeek": "Gå til inneværende uke",
@@ -50,8 +48,11 @@
     "unforecastHoursSecondaryText": "Fjern prognosen for uken",
     "unconfirmHoursSecondaryText": "Bekreft gjeldende uke",
     "allocation": {
-      "customer": "Kunder",
-      "project": "Prosjekter"
+      "customerChartTitle": "Kunder",
+      "projectChartTitle": "Prosjekter",
+      "noDataText": "Ingen data å vise for den valgte perioden.",
+      "customerChartDescription": "Viser allokering per kunde for perioden",
+      "projectChartDescription": "Viser allokering per prosjekt for perioden"
     }
   },
   "projects": {

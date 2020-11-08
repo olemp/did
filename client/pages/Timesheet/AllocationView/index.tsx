@@ -16,12 +16,12 @@ import { IChartConfig, IChartItem } from './types'
 
 export const AllocationView = (getData: (events: EventObject[], chart: IChartConfig) => IChartItem<any>[]) => (): JSX.Element => {
     const { t } = useTranslation()
-    const {loading, selectedPeriod } = useContext(TimesheetContext)
+    const { loading, selectedPeriod } = useContext(TimesheetContext)
 
     if (!loading && selectedPeriod.totalDuration === 0) {
         return (
             <div className={styles.root}>
-                <UserMessage text={'No data to show for the selected period.'} />
+                <UserMessage text={t('timesheet.allocation.noDataText')} />
             </div>
         )
     }
@@ -29,7 +29,8 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
     const charts: IChartConfig[] = [
         {
             key: 'project',
-            title: t('timesheet.allocation.project'),
+            title: t('timesheet.allocation.projectChartTitle'),
+            subTitle: t('timesheet.allocation.projectChartDescription'),
             colors: 'light',
             idKey: 'name',
             valueKey: 'duration',
@@ -39,7 +40,8 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
         },
         {
             key: 'customer',
-            title: t('timesheet.allocation.customer'),
+            title: t('timesheet.allocation.customerChartTitle'),
+            subTitle: t('timesheet.allocation.customerChartDescription'),
             colors: 'light',
             idKey: 'name',
             valueKey: 'duration',
@@ -59,10 +61,11 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
                         key={c.key}
                         className={styles.chartContainer}>
                         <div className={styles.title}>{c.title}</div>
+                        <div className={styles.subTitle}>{c.subTitle}</div>
                         <ResponsiveContainer width='100%' height={450}>
                             <BarChart
                                 className={styles.chart}
-                                data={[...data]}>
+                                data={[...getData(selectedPeriod.events, c)]}>
                                 <XAxis interval={0} dataKey='label' />
                                 <YAxis
                                     label={{
@@ -70,7 +73,7 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
                                         angle: -90,
                                         position: 'insideLeft'
                                     }} />
-                                <Tooltip content={({ payload }) => <CustomTooltip item={payload} chart={c}  />} />
+                                <Tooltip content={({ payload }) => <CustomTooltip item={payload} chart={c} />} />
                                 <Bar
                                     dataKey='value'
                                     animationEasing='ease-in-out'
@@ -98,15 +101,15 @@ export const AllocationView = (getData: (events: EventObject[], chart: IChartCon
 
 export default AllocationView(
     (events: EventObject[], chart: IChartConfig) => {
-    const items = events.reduce((_items, entry) => {
-        const data = getValue(entry, chart.key, null)
-        if (!data) return _items
-        const item = find(_items, ({ id }) => id === data[chart.idKey])
-        const value = getValue(entry, chart.valueKey)
-        if (item) item.value += value
-        else _items.push({ id: data[chart.idKey], chart, data, value })
-        return _items
-    }, [])
-    return items.map(i => ({ ...i, label: truncateString(i.data[chart.textKey], 15), value: parseFloat(i.value.toFixed(1)) }))
-}
+        const items = events.reduce((_items, entry) => {
+            const data = getValue(entry, chart.key, null)
+            if (!data) return _items
+            const item = find(_items, ({ id }) => id === data[chart.idKey])
+            const value = getValue(entry, chart.valueKey)
+            if (item) item.value += value
+            else _items.push({ id: data[chart.idKey], chart, data, value })
+            return _items
+        }, [])
+        return items.map(i => ({ ...i, label: truncateString(i.data[chart.textKey], 15), value: parseFloat(i.value.toFixed(1)) }))
+    }
 )

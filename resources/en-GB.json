@@ -9,8 +9,6 @@
     "overviewHeaderText": "Overview",
     "summaryHeaderText": "Summary",
     "allocationHeaderText": "Allocation",
-    "projectChartTitle": "Projects",
-    "customerChartTitle": "Customers",
     "confirmHoursText": "Confirm hours",
     "unconfirmHoursText": "Unconfirm hours",
     "goToCurrentWeek": "Go to current week",
@@ -50,8 +48,11 @@
     "unconfirmHoursSecondaryText": "Unconfirm current week",
     "unforecastHoursSecondaryText": "Remove forecast for the week",
     "allocation": {
-      "customer": "Customers",
-      "project": "Projects"
+      "customerChartTitle": "Customers",
+      "projectChartTitle": "Projects",
+      "noDataText": "No data to show for the selected period.",
+      "customerChartDescription": "Shows allocation per customer for the period",
+      "projectChartDescription": "Shows allocation per project for the period"
     }
   },
   "projects": {

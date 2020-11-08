@@ -5,6 +5,7 @@ interface CssExports {
   'chartContainer': string;
   'root': string;
   'subText': string;
+  'subTitle': string;
   'summary': string;
   'text': string;
   'title': string;

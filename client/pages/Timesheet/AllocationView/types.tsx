@@ -3,6 +3,7 @@ import { TooltipProps } from 'recharts'
 export interface IChartConfig {
     key: string;
     title: string;
+    subTitle: string;
     colors: 'bright' | 'light' | 'dark' | 'random';
     idKey: string;
     valueKey: string;
