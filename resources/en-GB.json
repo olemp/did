@@ -9,8 +9,8 @@
     "overviewHeaderText": "Overview",
     "summaryHeaderText": "Summary",
     "allocationHeaderText": "Allocation",
-    "projectChartTitle": "Projects this period",
-    "customerChartTitle": "Customers this period",
+    "projectChartTitle": "Projects",
+    "customerChartTitle": "Customers",
     "confirmHoursText": "Confirm hours",
     "unconfirmHoursText": "Unconfirm hours",
     "goToCurrentWeek": "Go to current week",
@@ -48,7 +48,11 @@
     "confirmHoursSecondaryText": "Confirm the current week",
     "forecastHoursSecondaryText": "Create a forecast for the week",
     "unconfirmHoursSecondaryText": "Unconfirm current week",
-    "unforecastHoursSecondaryText": "Remove forecast for the week"
+    "unforecastHoursSecondaryText": "Remove forecast for the week",
+    "allocation": {
+      "customer": "Customers",
+      "project": "Projects"
+    }
   },
   "projects": {
     "inactiveText": "This project has been marked as inactive.",

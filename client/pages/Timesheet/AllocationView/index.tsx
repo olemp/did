@@ -1,129 +1,141 @@
 
 import { getValue as getValue } from 'helpers'
-import randomColor from 'randomcolor'
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
+import color from 'randomcolor'
+import React, { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import FadeIn from 'react-fade-in'
 import { useTranslation } from 'react-i18next'
-import { Bar, BarChart, Cell, Tooltip, TooltipProps, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, Cell, Tooltip, TooltipProps, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import { EventObject } from 'types'
-import { find } from 'underscore'
+import { find, first } from 'underscore'
 import { truncateString } from 'utils/truncateString'
 import { TimesheetContext } from '../context'
 import styles from './AllocationView.module.scss'
+import { IChartConfig, IChartItem } from './types'
 import './Theme.scss'
+import { UserMessage } from 'components'
 
 /**
- * Calculates durations based on exp
+ * Calculates durations based on key
  * 
  * @param {EventObject[]} events Events
- * @param {string} exp Expression (what to calculate durations based on, e.g. customer.name)
- * 
- * @category Timesheet
+ * @param {IChartConfig} chart Chart
  */
-export const GetAllocation = (events: EventObject[], exp: string): any[] => {
+function getData<T>(events: EventObject[], chart: IChartConfig): IChartItem<T>[] {
     const items = events.reduce((_items, entry) => {
-        const val = getValue(entry, exp, null)
-        if (val) {
-            const item = find(_items, i => i.name === val.name)
-            if (item) item.hours += entry.duration
-            else {
-                _items.push({
-                    ...val,
-                    hours: entry.duration
-                })
-            }
+        const data = getValue(entry, chart.key, null)
+        if (!data) return _items
+        const item = find(_items, ({ id }) => id === data[chart.idKey])
+        if (item) item.value += getValue(entry, chart.valueKey)
+        else {
+            _items.push({
+                id: data[chart.idKey],
+                chart,
+                data,
+                value: getValue(entry, chart.valueKey)
+            })
         }
         return _items
     }, [])
     return items.map(i => ({
         ...i,
-        data: truncateString(i.name, 15),
-        hours: parseFloat(i.hours.toFixed(1))
+        label: truncateString(i.data[chart.textKey], 15),
+        value: parseFloat(i.value.toFixed(1))
     }))
 }
 
-/**
- * Shows allocation charts for a user
- * 
- * @category Timesheet
- */
 export const AllocationView = (): JSX.Element => {
     const { t } = useTranslation()
     const { selectedPeriod } = useContext(TimesheetContext)
-    const [{ width, height }, setDimensions] = useState({ width: 0, height: 0 })
-    const ref = useRef<HTMLDivElement>()
-
-    useLayoutEffect(() => setDimensions({ width: ref.current.clientWidth, height: 400 }), [])
-
-    const charts = {
-        'project': t('timesheet.projectChartTitle'),
-        'customer': t('timesheet.customerChartTitle'),
-    }
-
 
     /**
      * Render tooltip
      * 
      * @param {TooltipProps} props Properties
+     * @param {IChartConfig} chart Chart config
      */
-    const renderTooltip = (props: TooltipProps) => {
-        const data = getValue(props, 'payload.0.payload')
+    const renderTooltip = (props: TooltipProps, chart: IChartConfig) => {
+        const { data, value } = getValue<any>(props, 'payload.0.payload.data', {})
         if (!data) return null
-
         return (
-            <FadeIn delay={150} transitionDuration={300} className={styles.tooltip}>
-                <div className={styles.title}>{data.name}</div>
-                {data.__typename === 'Project' && <div className={styles.subTitle}>for {data.customer.name}</div>}
+            <FadeIn className={styles.tooltip}>
+                <div className={styles.text}>{getValue(data, chart.textKey)}</div>
+                {chart.subTextKey && <div className={styles.subText}>{getValue(data, chart.subTextKey, '')}</div>}
                 <p className={styles.summary}>{data.description}</p>
-                <p className={styles.value}>{data.hours} {t('common.hours')}</p>
+                <p className={styles.value}>{value} {chart.valuePostfix}</p>
             </FadeIn>
         )
     }
 
+    if (selectedPeriod.totalDuration === 0) {
+        return (
+            <div className={styles.root}>
+                <UserMessage text={'No data to show for the selected period.'} />
+            </div>
+        )
+    }
+
+    const charts: IChartConfig[] = [
+        {
+            key: 'project',
+            title: t('timesheet.allocation.project'),
+            colors: 'light',
+            idKey: 'name',
+            valueKey: 'duration',
+            valuePostfix: t('common.hours'),
+            textKey: 'name',
+            subTextKey: 'customer.name'
+        },
+        {
+            key: 'customer',
+            title: t('timesheet.allocation.customer'),
+            colors: 'light',
+            idKey: 'name',
+            valueKey: 'duration',
+            valuePostfix: t('common.hours'),
+            textKey: 'name'
+        }
+    ]
+
     return (
-        <div className={styles.root} ref={ref}>
-            {Object.keys(charts).map(key => {
-                const title = charts[key]
-                const data = GetAllocation(selectedPeriod.events, key)
+        <div className={styles.root} key={selectedPeriod.id}>
+            {charts.map((c) => {
+                const data = getData(selectedPeriod.events, c)
                 return (
-                    <FadeIn
-                        key={key}
-                        className={styles.chartContainer}
-                        transitionDuration={1600}
-                        delay={200}>
-                        <div className={styles.title}>{title}</div>
-                        <BarChart
-                            className={styles.chart}
-                            width={width}
-                            height={height}
-                            data={data}>
-                            <XAxis
-                                interval={0}
-                                width={150}
-                                dataKey='data' />
-                            <YAxis
-                                label={{
-                                    value: t('common.hours').toString(),
-                                    angle: -90,
-                                    position: 'insideLeft'
-                                }} />
-                            <Tooltip content={renderTooltip} />
-                            <Bar
-                                dataKey='hours'
-                                name={t('common.hours').toString()}>
-                                {
-                                    data.map((entry, index) => (
-                                        <Cell
-                                            key={`cell-${index}`}
-                                            fill={randomColor({
-                                                seed: entry.name,
-                                                luminosity: 'light'
-                                            })} />
-                                    ))
-                                }
-                            </Bar>
-                        </BarChart>
-                    </FadeIn>
+                    <div
+                        key={c.key}
+                        className={styles.chartContainer}>
+                        <div className={styles.title}>{c.title}</div>
+                        <ResponsiveContainer width='100%' height={450}>
+                            <BarChart
+                                className={styles.chart}
+                                data={[...data]}>
+                                <XAxis interval={0} dataKey='label' />
+                                <YAxis
+                                    label={{
+                                        value: t('common.hours').toString(),
+                                        angle: -90,
+                                        position: 'insideLeft'
+                                    }} />
+                                <Tooltip content={({ payload }) => renderTooltip(payload, c)} />
+                                <Bar
+                                    dataKey='value'
+                                    animationEasing='ease-in-out'
+                                    animationDuration={1200}
+                                    name={t('common.hours').toString()}>
+                                    {
+                                        data.map((entry) => (
+                                            <Cell
+                                                key={getValue(entry.data, c.idKey)}
+                                                fill={color({
+                                                    seed: getValue(entry.data, c.textKey),
+                                                    luminosity: c.colors
+                                                })} />
+                                        ))
+                                    }
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 )
             })}
         </div>

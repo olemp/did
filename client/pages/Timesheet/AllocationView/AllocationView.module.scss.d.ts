@@ -4,8 +4,9 @@ interface CssExports {
   'chart': string;
   'chartContainer': string;
   'root': string;
-  'subTitle': string;
+  'subText': string;
   'summary': string;
+  'text': string;
   'title': string;
   'tooltip': string;
   'value': string;
