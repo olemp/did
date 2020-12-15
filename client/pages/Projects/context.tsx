@@ -1,13 +1,12 @@
-import { ApolloQueryResult } from 'apollo-client'
+import { ApolloQueryResult } from '@apollo/client'
+import { AnyAction } from '@reduxjs/toolkit'
 import { createContext } from 'react'
-import { IProject } from 'types/IProject'
-
+import { IProjectsState, ProjectsQueryResult } from './types'
 
 export interface IProjectsContext {
-    outlookCategories: any[];
-    projects: any[];
-    setSelected: React.Dispatch<React.SetStateAction<IProject>>;
-    refetch(variables?: any): Promise<ApolloQueryResult<any>>;
+  state: IProjectsState
+  dispatch: React.Dispatch<AnyAction>
+  refetch(variables?: any): Promise<ApolloQueryResult<ProjectsQueryResult>>
 }
 
 export const ProjectsContext = createContext<IProjectsContext>(null)

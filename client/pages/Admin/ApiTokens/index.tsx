@@ -1,126 +1,89 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
-import { UserMessage } from 'components'
+import { useMutation, useQuery } from '@apollo/client'
+import { useMessage, UserMessage } from 'components'
 import List from 'components/List'
-import { DefaultButton } from 'office-ui-fabric-react/lib/Button'
 import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar'
-import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import React, { useState } from 'react'
+import FadeIn from 'react-fade-in'
 import { useTranslation } from 'react-i18next'
-import { isBlank } from 'underscore.string'
-import { sleep } from 'utils'
-import dateUtils from 'utils/date'
-import ADD_API_TOKEN from './ADD_API_TOKEN'
+import { ApiToken } from 'types'
+import { isNull } from 'underscore'
+import { ApiTokenForm } from './ApiTokenForm'
+import { IApiTokenFormProps } from './ApiTokenForm/types'
 import styles from './ApiTokens.module.scss'
-import DELETE_API_TOKEN from './DELETE_API_TOKEN'
-import GET_API_TOKENS from './GET_API_TOKENS'
-
+import { ApiTokensColumns as columns } from './columns'
+import $deleteApiToken from './deleteApiToken.gql'
+import $tokens from './tokens.gql'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Icon } from 'office-ui-fabric'
 
 export const ApiTokens = () => {
-    const { t } = useTranslation()
-    const [key, setKey] = useState(null)
-    const [name, setName] = useState(null)
-    const [message, setMessage] = useState(null)
-    const [addApiToken, { loading }] = useMutation(ADD_API_TOKEN)
-    const [deleteApiToken] = useMutation(DELETE_API_TOKEN)
-    const { data, refetch } = useQuery(GET_API_TOKENS)
+  const { t } = useTranslation()
+  const [message, setMessage] = useMessage()
+  const [deleteApiToken] = useMutation($deleteApiToken)
+  const { data, refetch } = useQuery($tokens)
+  const [apiKey, setApiKey] = useState(null)
+  const [form, setForm] = useState<IApiTokenFormProps>({ setMessage })
 
-    /**
-     * On add API token
-     */
-    async function onAddApiToken() {
-        const { data } = await addApiToken({ variables: { name } })
-        if (data.key) {
-            setKey(data.key)
-            setMessage({
-                type: MessageBarType.success,
-                children: t('admin.tokenGeneratedText'),
-            })
-            setName(null)
-            refetch()
-            await sleep(10)
-        } else {
-            setMessage({
-                type: MessageBarType.error,
-                text: t('admin.tokenErrorText'),
-            })
-            setName(null)
-            await sleep(5)
-        }
-        setKey(null)
-        setMessage(null)
+  /**
+   * On delete API token
+   *
+   * @param {ApiToken} token The token to dete
+   */
+  async function onDeleteApiToken(token: ApiToken) {
+    await deleteApiToken({ variables: { name: token.name } })
+    setMessage({ type: MessageBarType.info, text: t('admin.tokenDeletedText', token) })
+    refetch()
+  }
+
+  /**
+   * On key added
+   *
+   * @param {string} generatedKey Generated API key
+   */
+  function onKeyAdded(generatedKey: string) {
+    setForm({})
+    if (generatedKey) {
+      setMessage({ text: t('admin.tokenGeneratedText') }, 20000)
+      setApiKey(generatedKey)
     }
+    else setMessage({ type: MessageBarType.error, text: t('admin.tokenErrorText') })
+    refetch()
+  }
 
-    /**
-     * On delete API token
-     * 
-     * @param token The token to dete 
-     */
-    async function onDeleteApiToken(token) {
-        await deleteApiToken({ variables: { name: token.name } })
-        setMessage({
-            type: MessageBarType.info,
-            text: t('admin.tokenDeletedText', { name: token.name }),
-        })
-        setName(null)
-        setKey(null)
-        refetch()
-    }
-
-    return (
-        <div className={styles.root}>
-            <div className={styles.form}>
-                <TextField
-                    placeholder={t('admin.tokenNamePlaceholder')}
-                    value={name}
-                    onChange={(_event, value) => setName(value)} />
-                <DefaultButton
-                    text={t('admin.generateTokenLabel')}
-                    onClick={onAddApiToken}
-                    disabled={loading || !!key || isBlank(name)} />
-            </div>
-            {message && (
-                <UserMessage
-                    className={styles.message}
-                    {...message}
-                    iconName='AzureAPIManagement' />
-            )}
-            <TextField
-                className={styles.field}
-                value={key}
-                multiline={true}
-                disabled={true} />
-            <List
-                columns={[
-                    {
-                        key: 'name',
-                        fieldName: 'name',
-                        name: t('common.nameFieldLabel'),
-                        minWidth: 100,
-                        maxWidth: 250,
-                    },
-                    {
-                        key: 'timestamp',
-                        fieldName: 'timestamp',
-                        name: t('common.createdLabel'),
-                        minWidth: 100,
-                        onRender: (item) => dateUtils.formatDate(item.timestamp, 'LLL')
-                    },
-                    {
-                        key: 'actions',
-                        fieldName: null,
-                        name: '',
-                        minWidth: 150,
-                        onRender: (item) => {
-                            return (
-                                <DefaultButton
-                                    text={t('common.delete')}
-                                    iconProps={{ iconName: 'RecycleBin' }}
-                                    onClick={() => onDeleteApiToken(item)} />
-                            )
-                        }
-                    }
-                ]}
-                items={data?.tokens || []} />
-        </div>
-    )
+  return (
+    <div className={styles.root}>
+      {message && <UserMessage {...message} />}
+      {!isNull(apiKey) && (
+        <FadeIn className={styles.apiKey}>
+          <UserMessage
+            type={MessageBarType.success}
+            iconName='Cloud'>
+            <span className={styles.text}>{apiKey}</span>
+            <span className={styles.copy}>
+              <CopyToClipboard text={apiKey}>
+                <Icon iconName='Copy' />
+              </CopyToClipboard>
+            </span>
+          </UserMessage>
+        </FadeIn>
+      )}
+      <List
+        columns={columns(onDeleteApiToken, t)}
+        items={data?.tokens}
+        commandBar={{
+          items: [
+            {
+              key: 'ADD_NEW_TOKEN',
+              name: t('admin.apiTokens.addNew'),
+              iconProps: { iconName: 'Add' },
+              onClick: () => setForm({ isOpen: true })
+            }
+          ]
+        }}
+      />
+      {form.isOpen && (
+        <ApiTokenForm {...form} onAdded={onKeyAdded} onDismiss={() => setForm({ isOpen: false })} />
+      )}
+    </div>
+  )
 }

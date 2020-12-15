@@ -1,47 +1,44 @@
 import { getIcons } from 'common/icons'
-import { IProject } from 'types'
+import { IPanelProps } from 'office-ui-fabric'
+import { IFormValidation, Project, ProjectOptions } from 'types'
 import { first } from 'underscore'
 
-export interface IProjectFormProps {
-    /**
-     * Name length [min, max]
-     */
-    nameLength?: number[];
+export class ProjectModel {
+  public name: string
+  public projectKey: string
+  public customerKey: string
+  public description: string
+  public inactive: boolean
+  public icon: string
+  public labels: string[]
 
-    /**
-     * Project to edit
-     */
-    edit?: IProject;
-
-    /**
-     * On submitted callback
-     */
-    onSubmitted?: () => void;
+  constructor(project?: Project) {
+    this.name = project?.name || ''
+    this.projectKey = project?.projectKey || ''
+    this.customerKey = project?.customerKey || ''
+    this.description = project?.description || ''
+    this.inactive = project?.inactive || false
+    this.icon = project?.icon || first(getIcons(1))
+    this.labels = project?.labels.map((label) => label.name)
+  }
 }
 
-export class ProjectModel {
-    public key = ''
-    public name = ''
-    public customerKey = ''
-    public description = ''
-    public inactive = false
-    public icon = first(getIcons(1))
-    public labels: string[] = []
-    public createOutlookCategory = false
+export interface IProjectFormProps {
+  /**
+   * Panel props
+   */
+  panel?: IPanelProps
 
-    constructor(project?: IProject) {
-        if (!!project) {
-            this.key = project.key
-            this.name = project.name
-            this.customerKey = project.customerKey
-            this.description = project.description
-            this.inactive = project.inactive
-            this.icon = project.icon
-            this.labels = project.labels.map(label => label.name)
-        } 
-    }
+  /**
+   * Project to edit
+   */
+  edit?: Project
+}
 
-    public clone(): ProjectModel {
-        return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
-    }
+export interface IProjectFormState {
+  model: ProjectModel
+  options: ProjectOptions
+  editMode: boolean
+  projectId?: string
+  validation?: IFormValidation
 }

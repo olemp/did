@@ -1,8 +1,8 @@
-import { IEntityLabel } from 'types/IEntityLabel'
-import { IPanelProps } from 'office-ui-fabric-react/lib/Panel'
+import { LabelObject } from 'types'
+import { IPanelProps } from 'office-ui-fabric'
 
 export interface ILabelFormProps extends IPanelProps {
-    title?: string;
-    label?: IEntityLabel;
-    onSave?: (label: IEntityLabel) => void;
+  title?: string
+  label?: LabelObject
+  onSave?: (label: LabelObject) => void
 }

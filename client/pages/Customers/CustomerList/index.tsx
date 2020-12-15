@@ -1,74 +1,50 @@
-import { CustomerLink } from 'components/CustomerLink'
 import List from 'components/List'
-import { TFunction } from 'i18next'
-import { ICustomer } from 'types/ICustomer'
-import { Checkbox } from 'office-ui-fabric-react/lib/Checkbox'
-import { IColumn } from 'office-ui-fabric-react/lib/DetailsList'
-import { Icon } from 'office-ui-fabric-react/lib/Icon'
-import React, { useEffect, useState } from 'react'
+import { Checkbox, SelectionMode } from 'office-ui-fabric'
+import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { generateColumn as col } from 'utils/generateColumn'
-import { ICustomerListProps } from './ICustomerListProps'
+import { filter, isEmpty } from 'underscore'
+import { CustomersContext } from '../context'
+import { columns } from './columns'
 
-/**
- * Generate column definitions
- * 
- * @category Customers
- */
-export const columns = (t: TFunction): IColumn[] => ([
-    col(
-        'icon',
-        '',
-        { maxWidth: 35, minWidth: 35 },
-        (customer: ICustomer) => {
-            if (customer.inactive) {
-                return (
-                    <Icon
-                        title={t('customers.inactiveText')}
-                        iconName='Warning'
-                        styles={{ root: { fontSize: 16, color: '#ffbf00' } }} />
-                )
-            }
-            return <Icon iconName={customer.icon || 'Page'} styles={{ root: { fontSize: 16 } }} />
-        },
-    ),
-    col('key', t('common.keyFieldLabel'), { maxWidth: 120 }),
-    col(
-        'name',
-        t('common.nameFieldLabel'),
-        { maxWidth: 300 },
-        (customer: ICustomer) => <CustomerLink customer={customer} />
-    ),
-])
+export const CustomerList = () => {
+  const { t } = useTranslation()
+  const { dispatch, state, loading } = useContext(CustomersContext)
+  const [items, setItems] = useState([...state.customers])
+  const [showInactive, setShowInactive] = useState(false)
 
+  useEffect(
+    () => setItems([...state.customers].filter((p) => (showInactive ? true : !p.inactive))),
+    [state.customers, showInactive]
+  )
 
-export const CustomerList = (props: ICustomerListProps) => {
-    const { t } = useTranslation()
-    const [items, setItems] = useState([...props.items])
-    const [showInactive, setShowInactive] = useState(false)
-
-    useEffect(() => setItems([...props.items].filter(p => showInactive ? true : !p.inactive)), [props.items, showInactive])
-
-    return (
-        <List
-            {...props}
-            items={items}
-            columns={columns(t)}
-            selection={props.selection}
-            commandBar={{
-                items: [
-                    {
-                        key: 'TOGGLE_INACTIVE',
-                        onRender: () => (
-                            <Checkbox
-                                styles={{ root: { margin: '6px 0 0 8px' } }}
-                                checked={showInactive}
-                                label={t('common.toggleInactiveText')}
-                                onChange={(_event, checked) => setShowInactive(checked)} />
-                        ),
-                    }
-                ],
-                farItems: []
-            }} />
-    )
+  return (
+    <List
+      searchBox={{ placeholder: t('common.searchPlaceholder') }}
+      selection={{
+        mode: SelectionMode.single,
+        onChanged: (selected) => dispatch({ type: 'SET_SELECTED_CUSTOMER', customer: selected })
+      }}
+      height={state.selected && 400}
+      enableShimmer={loading}
+      items={items}
+      columns={columns(t)}
+      commandBar={{
+        items: [
+          {
+            key: 'TOGGLE_INACTIVE',
+            onRender: () => (
+              <Checkbox
+                styles={{ root: { margin: '6px 0 0 8px' } }}
+                disabled={isEmpty(filter(state.customers, (i) => i.inactive))}
+                checked={showInactive}
+                label={t('common.toggleInactiveText')}
+                onChange={(_event, checked) => setShowInactive(checked)}
+              />
+            )
+          }
+        ],
+        farItems: []
+      }}
+    />
+  )
 }

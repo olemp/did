@@ -2,12 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug Node v.12.9.0",
       "type": "node",
-      "request": "attach",
-      "name": "Node: Nodemon",
-      "processId": "${command:PickProcess}",
-      "restart": false,
-      "protocol": "inspector"
+      "runtimeVersion": "12.19.0",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "args": ["${workspaceRoot}/server/index.ts"],
+      "outFiles": ["${workspaceRoot}/server/**/*.ts"]
     }
   ]
 }

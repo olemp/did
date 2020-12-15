@@ -1,211 +1,110 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { dateAdd, IPnPClientStore, ITypedHash, PnPClientStorage } from '@pnp/common'
 import { TFunction } from 'i18next'
-import { IProject } from 'types/IProject'
-import { ITimeEntry } from 'types/ITimeEntry'
-import { omit, filter } from 'underscore'
-import { isBlank } from 'underscore.string'
-import { capitalize } from 'underscore.string'
-import dateUtils, { moment } from 'utils/date'
-import { ITimesheetParams } from './types'
-
-export interface ITimesheetPeriod {
-  /**
-   * Identifier for the period week_month_year
-   */
-  id: string
-
-  /**
-   * Week number
-   */
-  week: number
-
-  /**
-   * Month string
-   */
-  month: string
-
-  /**
-   * Start date time ISO string
-   */
-  startDateTime: string
-
-  /**
-   * End date time ISO string
-   */
-  endDateTime: string
-
-  /**
-   * Period confirmed
-   */
-  isConfirmed: boolean
-
-  /**
-   * Events
-   */
-  events: ITimeEntry[]
-
-  /**
-   * Is there an active forecast for the period
-   */
-  isForecasted: boolean
-
-  /**
-   * Is the period in the future
-   */
-  isForecast: boolean
-}
-
-export interface ITimesheetPeriodMatchedEvent {
-  id: string
-  projectId: string
-  manualMatch: boolean
-}
-
-export interface ITimesheetPeriodData {
-  id: string
-  startDateTime: string
-  endDateTime: string
-  matchedEvents: ITimesheetPeriodMatchedEvent[]
-  isForecast: boolean
-}
+import {
+  EventInput,
+  EventObject,
+  Project,
+  TimesheetPeriodInput,
+  TimesheetPeriodObject
+} from 'types'
+import { filter, omit } from 'underscore'
+import { BrowserStorage } from 'utils/browserStorage'
+import DateUtils from 'utils/date'
 
 export class TimesheetPeriod {
-  /**
-   * Identifier for the period week_month_year
-   */
   public id: string
-
-  /**
-   * Period confirmed
-   */
-  public isConfirmed?: boolean
-
-  /**
-   * Is there an active forecast for the period
-   */
-  public isForecasted: boolean
-
-  /**
-   * Is the period in the future and available for forecasting
-   */
-  public isForecast: boolean
-
-  /**
-   * Events ignored in UI
-   */
+  private readonly startDate: string
+  private readonly endDate: string
+  public readonly week: number
+  public readonly isConfirmed?: boolean
+  public readonly isForecasted: boolean
+  public readonly isForecast: boolean
+  public readonly forecastedHours: number
+  private readonly month: string
+  private events: EventObject[] = []
   private _uiIgnoredEvents: string[] = []
+  private _uiMatchedEvents: Record<string, Project> = {}
+  private _uiMatchedEventsStorage: BrowserStorage<Record<string, Project>>
+  private _uiIgnoredEventsStorage: BrowserStorage<string[]>
 
   /**
-   * Events matched in UI
-   */
-  private _uiMatchedEvents: ITypedHash<any> = {}
-
-  /**
-   * Month string
-   */
-  private _month?: string
-
-  /**
-   * Start date time moment object
-   */
-  private _startDateTime?: moment.Moment
-
-  /**
-   * End date time moment object
-   */
-  private _endDateTime?: moment.Moment
-
-  /**
-   * Local storage
-   */
-  private _localStorage: IPnPClientStore = new PnPClientStorage().local
-
-  /**
-   * Storage key for events matched in UI
-   */
-  private _uiMatchedEventsStorageKey: string
-
-  /**
-   * Storage key for events ignored in UI
-   */
-  private _uiIgnoredEventsStorageKey: string
-
-  /**
-   * Default expire for storage
-   */
-  private _storageDefaultExpire: Date
-
-  /**
-   * Creates a new instance of TimesheetPeriod
+   * Initializes a new period instance
    *
-   * @param {ITimesheetPeriod} _period Period
-   * @param {ITimesheetPeriod} params Params
+   * @param {TimesheetPeriodObject} period Period
    */
-  constructor(private _period?: ITimesheetPeriod, params?: ITimesheetParams) {
-    if (params) this.id = [params.week, params.month, params.year].filter(p => p).join('_')
-    if (!_period) return
-    this.id = _period.id
-    this._month = capitalize(_period.month)
-    this._startDateTime = moment(_period.startDateTime)
-    this._endDateTime = moment(_period.endDateTime)
-    this.isConfirmed = _period.isConfirmed
-    this.isForecasted = _period.isForecasted
-    this.isForecast = _period.isForecast
-    this._uiMatchedEventsStorageKey = `did365_ui_matched_events_${this.id}`
-    this._uiIgnoredEventsStorageKey = `did365_ui_ignored_events_${this.id}`
-    this._uiIgnoredEvents = this._localStorage.get(this._uiIgnoredEventsStorageKey) || []
-    this._uiMatchedEvents = this._localStorage.get(this._uiMatchedEventsStorageKey) || {}
-    this._storageDefaultExpire = dateAdd(new Date(), 'month', 2)
+  initialize(period: TimesheetPeriodObject) {
+    Object.assign(this, period)
+    this._uiMatchedEventsStorage = new BrowserStorage(`ui_matched_events_${this.id}`, 'local')
+    this._uiIgnoredEventsStorage = new BrowserStorage(`ui_ignored_events_${this.id}`, 'local')
+    this._uiMatchedEvents = this._uiMatchedEventsStorage.get({})
+    this._uiIgnoredEvents = this._uiIgnoredEventsStorage.get([])
+    return this
   }
 
   /**
    * Get name of period
    *
-   * @param {boolean} includeMonth Include month
    * @param {TFunction} t Translate function
+   * @param {boolean} includeMonth Include month
    */
-  public getName(includeMonth: boolean, t: TFunction) {
-    let name = `${t('common.weekLabel')} ${this._period.week}`
-    if (includeMonth) name += ` (${this._month})`
+  public getName(t: TFunction, includeMonth?: boolean) {
+    let name = `${t('common.weekLabel')} ${this.week}`
+    if (includeMonth) name += ` (${this.month})`
     return name
   }
 
   /**
-   * Check manual match
+   * Check manual match in localStorage
    *
-   * @param {ITimeEntry} event Event
+   * If it find a match project/customer and manualMatch is set for the
+   * event
+   *
+   * If the event has manualMatch set, but it cannot be found in localStorage
+   * project/customer is set to null for the event
+   *
+   * @param {EventObject} event Event object
+   *
+   * @returns an extended event object
    */
-  private _checkManualMatch(event: ITimeEntry) {
+  private _checkUiManualMatch(event: EventObject) {
     const manualMatch = this._uiMatchedEvents[event.id]
-    if (event.manualMatch && !manualMatch) {
-      event.manualMatch = false
-      event.project = event.customer = null
-    }
+
     if (!!manualMatch) {
-      event.manualMatch = true
-      event.project = manualMatch
-      event.customer = manualMatch.customer
+      return {
+        ...event,
+        manualMatch: true,
+        project: manualMatch,
+        customer: manualMatch.customer
+      }
+    }
+    if (event.manualMatch && !manualMatch) {
+      return {
+        ...event,
+        manualMatch: false,
+        project: null,
+        customer: null
+      }
     }
     return event
   }
 
   /**
    * Get events
+   *
+   * @param {boolean} includeUnmatched Include unmatched events
    */
-  public get events(): ITimeEntry[] {
-    if (this._period) {
-      return [...this._period.events]
-        .filter(event => !event.isSystemIgnored && this._uiIgnoredEvents.indexOf(event.id) === -1)
-        .map(event => this._checkManualMatch(event))
-    }
-    return []
+  public getEvents(includeUnmatched: boolean = true): EventObject[] {
+    return [...(this.events || [])]
+      .filter((event) => {
+        const isUiIgnored = this._uiIgnoredEvents.indexOf(event.id) !== -1
+        const isMatched = !!event.project
+        return !event.isSystemIgnored && !isUiIgnored && (!includeUnmatched ? isMatched : true)
+      })
+      .map((event) => this._checkUiManualMatch(event))
   }
 
   /**
    * Get ignored events
-   *
-   * @returns An array of event ids
    */
   public get ignoredEvents(): string[] {
     return this._uiIgnoredEvents
@@ -215,22 +114,25 @@ export class TimesheetPeriod {
    * Get aggregated errors from the events in the period
    */
   public get errors(): any[] {
-    if (!this.events) return []
-    return filter(this.events, event => !!event.error).map(event => event.error)
+    if (!this.getEvents) return []
+    return filter(this.getEvents(), (event) => !!event.error).map((event) => event.error)
   }
 
   /**
    * Get total duration of events in the period
    */
   public get totalDuration(): number {
-    return this.events.reduce((sum, event) => (sum += event.duration), 0)
+    return this.getEvents().reduce((sum, event) => (sum += event.duration), 0)
   }
 
   /*
    * Get matched duration for the events in the period
    */
   public get matchedDuration(): number {
-    return filter(this.events, event => !!event.project).reduce((sum, event) => sum + event.duration, 0)
+    return filter(this.getEvents(), (event) => !!event.project).reduce(
+      (sum, event) => sum + event.duration,
+      0
+    )
   }
 
   /**
@@ -244,12 +146,12 @@ export class TimesheetPeriod {
    * Save manual match in browser storage
    *
    * @param {string} eventId Event id
-   * @param {IProject} project Project
+   * @param {Project} project Project
    */
-  public setManualMatch(eventId: string, project: IProject) {
+  public setManualMatch(eventId: string, project: Project) {
     const matches = this._uiMatchedEvents
     matches[eventId] = project
-    this._localStorage.put(this._uiMatchedEventsStorageKey, matches, this._storageDefaultExpire)
+    this._uiMatchedEventsStorage.set(matches)
   }
 
   /**
@@ -259,7 +161,7 @@ export class TimesheetPeriod {
    */
   public clearManualMatch(eventId: string) {
     this._uiMatchedEvents = omit(this._uiMatchedEvents, eventId)
-    this._localStorage.put(this._uiMatchedEventsStorageKey, this._uiMatchedEvents, this._storageDefaultExpire)
+    this._uiMatchedEventsStorage.set(this._uiMatchedEvents)
   }
 
   /**
@@ -269,7 +171,7 @@ export class TimesheetPeriod {
    */
   public ignoreEvent(eventId: string) {
     this._uiIgnoredEvents = [...this._uiIgnoredEvents, eventId]
-    this._localStorage.put(this._uiIgnoredEventsStorageKey, this._uiIgnoredEvents, this._storageDefaultExpire)
+    this._uiIgnoredEventsStorage.set(this._uiIgnoredEvents)
   }
 
   /**
@@ -277,20 +179,20 @@ export class TimesheetPeriod {
    */
   public clearIgnoredEvents() {
     this._uiIgnoredEvents = []
-    this._localStorage.put(this._uiIgnoredEventsStorageKey, this._uiIgnoredEvents, this._storageDefaultExpire)
+    this._uiIgnoredEventsStorage.set(this._uiIgnoredEvents)
   }
 
   /**
-   * Get matched events with properties id, projectId and manualMatch
+   * Get matched events with properties
    */
-  private get matchedEvents(): ITimesheetPeriodMatchedEvent[] {
-    const events = filter([...this.events], event => !!event.project).map(
-      event =>
+  private get matchedEvents(): EventInput[] {
+    const events = filter([...this.getEvents()], (event) => !!event.project).map(
+      (event) =>
         ({
           id: event.id,
           projectId: event.project.id,
-          manualMatch: event.manualMatch,
-        } as ITimesheetPeriodMatchedEvent)
+          manualMatch: event.manualMatch
+        } as EventInput)
     )
     return events
   }
@@ -298,21 +200,15 @@ export class TimesheetPeriod {
   /**
    * Get data for the period
    *
-   * Returns properties
-   * * id
-   * * startDateTime
-   * * endDateTime
-   * * matchedEvents
-   * * forecast
+   * @returns {TimesheetPeriodInput} Data for the period
    */
-  public get data(): ITimesheetPeriodData {
-    if (!this.isLoaded) return null
+  public get data(): TimesheetPeriodInput {
     return {
       id: this.id,
-      startDateTime: this._startDateTime.toISOString(),
-      endDateTime: this._endDateTime.toISOString(),
-      matchedEvents: this.matchedEvents,
-      isForecast: this.isForecast,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      forecastedHours: this.forecastedHours,
+      matchedEvents: this.matchedEvents
     }
   }
 
@@ -321,9 +217,10 @@ export class TimesheetPeriod {
    *
    * @param {string} dayFormat Day format
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public weekdays(dayFormat: string = 'dddd DD'): string[] {
-    if (!this._startDateTime) return []
-    return dateUtils.getDays(this._startDateTime, this._endDateTime, dayFormat)
+    if (!this.startDate) return []
+    return DateUtils.getDays(this.startDate, this.endDate, dayFormat)
   }
 
   /**
@@ -332,28 +229,23 @@ export class TimesheetPeriod {
   public get path(): string {
     return this.id
       .split('_')
-      .filter(p => p)
+      .filter((p) => p)
       .join('/')
   }
 
   /**
    * Period is complete meaning all events are matched
+   *
+   * @returns true if the unmatched duration (unmatchedDuration) is equal to zero (0)
    */
   public get isComplete(): boolean {
     return this.unmatchedDuration === 0
   }
 
   /**
-   * Period is locked when it's either confirmed or forecasted
+   * Period is in the past
    */
-  public get isLocked() {
-    return this.isConfirmed || this.isForecasted
-  }
-
-  /**
-   * Period data is loaded
-   */
-  public get isLoaded() {
-    return !isBlank(this.id)
+  public get isPast(): boolean {
+    return DateUtils.isBefore(this.endDate)
   }
 }

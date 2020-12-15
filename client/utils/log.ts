@@ -1,5 +1,5 @@
-import * as chalk from 'chalk'
-import * as log from 'loglevel'
+import chalk from 'chalk'
+import logger, { LogLevelDesc } from 'loglevel'
 import * as prefix from 'loglevel-plugin-prefix'
 
 const colors = {
@@ -7,22 +7,24 @@ const colors = {
   DEBUG: chalk.cyan,
   INFO: chalk.blue,
   WARN: chalk.yellow,
-  ERROR: chalk.red,
+  ERROR: chalk.red
 }
 
-prefix.reg(log)
-log.enableAll()
+prefix.reg(logger)
+logger.setLevel(process.env.LOG_LEVEL as LogLevelDesc)
 
-prefix.apply(log, {
+prefix.apply(logger, {
   format(level, name, timestamp) {
-    return `${chalk.gray(`[${timestamp}]`)} ${colors[level.toUpperCase()](level)} ${chalk.green(`${name}:`)}`
-  },
+    return `${chalk.gray(`[${timestamp}]`)} ${colors[level.toUpperCase()](level)} ${chalk.green(
+      `${name}:`
+    )}`
+  }
 })
 
-prefix.apply(log.getLogger('critical'), {
+prefix.apply(logger.getLogger('critical'), {
   format(level, name, timestamp) {
     return chalk.red.bold(`[${timestamp}] ${level} ${name}:`)
-  },
+  }
 })
 
-export default log
+export default logger

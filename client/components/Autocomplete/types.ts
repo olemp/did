@@ -1,38 +1,30 @@
-import { ISearchBoxProps } from 'office-ui-fabric-react/lib/SearchBox'
+import { ISearchBoxProps } from 'office-ui-fabric'
+import { ISuggestionItem } from './SuggestionItem/types'
 
-export interface IAutocompleteClassNames {
-  suggestionsCallout?: string
-  suggestionContainer?: string
-  suggestion?: string
-  suggestionValue?: string
-  suggestionIcon?: string
+export type AutocompleteSelectCallback<T = any> = (item: ISuggestionItem<T>) => void
+export type AutocompleteItemIcons = {
+  style: React.CSSProperties
 }
 
-export interface IAutocompleteProps extends ISearchBoxProps {
-  onSelected: (item: ISuggestionItem) => void
-  items?: ISuggestionItem[]
-  searchCallback?: (item: string) => void
-  noSuggestionsText?: string
-  defaultSelectedItem?: ISuggestionItem
-  classNames?: IAutocompleteClassNames
-  showIcons?: boolean
+export interface IAutocompleteProps<T = any> extends ISearchBoxProps {
   label?: string
   description?: string
+  itemIcons?: AutocompleteItemIcons
+  onSelected: AutocompleteSelectCallback<T>
+  items?: ISuggestionItem<T>[]
+  noSuggestionsText?: string
+  defaultSelectedItem?: ISuggestionItem<T>
   errorMessage?: string
+  maxHeight?: number
 }
 
-export interface IAutocompleteState {
-  isSuggestionDisabled: boolean
-  searchText: string
+export interface IAutocompleteState<T = any> {
+  items?: ISuggestionItem<T>[]
+  suggestions?: ISuggestionItem<T>[]
+  isSuggestionDisabled?: boolean
+  value?: string
   selectedItem?: ISuggestionItem
+  selectedIndex?: number
 }
 
-export interface ISuggestionItem<T = any> {
-  key: string | number
-  displayValue: string
-  searchValue: string
-  iconName?: string
-  type?: string
-  tag?: any
-  data?: T
-}
+export * from './SuggestionItem/types'

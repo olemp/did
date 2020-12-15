@@ -1,52 +1,59 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { ApolloProvider } from '@apollo/react-common'
+import { ApolloProvider } from '@apollo/client'
 import { initializeIcons } from '@uifabric/icons'
 import 'core-js/stable'
 import i18n from 'i18next'
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
 import 'regenerator-runtime/runtime.js'
-import { contains } from 'underscore'
-import dateUtils from 'utils/date'
-import { supportedLanguages } from '../resources'
+import { logger } from 'utils'
+import DateUtils from 'utils/date'
 import { App } from './App'
-import { IAppContext } from './AppContext'
-import { client, GET_CURRENT_USER } from './graphql'
+import { ContextUser, IAppContext } from './AppContext'
+import { client, $context } from './graphql'
 import './i18n'
-import './_global.scss'
-
-initializeIcons()
 
 /**
- * Get app context
+ * Bootstrapping the App
+ *
+ * * Retrieves context using GraphQL query GET_CONTEXT
+ * * Sets up i18n with the user language
+ * * Sets up DateUtils with the user language
  */
-const getContext = async (): Promise<IAppContext> => {
-    const context: IAppContext = {
-        error:  JSON.parse(document.getElementById('app').getAttribute('data-error') || '{}')
-    }
+const boostrap = async () => {
+  initializeIcons()
+
+  /**
+   * Get app context
+   */
+  const getContext = async (): Promise<IAppContext> => {
+    const context: IAppContext = {}
     try {
-        const { data } = await client.query({ query: GET_CURRENT_USER })
-        context.user = data?.currentUser
-        let { preferredLanguage } = context.user
-        preferredLanguage = contains(supportedLanguages, preferredLanguage) ? preferredLanguage : 'en-GB'
-        context.user.preferredLanguage = preferredLanguage
-        context.hasPermission = (permissionId: string) => contains(context.user?.role?.permissions, permissionId)
-        return context
+      const { data } = await client.query<Partial<IAppContext>>({
+        query: $context,
+        fetchPolicy: 'cache-first'
+      })
+      context.user = new ContextUser(data.user)
+      context.subscription = data?.subscription
+      return context
     } catch (error) {
-        context.user = { preferredLanguage: 'en-GB' }
-        context.hasPermission = () => false
-        return context
+      // We return an "empty" user with preferred language en-GB (default)
+      return { user: new ContextUser() }
     }
+  }
+
+  const context = await getContext()
+  const container = document.getElementById('app')
+  DateUtils.setup(context.user.language)
+  i18n.changeLanguage(context.user.language)
+
+  logger.info(`App initialized with language ${context.user.language}`)
+
+  ReactDom.render(
+    <ApolloProvider client={client}>
+      <App {...context} />
+    </ApolloProvider>,
+    container
+  )
 }
 
-getContext().then(context => {
-    const container = document.getElementById('app')
-    dateUtils.setup(context.user.preferredLanguage)
-    i18n.changeLanguage(context.user.preferredLanguage)
-
-    ReactDom.render((
-        <ApolloProvider client={client}>
-            <App {...context} />
-        </ApolloProvider>
-    ), container)
-})
+boostrap()

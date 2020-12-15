@@ -4,12 +4,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.8.0 - 15.11.2020 (unreleased)
+## 0.9.0 - 15.12.2020
+### Added
+- Changes to forecast/confirm actions #605
+- Improvements to allocation view in Timesheet #644
+- Forecast notifications #613 (can be turned off in subscription settings #639)
+- Improved forecast/confirm actions #605
+- Automatic Azure Active Directory sync #661
+- Support for API tokens with scoped permissions #635 
+- Export hours from user menu #589
+- Improved project tooltip/panel #678
+- When debugging, local cache is automatically cleared on first run #715
+- Improved project selector #671
+- Support for editing customers #672
+- Resizable columns in Reports #722
+- Added project tooltip to Summary view in Timesheet #677
+- Side panels are now light dismissable #734
+- Project suggestions in timesheet matching now also works for event body #705
 
-## 0.7.0 - 15.10.2020
+### Fixed
+- Timesheet: fixed issue where ignored events were not persisted #730
+- Minor UI adjustments in Timesheet
+- Fixes in matching engine #603
+- Issue with appointments occuring around midnight Sunday #703
+- Lag in customer/project search #686
+- Reports: Current month and year in Reports included entries after today's date #738
+- Reports: Filters would persist when switching reports #733
+- Reports: Current month report bug #710
+- User settings: display language dropdown value would not change after switching language #740
+- Customers: Searching for newly created customers would return zero results #739
+- Fix for 'go to current week'-shortcut #707
+
+### Changed
+- Decreased Project and Customer keys min length to 2 #681
+- Increased Project and Customer keys max length to 12 #719
+
+### Removed
+- Dependency on moment.js removed, now using day.js instead
+
+## 0.8.0 - 15.10.2020
 ### Added
 - Did now supports forecasting #355
-- Better mobile navigation with descriptive labels #539,#588
+- Better mobile navigation with descriptive labels #539, #588
 - We now have custom error pages #502
 - Better error messages #579
 - Showing aggregated hours per group in Reports #541
@@ -22,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Could not open week picker in Timesheet under certain conditions #558
 - Did now properly matches ÆØÅ in customer and project keys #550
 
-## 0.6.0 - 09.09.2020
+## 0.7.0 - 09.09.2020
 ### Added
 - Rebrand to just "Did" #412
 - Improved reports landing page #505
@@ -36,6 +72,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed soft match functionality (matching without (), [], {}) #489
 - Customer entries with leading/trailing spaces are un-matchable #426
+
+## 0.6.0 - N/A
+Need details.
 
 ## 0.5.0 - 22.5.2020
 

@@ -1,4 +1,8 @@
 module.exports = {
+  env: {
+    'browser': true,
+    'node': true
+  },
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   extends: [
     'prettier',
@@ -24,11 +28,15 @@ module.exports = {
 
     '@typescript-eslint/member-delimiter-style': 0,
 
+    '@typescript-eslint/explicit-function-return-type': 0,
+
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+
+    '@typescript-eslint/no-inferrable-types': 0,
+
     'react/prop-types': 0,
 
     'no-inferrable-types': 0,
-
-    '@typescript-eslint/explicit-function-return-type': 0,
 
     'react/display-name': 0,
 
@@ -51,6 +59,8 @@ module.exports = {
     'require-await': 1,
 
     semi: ['error', 'never', {}],
+
+    'default-case': 0
   },
   settings: {
     react: {
