@@ -36,15 +36,7 @@ interface IDateUtils {
 export type DateInput = ConfigType
 
 export class DateUtils {
-  constructor(private $: IDateUtils) { }
-
-  /**
-   * Setup DateUtils class using @dayjs with @plugins
-   *
-   * @param {string} locale Locale
-   */
-  public setup(locale: string) {
-    $dayjs.locale(locale)
+  constructor(private $: IDateUtils) {
     $dayjs.extend<PluginFunc>(weekOfYearPlugin)
     $dayjs.extend<PluginFunc>(localeDataPlugin)
     $dayjs.extend<PluginFunc>(durationPlugin)
@@ -54,6 +46,15 @@ export class DateUtils {
     $dayjs.extend<PluginFunc>(isoWeekPlugin)
     $dayjs.extend<PluginFunc>(isoWeeksInYear)
     $dayjs.extend<PluginFunc>(isLeapYear)
+  }
+
+  /**
+   * Setup DateUtils class using @dayjs with @plugins
+   *
+   * @param {string} locale Locale
+   */
+  public setup(locale: string) {
+    $dayjs.locale(locale)
   }
 
   /**
@@ -169,7 +170,6 @@ export class DateUtils {
    * @param {DateInput} date Optional date
    */
   public getWeek(date?: DateInput): number {
-    console.log(date)
     return $dayjs(date).isoWeek()
   }
 

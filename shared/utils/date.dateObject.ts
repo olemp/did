@@ -163,9 +163,9 @@ export class DateObject {
    */
   toObject(...include: string[]) {
     const obj = {
-      weekNumber: this.$.isoWeek(),
-      monthNumber: this.$.month() + 1,
-      year: this.$.year(),
+      weekNumber: DateUtils.getWeek(this.$),
+      monthNumber: DateUtils.getMonthIndex(this.$),
+      year: DateUtils.getYear(this.$),
       monthName: this.format('MMMM')
     }
     return isEmpty(include) ? obj : pick(obj, ...include)
