@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next'
 import { omit } from 'underscore'
 import { capitalize } from 'underscore.string'
-import { DateObject } from 'utils/date'
+import { DateObject } from 'DateUtils'
 import { IReportsQuery } from './types'
 
 /**
