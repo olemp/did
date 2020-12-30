@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
 import { contains, filter, find, isEmpty, pick } from 'underscore'
-import { formatDate } from '../../../utils/date'
+import DateUtils from '../../../../shared/utils/date'
 import { AzStorageService, AzTimeEntry, MSGraphService } from '../../services'
 import { IAuthOptions } from '../authChecker'
 import { Context } from '../context'
@@ -32,7 +32,7 @@ export class TimesheetResolver {
   constructor(
     private readonly _azstorage: AzStorageService,
     private readonly _msgraph: MSGraphService
-  ) {}
+  ) { }
 
   /**
    * Get timesheet
@@ -51,7 +51,11 @@ export class TimesheetResolver {
     @Ctx() ctx: Context
   ) {
     try {
-      const periods = getPeriods(query.startDate, query.endDate, options.locale)
+      const periods = getPeriods(
+        query.startDate,
+        query.endDate,
+        options.locale
+      )
       // eslint-disable-next-line prefer-const
       let [projects, customers, timeentries, labels] = await Promise.all([
         this._azstorage.getProjects(),
@@ -96,7 +100,7 @@ export class TimesheetResolver {
         }
         period.events = period.events.map((evt) => ({
           ...evt,
-          date: formatDate(evt.startDateTime, options.dateFormat, options.locale)
+          date: DateUtils.formatDate(evt.startDateTime, options.dateFormat, options.locale)
         }))
       }
       return periods

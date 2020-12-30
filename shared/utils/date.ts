@@ -297,7 +297,7 @@ export class DateUtils {
    */
   public getPeriod(dateTime: ConfigType): string {
     const date = $dayjs(dateTime)
-    return [0, date.month() + 1, date.year()].join('_')
+    return [date.isoWeek(), date.month() + 1, date.year()].join('_')
   }
 
   /**
