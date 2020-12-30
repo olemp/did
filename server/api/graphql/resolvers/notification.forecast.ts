@@ -1,4 +1,4 @@
-import * as utils from '../../../utils/date'
+import DateUtils, { DateObject } from '../../../../shared/utils/date'
 import format from 'string-format'
 import { getPeriods } from './timesheet.utils'
 import get from 'get-value'
@@ -26,23 +26,30 @@ export default async function (
   locale: string
 ) {
   if (!get(ctx, 'subscription.settings.forecast.enabled', { default: false })) return []
-  const currentWeek = utils.getWeek()
   const periods = []
   const unforecastedPeriods = []
+  let currentDate = new DateObject().add('1w')
 
   for (
     let i = 1;
     i <= get(ctx, 'subscription.settings.forecast.notifications', { default: 2 });
     i++
   ) {
+    const start = currentDate.startOfWeek.format('YYYY-MM-DD')
+    const end = currentDate.endOfWeek.format('YYYY-MM-DD')
     periods.push(
-      ...getPeriods(utils.startOfWeek(currentWeek + i), utils.endOfWeek(currentWeek + i), locale)
+      ...getPeriods(
+        start,
+        end,
+        locale
+      )
     )
+    currentDate = currentDate.add('1w')
   }
 
   const forecastedPeriods = await azstorage.getForecastedPeriods({
     resourceId: ctx.userId,
-    year: utils.getYear()
+    year: DateUtils.getYear()
   })
 
   periods.forEach((period) => {

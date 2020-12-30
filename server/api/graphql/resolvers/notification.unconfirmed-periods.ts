@@ -1,4 +1,4 @@
-import * as utils from '../../../utils/date'
+import DateUtils from '../../../../shared/utils/date'
 import { find } from 'underscore'
 import format from 'string-format'
 import { getPeriods } from './timesheet.utils'
@@ -19,19 +19,24 @@ export default async function (
   template: string,
   locale: string
 ) {
-  const currentWeek = utils.getWeek()
+  return []
+  const currentWeek = DateUtils.getWeek()
   const periods = []
   const unconfirmedPeriods = []
 
   for (let i = 5; i > 0; i--) {
-    periods.push(
-      ...getPeriods(utils.startOfWeek(currentWeek - i), utils.endOfWeek(currentWeek - i), locale)
-    )
+    // periods.push(
+    //   ...getPeriods(
+    //     DateUtils.startOfWeek(currentWeek - i),
+    //     DateUtils.endOfWeek(currentWeek - i),
+    //     locale
+    //   )
+    // )
   }
 
   const confirmedPeriods = (await azstorage.getConfirmedPeriods({
     resourceId: ctx.userId,
-    year: utils.getYear()
+    year: DateUtils.getYear()
   })) as any[]
 
   periods.forEach((period) => {
