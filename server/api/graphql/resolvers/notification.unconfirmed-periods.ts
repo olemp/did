@@ -1,4 +1,4 @@
-import DateUtils from '../../../../shared/utils/date'
+import DateUtils, { DateObject } from '../../../../shared/utils/date'
 import { find } from 'underscore'
 import format from 'string-format'
 import { getPeriods } from './timesheet.utils'
@@ -19,19 +19,21 @@ export default async function (
   template: string,
   locale: string
 ) {
-  return []
-  const currentWeek = DateUtils.getWeek()
   const periods = []
   const unconfirmedPeriods = []
+  let currentDate = new DateObject().add('-1w')
 
-  for (let i = 5; i > 0; i--) {
-    // periods.push(
-    //   ...getPeriods(
-    //     DateUtils.startOfWeek(currentWeek - i),
-    //     DateUtils.endOfWeek(currentWeek - i),
-    //     locale
-    //   )
-    // )
+  for (let i = 0; i <= 5; i++) {
+    const startOfWeek = currentDate.startOfWeek.format('YYYY-MM-DD')
+    const endOfWeek = currentDate.endOfWeek.format('YYYY-MM-DD')
+    periods.push(
+      ...getPeriods(
+        startOfWeek,
+        endOfWeek,
+        locale
+      )
+    )
+    currentDate = currentDate.add('-1w')
   }
 
   const confirmedPeriods = (await azstorage.getConfirmedPeriods({

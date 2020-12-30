@@ -35,12 +35,12 @@ export default async function (
     i <= get(ctx, 'subscription.settings.forecast.notifications', { default: 2 });
     i++
   ) {
-    const start = currentDate.startOfWeek.format('YYYY-MM-DD')
-    const end = currentDate.endOfWeek.format('YYYY-MM-DD')
+    const startOfWeek = currentDate.startOfWeek.format('YYYY-MM-DD')
+    const endOfWeek = currentDate.endOfWeek.format('YYYY-MM-DD')
     periods.push(
       ...getPeriods(
-        start,
-        end,
+        startOfWeek,
+        endOfWeek,
         locale
       )
     )
