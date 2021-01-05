@@ -74,14 +74,14 @@ export class DateUtils {
   }
 
   /**
- * Get the formatted date according to the string of tokens passed in.
- *
- * To escape characters, wrap them in square brackets (e.g. [MM]).
- *
- * @param {ConfigType} dateTime Date
- * @param {string} template Date format
- * @param {string} locale Locale
- */
+   * Get the formatted date according to the string of tokens passed in.
+   *
+   * To escape characters, wrap them in square brackets (e.g. [MM]).
+   *
+   * @param {ConfigType} dateTime Date
+   * @param {string} template Date format
+   * @param {string} locale Locale
+   */
   formatDate(dateTime: ConfigType, template: string, locale?: string): string {
     if (locale) return $dayjs(dateTime).locale(locale).format(template)
     return $dayjs(dateTime).format(template)
@@ -248,10 +248,9 @@ export class DateUtils {
    *
    * @param {ConfigType} startDateTime Start time
    * @param {ConfigType} endDateTime End time
-   * @param {number} fractionDigits Fraction digits
    */
-  public getDurationHours(startDateTime: ConfigType, endDateTime: ConfigType, fractionDigits: number = 2): number {
-    return parseFloat(($dayjs(endDateTime).diff(startDateTime, 'minute') / 60).toFixed(fractionDigits))
+  getDurationHours(startDateTime: ConfigType, endDateTime: ConfigType): number {
+    return $dayjs(endDateTime).diff(startDateTime, 'minute') / 60
   }
 
   /**
@@ -259,9 +258,9 @@ export class DateUtils {
    *
    * @param {ConfigType} dateTime Date
    * @param {number} tzOffset Offset in minutes
-  */
-  public toISOString(dateTime: ConfigType, tzOffset: number) {
-    return $dayjs(`${dateTime} ${this._getTimezone(tzOffset)}`).toISOString()
+   */
+  toISOString(dateTime: ConfigType, tzOffset: number) {
+    return $dayjs(`${dateTime} ${this.getTimezone(tzOffset)}`).toISOString()
   }
 
   /**
@@ -271,7 +270,7 @@ export class DateUtils {
    *
    * @param {number} tzOffset Offset in minutes
    */
-  private _getTimezone(tzOffset: number) {
+  getTimezone(tzOffset: number) {
     function z(n: number) {
       return (n < 10 ? '0' : '') + n
     }
@@ -279,7 +278,6 @@ export class DateUtils {
     tzOffset = Math.abs(tzOffset)
     return 'GMT ' + sign + z((tzOffset / 60) | 0) + z(tzOffset % 60)
   }
-
 
   /**
    * Is after today
@@ -289,7 +287,6 @@ export class DateUtils {
   public isAfterToday(dateTime: ConfigType) {
     return $dayjs(dateTime).isAfter($dayjs())
   }
-
 
   /**
    * Get period id for the date
@@ -313,7 +310,7 @@ export class DateUtils {
 
   /**
    * Get start of month
-   * 
+   *
    * @param {DateObject} date Date
    */
   public startOfMonth(date: DateObject): DateObject {
@@ -322,7 +319,7 @@ export class DateUtils {
 
   /**
    * Get end of month
-   * 
+   *
    * @param {DateObject} date Date
    */
   public endOfMonth(date: DateObject): DateObject {

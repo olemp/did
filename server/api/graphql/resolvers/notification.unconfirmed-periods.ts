@@ -26,20 +26,15 @@ export default async function (
   for (let i = 0; i <= 5; i++) {
     const startOfWeek = currentDate.startOfWeek.format('YYYY-MM-DD')
     const endOfWeek = currentDate.endOfWeek.format('YYYY-MM-DD')
-    periods.push(
-      ...getPeriods(
-        startOfWeek,
-        endOfWeek,
-        locale
-      )
-    )
+    periods.push(...getPeriods(startOfWeek, endOfWeek, locale))
     currentDate = currentDate.add('-1w')
   }
 
-  const confirmedPeriods = (await azstorage.getConfirmedPeriods({
+  const confirmedPeriods = await azstorage.getConfirmedPeriods({
     resourceId: ctx.userId,
-    year: DateUtils.getYear()
-  })) as any[]
+    minYear: currentDate.startOfWeek.toObject().year,
+    maxYear: DateUtils.getYear()
+  })
 
   periods.forEach((period) => {
     if (!find(confirmedPeriods, (cp) => cp.periodId === period.id)) {

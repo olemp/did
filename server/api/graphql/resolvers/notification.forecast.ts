@@ -37,19 +37,14 @@ export default async function (
   ) {
     const startOfWeek = currentDate.startOfWeek.format('YYYY-MM-DD')
     const endOfWeek = currentDate.endOfWeek.format('YYYY-MM-DD')
-    periods.push(
-      ...getPeriods(
-        startOfWeek,
-        endOfWeek,
-        locale
-      )
-    )
+    periods.push(...getPeriods(startOfWeek, endOfWeek, locale))
     currentDate = currentDate.add('1w')
   }
 
   const forecastedPeriods = await azstorage.getForecastedPeriods({
     resourceId: ctx.userId,
-    year: DateUtils.getYear()
+    minYear: DateUtils.getYear(),
+    maxYear: currentDate.endOfWeek.toObject().year
   })
 
   periods.forEach((period) => {
