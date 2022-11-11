@@ -24,14 +24,16 @@ export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) 
     iconProps: { iconName: 'Calendar' }
   }
 
-  const dateRangePickerCommand: IContextualMenuItem = {
-    key: 'TOGGLE_DATE_RANGE_PICKER',
-    componentRef,
-    onClick,
-    ...(isMobile ? mobileProps : browserProps)
-  }
+  const dateRangePickerCommands: IContextualMenuItem[] = [
+    {
+      key: 'TOGGLE_DATE_RANGE_PICKER',
+      componentRef,
+      onClick,
+      ...(isMobile ? mobileProps : browserProps)
+    }
+  ]
   return {
-    dateRangePickerCommand,
+    dateRangePickerCommands,
     target: componentRef?.current?._buttonElement?.current
   }
 }
