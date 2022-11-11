@@ -34,7 +34,7 @@ export class TimesheetScope {
 
   /**
    * Initializes the `TimesheetScope` from the specified `startDate`
-   * 
+   *
    * @param startDate - Start date
    */
   private _init(startDate?: DateInput) {
@@ -80,7 +80,7 @@ export class TimesheetScope {
    * Sets the scope and returns a cloned version of the TimesheetScope
    *
    * @param add - Add
-   * 
+   *
    * @memberof TimesheetScope
    */
   public set(add: string): TimesheetScope {

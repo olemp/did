@@ -35,7 +35,7 @@ export class TimesheetPeriod {
   /**
    * Events for the period
    */
-  private _events: EventObject[] = []
+  private events: EventObject[] = []
 
   /**
    * UI ignored events for the period
@@ -93,7 +93,7 @@ export class TimesheetPeriod {
    * @memberof TimesheetPeriod
    */
   public getName(t: TFunction, includeMonth?: boolean) {
-    if(this._isMock) return ''
+    if (this._isMock) return ''
     let name = `${t('common.weekLabel')} ${this.week}`
     if (includeMonth) name += ` (${this.month})`
     return name
@@ -148,7 +148,7 @@ export class TimesheetPeriod {
    * @memberof TimesheetPeriod
    */
   public getEvents(includeUnmatched: boolean = true): EventObject[] {
-    return [...(this._events || [])]
+    return [...(this.events || [])]
       .filter((event) => {
         const isUiIgnored = this._uiIgnoredEvents.includes(event.id)
         const isMatched = !!event.project
@@ -271,11 +271,11 @@ export class TimesheetPeriod {
       (event) => !!event.project
     ).map(
       (event) =>
-      ({
-        id: event.id,
-        projectId: event.project.tag,
-        manualMatch: event.manualMatch
-      } as EventInput)
+        ({
+          id: event.id,
+          projectId: event.project.tag,
+          manualMatch: event.manualMatch
+        } as EventInput)
     )
     return events
   }

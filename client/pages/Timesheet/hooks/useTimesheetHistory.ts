@@ -34,10 +34,16 @@ export function useTimesheetHistory(state: ITimesheetState) {
   useLayoutEffect(() => {
     if (!state.selectedPeriod) return
     history.push(
-      ['/timesheet', state.dateRangeType.toString(), state.selectedView, state.selectedPeriod.path].join('/')
+      [
+        '/timesheet',
+        state.dateRangeType.toString(),
+        state.selectedView,
+        state.selectedPeriod.path
+      ].join('/')
     )
     if (state.selectedPeriod) {
-      const isSplitWeek = (state.periods.length === 2) && state.dateRangeType === DateRangeType.Week
+      const isSplitWeek =
+        state.periods.length === 2 && state.dateRangeType === DateRangeType.Week
       if (isSplitWeek) {
         onUpdateBreadcrumb(s.capitalize(state.selectedPeriod.month), 3)
         onUpdateBreadcrumb(state.selectedPeriod.getName(t), 4)
