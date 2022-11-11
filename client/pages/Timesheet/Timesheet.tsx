@@ -14,14 +14,14 @@ import { Overview } from './Overview'
 import { CHANGE_VIEW, TOGGLE_SHORTCUTS } from './reducer/actions'
 import { StatusBar } from './StatusBar'
 import { SummaryView } from './SummaryView'
-import { TimesheetContext, TimesheetView } from './types'
+import { ITimesheetProps, TimesheetContext, TimesheetView } from './types'
 
 /**
  * @category Function Component
  */
-export const Timesheet: FC = () => {
+export const Timesheet: FC<ITimesheetProps> = (props) => {
   const { t } = useTranslation()
-  const { state, dispatch, context } = useTimesheet()
+  const { state, dispatch, context } = useTimesheet(props)
   const { hotkeysProps } = useHotkeys(context)
 
   return (
@@ -42,10 +42,6 @@ export const Timesheet: FC = () => {
             }}
           >
             <Overview
-              headerButtonProps={{
-                disabled: state.dateRangeType !== DateRangeType.Week,
-                style: state.dateRangeType !== DateRangeType.Week ? { opacity: 0.1, cursor: 'none' } : {}
-              }}
               headerText={t('timesheet.overviewHeaderText')}
               itemIcon='CalendarWeek'
             />
@@ -55,10 +51,6 @@ export const Timesheet: FC = () => {
               itemIcon='List'
             />
             <AllocationView
-              headerButtonProps={{
-                disabled: state.dateRangeType !== DateRangeType.Week,
-                style: state.dateRangeType !== DateRangeType.Week ? { opacity: 0.1, cursor: 'none' } : {}
-              }}
               itemKey='allocation'
               headerText={t('timesheet.allocationHeaderText')}
               itemIcon='ReportDocument'
@@ -73,4 +65,8 @@ export const Timesheet: FC = () => {
       </GlobalHotKeys>
     </TimesheetContext.Provider>
   )
+}
+
+Timesheet.defaultProps = {
+  dateRangeType: DateRangeType.Week
 }

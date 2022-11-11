@@ -1,22 +1,23 @@
-import { DateRangeType } from '@fluentui/react'
 import _ from 'underscore'
-import { ITimesheetParameters, ITimesheetState, TimesheetScope } from '../types'
+import { ITimesheetState, TimesheetScope } from '../types'
+import { ITimesheetReducerParameters } from './types'
 
 /**
  * Initializes state based on url parameters
  *
- * @param url - Url parameters
+ * @param params - Timesheet reducer parameters
+ * 
  * @returns Initial state
  */
 
-export function initState(url: ITimesheetParameters): ITimesheetState {
+export function initState(params: ITimesheetReducerParameters): ITimesheetState {
   return {
     periods: [],
-    scope: _.isEmpty(Object.keys(url))
+    scope: _.isEmpty(Object.keys(params.url))
       ? new TimesheetScope()
-      : new TimesheetScope().fromParams(url),
-    dateRangeType: DateRangeType.Week,
-    selectedView: url.view || 'overview',
+      : new TimesheetScope().fromParams(params.url),
+    dateRangeType: params.props.dateRangeType,
+    selectedView: params.url.view || 'overview',
     navHistory: []
   }
 }

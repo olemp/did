@@ -1,4 +1,5 @@
 import { ApolloQueryResult, useQuery } from '@apollo/client'
+import { DateRangeType } from '@fluentui/react'
 import { AnyAction } from '@reduxjs/toolkit'
 import { useAppContext } from 'AppContext'
 import { Dispatch, useLayoutEffect } from 'react'
@@ -26,7 +27,8 @@ export function useTimesheetQuery(
       options: {
         dateFormat: 'dddd DD',
         locale: user.preferredLanguage,
-        tzOffset: new Date().getTimezoneOffset()
+        tzOffset: new Date().getTimezoneOffset(),
+        includeSplitWeeks: state.dateRangeType === DateRangeType.Week
       }
     },
     fetchPolicy: 'cache-and-network',

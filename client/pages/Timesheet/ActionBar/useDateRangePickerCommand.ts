@@ -35,7 +35,7 @@ export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) 
     {
       key: 'DATE_RANGE_WEEK',
       iconProps: { iconName: 'CalendarWeek' },
-      text: 'Veke',
+      text: t('timesheet.dateRangeWeek'),
       canCheck: true,
       checked: state.dateRangeType === DateRangeType.Week,
       onClick: () => {
@@ -45,7 +45,7 @@ export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) 
     {
       key: 'DATE_RANGE_MONTH',
       iconProps: { iconName: 'Calendar' },
-      text: 'Månad',
+      text: t('timesheet.dateRangeMonth'),
       canCheck: true,
       checked: state.dateRangeType === DateRangeType.Month,
       onClick: () => {

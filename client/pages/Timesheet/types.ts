@@ -1,3 +1,4 @@
+import { DateRangeType } from '@fluentui/react'
 import { IProgressProps } from 'components/Progress/types'
 import { TimesheetPeriod } from './TimesheetPeriod'
 import { TimesheetScope } from './TimesheetScope'
@@ -55,6 +56,16 @@ export interface ITimesheetState {
    * Navigation history
    */
   navHistory?: string[]
+}
+
+/**
+ * @category Timesheet
+ */
+ export interface ITimesheetProps {
+  /**
+   * Date range type
+   */
+  dateRangeType?: DateRangeType
 }
 
 /**

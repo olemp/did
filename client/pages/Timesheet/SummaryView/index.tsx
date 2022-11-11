@@ -10,7 +10,7 @@ export const SummaryView: TabComponent = () => {
   const props = useSummaryView()
   return (
     <div className={styles.root}>
-          <List {...props} />
+      <List {...props} />
     </div>
   )
 }
