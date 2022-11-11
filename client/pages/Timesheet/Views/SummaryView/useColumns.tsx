@@ -3,7 +3,7 @@ import { ProjectTooltip } from 'components'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import s from 'underscore.string'
-import { useTimesheetContext } from '../context'
+import { useTimesheetContext } from '../../context'
 import { DurationColumn } from './DurationColumn'
 import { ILabelColumnProps, LabelColumn } from './LabelColumn'
 

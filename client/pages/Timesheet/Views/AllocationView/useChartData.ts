@@ -5,8 +5,8 @@ import { useMemo } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import _ from 'underscore'
 import s from 'underscore.string'
-import { EventObject } from '../../../../server/graphql/resolvers/types'
-import { useTimesheetContext } from '../context'
+import { EventObject } from '../../../../../server/graphql/resolvers/types'
+import { useTimesheetContext } from '../../context'
 import { IChartConfig } from './types'
 
 /**

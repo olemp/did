@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-array-reduce */
 import { IListProps } from 'components/List/types'
-import { useTimesheetContext } from '../context'
+import { useTimesheetContext } from '../../context'
 import { useColumns } from './useColumns'
 import { useRowGenerator } from './useRowGenerator'
 

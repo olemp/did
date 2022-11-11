@@ -3,7 +3,7 @@ import $date from 'DateUtils'
 import { TFunction, useTranslation } from 'react-i18next'
 import { EventObject, Project } from 'types'
 import _ from 'underscore'
-import { useTimesheetContext } from '../context'
+import { useTimesheetContext } from '../../context'
 import { ISummaryViewRow } from './types'
 
 /**

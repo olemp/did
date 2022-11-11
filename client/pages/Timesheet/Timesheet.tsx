@@ -6,15 +6,13 @@ import React, { FC } from 'react'
 import { GlobalHotKeys } from 'react-hotkeys'
 import { useTranslation } from 'react-i18next'
 import { ActionBar } from './ActionBar'
-import { AllocationView } from './AllocationView'
 import { ErrorBar } from './ErrorBar'
 import { useTimesheet } from './hooks'
 import { useHotkeys } from './hotkeys/useHotkeys'
-import { Overview } from './Overview'
 import { CHANGE_VIEW, TOGGLE_SHORTCUTS } from './reducer/actions'
 import { StatusBar } from './StatusBar'
-import { SummaryView } from './SummaryView'
 import { TimesheetContext, TimesheetView } from './types'
+import { AllocationView, Overview, SummaryView } from './Views'
 
 /**
  * @category Function Component

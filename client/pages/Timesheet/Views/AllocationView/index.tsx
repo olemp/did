@@ -14,7 +14,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import { useTimesheetContext } from '../context'
+import { useTimesheetContext } from '../../context'
 import styles from './AllocationView.module.scss'
 import { useChartConfig } from './useChartConfig'
 import { useChartData } from './useChartData'
