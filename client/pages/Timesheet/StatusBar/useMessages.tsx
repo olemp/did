@@ -1,3 +1,4 @@
+import { DateRangeType } from '@fluentui/react'
 import { IUserMessageProps } from 'components/UserMessage/types'
 import $date from 'DateUtils'
 import { useArray } from 'hooks/common/useArray'
@@ -25,7 +26,7 @@ export function useMessages(): IUserMessageProps[] {
       text: t('timesheet.weekHoursSummaryText', {
         hours: $date.getDurationString(state.selectedPeriod.totalDuration, t),
         splitWeekInfoText:
-          state.periods.length > 1 ? t('timesheet.splitWeekInfoText') : ''
+          (state.periods.length > 1 && state.dateRangeType === DateRangeType.Week) ? t('timesheet.splitWeekInfoText') : ''
       })
     })
   }
