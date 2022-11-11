@@ -101,12 +101,17 @@ export class TimesheetScope {
   }
 
   /**
-   * Is the scope the current week
+   * Is the scope the current week or month
    *
    * @memberof TimesheetScope
    */
-  public get isCurrentWeek(): boolean {
-    return this.startDate.isCurrentWeek
+  public get isCurrent(): boolean {
+    return (
+      (this._dateRangeType === DateRangeType.Week &&
+        this.startDate.isCurrentWeek) ||
+      (this._dateRangeType === DateRangeType.Month &&
+        this.startDate.isCurrentMonth)
+    )
   }
 
   /**

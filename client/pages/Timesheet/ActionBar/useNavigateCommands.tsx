@@ -14,8 +14,9 @@ export function useNavigateCommands() {
     key: 'NAVIGATE_CURRENT_WEEK_MONTH',
     title: t('timesheet.goToCurrentWeek'),
     iconProps: { iconName: 'RenewalCurrent' },
-    disabled: state.scope.isCurrentWeek || !!state.loading,
-    onClick: () => dispatch(SET_SCOPE(new TimesheetScope(new Date(), state.dateRangeType)))
+    disabled: state.scope.isCurrent || !!state.loading,
+    onClick: () =>
+      dispatch(SET_SCOPE(new TimesheetScope(new Date(), state.dateRangeType)))
   }
   const navigatePreviousPeriod: IContextualMenuItem = {
     key: 'NAVIGATE_PREVIOUS_PERIOD',

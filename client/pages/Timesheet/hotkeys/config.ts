@@ -37,7 +37,9 @@ export const getHotkeys = (
   },
   handlers: {
     GO_TO_CURRENT_WEEK_MONTH: () =>
-      context.dispatch(SET_SCOPE(new TimesheetScope(new Date(), context.state.dateRangeType))),
+      context.dispatch(
+        SET_SCOPE(new TimesheetScope(new Date(), context.state.dateRangeType))
+      ),
     PREVIOUS_PERIOD: () => context.dispatch(PREVIOUS_PERIOD()),
     NEXT_PERIOD: () => context.dispatch(NEXT_PERIOD()),
     SHOW_SHORTCUTS: () => context.dispatch(TOGGLE_SHORTCUTS())

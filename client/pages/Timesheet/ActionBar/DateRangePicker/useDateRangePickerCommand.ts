@@ -4,7 +4,8 @@ import { useTimesheetContext } from 'pages'
 import { useRef } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
-import { CHANGE_DATE_RANGE_TYPE } from '../reducer/actions'
+import { CHANGE_DATE_RANGE_TYPE } from '../../reducer/actions'
+import styles from './DateRangePicker.module.scss'
 
 /**
  * @category Timesheet
@@ -15,8 +16,6 @@ export function useDateRangePickerCommand(
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const componentRef = useRef(null)
-  // eslint-disable-next-line no-console
-  console.log(state.scope, state.dateRangeType)
   const browserProps: Partial<IContextualMenuItem> = {
     text: state.scope.timespan,
     style: { paddingRight: 15 }
@@ -38,9 +37,9 @@ export function useDateRangePickerCommand(
       key: 'TOGGLE_DATE_RANGE_PICKER',
       componentRef,
       onClick,
+      className: styles.dateRangePicker,
       ...(isMobile ? mobileProps : browserProps)
     },
-
     {
       key: 'DATE_RANGE_WEEK',
       iconProps: { iconName: 'CalendarWeek' },
@@ -49,7 +48,8 @@ export function useDateRangePickerCommand(
       checked: state.dateRangeType === DateRangeType.Week,
       onClick: () => {
         dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Week }))
-      }
+      },
+      className: styles.dateRangeItem
     },
     {
       key: 'DATE_RANGE_MONTH',
@@ -59,7 +59,8 @@ export function useDateRangePickerCommand(
       checked: state.dateRangeType === DateRangeType.Month,
       onClick: () => {
         dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Month }))
-      }
+      },
+      className: styles.dateRangeItem
     }
   ]
   return {
