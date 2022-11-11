@@ -58,7 +58,9 @@
     "eventDurationModifiedMessage": "Varigheita til hendinga har automatisk vorte endra frå {{originalDuration}} til {{modifiedDuration}}. Om du ikkje vil at dette skal skje i framtida, kan funksjonen skruast av i brukarinnstillingar.",
     "adjustedEventDurationsInfoText": "Avrunding til næraste 30 min er skrudd på. Totalt har registrerte timar vorte justerte med {{adjustedMinutes}} minutt.",
     "dateRangeWeek": "Veke",
-    "dateRangeMonth": "Månad"
+    "dateRangeMonth": "Månad",
+    "monthForecastedText": "Månaden er prognosert med {{hours}}.",
+    "monthConfirmedText": "Månaden er stadfesta med {{hours}}. Du må navigere til **Oversikt** dersom du treng å justere timeføringa."
   },
   "projects": {
     "filterLabels": "Filtrer merkelappar...",

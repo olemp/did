@@ -58,7 +58,9 @@
     "eventDurationModifiedMessage": "The event's duration has been automatically changed from {{originalDuration}} to {{modifiedDuration}}. If you do not want this to happen in the future, the function can be turned off in the user settings.",
     "adjustedEventDurationsInfoText": "Rounding to the nearest 30 min is switched on. In total, recorded hours have been adjusted by {{adjustedMinutes}} minutes.",
     "dateRangeWeek": "Week",
-    "dateRangeMonth": "Month"
+    "dateRangeMonth": "Month",
+    "monthForecastedText": "The month is forecasted with {{hours}}.",
+    "monthConfirmedText": "**{{hours}}** confirmed this month. You need to be in the **Overview** view to do adjustments."
   },
   "projects": {
     "filterLabels": "Filter labels...",

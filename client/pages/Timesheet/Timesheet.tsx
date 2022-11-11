@@ -33,25 +33,26 @@ export const Timesheet: FC<ITimesheetProps> = (props) => {
           <StatusBar />
           <TabContainer
             hidden={!!state.error}
-            defaultSelectedKey={state.selectedView}
-            onTabChanged={(itemKey) =>
+            defaultSelectedKey={state.selectedView ?? TimesheetView.Overview}
+            onTabChanged={(itemKey) => {
               dispatch(CHANGE_VIEW({ view: itemKey as TimesheetView }))
-            }
+            }}
             itemProps={{
               headerButtonProps: { disabled: !!state.error }
             }}
           >
             <Overview
+              itemKey={TimesheetView.Overview}
               headerText={t('timesheet.overviewHeaderText')}
               itemIcon='CalendarWeek'
             />
             <SummaryView
-              itemKey='summary'
+              itemKey={TimesheetView.Summary}
               headerText={t('timesheet.summaryHeaderText')}
               itemIcon='List'
             />
             <AllocationView
-              itemKey='allocation'
+              itemKey={TimesheetView.Allocation}
               headerText={t('timesheet.allocationHeaderText')}
               itemIcon='ReportDocument'
             />

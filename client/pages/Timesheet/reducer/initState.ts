@@ -1,5 +1,5 @@
 import _ from 'underscore'
-import { ITimesheetState, TimesheetScope } from '../types'
+import { ITimesheetState, TimesheetScope, TimesheetView } from '../types'
 import { ITimesheetReducerParameters } from './types'
 
 /**
@@ -17,7 +17,7 @@ export function initState(params: ITimesheetReducerParameters): ITimesheetState 
       ? new TimesheetScope()
       : new TimesheetScope().fromParams(params.url),
     dateRangeType: params.props.dateRangeType,
-    selectedView: params.url.view || 'overview',
+    selectedView: params.url.view as TimesheetView ?? TimesheetView.Overview,
     navHistory: []
   }
 }

@@ -6,7 +6,11 @@ import { TimesheetScope } from './TimesheetScope'
 /**
  * @category Timesheet
  */
-export type TimesheetView = 'overview' | 'summary' | 'allocation'
+export enum TimesheetView {
+  Overview = 'overview',
+  Summary = 'summary',
+  Allocation = 'allocation'
+}
 
 /**
  * @category Timesheet
@@ -72,7 +76,7 @@ export interface ITimesheetState {
  * @category Timesheet
  */
 export interface ITimesheetParameters {
-  view: TimesheetView
+  view: string
   week: string
   month: string
   year: string

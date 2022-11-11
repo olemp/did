@@ -116,6 +116,7 @@ export function createTimesheetReducer(params: ITimesheetReducerParameters) {
         }
       })
       .addCase(CHANGE_VIEW, (state, { payload }) => {
+        console.log(payload.view)
         state.selectedView = payload.view
       })
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {

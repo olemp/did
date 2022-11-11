@@ -58,7 +58,9 @@
     "eventDurationModifiedMessage": "Hendelsens varighet har automatisk blitt endret fra {{originalDuration}} til {{modifiedDuration}}. Om du ikke vil at dette skal skje i fremtiden, kan funksjonen skrus av i brukerinnstillinger.",
     "adjustedEventDurationsInfoText": "Avrunding til nærmeste 30 min er skrudd på. Totalt har registrerte timer blitt justert med {{adjustedMinutes}} minutter.",
     "dateRangeWeek": "Uke",
-    "dateRangeMonth": "Måned"
+    "dateRangeMonth": "Måned",
+    "monthForecastedText": "Måneden er prognosert med {{hours}}.",
+    "monthConfirmedText": "Måneden er bekreftet med {{hours}}. Du må navigere til **Oversikt** dersom du vil gjøre noen justeringer."
   },
   "projects": {
     "filterLabels": "Filtrer merkelapper...",
