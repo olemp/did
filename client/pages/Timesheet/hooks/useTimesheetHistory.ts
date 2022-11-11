@@ -9,6 +9,18 @@ import { UPDATE_BREADCRUMB } from '../../../app/reducer'
 import { ITimesheetState } from '../types'
 
 /**
+ * Convert enum value for `DateRangeType` to string
+ * 
+ * @param dateRangeType - Date range type (enum)
+ */
+function convertDateRangeTypeToString(dateRangeType: DateRangeType) {
+  switch (dateRangeType) {
+    case DateRangeType.Week: return 'week'
+    case DateRangeType.Month: return 'month'
+  }
+}
+
+/**
  * Updates history using `useHistory` based on
  * state changes.
  *
@@ -36,7 +48,7 @@ export function useTimesheetHistory(state: ITimesheetState) {
     history.push(
       [
         '/timesheet',
-        state.dateRangeType.toString(),
+        convertDateRangeTypeToString(state.dateRangeType),
         state.selectedView,
         state.selectedPeriod.path
       ].join('/')

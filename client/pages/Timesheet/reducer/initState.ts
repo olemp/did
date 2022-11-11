@@ -8,6 +8,19 @@ import {
 import { ITimesheetReducerParameters } from './types'
 
 /**
+ * Convert string value to `DateRangeType`
+ * 
+ * @param dateRangeTypeString - Date range type in string format
+ */
+function convertStringToDateRangeType(dateRangeTypeString: string) {
+  switch (dateRangeTypeString) {
+    case 'week': return DateRangeType.Week
+    case 'month': return DateRangeType.Month
+    default: return DateRangeType.Week
+  }
+}
+
+/**
  * Initializes state based on url parameters
  *
  * @param parameters - Timesheet reducer parameters
@@ -18,9 +31,7 @@ export function initState(
   parameters: ITimesheetReducerParameters
 ): ITimesheetState {
   const periods = []
-  const dateRangeType = parameters.url.dateRange
-    ? (Number.parseInt(parameters.url.dateRange) as DateRangeType)
-    : DateRangeType.Week
+  const dateRangeType = convertStringToDateRangeType(parameters.url.dateRange)
   const scope = _.isEmpty(Object.keys(parameters.url))
     ? new TimesheetScope(undefined, dateRangeType)
     : new TimesheetScope(undefined, dateRangeType).fromParams(parameters.url)
