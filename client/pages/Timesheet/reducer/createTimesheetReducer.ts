@@ -121,6 +121,7 @@ export function createTimesheetReducer(params: ITimesheetReducerParameters) {
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
         state.dateRangeType = payload.dateRangeType
         state.scope = new TimesheetScope(state.scope.startDate.jsDate, payload.dateRangeType)
+        state.periods = []
       })
       .addCase(MANUAL_MATCH, (state, { payload }) => {
         const { eventId, project } = payload
