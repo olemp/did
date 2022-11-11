@@ -1,22 +1,21 @@
 import { DateRangeType } from '@fluentui/react'
 import _ from 'underscore'
-import {
-  ITimesheetState, 
-  TimesheetScope,
-  TimesheetView
-} from '../types'
+import { ITimesheetState, TimesheetScope, TimesheetView } from '../types'
 import { ITimesheetReducerParameters } from './types'
 
 /**
  * Convert string value to `DateRangeType`
- * 
+ *
  * @param dateRangeTypeString - Date range type in string format
  */
 function convertStringToDateRangeType(dateRangeTypeString: string) {
   switch (dateRangeTypeString) {
-    case 'week': return DateRangeType.Week
-    case 'month': return DateRangeType.Month
-    default: return DateRangeType.Week
+    case 'week':
+      return DateRangeType.Week
+    case 'month':
+      return DateRangeType.Month
+    default:
+      return DateRangeType.Week
   }
 }
 

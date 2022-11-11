@@ -10,13 +10,15 @@ import { ITimesheetState } from '../types'
 
 /**
  * Convert enum value for `DateRangeType` to string
- * 
+ *
  * @param dateRangeType - Date range type (enum)
  */
 function convertDateRangeTypeToString(dateRangeType: DateRangeType) {
   switch (dateRangeType) {
-    case DateRangeType.Week: return 'week'
-    case DateRangeType.Month: return 'month'
+    case DateRangeType.Week:
+      return 'week'
+    case DateRangeType.Month:
+      return 'month'
   }
 }
 
