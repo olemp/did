@@ -1,6 +1,8 @@
 /* eslint-disable tsdoc/syntax */
+import { DateRangeType } from '@fluentui/react'
 import DateUtils, { DateInput, DateObject } from 'DateUtils'
 import { TimesheetQuery } from 'types'
+import { capitalize } from 'underscore.string'
 import { ITimesheetParameters } from './types'
 
 /**
@@ -20,16 +22,20 @@ export class TimesheetScope {
    * Constructs for `TimesheetScope`
    *
    * @param startDate - Optional start date
+   * @param _dateRangeType - Optional date range type
+   * 
+   * @memberof TimesheetScope
    */
-  constructor(startDate?: DateInput) {
+  constructor(startDate?: DateInput, private _dateRangeType = DateRangeType.Week) {
     this.startDate = new DateObject(startDate).startOfWeek
-    this.endDate = this.startDate.endOfWeek
+    this.endDate = _dateRangeType === DateRangeType.Week ? this.startDate.endOfWeek : this.startDate.endOfMonth
   }
 
   /**
    * Sets `startDate` and `endDate` from `params`
    *
-   * @param params - Params
+   * @param parameters - Params
+   * 
    * @memberof TimesheetScope
    */
   fromParams(parameters: ITimesheetParameters): TimesheetScope {
@@ -42,6 +48,7 @@ export class TimesheetScope {
    * Get TimesheetQuery for the scope
    *
    * @param template - Template
+   * 
    * @memberof TimesheetScope
    */
   public query(template: string = 'YYYY-MM-DD'): TimesheetQuery {
@@ -68,6 +75,7 @@ export class TimesheetScope {
    * Get a day in the scope by index
    *
    * @param index - Index
+   * 
    * @memberof TimesheetScope
    */
   public getDay(index: number): DateObject {
@@ -89,12 +97,19 @@ export class TimesheetScope {
    * @memberof TimesheetScope
    */
   public get timespan(): string {
-    return DateUtils.getTimespanString({
-      startDate: this.startDate,
-      endDate: this.endDate,
-      includeMonth: {
-        endDate: true
+    switch (this._dateRangeType) {
+      case DateRangeType.Week: {
+        return DateUtils.getTimespanString({
+          startDate: this.startDate,
+          endDate: this.endDate,
+          includeMonth: {
+            endDate: true
+          }
+        })
       }
-    })
+      case DateRangeType.Month: {
+        return capitalize(this.startDate.format('MMMM'))
+      }
+    }
   }
 }

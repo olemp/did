@@ -1,7 +1,7 @@
 import { createReducer, current } from '@reduxjs/toolkit'
 import { TimesheetPeriodObject } from 'types'
 import _ from 'underscore'
-import { ITimesheetState, TimesheetPeriod } from '../types'
+import { ITimesheetState, TimesheetPeriod, TimesheetScope } from '../types'
 import {
   CHANGE_PERIOD,
   CHANGE_DATE_RANGE_TYPE,
@@ -122,6 +122,7 @@ export function createTimesheetReducer({
       })
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
         state.dateRangeType = payload.dateRangeType
+        state.scope = new TimesheetScope(state.scope.startDate.jsDate, payload.dateRangeType)
       })
       .addCase(MANUAL_MATCH, (state, { payload }) => {
         const { eventId, project } = payload

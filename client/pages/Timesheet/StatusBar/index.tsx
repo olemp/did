@@ -1,4 +1,5 @@
 /* eslint-disable tsdoc/syntax */
+import { DateRangeType } from '@fluentui/react'
 import { Progress } from 'components/Progress'
 import { IUserMessageProps, UserMessage } from 'components/UserMessage'
 import React from 'react'
@@ -25,7 +26,7 @@ export const StatusBar: React.FC = () => {
 
   return (
     <FadeIn>
-      <div className={styles.root} hidden={_.isEmpty(messages)}>
+      <div className={styles.root} hidden={_.isEmpty(messages) || state.dateRangeType !== DateRangeType.Week}>
         {state.loading ? (
           <Progress {...state.loading} />
         ) : (

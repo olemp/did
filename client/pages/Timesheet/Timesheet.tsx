@@ -1,4 +1,5 @@
 /* eslint-disable tsdoc/syntax */
+import { DateRangeType } from '@fluentui/react'
 import { TabContainer } from 'components'
 import { HotkeyModal } from 'components/HotkeyModal'
 import React from 'react'
@@ -41,6 +42,10 @@ export const Timesheet: React.FC = () => {
             }}
           >
             <Overview
+              headerButtonProps={{
+                disabled: state.dateRangeType !== DateRangeType.Week,
+                style: state.dateRangeType !== DateRangeType.Week ? { opacity: 0.1, cursor: 'none' } : {}
+              }}
               headerText={t('timesheet.overviewHeaderText')}
               itemIcon='CalendarWeek'
             />
@@ -50,6 +55,10 @@ export const Timesheet: React.FC = () => {
               itemIcon='List'
             />
             <AllocationView
+              headerButtonProps={{
+                disabled: state.dateRangeType !== DateRangeType.Week,
+                style: state.dateRangeType !== DateRangeType.Week ? { opacity: 0.1, cursor: 'none' } : {}
+              }}
               itemKey='allocation'
               headerText={t('timesheet.allocationHeaderText')}
               itemIcon='ReportDocument'
