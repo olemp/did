@@ -29,12 +29,21 @@ export class TimesheetScope {
     startDate?: DateInput,
     private _dateRangeType = DateRangeType.Week
   ) {
+    this._init(startDate)
+  }
+
+  /**
+   * Initializes the `TimesheetScope` from the specified `startDate`
+   * 
+   * @param startDate - Start date
+   */
+  private _init(startDate?: DateInput) {
     this.startDate =
-      _dateRangeType === DateRangeType.Week
+      this._dateRangeType === DateRangeType.Week
         ? new DateObject(startDate).startOfWeek
         : new DateObject(startDate).startOfMonth
     this.endDate =
-      _dateRangeType === DateRangeType.Week
+      this._dateRangeType === DateRangeType.Week
         ? this.startDate.endOfWeek
         : this.startDate.endOfMonth
   }
@@ -47,8 +56,8 @@ export class TimesheetScope {
    * @memberof TimesheetScope
    */
   public fromParams(parameters: ITimesheetParameters): TimesheetScope {
-    this.startDate = new DateObject().fromObject(parameters)
-    this.endDate = this.startDate.endOfWeek
+    const startDate = new DateObject().fromObject(parameters).jsDate
+    this._init(startDate)
     return this
   }
 
@@ -71,6 +80,7 @@ export class TimesheetScope {
    * Sets the scope and returns a cloned version of the TimesheetScope
    *
    * @param add - Add
+   * 
    * @memberof TimesheetScope
    */
   public set(add: string): TimesheetScope {

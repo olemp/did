@@ -14,14 +14,14 @@ import { Overview } from './Overview'
 import { CHANGE_VIEW, TOGGLE_SHORTCUTS } from './reducer/actions'
 import { StatusBar } from './StatusBar'
 import { SummaryView } from './SummaryView'
-import { ITimesheetProps, TimesheetContext, TimesheetView } from './types'
+import { TimesheetContext, TimesheetView } from './types'
 
 /**
  * @category Function Component
  */
-export const Timesheet: FC<ITimesheetProps> = (props) => {
+export const Timesheet: FC = () => {
   const { t } = useTranslation()
-  const { state, dispatch, context } = useTimesheet(props)
+  const { state, dispatch, context } = useTimesheet()
   const { hotkeysProps } = useHotkeys(context)
 
   return (

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react'
 import { useTimesheetReducer } from '../reducer'
-import { ITimesheetContext, ITimesheetProps } from '../types'
+import { ITimesheetContext } from '../types'
 import { useSubmitActions } from './useSubmitActions'
 import { useTimesheetHistory } from './useTimesheetHistory'
 import { useTimesheetQuery } from './useTimesheetQuery'
@@ -15,14 +15,12 @@ import { useTimesheetQuery } from './useTimesheetQuery'
  * and dispatching actions
  * * Using `useTimesheetQuery` with timesheet.gql
  *
- * @param props - Timesheet props
- *
  * @returns Timesheet context
  *
  * @category Timesheet Hooks
  */
-export function useTimesheet(props: ITimesheetProps) {
-  const [state, dispatch] = useTimesheetReducer(props)
+export function useTimesheet() {
+  const [state, dispatch] = useTimesheetReducer()
   const refetch = useTimesheetQuery(state, dispatch)
 
   useTimesheetHistory(state)

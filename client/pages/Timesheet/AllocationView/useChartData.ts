@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DateRangeType } from '@fluentui/react'
 import get from 'get-value'
 import { useMemo } from 'react'
@@ -76,6 +77,6 @@ export function useChartData<T = any>(
           [chart.key]: [`${chart.key}_${d.length}`, d]
         }
       }, {}),
-    [charts, container?.clientWidth, state.selectedPeriod, t]
+    [charts, container?.clientWidth, state.selectedPeriod, events]
   )
 }

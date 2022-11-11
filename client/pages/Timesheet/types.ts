@@ -65,17 +65,8 @@ export interface ITimesheetState {
 /**
  * @category Timesheet
  */
-export interface ITimesheetProps {
-  /**
-   * Date range type
-   */
-  dateRangeType?: DateRangeType
-}
-
-/**
- * @category Timesheet
- */
 export interface ITimesheetParameters {
+  dateRange: string
   view: string
   week: string
   month: string

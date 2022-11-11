@@ -2,18 +2,16 @@
 import { useMemo, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { ITimesheetParameters, ITimesheetProps } from '../types'
+import { ITimesheetParameters } from '../types'
 import { createTimesheetReducer } from './createTimesheetReducer'
 import { initState } from './initState'
 
 /**
  * Use Timesheet reducer
- *
- * @param props - Timesheet props
  */
-export function useTimesheetReducer(props: ITimesheetProps) {
+export function useTimesheetReducer() {
   const { t } = useTranslation()
   const url = useParams<ITimesheetParameters>()
-  const reducer = useMemo(() => createTimesheetReducer({ t, url, props }), [])
-  return useReducer(reducer, initState({ url, props }))
+  const reducer = useMemo(() => createTimesheetReducer({ t, url }), [])
+  return useReducer(reducer, initState({ url }))
 }

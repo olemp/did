@@ -1,5 +1,5 @@
 import { TFunction } from 'i18next'
-import { ITimesheetParameters, ITimesheetProps } from '../types'
+import { ITimesheetParameters } from '../types'
 
 export interface ITimesheetReducerParameters {
   /**
@@ -11,9 +11,4 @@ export interface ITimesheetReducerParameters {
    * Translate function
    */
   t?: TFunction
-
-  /**
-   * Timesheet props
-   */
-  props: ITimesheetProps
 }

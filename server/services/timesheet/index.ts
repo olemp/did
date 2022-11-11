@@ -61,7 +61,7 @@ export class TimesheetService {
     private readonly _cperiodSvc: ConfirmedPeriodsService,
     private readonly _fperiodSvc: ForecastedPeriodsService,
     private readonly _userSvc: UserService // eslint-disable-next-line unicorn/empty-brace-spaces
-  ) { }
+  ) {}
 
   /**
    * Get timesheet
@@ -300,13 +300,15 @@ export class TimesheetService {
     const periods: TimesheetPeriodObject[] = []
     while (range.startDate.isBeforeOrSame(new DateObject(endDate))) {
       const isSplit = !range.startDate.isSameMonth(range.endDate)
-      periods.push(new TimesheetPeriodObject(
-        range.startDate.format('YYYY-MM-DD'),
-        isSplit
-          ? range.startDate.endOfMonth.format('YYYY-MM-DD')
-          : range.endDate.format('YYYY-MM-DD'),
-        locale
-      ))
+      periods.push(
+        new TimesheetPeriodObject(
+          range.startDate.format('YYYY-MM-DD'),
+          isSplit
+            ? range.startDate.endOfMonth.format('YYYY-MM-DD')
+            : range.endDate.format('YYYY-MM-DD'),
+          locale
+        )
+      )
       if (isSplit && includeSplitWeeks) {
         periods.push(
           new TimesheetPeriodObject(

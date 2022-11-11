@@ -31,11 +31,36 @@ export class TimesheetPeriod {
   public readonly isForecast: boolean
   public readonly forecastedHours: number
   public readonly month: string
-  private events: EventObject[] = []
+
+  /**
+   * Events for the period
+   */
+  private _events: EventObject[] = []
+
+  /**
+   * UI ignored events for the period
+   */
   private _uiIgnoredEvents: string[] = []
+
+  /**
+   * UI matched events for the period
+   */
   private _uiMatchedEvents: Record<string, Project> = {}
+
+  /**
+   * Matched events for the period persisted in browser storage
+   */
   private _uiMatchedEventsStorage: BrowserStorage<Record<string, Project>>
+
+  /**
+   * Ignored events for the period persisted in browser storage
+   */
   private _uiIgnoredEventsStorage: BrowserStorage<string[]>
+
+  /**
+   * Mock period used while loading data
+   */
+  private _isMock: boolean
 
   /**
    * Constructor for `TimesheetPeriod`
@@ -55,6 +80,11 @@ export class TimesheetPeriod {
     return this
   }
 
+  public useMock() {
+    this._isMock = true
+    return this
+  }
+
   /**
    * Get name of period
    *
@@ -63,6 +93,7 @@ export class TimesheetPeriod {
    * @memberof TimesheetPeriod
    */
   public getName(t: TFunction, includeMonth?: boolean) {
+    if(this._isMock) return ''
     let name = `${t('common.weekLabel')} ${this.week}`
     if (includeMonth) name += ` (${this.month})`
     return name
@@ -117,7 +148,7 @@ export class TimesheetPeriod {
    * @memberof TimesheetPeriod
    */
   public getEvents(includeUnmatched: boolean = true): EventObject[] {
-    return [...(this.events || [])]
+    return [...(this._events || [])]
       .filter((event) => {
         const isUiIgnored = this._uiIgnoredEvents.includes(event.id)
         const isMatched = !!event.project
@@ -240,11 +271,11 @@ export class TimesheetPeriod {
       (event) => !!event.project
     ).map(
       (event) =>
-        ({
-          id: event.id,
-          projectId: event.project.tag,
-          manualMatch: event.manualMatch
-        } as EventInput)
+      ({
+        id: event.id,
+        projectId: event.project.tag,
+        manualMatch: event.manualMatch
+      } as EventInput)
     )
     return events
   }

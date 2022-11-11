@@ -20,7 +20,7 @@ export function usePeriodCommands() {
         style: isMobile ? {} : { padding: '12px 18px 12px 18px' },
         text: period.getName(t, true),
         canCheck: true,
-        checked: period.id === state.selectedPeriod.id,
+        checked: period.id === state.selectedPeriod?.id,
         onClick: () => dispatch(CHANGE_PERIOD({ id: period.id }))
       } as IContextualMenuItem)
   )

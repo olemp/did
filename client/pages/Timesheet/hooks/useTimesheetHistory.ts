@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { DateRangeType } from '@fluentui/react'
 import { useAppContext } from 'AppContext'
 import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,9 +20,9 @@ export function useTimesheetHistory(state: ITimesheetState) {
   const { dispatch } = useAppContext()
 
   /**
-   * Dispatch `UPDATE_BREADCRUMB`
+   * Dispatches action `UPDATE_BREADCRUMB`
    */
-  const dispatchUpdateBreadcrumb = (text: string, level: number) =>
+  const onUpdateBreadcrumb = (text: string, level: number) =>
     dispatch(
       UPDATE_BREADCRUMB({
         key: text,
@@ -33,16 +34,16 @@ export function useTimesheetHistory(state: ITimesheetState) {
   useLayoutEffect(() => {
     if (!state.selectedPeriod) return
     history.push(
-      ['/timesheet', state.selectedView, state.selectedPeriod.path].join('/')
+      ['/timesheet', state.dateRangeType.toString(), state.selectedView, state.selectedPeriod.path].join('/')
     )
     if (state.selectedPeriod) {
-      const isSplitWeek = state.periods.length === 2
+      const isSplitWeek = (state.periods.length === 2) && state.dateRangeType === DateRangeType.Week
       if (isSplitWeek) {
-        dispatchUpdateBreadcrumb(s.capitalize(state.selectedPeriod.month), 3)
-        dispatchUpdateBreadcrumb(state.selectedPeriod.getName(t), 4)
+        onUpdateBreadcrumb(s.capitalize(state.selectedPeriod.month), 3)
+        onUpdateBreadcrumb(state.selectedPeriod.getName(t), 4)
       } else {
-        dispatchUpdateBreadcrumb(state.selectedPeriod.getName(t), 3)
+        onUpdateBreadcrumb(state.selectedPeriod.getName(t), 3)
       }
     }
-  }, [state.selectedView, state.selectedPeriod])
+  }, [state.selectedView, state.selectedPeriod, state.dateRangeType])
 }

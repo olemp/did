@@ -24,7 +24,7 @@ import { ITimesheetReducerParameters } from './types'
 /**
  * Creating reducer for `<Timesheet />` using `reduxjs/toolkit`
  *
- * @param params - Timesheet reducer parameters
+ * @param parameters - Timesheet reducer parameters
  */
 export function createTimesheetReducer(
   parameters: ITimesheetReducerParameters

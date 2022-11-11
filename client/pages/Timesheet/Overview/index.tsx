@@ -39,7 +39,7 @@ export const Overview: TabComponent = () => {
       return (
         <div className={className.join(' ')}>
           <Pivot
-            defaultSelectedKey={state.selectedPeriod.id}
+            defaultSelectedKey={state.selectedPeriod?.id}
             onLinkClick={(item) => {
               dispatch(CHANGE_PERIOD({ id: item.props.itemKey }))
             }}
