@@ -42,17 +42,21 @@ export const Overview: TabComponent = () => {
             defaultSelectedKey={state.selectedPeriod.id}
             onLinkClick={(item) => {
               dispatch(CHANGE_PERIOD({ id: item.props.itemKey }))
-            }}>
-            {state.periods.map(period => (
+            }}
+          >
+            {state.periods.map((period) => (
               <PivotItem
                 key={period.id}
                 itemKey={period.id}
-                headerText={period.getName(t)} >
+                headerText={period.getName(t)}
+              >
                 <EventList
                   hidden={!!state.error}
                   enableShimmer={!!state.loading}
                   items={period.getEvents()}
-                  dateFormat={packageFile.config.app.TIMESHEET_OVERVIEW_TIME_FORMAT}
+                  dateFormat={
+                    packageFile.config.app.TIMESHEET_OVERVIEW_TIME_FORMAT
+                  }
                   listGroupProps={listGroupProps}
                   additionalColumns={additionalColumns}
                 />

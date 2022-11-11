@@ -4,7 +4,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import s from 'underscore.string'
 import { useTimesheetContext } from '../context'
-import { TimesheetScope } from '../TimesheetScope'
 import { DurationColumn } from './DurationColumn'
 import { ILabelColumnProps, LabelColumn } from './LabelColumn'
 
@@ -19,30 +18,32 @@ export function useColumns(): IColumn[] {
   )
   let columns = []
   switch (state.dateRangeType) {
-    case DateRangeType.Week: {
-      columns = [...Array.from({ length: 7 }).keys()].map((index) => {
-        const day = state.scope.getDay(index)
-        return {
-          key: day.format('YYYY-MM-DD'),
-          fieldName: day.format('YYYY-MM-DD'),
-          name: s.capitalize(day.format('ddd DD')),
+    case DateRangeType.Week:
+      {
+        columns = [...Array.from({ length: 7 }).keys()].map((index) => {
+          const day = state.scope.getDay(index)
+          return {
+            key: day.format('YYYY-MM-DD'),
+            fieldName: day.format('YYYY-MM-DD'),
+            name: s.capitalize(day.format('ddd DD')),
+            minWidth: 70,
+            maxWidth: 70,
+            onRender
+          }
+        })
+      }
+      break
+    case DateRangeType.Month:
+      {
+        columns = state.periods.map((period) => ({
+          key: period.id,
+          fieldName: period.id,
+          name: period.getName(t),
           minWidth: 70,
           maxWidth: 70,
           onRender
-        }
-      })
-    }
-      break
-    case DateRangeType.Month: {
-      columns = state.periods.map((period) => ({
-        key: period.id,
-        fieldName: period.id,
-        name: period.getName(t),
-        minWidth: 70,
-        maxWidth: 70,
-        onRender
-      }))
-    }
+        }))
+      }
       break
   }
   return [

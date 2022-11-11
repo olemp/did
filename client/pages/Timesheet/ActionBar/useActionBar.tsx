@@ -17,7 +17,8 @@ export function useActionBar() {
   const submitCommands = useSubmitCommands()
   const periodCommands = usePeriodCommands()
   const [showWeekPicker, toggleWeekPicker] = useToggle(false)
-  const { dateRangePickerCommands, target } = useDateRangePickerCommand(toggleWeekPicker)
+  const { dateRangePickerCommands, target } =
+    useDateRangePickerCommand(toggleWeekPicker)
 
   const commandBarProps: ICommandBarProps = {
     styles: { root: { padding: 0 } },
@@ -25,7 +26,7 @@ export function useActionBar() {
     farItems: []
   }
 
-  if(state.selectedView === TimesheetView.Overview) {
+  if (state.selectedView === TimesheetView.Overview) {
     commandBarProps.farItems.push(submitCommands)
   }
 

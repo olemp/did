@@ -9,7 +9,9 @@ import { CHANGE_DATE_RANGE_TYPE } from '../reducer/actions'
 /**
  * @category Timesheet
  */
-export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) {
+export function useDateRangePickerCommand(
+  onClick: React.DispatchWithoutAction
+) {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const componentRef = useRef(null)
@@ -17,8 +19,13 @@ export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) 
     text: state.scope.timespan,
     style: { paddingRight: 15 }
   }
-  if (state.dateRangeType === DateRangeType.Week && state.periods.length === 1) {
-    browserProps.text = `${state.selectedPeriod.getName(t)} (${state.scope.timespan})`
+  if (
+    state.dateRangeType === DateRangeType.Week &&
+    state.periods.length === 1
+  ) {
+    browserProps.text = `${state.selectedPeriod.getName(t)} (${
+      state.scope.timespan
+    })`
   }
   const mobileProps: Partial<IContextualMenuItem> = {
     iconProps: { iconName: 'Calendar' }

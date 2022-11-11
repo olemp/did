@@ -14,7 +14,7 @@ import { useTimesheetQuery } from './useTimesheetQuery'
  * * Using `useTimesheetReducer` to handle state
  * and dispatching actions
  * * Using `useTimesheetQuery` with timesheet.gql
- * 
+ *
  * @param props - Timesheet props
  *
  * @returns Timesheet context

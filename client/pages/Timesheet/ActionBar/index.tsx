@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/prefer-query-selector */
 import { CommandBar } from '@fluentui/react'
 import React from 'react'
-import { useActionBar } from './useActionBar'
 import { DateRangePicker } from './DateRangePicker'
+import { useActionBar } from './useActionBar'
 
 /**
  * @category Timesheet

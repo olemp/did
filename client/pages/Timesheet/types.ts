@@ -65,7 +65,7 @@ export interface ITimesheetState {
 /**
  * @category Timesheet
  */
- export interface ITimesheetProps {
+export interface ITimesheetProps {
   /**
    * Date range type
    */

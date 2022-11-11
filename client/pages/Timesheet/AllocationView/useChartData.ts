@@ -65,17 +65,12 @@ export function useChartData<T = any>(
   const { state } = useTimesheetContext()
   let events = state.selectedPeriod?.getEvents(true)
   if (state.dateRangeType === DateRangeType.Month) {
-    events = [].concat.apply([], state.periods.map(period => period.getEvents(true)))
+    events = state.periods.flatMap((period) => period.getEvents(true))
   }
   return useMemo(
     () =>
       charts.reduce((_data, chart) => {
-        const d = getDataForChart(
-          events,
-          chart,
-          container?.clientWidth,
-          t
-        )
+        const d = getDataForChart(events, chart, container?.clientWidth, t)
         return {
           ..._data,
           [chart.key]: [`${chart.key}_${d.length}`, d]

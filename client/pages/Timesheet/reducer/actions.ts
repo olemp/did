@@ -69,7 +69,9 @@ export const CHANGE_VIEW = createAction<{ view: TimesheetView }>('CHANGE_VIEW')
  *
  * @category Timesheet Actions
  */
-export const CHANGE_DATE_RANGE_TYPE = createAction<{ dateRangeType: DateRangeType }>('CHANGE_DATE_RANGE_TYPE')
+export const CHANGE_DATE_RANGE_TYPE = createAction<{
+  dateRangeType: DateRangeType
+}>('CHANGE_DATE_RANGE_TYPE')
 
 /**
  * Manual match action

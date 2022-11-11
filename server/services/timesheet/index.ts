@@ -293,11 +293,11 @@ export class TimesheetService {
     userId: string,
     includeSplitWeeks = true
   ): TimesheetPeriodObject[] {
-    let range = {
+    const range = {
       startDate: new DateObject(startDate),
       endDate: new DateObject(startDate).endOfWeek
     }
-    let periods: TimesheetPeriodObject[] = []
+    const periods: TimesheetPeriodObject[] = []
     while (range.startDate.isBeforeOrSame(new DateObject(endDate))) {
       const isSplit = !range.startDate.isSameMonth(range.endDate)
       periods.push(new TimesheetPeriodObject(

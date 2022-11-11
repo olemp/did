@@ -17,7 +17,7 @@ export const TimesheetPage: PageComponent = () => {
   const match = useRouteMatch()
   return (
     <Switch>
-      <Route path={`${match.path}/:view/:week/:month/:year`}>
+      <Route path={`${match.path}/:dateRange/:view/:week/:month/:year`}>
         <Timesheet />
       </Route>
       <Route path={match.path}>

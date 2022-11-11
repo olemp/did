@@ -21,9 +21,18 @@ export function useMessages(): IUserMessageProps[] {
 
   const messages: IUserMessageProps[] = []
 
-  if (state.dateRangeType === DateRangeType.Month && state.selectedView !== TimesheetView.Overview) {
-    const forecastedHours = state.periods.reduce((sum, period) => sum += period.forecastedHours, 0)
-    const matchedDuration = state.periods.reduce((sum, period) => sum += period.matchedDuration, 0)
+  if (
+    state.dateRangeType === DateRangeType.Month &&
+    state.selectedView !== TimesheetView.Overview
+  ) {
+    const forecastedHours = state.periods.reduce(
+      (sum, period) => (sum += period.forecastedHours),
+      0
+    )
+    const matchedDuration = state.periods.reduce(
+      (sum, period) => (sum += period.matchedDuration),
+      0
+    )
     if (forecastedHours > 0) {
       messages.push({
         id: 'monthForecasted',
@@ -48,7 +57,10 @@ export function useMessages(): IUserMessageProps[] {
         text: t('timesheet.weekHoursSummaryText', {
           hours: $date.getDurationString(state.selectedPeriod.totalDuration, t),
           splitWeekInfoText:
-            (state.periods.length > 1 && state.dateRangeType === DateRangeType.Week) ? t('timesheet.splitWeekInfoText') : ''
+            state.periods.length > 1 &&
+            state.dateRangeType === DateRangeType.Week
+              ? t('timesheet.splitWeekInfoText')
+              : ''
         })
       })
     }
@@ -75,16 +87,25 @@ export function useMessages(): IUserMessageProps[] {
       messages.push({
         id: 'periodConfirmed',
         text: t('timesheet.periodConfirmedText', {
-          hours: $date.getDurationString(state.selectedPeriod.matchedDuration, t)
+          hours: $date.getDurationString(
+            state.selectedPeriod.matchedDuration,
+            t
+          )
         }),
         type: 'success'
       })
     }
-    if (state.selectedPeriod.isForecasted && !state.selectedPeriod.isConfirmed) {
+    if (
+      state.selectedPeriod.isForecasted &&
+      !state.selectedPeriod.isConfirmed
+    ) {
       messages.push({
         id: 'periodforecasted',
         text: t('timesheet.periodForecastedText', {
-          hours: $date.getDurationString(state.selectedPeriod.forecastedHours, t)
+          hours: $date.getDurationString(
+            state.selectedPeriod.forecastedHours,
+            t
+          )
         })
       })
     }

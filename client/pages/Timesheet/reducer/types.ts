@@ -15,5 +15,5 @@ export interface ITimesheetReducerParameters {
   /**
    * Timesheet props
    */
-   props: ITimesheetProps
+  props: ITimesheetProps
 }

@@ -10,7 +10,8 @@ import { CHANGE_PERIOD } from '../reducer/actions'
 export function usePeriodCommands() {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
-  if (state.periods.length === 1 || state.dateRangeType !== DateRangeType.Week) return []
+  if (state.periods.length === 1 || state.dateRangeType !== DateRangeType.Week)
+    return []
   return state.periods.map(
     (period, index) =>
       ({

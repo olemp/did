@@ -30,10 +30,13 @@ export const AllocationView: TabComponent = () => {
   const charts = useChartConfig()
   const data = useChartData(charts, container.current)
 
-  if(state.loading) {
+  if (state.loading) {
     return (
       <div className={styles.root} ref={container}>
-        <Spinner label={t('timesheet.allocation.loadingLabel')} size={SpinnerSize.large} />
+        <Spinner
+          label={t('timesheet.allocation.loadingLabel')}
+          size={SpinnerSize.large}
+        />
       </div>
     )
   }

@@ -6,18 +6,21 @@ import { ITimesheetReducerParameters } from './types'
  * Initializes state based on url parameters
  *
  * @param params - Timesheet reducer parameters
- * 
+ *
  * @returns Initial state
  */
 
-export function initState(params: ITimesheetReducerParameters): ITimesheetState {
+export function initState(
+  parameters: ITimesheetReducerParameters
+): ITimesheetState {
   return {
     periods: [],
-    scope: _.isEmpty(Object.keys(params.url))
+    scope: _.isEmpty(Object.keys(parameters.url))
       ? new TimesheetScope()
-      : new TimesheetScope().fromParams(params.url),
-    dateRangeType: params.props.dateRangeType,
-    selectedView: params.url.view as TimesheetView ?? TimesheetView.Overview,
+      : new TimesheetScope().fromParams(parameters.url),
+    dateRangeType: parameters.props.dateRangeType,
+    selectedView:
+      (parameters.url.view as TimesheetView) ?? TimesheetView.Overview,
     navHistory: []
   }
 }

@@ -3,8 +3,8 @@ import { TimesheetPeriodObject } from 'types'
 import _ from 'underscore'
 import { ITimesheetState, TimesheetPeriod, TimesheetScope } from '../types'
 import {
-  CHANGE_PERIOD,
   CHANGE_DATE_RANGE_TYPE,
+  CHANGE_PERIOD,
   CHANGE_VIEW,
   CLEAR_IGNORES,
   CLEAR_MANUAL_MATCH,
@@ -26,19 +26,27 @@ import { ITimesheetReducerParameters } from './types'
  *
  * @param params - Timesheet reducer parameters
  */
-export function createTimesheetReducer(params: ITimesheetReducerParameters) {
-  return createReducer<ITimesheetState>(initState(params), (builder) =>
+export function createTimesheetReducer(
+  parameters: ITimesheetReducerParameters
+) {
+  return createReducer<ITimesheetState>(initState(parameters), (builder) =>
     builder
       .addCase(DATA_UPDATED, (state, { payload }) => {
         state.loading = payload.query.loading
           ? {
-            label: params.t('timesheet.loadingTimesheetLabel'),
-            description: params.t('timesheet.loadingTimesheetDescription'),
-            iconProps: { iconName: 'RecurringEvent' }
-          }
+              label: parameters.t('timesheet.loadingTimesheetLabel'),
+              description: parameters.t(
+                'timesheet.loadingTimesheetDescription'
+              ),
+              iconProps: { iconName: 'RecurringEvent' }
+            }
           : null
         if (payload.query.data) {
-          const urlPeriodId = [params.url.week, params.url.month, params.url.year].join('_')
+          const urlPeriodId = [
+            parameters.url.week,
+            parameters.url.month,
+            parameters.url.year
+          ].join('_')
           const selectedPeriodId = state.selectedPeriod?.id || urlPeriodId
           state.periods = payload.query.data.periods.map(
             (period: TimesheetPeriodObject) =>
@@ -60,28 +68,36 @@ export function createTimesheetReducer(params: ITimesheetReducerParameters) {
       .addCase(SUBMITTING_PERIOD, (state, { payload }) => {
         state.loading = payload.forecast
           ? {
-            label: params.t('timesheet.forecastingPeriodLabel'),
-            description: params.t('timesheet.forecastingPeriodDescription'),
-            iconProps: { iconName: 'PlanView' }
-          }
+              label: parameters.t('timesheet.forecastingPeriodLabel'),
+              description: parameters.t(
+                'timesheet.forecastingPeriodDescription'
+              ),
+              iconProps: { iconName: 'PlanView' }
+            }
           : {
-            label: params.t('timesheet.confirmingPeriodLabel'),
-            description: params.t('timesheet.confirmingPeriodDescription'),
-            iconProps: { iconName: 'CheckMark' }
-          }
+              label: parameters.t('timesheet.confirmingPeriodLabel'),
+              description: parameters.t(
+                'timesheet.confirmingPeriodDescription'
+              ),
+              iconProps: { iconName: 'CheckMark' }
+            }
       })
       .addCase(UNSUBMITTING_PERIOD, (state, { payload }) => {
         state.loading = payload.forecast
           ? {
-            label: params.t('timesheet.unforecastingPeriodLabel'),
-            description: params.t('timesheet.unforecastingPeriodDescription'),
-            iconProps: { iconName: 'ClearFormattingEraser' }
-          }
+              label: parameters.t('timesheet.unforecastingPeriodLabel'),
+              description: parameters.t(
+                'timesheet.unforecastingPeriodDescription'
+              ),
+              iconProps: { iconName: 'ClearFormattingEraser' }
+            }
           : {
-            label: params.t('timesheet.unconfirmingPeriodLabel'),
-            description: params.t('timesheet.unconfirmingPeriodDescription'),
-            iconProps: { iconName: 'SkypeCircleArrow' }
-          }
+              label: parameters.t('timesheet.unconfirmingPeriodLabel'),
+              description: parameters.t(
+                'timesheet.unconfirmingPeriodDescription'
+              ),
+              iconProps: { iconName: 'SkypeCircleArrow' }
+            }
       })
       .addCase(CHANGE_PERIOD, (state, { payload }) => {
         state.selectedPeriod = _.find(
@@ -116,12 +132,14 @@ export function createTimesheetReducer(params: ITimesheetReducerParameters) {
         }
       })
       .addCase(CHANGE_VIEW, (state, { payload }) => {
-        console.log(payload.view)
         state.selectedView = payload.view
       })
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
         state.dateRangeType = payload.dateRangeType
-        state.scope = new TimesheetScope(state.scope.startDate.jsDate, payload.dateRangeType)
+        state.scope = new TimesheetScope(
+          state.scope.startDate.jsDate,
+          payload.dateRangeType
+        )
         state.periods = []
       })
       .addCase(MANUAL_MATCH, (state, { payload }) => {

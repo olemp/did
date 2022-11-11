@@ -8,7 +8,7 @@ import { initState } from './initState'
 
 /**
  * Use Timesheet reducer
- * 
+ *
  * @param props - Timesheet props
  */
 export function useTimesheetReducer(props: ITimesheetProps) {

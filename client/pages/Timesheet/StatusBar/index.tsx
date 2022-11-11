@@ -1,4 +1,3 @@
-import { DateRangeType } from '@fluentui/react'
 import { Progress } from 'components/Progress'
 import { IUserMessageProps, UserMessage } from 'components/UserMessage'
 import React, { FC } from 'react'

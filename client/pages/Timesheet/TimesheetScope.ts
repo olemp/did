@@ -22,19 +22,28 @@ export class TimesheetScope {
    *
    * @param startDate - Optional start date
    * @param _dateRangeType - Optional date range type
-   * 
+   *
    * @memberof TimesheetScope
    */
-  constructor(startDate?: DateInput, private _dateRangeType = DateRangeType.Week) {
-    this.startDate = _dateRangeType === DateRangeType.Week ? new DateObject(startDate).startOfWeek : new DateObject(startDate).startOfMonth
-    this.endDate = _dateRangeType === DateRangeType.Week ? this.startDate.endOfWeek : this.startDate.endOfMonth
+  constructor(
+    startDate?: DateInput,
+    private _dateRangeType = DateRangeType.Week
+  ) {
+    this.startDate =
+      _dateRangeType === DateRangeType.Week
+        ? new DateObject(startDate).startOfWeek
+        : new DateObject(startDate).startOfMonth
+    this.endDate =
+      _dateRangeType === DateRangeType.Week
+        ? this.startDate.endOfWeek
+        : this.startDate.endOfMonth
   }
 
   /**
    * Sets `startDate` and `endDate` from `params`
    *
    * @param parameters - Params
-   * 
+   *
    * @memberof TimesheetScope
    */
   public fromParams(parameters: ITimesheetParameters): TimesheetScope {
@@ -47,7 +56,7 @@ export class TimesheetScope {
    * Get TimesheetQuery for the scope
    *
    * @param template - Template
-   * 
+   *
    * @memberof TimesheetScope
    */
   public query(template: string = 'YYYY-MM-DD'): TimesheetQuery {
@@ -74,7 +83,7 @@ export class TimesheetScope {
    * Get a day in the scope by index
    *
    * @param index - Index
-   * 
+   *
    * @memberof TimesheetScope
    */
   public getDay(index: number): DateObject {
@@ -97,14 +106,16 @@ export class TimesheetScope {
    */
   public get timespan(): string {
     switch (this._dateRangeType) {
-      case DateRangeType.Week: return DateUtils.getTimespanString({
-        startDate: this.startDate,
-        endDate: this.endDate,
-        includeMonth: {
-          endDate: true
-        }
-      })
-      case DateRangeType.Month: return capitalize(this.startDate.format('MMMM'))
+      case DateRangeType.Week:
+        return DateUtils.getTimespanString({
+          startDate: this.startDate,
+          endDate: this.endDate,
+          includeMonth: {
+            endDate: true
+          }
+        })
+      case DateRangeType.Month:
+        return capitalize(this.startDate.format('MMMM'))
     }
   }
 }
