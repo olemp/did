@@ -1,11 +1,11 @@
 /* eslint-disable unicorn/prefer-query-selector */
-import { ICommandBarProps } from '@fluentui/react'
+import { DateRangeType, ICommandBarProps } from '@fluentui/react'
 import { useToggle } from 'hooks'
 import { TimesheetView } from '..'
 import { useTimesheetContext } from '../context'
 import { useDateRangePickerCommand } from './DateRangePicker/useDateRangePickerCommand'
-import { usePeriodCommands } from './selectPeriodCommands'
 import { useNavigateCommands } from './useNavigateCommands'
+import { useNavigatePeriodsCommands } from './useNavigatePeriodsCommands'
 import { useSubmitCommands } from './useSubmitCommands'
 
 /**
@@ -15,19 +15,23 @@ export function useActionBar() {
   const { state } = useTimesheetContext()
   const navigateCommands = useNavigateCommands()
   const submitCommands = useSubmitCommands()
-  const periodCommands = usePeriodCommands()
+  const navigatePeriodsCommands = useNavigatePeriodsCommands()
   const [showWeekPicker, toggleWeekPicker] = useToggle(false)
   const { dateRangePickerCommands, target } =
     useDateRangePickerCommand(toggleWeekPicker)
 
   const commandBarProps: ICommandBarProps = {
     styles: { root: { padding: 0 } },
-    items: [...navigateCommands, ...dateRangePickerCommands, ...periodCommands],
+    items: [...navigateCommands, ...dateRangePickerCommands],
     farItems: []
   }
 
   if (state.selectedView === TimesheetView.Overview) {
     commandBarProps.farItems.push(submitCommands)
+  }
+
+  if (state.dateRangeType === DateRangeType.Week) {
+    commandBarProps.items.push(...navigatePeriodsCommands)
   }
 
   return {
