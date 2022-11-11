@@ -4,6 +4,7 @@ import _ from 'underscore'
 import { ITimesheetState, TimesheetPeriod } from '../types'
 import {
   CHANGE_PERIOD,
+  CHANGE_DATE_RANGE_TYPE,
   CHANGE_VIEW,
   CLEAR_IGNORES,
   CLEAR_MANUAL_MATCH,
@@ -118,6 +119,9 @@ export function createTimesheetReducer({
       })
       .addCase(CHANGE_VIEW, (state, { payload }) => {
         state.selectedView = payload.view
+      })
+      .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
+        state.dateRangeType = payload.dateRangeType
       })
       .addCase(MANUAL_MATCH, (state, { payload }) => {
         const { eventId, project } = payload

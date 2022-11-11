@@ -1,3 +1,4 @@
+import { DateRangeType } from '@fluentui/react'
 import _ from 'underscore'
 import { ITimesheetParameters, ITimesheetState, TimesheetScope } from '../types'
 
@@ -14,6 +15,7 @@ export function initState(url: ITimesheetParameters): ITimesheetState {
     scope: _.isEmpty(Object.keys(url))
       ? new TimesheetScope()
       : new TimesheetScope().fromParams(url),
+    dateRangeType: DateRangeType.Week,
     selectedView: url.view || 'overview',
     navHistory: []
   }

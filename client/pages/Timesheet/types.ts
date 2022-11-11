@@ -1,4 +1,5 @@
 /* eslint-disable tsdoc/syntax */
+import { DateRangeType } from '@fluentui/react'
 import { IProgressProps } from 'components/Progress/types'
 import { TimesheetPeriod } from './TimesheetPeriod'
 import { TimesheetScope } from './TimesheetScope'
@@ -31,6 +32,11 @@ export interface ITimesheetState {
    * The current scope
    */
   scope: TimesheetScope
+
+  /**
+   * The current date range type
+   */
+  dateRangeType: DateRangeType
 
   /**
    * Loading props

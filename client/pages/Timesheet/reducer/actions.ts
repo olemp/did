@@ -1,5 +1,6 @@
 /* eslint-disable tsdoc/syntax */
 import { QueryResult } from '@apollo/client'
+import { DateRangeType } from '@fluentui/react'
 import { createAction } from '@reduxjs/toolkit'
 import { Project } from 'types'
 import { TimesheetScope } from '../TimesheetScope'
@@ -63,6 +64,13 @@ export const NEXT_PERIOD = createAction('NEXT_PERIOD')
  * @category Timesheet Actions
  */
 export const CHANGE_VIEW = createAction<{ view: TimesheetView }>('CHANGE_VIEW')
+
+/**
+ * Change date range type action
+ *
+ * @category Timesheet Actions
+ */
+export const CHANGE_DATE_RANGE_TYPE = createAction<{ dateRangeType: DateRangeType }>('CHANGE_DATE_RANGE_TYPE')
 
 /**
  * Manual match action

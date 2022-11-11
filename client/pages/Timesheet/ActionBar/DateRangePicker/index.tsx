@@ -2,7 +2,6 @@
 import {
   Calendar,
   Callout,
-  DateRangeType,
   DayOfWeek,
   DirectionalHint,
   FirstWeekOfYear,
@@ -20,7 +19,7 @@ import { TimesheetScope, useTimesheetContext } from '../../types'
 /**
  * @category Timesheet
  */
-export const WeekPicker: React.FC<ICalloutProps> = (props) => {
+export const DateRangePicker: React.FC<ICalloutProps> = (props) => {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const { palette } = useTheme()
@@ -49,7 +48,7 @@ export const WeekPicker: React.FC<ICalloutProps> = (props) => {
           showWeekNumbers={true}
           isMonthPickerVisible={isBrowser}
           firstWeekOfYear={FirstWeekOfYear.FirstFourDayWeek}
-          dateRangeType={DateRangeType.Week}
+          dateRangeType={state.dateRangeType}
           value={state.scope.startDate.jsDate}
           calendarMonthProps={{
             styles: {
