@@ -1,8 +1,7 @@
 import { DateRangeType } from '@fluentui/react'
 import _ from 'underscore'
 import {
-  ITimesheetState,
-  TimesheetPeriod,
+  ITimesheetState, 
   TimesheetScope,
   TimesheetView
 } from '../types'
@@ -25,9 +24,6 @@ export function initState(
   const scope = _.isEmpty(Object.keys(parameters.url))
     ? new TimesheetScope(undefined, dateRangeType)
     : new TimesheetScope(undefined, dateRangeType).fromParams(parameters.url)
-  if (dateRangeType === DateRangeType.Month) {
-    periods.push(new TimesheetPeriod().useMock())
-  }
   return {
     periods,
     scope,

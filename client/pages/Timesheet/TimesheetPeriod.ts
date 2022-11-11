@@ -58,11 +58,6 @@ export class TimesheetPeriod {
   private _uiIgnoredEventsStorage: BrowserStorage<string[]>
 
   /**
-   * Mock period used while loading data
-   */
-  private _isMock: boolean
-
-  /**
    * Constructor for `TimesheetPeriod`
    *
    * @param period - Period
@@ -80,11 +75,6 @@ export class TimesheetPeriod {
     return this
   }
 
-  public useMock() {
-    this._isMock = true
-    return this
-  }
-
   /**
    * Get name of period
    *
@@ -93,7 +83,6 @@ export class TimesheetPeriod {
    * @memberof TimesheetPeriod
    */
   public getName(t: TFunction, includeMonth?: boolean) {
-    if (this._isMock) return ''
     let name = `${t('common.weekLabel')} ${this.week}`
     if (includeMonth) name += ` (${this.month})`
     return name

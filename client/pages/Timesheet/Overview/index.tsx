@@ -36,10 +36,22 @@ export const Overview: TabComponent = () => {
       )
     }
     case DateRangeType.Month: {
+      if (state.loading) {
+        return (
+          <div className={className.join(' ')}>
+            <EventList
+              enableShimmer={true}
+              items={[]}
+              listGroupProps={listGroupProps}
+              additionalColumns={additionalColumns}
+            />
+          </div>
+        )
+      }
       return (
         <div className={className.join(' ')}>
           <Pivot
-            defaultSelectedKey={state.selectedPeriod?.id}
+            selectedKey={state.selectedPeriod?.id}
             onLinkClick={(item) => {
               dispatch(CHANGE_PERIOD({ id: item.props.itemKey }))
             }}

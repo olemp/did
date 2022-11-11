@@ -1,4 +1,3 @@
-import { DateRangeType } from '@fluentui/react'
 import { createReducer, current } from '@reduxjs/toolkit'
 import { TimesheetPeriodObject } from 'types'
 import _ from 'underscore'
@@ -142,9 +141,6 @@ export function createTimesheetReducer(
           payload.dateRangeType
         )
         state.periods = []
-        if (payload.dateRangeType === DateRangeType.Month) {
-          state.periods.push(new TimesheetPeriod().useMock())
-        }
       })
       .addCase(MANUAL_MATCH, (state, { payload }) => {
         const { eventId, project } = payload
