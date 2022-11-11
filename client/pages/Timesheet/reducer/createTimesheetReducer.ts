@@ -1,3 +1,4 @@
+import { DateRangeType } from '@fluentui/react'
 import { createReducer, current } from '@reduxjs/toolkit'
 import { TimesheetPeriodObject } from 'types'
 import _ from 'underscore'
@@ -107,28 +108,50 @@ export function createTimesheetReducer(
       })
       .addCase(PREVIOUS_PERIOD, (state) => {
         state.navHistory.push(PREVIOUS_PERIOD.type)
-        const { periods, selectedPeriod } = current(state)
+        const { periods, selectedPeriod, dateRangeType } = current(state)
         const index = periods.indexOf(selectedPeriod)
-        if (state.periods.length === 1 || index === 0) {
-          state.scope = state.scope.set('-1w')
-        } else {
-          state.selectedPeriod = _.find(
-            periods,
-            (p: TimesheetPeriod) => p.id !== selectedPeriod.id
-          )
+        switch (dateRangeType) {
+          case DateRangeType.Week:
+            {
+              if (state.periods.length === 1 || index === 0) {
+                state.scope = state.scope.set('-1w')
+              } else {
+                state.selectedPeriod = _.find(
+                  periods,
+                  (p: TimesheetPeriod) => p.id !== selectedPeriod.id
+                )
+              }
+            }
+            break
+          case DateRangeType.Month:
+            {
+              state.scope = state.scope.set('-1month')
+            }
+            break
         }
       })
       .addCase(NEXT_PERIOD, (state) => {
         state.navHistory.push(NEXT_PERIOD.type)
-        const { periods, selectedPeriod } = current(state)
+        const { periods, selectedPeriod, dateRangeType } = current(state)
         const index = periods.indexOf(selectedPeriod)
-        if (state.periods.length === 1 || index === 1) {
-          state.scope = state.scope.set('1w')
-        } else {
-          state.selectedPeriod = _.find(
-            periods,
-            (p: TimesheetPeriod) => p.id !== selectedPeriod.id
-          )
+        switch (dateRangeType) {
+          case DateRangeType.Week:
+            {
+              if (state.periods.length === 1 || index === 1) {
+                state.scope = state.scope.set('1w')
+              } else {
+                state.selectedPeriod = _.find(
+                  periods,
+                  (p: TimesheetPeriod) => p.id !== selectedPeriod.id
+                )
+              }
+            }
+            break
+          case DateRangeType.Month:
+            {
+              state.scope = state.scope.set('1month')
+            }
+            break
         }
       })
       .addCase(CHANGE_VIEW, (state, { payload }) => {

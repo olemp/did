@@ -11,7 +11,7 @@
     "allocationHeaderText": "Allokering",
     "confirmHoursText": "Stadfest timar",
     "unconfirmHoursText": "Angre stadfesting",
-    "goToCurrentWeek": "Gå til inneverande veke",
+    "goToCurrentWeek": "Gå til inneverande veke eller månad",
     "goToPrevWeek": "Gå til førre periode",
     "goToNextWeek": "Gå til neste periode",
     "weekHoursSummaryText": "Du har totalt **{{hours}}** denne perioden. {{splitWeekInfoText}}",

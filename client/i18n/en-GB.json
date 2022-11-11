@@ -11,7 +11,7 @@
     "allocationHeaderText": "Allocation",
     "confirmHoursText": "Confirm hours",
     "unconfirmHoursText": "Unconfirm hours",
-    "goToCurrentWeek": "Go to current week",
+    "goToCurrentWeek": "Go to current week or month",
     "goToPrevWeek": "Go to previous period",
     "goToNextWeek": "Go to next period",
     "weekHoursSummaryText": "**{{hours}}** this week. {{splitWeekInfoText}}",

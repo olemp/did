@@ -84,8 +84,8 @@ export class TimesheetScope {
    * @memberof TimesheetScope
    */
   public set(add: string): TimesheetScope {
-    this.startDate = this.startDate.add(add)
-    this.endDate = this.startDate.endOfWeek
+    const startDate = this.startDate.add(add).jsDate
+    this._init(startDate)
     return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
   }
 

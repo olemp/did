@@ -1,7 +1,6 @@
 import { TFunction } from 'i18next'
-import React from 'react'
 import { GlobalHotKeysProps } from 'react-hotkeys'
-import { AnyAction } from 'redux'
+import { ITimesheetContext } from '../context'
 import {
   NEXT_PERIOD,
   PREVIOUS_PERIOD,
@@ -11,11 +10,11 @@ import {
 import { TimesheetScope } from '../TimesheetScope'
 
 export const getHotkeys = (
-  dispatch: React.Dispatch<AnyAction>,
+  context: ITimesheetContext,
   t: TFunction
 ): GlobalHotKeysProps => ({
   keyMap: {
-    GO_TO_CURRENT_WEEK: {
+    GO_TO_CURRENT_WEEK_MONTH: {
       name: t('timesheet.goToCurrentWeek'),
       sequence: 'SHIFT+DOWN',
       action: 'keydown'
@@ -37,11 +36,11 @@ export const getHotkeys = (
     }
   },
   handlers: {
-    GO_TO_CURRENT_WEEK: () =>
-      dispatch(SET_SCOPE(new TimesheetScope(new Date()))),
-    PREVIOUS_PERIOD: () => dispatch(PREVIOUS_PERIOD()),
-    NEXT_PERIOD: () => dispatch(NEXT_PERIOD()),
-    SHOW_SHORTCUTS: () => dispatch(TOGGLE_SHORTCUTS())
+    GO_TO_CURRENT_WEEK_MONTH: () =>
+      context.dispatch(SET_SCOPE(new TimesheetScope(new Date(), context.state.dateRangeType))),
+    PREVIOUS_PERIOD: () => context.dispatch(PREVIOUS_PERIOD()),
+    NEXT_PERIOD: () => context.dispatch(NEXT_PERIOD()),
+    SHOW_SHORTCUTS: () => context.dispatch(TOGGLE_SHORTCUTS())
   },
   allowChanges: false
 })

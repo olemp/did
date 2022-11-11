@@ -10,26 +10,26 @@ import { TimesheetScope, useTimesheetContext } from '../types'
 export function useNavigateCommands() {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
-  const navigateCurrentWeek: IContextualMenuItem = {
-    key: 'NAVIGATE_CURRENT_WEEK',
+  const navigateCurrentWeekMonth: IContextualMenuItem = {
+    key: 'NAVIGATE_CURRENT_WEEK_MONTH',
     title: t('timesheet.goToCurrentWeek'),
     iconProps: { iconName: 'RenewalCurrent' },
     disabled: state.scope.isCurrentWeek || !!state.loading,
-    onClick: () => dispatch(SET_SCOPE(new TimesheetScope(new Date())))
+    onClick: () => dispatch(SET_SCOPE(new TimesheetScope(new Date(), state.dateRangeType)))
   }
   const navigatePreviousPeriod: IContextualMenuItem = {
-    key: 'navigatePreviousPeriod',
+    key: 'NAVIGATE_PREVIOUS_PERIOD',
     title: t('timesheet.goToPrevWeek'),
     iconProps: { iconName: 'Back' },
     disabled: !!state.loading,
     onClick: () => dispatch(PREVIOUS_PERIOD())
   }
   const navigateNextPeriod: IContextualMenuItem = {
-    key: 'navigateNextPeriod',
+    key: 'NAVIGATE_NEXT_PERIOD',
     title: t('timesheet.goToNextWeek'),
     iconProps: { iconName: 'Forward' },
     disabled: !!state.loading,
     onClick: () => dispatch(NEXT_PERIOD())
   }
-  return [navigateCurrentWeek, navigatePreviousPeriod, navigateNextPeriod]
+  return [navigateCurrentWeekMonth, navigatePreviousPeriod, navigateNextPeriod]
 }

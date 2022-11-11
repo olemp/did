@@ -15,6 +15,8 @@ export function useDateRangePickerCommand(
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const componentRef = useRef(null)
+  // eslint-disable-next-line no-console
+  console.log(state.scope, state.dateRangeType)
   const browserProps: Partial<IContextualMenuItem> = {
     text: state.scope.timespan,
     style: { paddingRight: 15 }

@@ -34,7 +34,7 @@ export const DateRangePicker: FC<ICalloutProps> = (props) => {
       <FocusTrapZone isClickableOutsideFocusTrap={true}>
         <Calendar
           onSelectDate={(date) => {
-            dispatch(SET_SCOPE(new TimesheetScope(date)))
+            dispatch(SET_SCOPE(new TimesheetScope(date, state.dateRangeType)))
             props.onDismiss()
           }}
           firstDayOfWeek={DayOfWeek.Monday}
