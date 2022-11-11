@@ -52,7 +52,8 @@
       "projectChartTitle": "Prosjekter",
       "noDataText": "Ingen data å vise for den valgte perioden.",
       "customerChartDescription": "Viser allokering per kunde for perioden",
-      "projectChartDescription": "Viser allokering per prosjekt for perioden"
+      "projectChartDescription": "Viser allokering per prosjekt for perioden",
+      "loadingLabel": "Laster data og genererer diagrammer..."
     },
     "matchEventPanelSearchPlaceholder": "Søk i prosjekter...",
     "eventDurationModifiedMessage": "Hendelsens varighet har automatisk blitt endret fra {{originalDuration}} til {{modifiedDuration}}. Om du ikke vil at dette skal skje i fremtiden, kan funksjonen skrus av i brukerinnstillinger.",

@@ -52,7 +52,8 @@
       "projectChartTitle": "Projects",
       "noDataText": "No data to show for the selected period.",
       "customerChartDescription": "Shows allocation per customer for the period",
-      "projectChartDescription": "Shows allocation per project for the period"
+      "projectChartDescription": "Shows allocation per project for the period",
+      "loadingLabel": "Loading data and generating charts..."
     },
     "matchEventPanelSearchPlaceholder": "Search projects...",
     "eventDurationModifiedMessage": "The event's duration has been automatically changed from {{originalDuration}} to {{modifiedDuration}}. If you do not want this to happen in the future, the function can be turned off in the user settings.",

@@ -1,3 +1,4 @@
+import { Spinner, SpinnerSize } from '@fluentui/react'
 import { UserMessage } from 'components'
 import { SubText } from 'components/SubText'
 import { TabComponent } from 'components/TabContainer/types'
@@ -28,6 +29,14 @@ export const AllocationView: TabComponent = () => {
 
   const charts = useChartConfig()
   const data = useChartData(charts, container.current)
+
+  if(state.loading) {
+    return (
+      <div className={styles.root} ref={container}>
+        <Spinner label={t('timesheet.allocation.loadingLabel')} size={SpinnerSize.large} />
+      </div>
+    )
+  }
 
   if (!state.loading && state.selectedPeriod?.totalDuration === 0) {
     return (

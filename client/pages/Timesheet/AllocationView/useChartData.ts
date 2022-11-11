@@ -1,3 +1,4 @@
+import { DateRangeType } from '@fluentui/react'
 import get from 'get-value'
 import { useMemo } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
@@ -62,11 +63,15 @@ export function useChartData<T = any>(
 ): ChartData<T> {
   const { t } = useTranslation()
   const { state } = useTimesheetContext()
+  let events = state.selectedPeriod?.getEvents(true)
+  if (state.dateRangeType === DateRangeType.Month) {
+    events = [].concat.apply([], state.periods.map(period => period.getEvents(true)))
+  }
   return useMemo(
     () =>
       charts.reduce((_data, chart) => {
         const d = getDataForChart(
-          state.selectedPeriod?.getEvents(true),
+          events,
           chart,
           container?.clientWidth,
           t
