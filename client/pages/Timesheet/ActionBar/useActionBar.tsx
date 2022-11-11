@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/prefer-query-selector */
-import { DateRangeType, ICommandBarProps } from '@fluentui/react'
+import { ICommandBarProps } from '@fluentui/react'
 import { useToggle } from 'hooks'
 import { useTimesheetContext } from '../context'
 import { usePeriodCommands } from './selectPeriodCommands'

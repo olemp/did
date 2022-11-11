@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 import {
   Calendar,
   Callout,
@@ -10,7 +9,7 @@ import {
   ICalloutProps,
   useTheme
 } from '@fluentui/react'
-import React from 'react'
+import React, { FC } from 'react'
 import { isBrowser } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { SET_SCOPE } from '../../reducer/actions'
@@ -19,7 +18,7 @@ import { TimesheetScope, useTimesheetContext } from '../../types'
 /**
  * @category Timesheet
  */
-export const DateRangePicker: React.FC<ICalloutProps> = (props) => {
+export const WeekPicker: FC<ICalloutProps> = (props) => {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const { palette } = useTheme()

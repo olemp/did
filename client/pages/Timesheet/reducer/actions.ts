@@ -1,4 +1,3 @@
-/* eslint-disable tsdoc/syntax */
 import { QueryResult } from '@apollo/client'
 import { DateRangeType } from '@fluentui/react'
 import { createAction } from '@reduxjs/toolkit'

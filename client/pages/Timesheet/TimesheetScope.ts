@@ -1,5 +1,3 @@
-/* eslint-disable tsdoc/syntax */
-import { DateRangeType } from '@fluentui/react'
 import DateUtils, { DateInput, DateObject } from 'DateUtils'
 import { TimesheetQuery } from 'types'
 import { capitalize } from 'underscore.string'

@@ -1,6 +1,5 @@
 /* eslint-disable unicorn/prevent-abbreviations */
-/* eslint-disable tsdoc/syntax */
-import { DateRangeType, IContextualMenuItem } from '@fluentui/react'
+import { IContextualMenuItem } from '@fluentui/react'
 import { useTimesheetContext } from 'pages'
 import { useRef } from 'react'
 import { isMobile } from 'react-device-detect'
