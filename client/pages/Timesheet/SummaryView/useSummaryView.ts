@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable unicorn/no-array-reduce */
-import { DateRangeType } from '@fluentui/react'
 import { IListProps } from 'components/List/types'
 import { useTranslation } from 'react-i18next'
 import { useTimesheetContext } from '../context'
-import { createColumns } from './createColumns'
-import { generateRows } from './generateRows'
-import { generateTotalRow } from './generateTotalRow'
+import { useColumns } from './useColumns'
+import { useRowGenerator } from './useRowGenerator'
 
 /**
  * Component logic for `<SummaryView />`
@@ -16,19 +13,13 @@ import { generateTotalRow } from './generateTotalRow'
  * @category Timesheet
  */
 export function useSummaryView(): IListProps {
-  const { t } = useTranslation()
   const { state } = useTimesheetContext()
-  const columns = createColumns(state.scope)
-  let items = []
-  switch (state.dateRangeType) {
-    case DateRangeType.Week: {
-      const events = state.selectedPeriod?.getEvents(true) || []
-      items = [
-        ...generateRows(events, columns, t),
-        generateTotalRow(events, columns, t('common.sumLabel'))
-      ]
-    }
-  }
+  const columns = useColumns()
+  const { generateRows, generateTotalRow } = useRowGenerator(columns)
+  const items = [
+    ...generateRows(),
+    generateTotalRow()
+  ]
   return {
     enableShimmer: !!state.loading,
     items,
