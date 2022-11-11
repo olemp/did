@@ -1,14 +1,35 @@
 import { DateRangeType, IColumn } from '@fluentui/react'
 import $date from 'DateUtils'
-import { useTranslation } from 'react-i18next'
-import _ from 'underscore'
+import { TFunction, useTranslation } from 'react-i18next'
 import { EventObject, Project } from 'types'
+import _ from 'underscore'
 import { useTimesheetContext } from '../context'
+import { ISummaryViewRow } from './types'
+
+/**
+ * Get unique project rows from `events`.
+ * 
+ * @param events - Events
+ * @param t - Translate function (needs to be passed as a parameter since this is not a hook)
+ */
+function getUniqueProjectRows(events: EventObject[], t: TFunction): any[] {
+  return [
+    ..._.unique(
+      _.filter(
+        events.map((event_) => event_.project),
+        (p) => !!p
+      ),
+      (p: Project) => p?.tag
+    ),
+    { name: t('common.unconfirmedHours')}
+  ]
+}
 
 export function useRowGenerator(columns: IColumn[]) {
   const { t } = useTranslation()
   const { state } = useTimesheetContext()
-  function generateTotalRow() {
+
+  function generateTotalRow(): ISummaryViewRow {
     switch (state.dateRangeType) {
       case DateRangeType.Week: {
         const events = state.selectedPeriod?.getEvents(true) || []
@@ -29,26 +50,25 @@ export function useRowGenerator(columns: IColumn[]) {
         )
       }
       case DateRangeType.Month: {
-        return { label: t('common.sumLabel'), sum: 0 }
+        return state.periods.reduce(
+          (row, period) => {
+            const sum = period.getEvents(true).reduce((sum, event) => (sum += event.duration), 0)
+            row[period.id] = sum
+            row.sum += sum
+            return row
+          },
+          { label: t('common.sumLabel'), sum: 0 }
+        )
       }
     }
   }
 
-  function generateRows() {
+  function generateRows():ISummaryViewRow[] {
     switch (state.dateRangeType) {
       case DateRangeType.Week: {
         const events = state.selectedPeriod?.getEvents(true) || []
-        const projects = [
-          ..._.unique(
-            _.filter(
-              events.map((event_) => event_.project),
-              (p) => !!p
-            ),
-            (p: Project) => p?.tag
-          ),
-          { name: t('common.unconfirmedHours'), customer: { name: '' }, tag: null }
-        ]
-        return projects.map((project) => {
+        const projectRows = getUniqueProjectRows(events, t)
+        return projectRows.map((project) => {
           const projectEvents = events.filter(
             (event) =>
               event.project?.tag === project.tag || (!project.tag && !event.project)
@@ -76,37 +96,26 @@ export function useRowGenerator(columns: IColumn[]) {
       }
       case DateRangeType.Month: {
         const events: EventObject[] = [].concat.apply([], state.periods.map(period => period.getEvents(true)))
-        const projects = [
-          ..._.unique(
-            _.filter(
-              events.map((event_) => event_.project),
-              (p) => !!p
-            ),
-            (p: Project) => p?.tag
-          ),
-          { name: t('common.unconfirmedHours'), customer: { name: '' }, tag: null }
-        ]
-        return projects.map((project) => {
-          return state.periods.reduce(
-            (row, period) => {
-              const sum = period
-                .getEvents(true)
-                .filter(
-                  (event) =>
-                    event.project?.tag === project.tag || (!project.tag && !event.project)
-                )
-                .reduce((sum, event) => (sum += event.duration), 0)
-              row[period.id] = sum
-              row.sum += sum
-              return row
-            },
-            {
-              sum: 0,
-              project,
-              customer: project.customer
-            }
-          )
-        })
+        const projectRows = getUniqueProjectRows(events, t)
+        return projectRows.map((project) => state.periods.reduce(
+          (row, period) => {
+            const sum = period
+              .getEvents(true)
+              .filter(
+                (event) =>
+                  event.project?.tag === project.tag || (!project.tag && !event.project)
+              )
+              .reduce((sum, event) => (sum += event.duration), 0)
+            row[period.id] = sum
+            row.sum += sum
+            return row
+          },
+          {
+            sum: 0,
+            project,
+            customer: project.customer
+          }
+        ))
       }
     }
   }
