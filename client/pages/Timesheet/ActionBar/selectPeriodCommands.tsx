@@ -1,4 +1,4 @@
-import { IContextualMenuItem } from '@fluentui/react'
+import { DateRangeType, IContextualMenuItem } from '@fluentui/react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { useTimesheetContext } from '../context'
@@ -10,7 +10,7 @@ import { CHANGE_PERIOD } from '../reducer/actions'
 export function usePeriodCommands() {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
-  if (state.periods.length === 1) return []
+  if (state.periods.length === 1 || state.dateRangeType !== DateRangeType.Week) return []
   return state.periods.map(
     (period, index) =>
       ({

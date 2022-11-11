@@ -18,7 +18,7 @@ import { TimesheetScope, useTimesheetContext } from '../../types'
 /**
  * @category Timesheet
  */
-export const WeekPicker: FC<ICalloutProps> = (props) => {
+export const DateRangePicker: FC<ICalloutProps> = (props) => {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   const { palette } = useTheme()

@@ -11,7 +11,6 @@ import { useSubmitCommands } from './useSubmitCommands'
  * @category Timesheet
  */
 export function useActionBar() {
-  const { state } = useTimesheetContext()
   const navigateCommands = useNavigateCommands()
   const submitCommands = useSubmitCommands()
   const periodCommands = usePeriodCommands()
@@ -21,7 +20,7 @@ export function useActionBar() {
   const commandBarProps: ICommandBarProps = {
     styles: { root: { padding: 0 } },
     items: [...navigateCommands, ...dateRangePickerCommands, ...periodCommands],
-    farItems: state.dateRangeType === DateRangeType.Week && [submitCommands]
+    farItems: [submitCommands]
   }
 
   return {

@@ -1,16 +1,17 @@
 /* eslint-disable unicorn/prevent-abbreviations */
-import { IContextualMenuItem } from '@fluentui/react'
+import { DateRangeType, IContextualMenuItem } from '@fluentui/react'
 import { useTimesheetContext } from 'pages'
 import { useRef } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
+import { CHANGE_DATE_RANGE_TYPE } from '../reducer/actions'
 
 /**
  * @category Timesheet
  */
 export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) {
   const { t } = useTranslation()
-  const { state } = useTimesheetContext()
+  const { state, dispatch } = useTimesheetContext()
   const componentRef = useRef(null)
   const browserProps: Partial<IContextualMenuItem> = {
     text: state.scope.timespan,
@@ -29,6 +30,27 @@ export function useDateRangePickerCommand(onClick: React.DispatchWithoutAction) 
       componentRef,
       onClick,
       ...(isMobile ? mobileProps : browserProps)
+    },
+
+    {
+      key: 'DATE_RANGE_WEEK',
+      iconProps: { iconName: 'CalendarWeek' },
+      text: 'Veke',
+      canCheck: true,
+      checked: state.dateRangeType === DateRangeType.Week,
+      onClick: () => {
+        dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Week }))
+      }
+    },
+    {
+      key: 'DATE_RANGE_MONTH',
+      iconProps: { iconName: 'Calendar' },
+      text: 'Månad',
+      canCheck: true,
+      checked: state.dateRangeType === DateRangeType.Month,
+      onClick: () => {
+        dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Month }))
+      }
     }
   ]
   return {
