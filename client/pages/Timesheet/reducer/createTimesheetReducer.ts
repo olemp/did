@@ -63,8 +63,8 @@ export function createTimesheetReducer(
         state.error = payload.query.error
       })
       .addCase(SET_DATE_RANGE, (state, { payload }) => {
-        state.scope =
-          typeof payload === 'string' ? state.scope.set(payload) : payload
+        state.dateRange =
+          typeof payload === 'string' ? state.dateRange.set(payload) : payload
       })
       .addCase(SUBMITTING_PERIOD, (state, { payload }) => {
         state.loading = payload.forecast
@@ -114,7 +114,7 @@ export function createTimesheetReducer(
           case DateRangeType.Week:
             {
               if (state.periods.length === 1 || index === 0) {
-                state.scope = state.scope.set('-1w')
+                state.dateRange = state.dateRange.set('-1w')
               } else {
                 state.selectedPeriod = _.find(
                   periods,
@@ -125,7 +125,7 @@ export function createTimesheetReducer(
             break
           case DateRangeType.Month:
             {
-              state.scope = state.scope.set('-1month')
+              state.dateRange = state.dateRange.set('-1month')
             }
             break
         }
@@ -138,7 +138,7 @@ export function createTimesheetReducer(
           case DateRangeType.Week:
             {
               if (state.periods.length === 1 || index === 1) {
-                state.scope = state.scope.set('1w')
+                state.dateRange = state.dateRange.set('1w')
               } else {
                 state.selectedPeriod = _.find(
                   periods,
@@ -149,7 +149,7 @@ export function createTimesheetReducer(
             break
           case DateRangeType.Month:
             {
-              state.scope = state.scope.set('1month')
+              state.dateRange = state.dateRange.set('1month')
             }
             break
         }
@@ -159,8 +159,8 @@ export function createTimesheetReducer(
       })
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
         state.dateRangeType = payload.dateRangeType
-        state.scope = new TimesheetDateRange(
-          state.scope.startDate.jsDate,
+        state.dateRange = new TimesheetDateRange(
+          state.dateRange.startDate.jsDate,
           payload.dateRangeType
         )
         state.periods = []

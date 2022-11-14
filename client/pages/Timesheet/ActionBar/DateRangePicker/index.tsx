@@ -50,7 +50,7 @@ export const DateRangePicker: FC<ICalloutProps> = (props) => {
           isMonthPickerVisible={isBrowser}
           firstWeekOfYear={FirstWeekOfYear.FirstFourDayWeek}
           dateRangeType={state.dateRangeType}
-          value={state.scope.startDate.jsDate}
+          value={state.dateRange.startDate.jsDate}
           calendarMonthProps={{
             styles: {
               currentItemButton: {

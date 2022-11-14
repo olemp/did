@@ -18,7 +18,7 @@ export function useNavigateCommands() {
     key: 'NAVIGATE_CURRENT_WEEK_MONTH',
     title: t('timesheet.goToCurrentWeek'),
     iconProps: { iconName: 'RenewalCurrent' },
-    disabled: state.scope.isCurrent || !!state.loading,
+    disabled: state.dateRange.isCurrent || !!state.loading,
     onClick: () =>
       dispatch(
         SET_DATE_RANGE(new TimesheetDateRange(new Date(), state.dateRangeType))

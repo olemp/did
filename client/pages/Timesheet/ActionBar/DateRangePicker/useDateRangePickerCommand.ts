@@ -17,7 +17,7 @@ export function useDateRangePickerCommand(
   const { state, dispatch } = useTimesheetContext()
   const componentRef = useRef(null)
   const browserProps: Partial<IContextualMenuItem> = {
-    text: state.scope.timespan,
+    text: state.dateRange.timespan,
     style: { paddingRight: 15 }
   }
   if (
@@ -25,7 +25,7 @@ export function useDateRangePickerCommand(
     state.periods.length === 1
   ) {
     browserProps.text = `${state.selectedPeriod.getName(t)} (${
-      state.scope.timespan
+      state.dateRange.timespan
     })`
   }
   const mobileProps: Partial<IContextualMenuItem> = {

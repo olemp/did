@@ -38,7 +38,7 @@ export function initState(
       )
   return {
     periods,
-    scope,
+    dateRange: scope,
     dateRangeType,
     selectedView:
       (parameters.url.view as TimesheetView) ?? TimesheetView.Overview,

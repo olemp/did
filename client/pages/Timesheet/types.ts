@@ -32,9 +32,9 @@ export interface ITimesheetState {
   selectedView: TimesheetView
 
   /**
-   * The current scope
+   * The current date range
    */
-  scope: TimesheetDateRange
+  dateRange: TimesheetDateRange
 
   /**
    * The current date range type

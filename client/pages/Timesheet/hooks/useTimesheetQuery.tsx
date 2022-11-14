@@ -21,9 +21,9 @@ export function useTimesheetQuery(
 ): () => Promise<ApolloQueryResult<any>> {
   const { user } = useAppContext()
   const query = useQuery($timesheet, {
-    skip: !state.scope.query(),
+    skip: !state.dateRange.query(),
     variables: {
-      query: state.scope.query(),
+      query: state.dateRange.query(),
       options: {
         dateFormat: 'dddd DD',
         locale: user.preferredLanguage,

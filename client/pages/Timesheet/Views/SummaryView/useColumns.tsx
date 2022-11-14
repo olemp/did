@@ -21,7 +21,7 @@ export function useColumns(): IColumn[] {
     case DateRangeType.Week:
       {
         columns = [...Array.from({ length: 7 }).keys()].map((index) => {
-          const day = state.scope.getDay(index)
+          const day = state.dateRange.getDay(index)
           return {
             key: day.format('YYYY-MM-DD'),
             fieldName: day.format('YYYY-MM-DD'),
