@@ -23,8 +23,8 @@ import { BrowserStorage } from 'utils'
  */
 export class TimesheetPeriod {
   public id: string
-  private readonly startDate: string
-  private readonly endDate: string
+  public readonly startDate: string
+  public readonly endDate: string
   public readonly week: number
   public readonly isConfirmed?: boolean
   public readonly isForecasted: boolean
