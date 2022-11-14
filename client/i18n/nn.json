@@ -61,7 +61,7 @@
     "dateRangeWeek": "Veke",
     "dateRangeMonth": "Månad",
     "monthForecastedText": "Månaden er prognosert med {{hours}}.",
-    "monthConfirmedText": "Månaden er stadfesta med {{hours}}. Du må navigere til **Oversikt** dersom du treng å justere timeføringa."
+    "monthConfirmedText": "Totalt **{{hours}}** stadfesta denne månaden. Du har stadfesta {{confirmedPeriodsCount}} av {{periodsCount}} periodar. Du må vere i *Oversikt*-visninga for å gjere justeringar."
   },
   "projects": {
     "filterLabels": "Filtrer merkelappar...",

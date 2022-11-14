@@ -61,7 +61,7 @@
     "dateRangeWeek": "Uke",
     "dateRangeMonth": "Måned",
     "monthForecastedText": "Måneden er prognosert med {{hours}}.",
-    "monthConfirmedText": "Måneden er bekreftet med {{hours}}. Du må navigere til **Oversikt** dersom du vil gjøre noen justeringer."
+    "monthConfirmedText": "Totalt **{{hours}}** bekreftet denne måneden. Du har bekreftet {{confirmedPeriodsCount}} av {{periodsCount}} perioder. Du må være i **Oversikt**-visningen for å gjøre justeringer."
   },
   "projects": {
     "filterLabels": "Filtrer merkelapper...",

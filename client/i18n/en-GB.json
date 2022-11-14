@@ -61,7 +61,7 @@
     "dateRangeWeek": "Week",
     "dateRangeMonth": "Month",
     "monthForecastedText": "The month is forecasted with {{hours}}.",
-    "monthConfirmedText": "**{{hours}}** confirmed this month. You need to be in the **Overview** view to do adjustments."
+    "monthConfirmedText": "A total of **{{hours}}** confirmed this month. You have confirmed {{confirmedPeriodsCount}} out of {{periodsCount}} periods. You need to be in the **Overview** view to do adjustments."
   },
   "projects": {
     "filterLabels": "Filter labels...",

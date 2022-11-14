@@ -29,10 +29,14 @@ export function useMessages(): IUserMessageProps[] {
       (sum, period) => (sum += period.forecastedHours),
       0
     )
-    const matchedDuration = state.periods.reduce(
-      (sum, period) => (sum += period.matchedDuration),
+    const confirmedDuration = state.periods.reduce(
+      (sum, period) =>
+        period.isConfirmed ? (sum += period.matchedDuration) : sum,
       0
     )
+    const confirmedPeriodsCount = state.periods.filter(
+      (p) => p.isConfirmed
+    ).length
     if (forecastedHours > 0) {
       messages.push({
         id: 'monthForecasted',
@@ -41,13 +45,15 @@ export function useMessages(): IUserMessageProps[] {
         })
       })
     }
-    if (matchedDuration > 0) {
+    if (confirmedDuration > 0) {
       messages.push({
         id: 'monthConfirmed',
         text: t('timesheet.monthConfirmedText', {
-          hours: $date.getDurationString(matchedDuration, t)
+          hours: $date.getDurationString(confirmedDuration, t),
+          periodsCount: state.periods.length,
+          confirmedPeriodsCount
         }),
-        type: 'success'
+        type: 'info'
       })
     }
   } else {
