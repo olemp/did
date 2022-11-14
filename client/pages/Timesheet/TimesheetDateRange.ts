@@ -5,7 +5,7 @@ import { capitalize } from 'underscore.string'
 import { ITimesheetParameters } from './types'
 
 /**
- * Handles a scope, the period of time between
+ * Handles a date range, the period of time between
  * a `startDateTime` and `endDateTime`.
  *
  * @remarks Look into creating a `react` hook
@@ -13,17 +13,17 @@ import { ITimesheetParameters } from './types'
  *
  * @category Timesheet
  */
-export class TimesheetScope {
+export class TimesheetDateRange {
   public startDate?: DateObject
   public endDate?: DateObject
 
   /**
-   * Constructs for `TimesheetScope`
+   * Constructs for `TimesheetDateRange`
    *
    * @param startDate - Optional start date
    * @param _dateRangeType - Optional date range type
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
   constructor(
     startDate?: DateInput,
@@ -33,7 +33,7 @@ export class TimesheetScope {
   }
 
   /**
-   * Initializes the `TimesheetScope` from the specified `startDate`
+   * Initializes the `TimesheetDateRange` from the specified `startDate`
    *
    * @param startDate - Start date
    */
@@ -53,9 +53,9 @@ export class TimesheetScope {
    *
    * @param parameters - Params
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
-  public fromParams(parameters: ITimesheetParameters): TimesheetScope {
+  public fromParams(parameters: ITimesheetParameters): TimesheetDateRange {
     const startDate = new DateObject().fromObject(parameters).jsDate
     this._init(startDate)
     return this
@@ -66,7 +66,7 @@ export class TimesheetScope {
    *
    * @param template - Template
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
   public query(template: string = 'YYYY-MM-DD'): TimesheetQuery {
     if (!this.startDate) return null
@@ -77,13 +77,13 @@ export class TimesheetScope {
   }
 
   /**
-   * Sets the scope and returns a cloned version of the TimesheetScope
+   * Sets the scope and returns a cloned version of the TimesheetDateRange
    *
    * @param add - Add
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
-  public set(add: string): TimesheetScope {
+  public set(add: string): TimesheetDateRange {
     const startDate = this.startDate.add(add).jsDate
     this._init(startDate)
     return Object.assign(Object.create(Object.getPrototypeOf(this)), this)
@@ -94,7 +94,7 @@ export class TimesheetScope {
    *
    * @param index - Index
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
   public getDay(index: number): DateObject {
     return this.startDate.add(`${index}d`)
@@ -103,7 +103,7 @@ export class TimesheetScope {
   /**
    * Is the scope the current week or month
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
   public get isCurrent(): boolean {
     return (
@@ -117,7 +117,7 @@ export class TimesheetScope {
   /**
    * Get timespan string for the scope
    *
-   * @memberof TimesheetScope
+   * @memberof TimesheetDateRange
    */
   public get timespan(): string {
     switch (this._dateRangeType) {

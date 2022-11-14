@@ -34,6 +34,6 @@ Object.assign(TimesheetPage, {
 
 export * from './hooks'
 export * from './Timesheet'
+export * from './TimesheetDateRange'
 export * from './TimesheetPeriod'
-export * from './TimesheetScope'
 export * from './types'

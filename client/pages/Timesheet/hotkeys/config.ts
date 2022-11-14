@@ -4,10 +4,10 @@ import { ITimesheetContext } from '../context'
 import {
   NEXT_PERIOD,
   PREVIOUS_PERIOD,
-  SET_SCOPE,
+  SET_DATE_RANGE,
   TOGGLE_SHORTCUTS
 } from '../reducer/actions'
-import { TimesheetScope } from '../TimesheetScope'
+import { TimesheetDateRange } from '../TimesheetDateRange'
 
 export const getHotkeys = (
   context: ITimesheetContext,
@@ -38,7 +38,9 @@ export const getHotkeys = (
   handlers: {
     GO_TO_CURRENT_WEEK_MONTH: () =>
       context.dispatch(
-        SET_SCOPE(new TimesheetScope(new Date(), context.state.dateRangeType))
+        SET_DATE_RANGE(
+          new TimesheetDateRange(new Date(), context.state.dateRangeType)
+        )
       ),
     PREVIOUS_PERIOD: () => context.dispatch(PREVIOUS_PERIOD()),
     NEXT_PERIOD: () => context.dispatch(NEXT_PERIOD()),

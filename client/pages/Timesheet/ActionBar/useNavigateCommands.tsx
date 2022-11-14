@@ -1,7 +1,11 @@
 import { IContextualMenuItem } from '@fluentui/react'
 import { useTranslation } from 'react-i18next'
-import { NEXT_PERIOD, PREVIOUS_PERIOD, SET_SCOPE } from '../reducer/actions'
-import { TimesheetScope, useTimesheetContext } from '../types'
+import {
+  NEXT_PERIOD,
+  PREVIOUS_PERIOD,
+  SET_DATE_RANGE
+} from '../reducer/actions'
+import { TimesheetDateRange, useTimesheetContext } from '../types'
 
 /**
  * Returns Timesheet navigation commands based on
@@ -16,7 +20,9 @@ export function useNavigateCommands() {
     iconProps: { iconName: 'RenewalCurrent' },
     disabled: state.scope.isCurrent || !!state.loading,
     onClick: () =>
-      dispatch(SET_SCOPE(new TimesheetScope(new Date(), state.dateRangeType)))
+      dispatch(
+        SET_DATE_RANGE(new TimesheetDateRange(new Date(), state.dateRangeType))
+      )
   }
   const navigatePreviousPeriod: IContextualMenuItem = {
     key: 'NAVIGATE_PREVIOUS_PERIOD',

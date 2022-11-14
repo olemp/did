@@ -12,8 +12,8 @@ import {
 import React, { FC } from 'react'
 import { isBrowser } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
-import { SET_SCOPE } from '../../reducer/actions'
-import { TimesheetScope, useTimesheetContext } from '../../types'
+import { SET_DATE_RANGE } from '../../reducer/actions'
+import { TimesheetDateRange, useTimesheetContext } from '../../types'
 
 /**
  * @category Timesheet
@@ -34,7 +34,9 @@ export const DateRangePicker: FC<ICalloutProps> = (props) => {
       <FocusTrapZone isClickableOutsideFocusTrap={true}>
         <Calendar
           onSelectDate={(date) => {
-            dispatch(SET_SCOPE(new TimesheetScope(date, state.dateRangeType)))
+            dispatch(
+              SET_DATE_RANGE(new TimesheetDateRange(date, state.dateRangeType))
+            )
             props.onDismiss()
           }}
           firstDayOfWeek={DayOfWeek.Monday}

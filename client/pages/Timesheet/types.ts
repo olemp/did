@@ -1,7 +1,7 @@
 import { DateRangeType } from '@fluentui/react'
 import { IProgressProps } from 'components/Progress/types'
+import { TimesheetDateRange } from './TimesheetDateRange'
 import { TimesheetPeriod } from './TimesheetPeriod'
-import { TimesheetScope } from './TimesheetScope'
 
 /**
  * @category Timesheet
@@ -34,7 +34,7 @@ export interface ITimesheetState {
   /**
    * The current scope
    */
-  scope: TimesheetScope
+  scope: TimesheetDateRange
 
   /**
    * The current date range type
@@ -74,5 +74,5 @@ export interface ITimesheetParameters {
 }
 
 export * from './context'
+export * from './TimesheetDateRange'
 export * from './TimesheetPeriod'
-export * from './TimesheetScope'

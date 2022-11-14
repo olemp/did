@@ -1,6 +1,6 @@
 import { DateRangeType } from '@fluentui/react'
 import _ from 'underscore'
-import { ITimesheetState, TimesheetScope, TimesheetView } from '../types'
+import { ITimesheetState, TimesheetDateRange, TimesheetView } from '../types'
 import { ITimesheetReducerParameters } from './types'
 
 /**
@@ -32,8 +32,10 @@ export function initState(
   const periods = []
   const dateRangeType = convertStringToDateRangeType(parameters.url.dateRange)
   const scope = _.isEmpty(Object.keys(parameters.url))
-    ? new TimesheetScope(undefined, dateRangeType)
-    : new TimesheetScope(undefined, dateRangeType).fromParams(parameters.url)
+    ? new TimesheetDateRange(undefined, dateRangeType)
+    : new TimesheetDateRange(undefined, dateRangeType).fromParams(
+        parameters.url
+      )
   return {
     periods,
     scope,

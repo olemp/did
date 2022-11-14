@@ -2,7 +2,7 @@ import { DateRangeType } from '@fluentui/react'
 import { createReducer, current } from '@reduxjs/toolkit'
 import { TimesheetPeriodObject } from 'types'
 import _ from 'underscore'
-import { ITimesheetState, TimesheetPeriod, TimesheetScope } from '../types'
+import { ITimesheetState, TimesheetDateRange, TimesheetPeriod } from '../types'
 import {
   CHANGE_DATE_RANGE_TYPE,
   CHANGE_PERIOD,
@@ -14,7 +14,7 @@ import {
   MANUAL_MATCH,
   NEXT_PERIOD,
   PREVIOUS_PERIOD,
-  SET_SCOPE,
+  SET_DATE_RANGE,
   SUBMITTING_PERIOD,
   TOGGLE_SHORTCUTS,
   UNSUBMITTING_PERIOD
@@ -62,7 +62,7 @@ export function createTimesheetReducer(
         }
         state.error = payload.query.error
       })
-      .addCase(SET_SCOPE, (state, { payload }) => {
+      .addCase(SET_DATE_RANGE, (state, { payload }) => {
         state.scope =
           typeof payload === 'string' ? state.scope.set(payload) : payload
       })
@@ -159,7 +159,7 @@ export function createTimesheetReducer(
       })
       .addCase(CHANGE_DATE_RANGE_TYPE, (state, { payload }) => {
         state.dateRangeType = payload.dateRangeType
-        state.scope = new TimesheetScope(
+        state.scope = new TimesheetDateRange(
           state.scope.startDate.jsDate,
           payload.dateRangeType
         )
