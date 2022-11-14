@@ -38,6 +38,7 @@ export function useDateRangePickerCommand(
       componentRef,
       onClick,
       className: styles.dateRangePicker,
+      disabled: !!state.loading,
       ...(isMobile ? mobileProps : browserProps)
     },
     {
@@ -49,7 +50,8 @@ export function useDateRangePickerCommand(
       onClick: () => {
         dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Week }))
       },
-      className: styles.dateRangeItem
+      className: styles.dateRangeItem,
+      disabled: !!state.loading
     },
     {
       key: 'DATE_RANGE_MONTH',
@@ -60,7 +62,8 @@ export function useDateRangePickerCommand(
       onClick: () => {
         dispatch(CHANGE_DATE_RANGE_TYPE({ dateRangeType: DateRangeType.Month }))
       },
-      className: styles.dateRangeItem
+      className: styles.dateRangeItem,
+      disabled: !!state.loading
     }
   ]
   return {

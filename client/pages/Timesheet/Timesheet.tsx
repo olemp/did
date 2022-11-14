@@ -19,7 +19,7 @@ import { AllocationView, Overview, SummaryView } from './Views'
  */
 export const Timesheet: FC = () => {
   const { t } = useTranslation()
-  const { state, dispatch, context } = useTimesheet()
+  const { state, dispatch, context, headerButtonProps } = useTimesheet()
   const { hotkeysProps } = useHotkeys(context)
 
   return (
@@ -35,21 +35,21 @@ export const Timesheet: FC = () => {
             onTabChanged={(itemKey) => {
               dispatch(CHANGE_VIEW({ view: itemKey as TimesheetView }))
             }}
-            itemProps={{
-              headerButtonProps: { disabled: !!state.error }
-            }}
           >
             <Overview
+              headerButtonProps={headerButtonProps}
               itemKey={TimesheetView.Overview}
               headerText={t('timesheet.overviewHeaderText')}
               itemIcon='CalendarWeek'
             />
             <SummaryView
+              headerButtonProps={headerButtonProps}
               itemKey={TimesheetView.Summary}
               headerText={t('timesheet.summaryHeaderText')}
               itemIcon='List'
             />
             <AllocationView
+              headerButtonProps={headerButtonProps}
               itemKey={TimesheetView.Allocation}
               headerText={t('timesheet.allocationHeaderText')}
               itemIcon='ReportDocument'
