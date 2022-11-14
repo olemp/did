@@ -26,12 +26,16 @@ export function useActionBar() {
     farItems: []
   }
 
-  if (state.selectedView === TimesheetView.Overview) {
+  if (
+    state.dateRangeType === DateRangeType.Month &&
+    state.selectedView === TimesheetView.Overview
+  ) {
     commandBarProps.farItems.push(submitCommands)
   }
 
   if (state.dateRangeType === DateRangeType.Week) {
     commandBarProps.items.push(...navigatePeriodsCommands)
+    commandBarProps.farItems.push(submitCommands)
   }
 
   return {

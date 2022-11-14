@@ -4,6 +4,7 @@ import packageFile from 'package'
 import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
+import _ from 'underscore'
 import { useTimesheetContext } from '../../context'
 import { CHANGE_PERIOD } from '../../reducer/actions'
 import styles from './Overview.module.scss'
@@ -36,7 +37,7 @@ export const Overview: TabComponent = () => {
       )
     }
     case DateRangeType.Month: {
-      if (state.loading) {
+      if (state.loading && _.isEmpty(state.periods)) {
         return (
           <div className={className.join(' ')}>
             <EventList

@@ -31,7 +31,7 @@ export const Timesheet: FC = () => {
           <StatusBar />
           <TabContainer
             hidden={!!state.error}
-            defaultSelectedKey={state.selectedView ?? TimesheetView.Overview}
+            selectedKey={state.selectedView ?? TimesheetView.Overview}
             onTabChanged={(itemKey) => {
               dispatch(CHANGE_VIEW({ view: itemKey as TimesheetView }))
             }}
