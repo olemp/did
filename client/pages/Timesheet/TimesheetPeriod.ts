@@ -8,7 +8,7 @@ import {
   TimesheetPeriodInput,
   TimesheetPeriodObject
 } from 'types'
-import _ from 'underscore'
+import _, { pick } from 'underscore'
 import { BrowserStorage } from 'utils'
 
 /**
@@ -62,7 +62,7 @@ export class TimesheetPeriod {
    *
    * @param period - Period
    */
-  initialize(period: TimesheetPeriodObject) {
+  public initialize(period: TimesheetPeriodObject) {
     Object.assign(this, period)
     this._uiMatchedEventsStorage = new BrowserStorage(
       `timesheet_matched_events_${this.id}`
@@ -258,14 +258,26 @@ export class TimesheetPeriod {
     const events = _.filter(
       [...this.getEvents()],
       (event) => !!event.project
-    ).map(
-      (event) =>
-        ({
-          id: event.id,
-          projectId: event.project.tag,
-          manualMatch: event.manualMatch
-        } as EventInput)
-    )
+    ).map((event) => {
+      let eventInput: EventInput = {
+        id: event.id,
+        projectId: event.project.tag,
+        manualMatch: event.manualMatch
+      }
+      if (event.adjustedMinutes) {
+        eventInput = {
+          ...eventInput,
+          ...pick(
+            event,
+            'originalDuration',
+            'startDateTime',
+            'endDateTime',
+            'duration'
+          )
+        }
+      }
+      return eventInput
+    })
     return events
   }
 

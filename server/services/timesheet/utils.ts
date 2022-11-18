@@ -8,7 +8,7 @@ import { ITimesheetPeriodData } from './types'
  * to the events from the period.
  *
  * @param period - The period
- * @param matchedEvents - The matched events
+ * @param matchedEvents - The matched events retrieved from the client
  * @param events - The events fetched from Microsoft Graph
  *
  * @returns A mapped events function and the total hours
@@ -19,12 +19,16 @@ export function mapMatchedEvents(
   events: EventObject[]
 ) {
   const events_ = []
-  const hours = matchedEvents.reduce((hours, m: any) => {
-    const event = _.find(events, ({ id }) => id === m.id)
+  const hours = matchedEvents.reduce((hours, matchedEvent) => {
+    const event = _.find(events, ({ id }) => id === matchedEvent.id)
     if (!event) return null
     events_.push({
-      ...m,
-      ...event
+      ...matchedEvent,
+      ...event,
+      startDateTime: matchedEvent.startDateTime ?? event.startDateTime,
+      endDateTime: matchedEvent.endDateTime ?? event.endDateTime,
+      duration: matchedEvent.duration ?? event.duration,
+      originalDuration: matchedEvent.originalDuration ?? event.originalDuration
     })
     return hours + event.duration
   }, 0)

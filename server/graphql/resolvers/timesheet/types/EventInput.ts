@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Field, InputType } from 'type-graphql'
+import { Field, Float, InputType } from 'type-graphql'
 
 /**
  * @category GraphQL InputType
@@ -16,4 +16,16 @@ export class EventInput {
 
   @Field({ nullable: true })
   manualMatch: boolean
+
+  @Field({ nullable: true })
+  startDateTime?: Date
+
+  @Field({ nullable: true })
+  endDateTime?: Date
+
+  @Field(() => Float, { nullable: true })
+  originalDuration?: number
+
+  @Field(() => Float, { nullable: true })
+  duration?: number
 }
