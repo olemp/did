@@ -1,5 +1,5 @@
 import _ from 'underscore'
-import { EventInput, EventObject } from '../../graphql'
+import { ClientEventInput, EventObject } from '../../graphql'
 import { ITimesheetPeriodData } from './types'
 
 /**
@@ -15,7 +15,7 @@ import { ITimesheetPeriodData } from './types'
  */
 export function mapMatchedEvents(
   period: ITimesheetPeriodData,
-  matchedEvents: EventInput[],
+  matchedEvents: ClientEventInput[],
   events: EventObject[]
 ) {
   const events_ = []
@@ -28,7 +28,8 @@ export function mapMatchedEvents(
       startDateTime: matchedEvent.startDateTime ?? event.startDateTime,
       endDateTime: matchedEvent.endDateTime ?? event.endDateTime,
       duration: matchedEvent.duration ?? event.duration,
-      originalDuration: matchedEvent.originalDuration ?? event.originalDuration
+      originalDuration: matchedEvent.originalDuration ?? event.originalDuration,
+      adjustedMinutes: matchedEvent.adjustedMinutes ?? event.adjustedMinutes
     })
     return hours + event.duration
   }, 0)

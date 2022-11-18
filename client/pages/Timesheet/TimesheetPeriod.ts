@@ -2,7 +2,7 @@
 import $date from 'DateUtils'
 import { TFunction } from 'i18next'
 import {
-  EventInput,
+  ClientEventInput,
   EventObject,
   Project,
   TimesheetPeriodInput,
@@ -254,12 +254,12 @@ export class TimesheetPeriod {
    *
    * @memberof TimesheetPeriod
    */
-  public get matchedEvents(): EventInput[] {
+  public get matchedEvents(): ClientEventInput[] {
     const events = _.filter(
       [...this.getEvents()],
       (event) => !!event.project
     ).map((event) => {
-      let eventInput: EventInput = {
+      let eventInput: ClientEventInput = {
         id: event.id,
         projectId: event.project.tag,
         manualMatch: event.manualMatch
@@ -272,7 +272,8 @@ export class TimesheetPeriod {
             'originalDuration',
             'startDateTime',
             'endDateTime',
-            'duration'
+            'duration',
+            'adjustedMinutes'
           )
         }
       }
