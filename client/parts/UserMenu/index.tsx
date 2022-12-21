@@ -16,6 +16,7 @@ import { UserAvatar } from './UserAvatar'
 import styles from './UserMenu.module.scss'
 import { UserReports } from './UserReports'
 import { UserSettings } from './UserSettings'
+import { UserTimebank } from './UserTimebank'
 import { UserVacation } from './UserVacation'
 
 /**
@@ -83,6 +84,9 @@ export const UserMenu: FC = () => {
           />
           <UserAvatar />
           <UserVacation />
+          <Divider />
+          <UserTimebank />
+          <Divider />
           <UserReports />
           <Divider />
           <UserSettings />
