@@ -38,6 +38,9 @@ query UserContext {
     photo {
       base64
     }
+    timebank {
+      availableHours
+    }
   }
   authProviders
 }

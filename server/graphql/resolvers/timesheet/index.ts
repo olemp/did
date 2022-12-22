@@ -35,7 +35,7 @@ export class TimesheetResolver {
   constructor(private readonly _timesheet: TimesheetService) {}
 
   /**
-   * Get timesheet
+   * Get timesheet for `startDate` - `endDate`
    *
    * @param query - Query
    * @param options - Options
@@ -61,9 +61,7 @@ export class TimesheetResolver {
   }
 
   /**
-   * Get vacation summary
-   *
-   * Total vacation days, used and remaining.
+   * Get vacation summary - total vacation days, used and remaining.
    */
   @Authorized<IAuthOptions>({ userContext: true })
   @Query(() => VacationSummary, {
@@ -81,7 +79,8 @@ export class TimesheetResolver {
   }
 
   /**
-   * Submit period
+   * Submit period - adds matched time entries for the specified period and
+   * an entry for the confirmed period.
    *
    * @param period - Period
    * @param options - Timesheet options (forecast, tzoffset etc)
@@ -110,7 +109,8 @@ export class TimesheetResolver {
   }
 
   /**
-   * Unsubmit period
+   * Unsubmit period - deletes time entries for the specified period
+   * and the entry for the confirmed period
    *
    * @param period - Period
    * @param forecast - Forecast

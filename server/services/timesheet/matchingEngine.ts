@@ -214,13 +214,38 @@ export default class TimesheetMatchingEngine {
 
     // Fix the duration of the event if necessary
     event = this._fixDuration(event)
+
+    // Calculate timebank - either plus hours or minus hours
+    event = this._calculateTimebank(event)
+
     return event
   }
 
   /**
-   * Check if project or customer is marked as inactive
+   * Calculate timebank hours for event
    *
-   * @param event - Event to check
+   * @param event Event to calculate timebank hours foor
+   *
+   * @returns Event with timebank hours
+   */
+  private _calculateTimebank(event: EventObject) {
+    // Convert event.categories to lowercase
+    const lowerCaseCategories = new Set(
+      event.categories.map((category) => category.toLowerCase())
+    )
+    // Check if lowercaseCategories includes 'awol' or 'timebank'
+    // eslint-disable-next-line no-console
+    if (lowerCaseCategories.has('awol')) console.log('awol', event)
+    // eslint-disable-next-line no-console
+    else if (lowerCaseCategories.has('timebank')) console.log('timebank', event)
+    return event
+  }
+
+  /**
+   * Check if project or customer for the event
+   * is marked as inactive.
+   *
+   * @param event Event to check
    */
   private _checkInactive(event: EventObject) {
     const inactiveProject = event?.project?.inactive
@@ -270,10 +295,10 @@ export default class TimesheetMatchingEngine {
   }
 
   /**
-   * Match events
+   * Match events to a project, customer and labels.
    *
    * @param events - Events to match
-   * @param configuration - Configuration
+   * @param configuration - Configuration object
    *
    * @returns Events matched to projects, customers and labels
    */

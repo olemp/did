@@ -20,6 +20,7 @@ export class ContextUser {
   public photo: UserPhoto
   public theme: PartialTheme
   public lastActive: Date
+  public timebank: any
 
   /**
    * Constructor for `ContextUser`
@@ -53,7 +54,8 @@ export class ContextUser {
           'role',
           'startPage',
           'photo',
-          'lastActive'
+          'lastActive',
+          'timebank'
         )
       )
       this.configuration = tryParseJson(_user.configuration, {})

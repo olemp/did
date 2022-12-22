@@ -61,6 +61,20 @@ export class ActiveDirectoryUser {
 }
 
 /**
+ * A type that describes a UserTimebank
+ *
+ * @category GraphQL ObjectType
+ */
+@ObjectType({
+  description: 'A type that describes a UserTimebank',
+  simpleResolvers: true
+})
+export class UserTimebank {
+  @Field({ nullable: true })
+  availableHours?: number
+}
+
+/**
  * A type that describes a User
  *
  * @category GraphQL ObjectType
@@ -122,6 +136,9 @@ export class User {
 
   @Field({ nullable: true })
   accountEnabled?: boolean
+
+  @Field(() => UserTimebank, { nullable: true })
+  timebank?: UserTimebank
 
   public create?(user: User): User {
     Object.assign(this, user)

@@ -417,7 +417,7 @@
     "vacationCalculationTypePlannedDescription": "Alt i kalenderen din er kategorisert med IAM VAC.",
     "vacationCalculationTypeConfirmedDescription": "Ferie bekreftet som en del av timelisten din.",
     "vacationSummaryTooltipConfirmed": "Ferieberekninga er for heile året, og er basert på {{usedHours}} timar ferie stadfesta som ein del av timelista di (kvar feriedag er 8 timar).",
-    "timebankSummaryText": "Du har {{hoursAvailable}} timar tilgjengeleg i tidsbanken din."
+    "timebankSummaryText": "Du har {{availableHours}} timar tilgjengeleg i tidsbanken din."
   },
   "navigation": {
     "TimesheetPage": "Timeliste",
