@@ -147,10 +147,12 @@ export class User {
 }
 
 /**
+ * Input object for User used in mutation addOrUpdateUser/addUsers
+ *
  * @category GraphQL InputType
  */
 @InputType({
-  description: 'Input object for Role used in Mutation addOrUpdateUser/addUsers'
+  description: 'Input object for User used in mutation addOrUpdateUser/addUsers'
 })
 export class UserInput {
   @Field()
