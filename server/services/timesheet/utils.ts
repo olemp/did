@@ -7,9 +7,9 @@ import { ITimesheetPeriodData } from './types'
  * the event data with the actual events from Microsoft Graph. Also adds additional data
  * to the events from the period.
  *
- * @param period - The period
- * @param matchedEvents - The matched events retrieved from the client
- * @param events - The events fetched from Microsoft Graph
+ * @param period The period data
+ * @param matchedEvents The matched events from the client
+ * @param events The events fetched from Microsoft Graph
  *
  * @returns A mapped events function and the total hours
  */
