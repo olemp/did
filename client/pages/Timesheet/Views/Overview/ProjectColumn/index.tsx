@@ -7,7 +7,7 @@ import {
 } from 'components'
 import { TFunction } from 'i18next'
 import { CLEAR_MANUAL_MATCH } from 'pages/Timesheet/reducer/actions'
-import React from 'react'
+import React, { FC } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import _ from 'underscore'
@@ -19,7 +19,8 @@ import styles from './ProjectColumn.module.scss'
 import { IProjectColumnProps } from './types'
 
 /**
- * Get error message
+ * Get error message for event. Translate function is passed as parameter 
+ * since it is not possible to use useTranslation hook inside a function.
  *
  * @param code - Error code
  * @param t - Translate function
@@ -38,17 +39,20 @@ function getErrorMessage(
   }
 }
 
-export const ProjectColumn = ({ event }: IProjectColumnProps): JSX.Element => {
+/**
+ * Compponent for displaying project column in timesheet overview.
+ */
+export const ProjectColumn: FC<IProjectColumnProps> = (props) => {
   const { t } = useTranslation()
   const { state, dispatch } = useTimesheetContext()
   let className = styles.root
   if (isMobile) className += ` ${styles.mobile}`
-  if (event.isSystemIgnored) {
+  if (props.event.isSystemIgnored) {
     return null
   }
-  if (!event.project) {
-    if (event.error) {
-      const [text, type] = getErrorMessage(event.error.code, t)
+  if (!props.event.project) {
+    if (props.event.error) {
+      const [text, type] = getErrorMessage(props.event.error.code, t)
       return (
         <div className={className}>
           <UserMessage
@@ -70,8 +74,8 @@ export const ProjectColumn = ({ event }: IProjectColumnProps): JSX.Element => {
           text={t('timesheet.noProjectMatchFoundText')}
           actions={
             <div className={styles.eventActions}>
-              <MatchEventPanel event={event} />
-              <IgnoreEventButton event={event} />
+              <MatchEventPanel event={props.event} />
+              <IgnoreEventButton event={props.event} />
             </div>
           }
         />
@@ -82,20 +86,20 @@ export const ProjectColumn = ({ event }: IProjectColumnProps): JSX.Element => {
   return (
     <div className={className}>
       <div className={styles.iconContainer}>
-        <Icon iconName={event.project.icon} />
+        <Icon iconName={props.event.project.icon} />
       </div>
       <div className={styles.content}>
-        <ProjectTooltip project={event.project}>
+        <ProjectTooltip project={props.event.project}>
           <div className={styles.link}>
-            <ProjectLink project={event.project} />
+            <ProjectLink project={props.event.project} />
           </div>
         </ProjectTooltip>
-        {!_.isEmpty(event.project.labels) && (
+        {!_.isEmpty(props.event.project.labels) && (
           <Icon iconName='Tag' className={styles.labelIcon} />
         )}
-        {event.manualMatch && !state.selectedPeriod.isConfirmed && (
+        {props.event.manualMatch && !state.selectedPeriod.isConfirmed && (
           <ClearManualMatchButton
-            onClick={() => dispatch(CLEAR_MANUAL_MATCH({ id: event.id }))}
+            onClick={() => dispatch(CLEAR_MANUAL_MATCH({ id: props.event.id }))}
             className={styles.clearButton}
           />
         )}

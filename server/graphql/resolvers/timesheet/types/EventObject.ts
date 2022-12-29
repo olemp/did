@@ -80,6 +80,15 @@ export class EventObject {
   @Field({ nullable: true })
   isSystemIgnored?: boolean
 
+  /**
+   * Timebank hours
+   */
+  @Field(() => Float, { nullable: true })
+  timebank?: number
+
+  /**
+   * Event categories
+   */
   categories?: string[]
 
   /**

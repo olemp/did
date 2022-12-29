@@ -130,6 +130,10 @@ export class TimesheetService {
             provider: this.context.provider,
             engine
           })
+          period.timebank = period.events.reduce(
+            (sum, event) => sum + (event.timebank ?? 0),
+            0
+          )
         }
         periods[index] = period
       }
@@ -169,6 +173,8 @@ export class TimesheetService {
         hours: 0,
         forecastedHours: parameters.period.forecastedHours || 0
       }
+      // eslint-disable-next-line no-console
+      console.log(parameters.period.matchedEvents)
       const { getEvents, hours } = mapMatchedEvents(
         period,
         parameters.period.matchedEvents,
@@ -176,6 +182,12 @@ export class TimesheetService {
       )
       period.hours = hours
       period.events = getEvents(false)
+      const timebank = period.events.reduce(
+        (sum, event) => sum + (event.timebank ?? 0),
+        0
+      )
+      // eslint-disable-next-line no-console
+      console.log({ submitPeriod: timebank })
       const teSvc = parameters.forecast
         ? this._forecastTimeEntrySvc
         : this._timeEntrySvc

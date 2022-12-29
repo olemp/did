@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, Float, ID, ObjectType } from 'type-graphql'
 import $date from '../../../../../shared/utils/date'
 import { EventObject } from './EventObject'
 import { HolidayObject } from './HolidayObject'
@@ -21,9 +21,7 @@ export class TimesheetPeriodObject {
   public id: string
 
   /**
-   * Primary ID field.
-   *
-   * Used as primary key (id) in CosmosDB
+   * Primary ID field which is used as primary key (id) in CosmosDB
    */
   @Field(() => ID, { description: 'Primary ID field.' })
   public _id: string
@@ -84,6 +82,9 @@ export class TimesheetPeriodObject {
 
   @Field(() => [HolidayObject], { nullable: true })
   public holidays?: HolidayObject[]
+
+  @Field(() => Float, { nullable: true })
+  public timebank?: number
 
   /**
    * Constructs a new instance of TimesheetPeriodObject
