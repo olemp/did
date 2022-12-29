@@ -229,15 +229,22 @@ export default class TimesheetMatchingEngine {
    * @returns Event with timebank hours
    */
   private _calculateTimebank(event: EventObject) {
-    // Convert event.categories to lowercase
+    /**
+     * Convert event.categories to lowercase in order to suppport
+     * 'awol', 'AWOL', 'timebank', 'Timebank', etc.
+     */
     const lowerCaseCategories = new Set(
       event.categories.map((category) => category.toLowerCase())
     )
     // Check if lowercaseCategories includes 'awol' or 'timebank'
     // eslint-disable-next-line no-console
-    if (lowerCaseCategories.has('awol')) console.log('awol', event)
+    if (lowerCaseCategories.has('awol')) {
+      event.timebank = -event.duration
+    }
     // eslint-disable-next-line no-console
-    else if (lowerCaseCategories.has('timebank')) console.log('timebank', event)
+    else if (lowerCaseCategories.has('timebank')) {
+      event.timebank = event.duration
+    }
     return event
   }
 
