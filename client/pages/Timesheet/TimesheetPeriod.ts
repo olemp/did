@@ -277,7 +277,7 @@ export class TimesheetPeriod {
   }
 
   /**
-   * Get matched events with properties
+   * Get matched events with properties needed for the server.
    *
    * @memberof TimesheetPeriod
    */
@@ -289,8 +289,13 @@ export class TimesheetPeriod {
       let eventInput: ClientEventInput = {
         id: event.id,
         projectId: event.project.tag,
-        manualMatch: event.manualMatch
+        manualMatch: event.manualMatch,
+        timebank: event.timebank
       }
+
+      // If adjustedMinutes is set on the event, we need to send
+      // additional properties to the server. The property adjustedMinutes
+      // are set if the event is rounded to the nearest 15 minutes.
       if (event.adjustedMinutes) {
         eventInput = {
           ...eventInput,
