@@ -38,6 +38,7 @@ export class TimesheetPeriod {
   public readonly forecastedHours: number
   public readonly month: string
   public readonly holidays: any[]
+  public readonly timebank: number
 
   /**
    * Events for the period

@@ -60,7 +60,7 @@ export function useMessages(): IUserMessageProps[] {
           hours: $date.getDurationString(state.selectedPeriod.totalDuration, t),
           splitWeekInfoText:
             state.periods.length > 1 &&
-            state.dateRangeType === DateRangeType.Week
+              state.dateRangeType === DateRangeType.Week
               ? t('timesheet.splitWeekInfoText')
               : ''
         })
@@ -174,6 +174,20 @@ export function useMessages(): IUserMessageProps[] {
         ),
         type: 'info',
         iconName: 'SortUp'
+      })
+    }
+    if (state.selectedPeriod.timebank) {
+      messages.push({
+        id: 'timebank',
+        children: (
+          <p>
+            <span>
+              {t('timesheet.timebankInfoText', state.selectedPeriod)}
+            </span>
+          </p>
+        ),
+        type: 'info',
+        iconName: 'HourGlass'
       })
     }
   }

@@ -9,10 +9,11 @@ import { EventObject, TimeEntry } from 'types'
 import { generateColumn as col } from 'utils/generateColumn'
 import { DurationDisplay } from './DurationDisplay'
 import styles from './EventList.module.scss'
+import { TimebankTooltip } from './TimebankTooltip'
 import { IEventListProps } from './types'
 
 /**
- * Get sizing for column
+ * Get sizing for column based on props.
  *
  * @param props - Props
  * @param fieldName - Field name
@@ -34,8 +35,9 @@ function getSizing(
     })
   }
 }
+
 /**
- * Title column
+ * Title column for event list.
  *
  * @param props - Props
  * @param name - Name
@@ -57,12 +59,13 @@ const titleColumn = (props: IEventListProps, name: string): IColumn =>
             ))}
           </div>
         )}
+        {event.timebank && <TimebankTooltip event={event} />}
       </div>
     )
   )
 
 /**
- * Time column
+ * Time column for event list.
  *
  * @param props - Props
  * @param name - Name
@@ -93,7 +96,7 @@ const timeColumn = (props: IEventListProps, name: string): IColumn =>
   )
 
 /**
- * Duration column
+ * Duration column for event list.
  *
  * @param props - Props
  * @param name - Name

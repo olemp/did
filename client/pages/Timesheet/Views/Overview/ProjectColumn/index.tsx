@@ -19,7 +19,7 @@ import styles from './ProjectColumn.module.scss'
 import { IProjectColumnProps } from './types'
 
 /**
- * Get error message for event. Translate function is passed as parameter 
+ * Get error message for event. Translate function is passed as parameter
  * since it is not possible to use useTranslation hook inside a function.
  *
  * @param code - Error code
