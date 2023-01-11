@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN apk --no-cache --virtual build-dependencies add \
+        inotify-tools \
         python3 \
         make \
         g++
