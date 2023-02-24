@@ -2,6 +2,7 @@ query ReportLinks {
   reportLinks {
     name
     description
+    externalUrl
     published
   }
 }

@@ -221,7 +221,9 @@
       "createSuccess": "Din nye rapportkobling **{{name}}** ble opprettet.",
       "updateSuccess": "Rapportlenken din **{{name}}** ble oppdatert.",
       "updateError": "Vi kan ikke oppdatere rapportlenken for øyeblikket. \nPrøv igjen senere.",
-      "createError": "Vi kan ikke opprette rapportkoblingen for øyeblikket. \nPrøv igjen senere."
+      "createError": "Vi kan ikke opprette rapportkoblingen for øyeblikket. \nPrøv igjen senere.",
+      "confirmDeleteTitle": "Slett rapportkobling",
+      "confirmDeleteSubText": "Er du sikker på at du vil slette rapportkoblingen {{name}}?"
     }
   },
   "reports": {

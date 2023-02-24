@@ -23,9 +23,9 @@ export class ReportLinkResolver {
   /**
    * Constructor for ReportLinkResolver
    *
-   * @param _reportLinks - Label service
+   * @param _reportLink - Label service
    */
-  constructor(private readonly _reportLinks: ReportLinkService) {}
+  constructor(private readonly _reportLink: ReportLinkService) {}
 
   /**
    * Get report links
@@ -33,7 +33,7 @@ export class ReportLinkResolver {
   @Authorized()
   @Query(() => [ReportLink], { description: 'Get report links' })
   reportLinks() {
-    return this._reportLinks.getReportLinks()
+    return this._reportLink.getReportLinks()
   }
 
   /**
@@ -49,7 +49,19 @@ export class ReportLinkResolver {
     @Arg('update', { nullable: true }) update: boolean
   ): Promise<BaseResult> {
     const r = new ReportLink(reportLink)
-    await (update ? this._reportLinks.updateReportLink(r) : this._reportLinks.addReportLink(r))
+    await (update ? this._reportLink.updateReportLink(r) : this._reportLink.addReportLink(r))
+    return { success: true, error: null }
+  }
+
+  /**
+   * Delete report link by name
+   *
+   * @param name - Name
+   */
+  @Authorized<IAuthOptions>({ userContext: true })
+  @Mutation(() => BaseResult, { description: 'Delete report link by name' })
+  async deleteReportLink(@Arg('name') name: string): Promise<BaseResult> {
+    await this._reportLink.deleteReportLink(name)
     return { success: true, error: null }
   }
 }

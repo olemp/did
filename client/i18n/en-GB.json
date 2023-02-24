@@ -222,7 +222,9 @@
       "createSuccess": "Your new report link **{{name}}** was succesfully created.",
       "updateSuccess": "Your report link **{{name}}** was succesfully updated.",
       "updateError": "We can't update the report link at the moment. Please try again later.",
-      "createError": "We can't create the report link at the moment. Please try again later."
+      "createError": "We can't create the report link at the moment. Please try again later.",
+      "confirmDeleteTitle": "Delete report link",
+      "confirmDeleteSubText": "Are you sure you want to delete the report link {{name}}?"
     }
   },
   "reports": {

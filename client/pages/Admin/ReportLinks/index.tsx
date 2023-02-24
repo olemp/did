@@ -9,7 +9,7 @@ import { useReportLinks } from './useReportLinks'
  */
 export const ReportLinks: TabComponent = () => {
   const { t } = useTranslation()
-  const { columns, form, setForm, query } = useReportLinks()
+  const { columns, form, setForm, query, ConfirmationDialog } = useReportLinks()
 
   return (
     <>
@@ -32,6 +32,7 @@ export const ReportLinks: TabComponent = () => {
         }}
       />
       <ReportLinksForm {...form} />
+      {ConfirmationDialog}
     </>
   )
 }
