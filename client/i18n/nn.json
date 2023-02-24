@@ -201,7 +201,28 @@
     "vacationTotalDaysDescription": "Det samla talet feriedagar for kvar tilsett i selskapet.",
     "vacationTotalDaysLabel": "Feriedagar",
     "vacationEventCategoryDescription": "Kategori som skal brukes til å merke hendelser i Outlook som ferie.",
-    "vacation": "Ferie og fravær"
+    "vacation": "Ferie og fravær",
+    "reportLinks": {
+      "headerText": "Rapportkoblinger",
+      "addNewReportsLink": "Legg til ny rapportkobling",
+      "editReportLinkText": "Rediger rapportkobling",
+      "addNewReportText": "Legg til ny rapportkobling",
+      "nameLabel": "Rapportnavn",
+      "namePlaceholder": "Navn på rapporten",
+      "nameDescription": "Skriv inn et navn for rapporten. \nDette vil bli brukt til å identifisere rapporten i rapportlisten.",
+      "descriptionLabel": "Beskrivelse",
+      "descriptionPlaceholder": "Beskrivelse av rapporten",
+      "descriptionDescription": "Beskriv rapporten. Inneholder den noen spesifikk funksjonalitet? Formatering?",
+      "externalUrlLabel": "Ekstern URL",
+      "externalUrlPlaceholder": "Ekstern URL for rapporten",
+      "externalUrlDescription": "Skriv inn en ekstern URL til rapporten. Dette kan være en kobling til en Power BI-rapport, en kobling til en PDF-rapport eller en kobling til en rapport i et annet system.",
+      "publishedLabel": "Publisert",
+      "publishedDescription": "Når rapporten er publisert, vil den være tilgjengelig for alle brukere på Rapporter-siden.",
+      "createSuccess": "Din nye rapportkobling **{{name}}** ble opprettet.",
+      "updateSuccess": "Rapportlenken din **{{name}}** ble oppdatert.",
+      "updateError": "Vi kan ikke oppdatere rapportlenken for øyeblikket. \nPrøv igjen senere.",
+      "createError": "Vi kan ikke opprette rapportkoblingen for øyeblikket. \nPrøv igjen senere."
+    }
   },
   "reports": {
     "generatingReportLabel": "Genererer rapport",
