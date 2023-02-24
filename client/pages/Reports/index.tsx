@@ -13,9 +13,7 @@ import { Reports } from './Reports'
  * @category Page Component
  */
 export const ReportsPage: PageComponent = () => {
-  return (
-    <Reports />
-  )
+  return <Reports />
 }
 
 Object.assign(ReportsPage, {
@@ -29,4 +27,3 @@ export * from './reducer'
 export * from './ReportsList/useCommands'
 export * from './SaveFilterForm'
 export * from './types'
-

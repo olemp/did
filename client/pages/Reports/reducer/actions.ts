@@ -1,4 +1,8 @@
-import { LazyQueryResult, OperationVariables, QueryResult } from '@apollo/client'
+import {
+  LazyQueryResult,
+  OperationVariables,
+  QueryResult
+} from '@apollo/client'
 import { IContextualMenuItem } from '@fluentui/react'
 import { createAction } from '@reduxjs/toolkit'
 import { ListFilterState } from 'components/List/types'
@@ -8,12 +12,15 @@ import { IReportsSavedFilter } from '../types'
  * category Reports Actions
  */
 export const DATA_UPDATED =
-  createAction<{ result: LazyQueryResult<any, any>, reportLinksQuery?: QueryResult<any, OperationVariables> }>('DATA_UPDATED')
+  createAction<{
+    result: LazyQueryResult<any, any>
+    reportLinksQuery?: QueryResult<any, OperationVariables>
+  }>('DATA_UPDATED')
 
 /**
  * @category Reports Actions
  */
-export const CHANGE_QUERY = createAction<{ itemKey: string }>('FILTER_UPDATED')
+export const CHANGE_QUERY = createAction<{ itemKey: string, force?: boolean }>('FILTER_UPDATED')
 
 /**
  * @category Reports Actions

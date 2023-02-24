@@ -29,7 +29,7 @@ export interface IReportsQuery extends IPivotItemProps {
 
   /**
    * Report links for the current query. They
-   * are matched by the `reportLinkRef` property 
+   * are matched by the `reportLinkRef` property
    * on the query to the `ref` property on the
    * report link.
    */

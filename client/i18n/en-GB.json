@@ -253,7 +253,9 @@
     "filterPanelHeaderText": "Filters",
     "filterDescriptionPlaceholder": "Note",
     "summaryHeaderText": "Summary",
-    "applyFilterText": "Apply filter"
+    "applyFilterText": "Apply filter",
+    "availableReportLinks": "There is reports available for this query. Use the buttons below to download the reports, or click below to fetch fresh data from the server.",
+    "fetchDataButton": "Fetch fresh data from the server"
   },
   "common": {
     "headerTotalDuration": " ({{duration}})",

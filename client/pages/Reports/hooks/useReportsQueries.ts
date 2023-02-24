@@ -34,7 +34,9 @@ export function useLastMonthQuery(query = report_last_month): IReportsQuery {
     }),
     itemIcon: 'CalendarDay',
     query,
-    exportFileName: `TimeEntries-${s.capitalize(dateObject.monthName)}-{0}.xlsx`,
+    exportFileName: `TimeEntries-${s.capitalize(
+      dateObject.monthName
+    )}-{0}.xlsx`,
     variables: {
       userQuery: { hiddenFromReports: false }
     },
@@ -67,7 +69,9 @@ export function useCurrentMonthQuery(
     }),
     itemIcon: 'Calendar',
     query,
-    exportFileName: `TimeEntries-${s.capitalize(dateObject.monthName)}-{0}.xlsx`,
+    exportFileName: `TimeEntries-${s.capitalize(
+      dateObject.monthName
+    )}-{0}.xlsx`,
     variables: {
       userQuery: { hiddenFromReports: false }
     },

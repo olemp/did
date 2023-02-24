@@ -22,9 +22,14 @@ export function useReportsQuery(
 ) {
   const [query, result] = useLazyQuery(state.preset?.query || default_query, {
     fetchPolicy,
-    variables: state.preset?.variables || {},
+    variables: state.preset?.variables || {}
   })
-  const reportLinksQuery = useQuery(report_links, { fetchPolicy: 'cache-first' })
-  useLayoutEffect(() => dispatch(DATA_UPDATED({ result, reportLinksQuery })), [result.loading, reportLinksQuery.loading])
+  const reportLinksQuery = useQuery(report_links, {
+    fetchPolicy: 'cache-and-network'
+  })
+  useLayoutEffect(
+    () => dispatch(DATA_UPDATED({ result, reportLinksQuery })),
+    [result.loading, reportLinksQuery.loading]
+  )
   return query
 }
