@@ -4,11 +4,12 @@ import { Field, InputType, ObjectType } from 'type-graphql'
 
 /**
  * Input object for ReportLink used in GraphQL mutation `addOrUpdateReportLink`
- * 
+ *
  * @category GraphQL InputType
  */
 @InputType({
-  description: 'Input object for ReportLink used in GraphQL mutation addOrUpdateReportLink'
+  description:
+    'Input object for ReportLink used in GraphQL mutation addOrUpdateReportLink'
 })
 export class ReportLinkInput {
   @Field()
@@ -21,12 +22,21 @@ export class ReportLinkInput {
   externalUrl: string
 
   @Field({ nullable: true, defaultValue: null })
+  year: number
+
+  /**
+   * Zero-indexed month number
+   */
+  @Field({ nullable: true, defaultValue: null })
+  month: number
+
+  @Field({ nullable: true, defaultValue: null })
   published?: boolean
 }
 
 /**
  * A type that describes a ReportLink
- * 
+ *
  * @category GraphQL ObjectType
  */
 @ObjectType({
@@ -44,6 +54,21 @@ export class ReportLink {
 
   @Field()
   externalUrl: string
+
+  @Field()
+  createdAt: Date
+
+  @Field()
+  updatedAt: Date
+
+  @Field({ nullable: true, defaultValue: null })
+  year: number
+
+  /**
+   * Zero-indexed month number
+   */
+  @Field({ nullable: true, defaultValue: null })
+  month: number
 
   @Field({ nullable: true, defaultValue: null })
   published?: boolean

@@ -49,7 +49,9 @@ export class ReportLinkResolver {
     @Arg('update', { nullable: true }) update: boolean
   ): Promise<BaseResult> {
     const r = new ReportLink(reportLink)
-    await (update ? this._reportLink.updateReportLink(r) : this._reportLink.addReportLink(r))
+    await (update
+      ? this._reportLink.updateReportLink(r)
+      : this._reportLink.addReportLink(r))
     return { success: true, error: null }
   }
 

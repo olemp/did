@@ -41,7 +41,9 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
    *
    * @param query - Query
    */
-  public async getReportLinks(query?: FilterQuery<ReportLink>): Promise<ReportLink[]> {
+  public async getReportLinks(
+    query?: FilterQuery<ReportLink>
+  ): Promise<ReportLink[]> {
     try {
       const reportLinks = await this.find(query)
       return reportLinks
@@ -87,7 +89,9 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
    *
    * @param name - Name
    */
-  public async deleteReportLink(name: string): Promise<DeleteWriteOpResultObject> {
+  public async deleteReportLink(
+    name: string
+  ): Promise<DeleteWriteOpResultObject> {
     try {
       const result = await this.collection.deleteOne({ name })
       return result
