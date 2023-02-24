@@ -13,7 +13,9 @@ import { useToggleControlChange } from './useToggleControlChange'
  *
  * @category Reusable Component
  */
-export const ToggleControl: ReusableComponent<IToggleControlProps> = (props) => {
+export const ToggleControl: ReusableComponent<IToggleControlProps> = (
+  props
+) => {
   const onChange = useToggleControlChange(props)
   return (
     <div className={styles.root} {..._.pick(props, 'hidden')}>

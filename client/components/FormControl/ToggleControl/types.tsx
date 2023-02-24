@@ -6,7 +6,7 @@ export type ToggleControlOptions = {}
 
 export interface IToggleControlProps
   extends FormInputControlBase<ToggleControlOptions>,
-  Omit<IToggleProps, 'name' | 'value' | 'onChange'> {
+    Omit<IToggleProps, 'name' | 'value' | 'onChange'> {
   /**
    * Description of the control as `IToggleProps` from [@fluentui/react](@fluentui/react)
    * does not have the `description` property.
