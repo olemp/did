@@ -7,7 +7,7 @@ import _ from 'underscore'
 import { ReportsContext } from './context'
 import { CHANGE_QUERY } from './reducer/actions'
 import styles from './Reports.module.scss'
-import { ReportsList } from './ReportsList'
+import { ReportTab } from './ReportTab'
 import { SummaryView } from './SummaryView'
 import { useReports } from './useReports'
 
@@ -33,7 +33,7 @@ export const Reports: FC = () => {
         onTabChanged={(itemKey) => context.dispatch(CHANGE_QUERY({ itemKey }))}
       >
         {queries.map((props, index) => (
-          <ReportsList
+          <ReportTab
             key={index}
             {..._.omit(props, 'itemIcon')}
             headerButtonProps={{
