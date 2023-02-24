@@ -18,7 +18,7 @@ export function useReportsFormSubmit(
   const [toast, setToast] = useToast(8000, { isMultiline: true })
 
   /**
-   * On save report link.
+   * On save report link function callback.
    */
   const onSave = async () => {
     try {
@@ -36,7 +36,10 @@ export function useReportsFormSubmit(
       })
       model.reset()
       props.onSave(model.$)
-    } catch {
+    // eslint-disable-next-line unicorn/prefer-optional-catch-binding
+    } catch(error) {
+      // eslint-disable-next-line no-console
+      console.log(error)
       setToast({
         text: !props.edit
           ? t('admin.reportLinks.createError')

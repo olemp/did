@@ -8,6 +8,7 @@ import styles from './Admin.module.scss'
 import { ApiTokens } from './ApiTokens'
 import { Labels } from './Labels'
 import { MissingSubmissions } from './MissingSubmissions'
+import { ReportLinks } from './ReportLinks'
 import { Roles } from './Roles'
 import { SubscriptionSettings } from './SubscriptionSettings'
 import { Users } from './Users'
@@ -45,6 +46,10 @@ export const Admin = () => {
       />
       <SubscriptionSettings
         headerText={t('admin.subscriptionSettings.headerText')}
+        permission={PermissionScope.MANAGE_SUBSCRIPTION}
+      />
+      <ReportLinks
+        headerText={t('admin.reportLinks.headerText')}
         permission={PermissionScope.MANAGE_SUBSCRIPTION}
       />
       <ApiTokens

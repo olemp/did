@@ -2,14 +2,15 @@
 import { useMap } from 'hooks'
 import { useEffect } from 'react'
 import { convertToMap } from 'utils/convertToMap'
+import { ReportLink } from '../../../../../server/graphql'
 import { IReportLinksFormProps } from './types'
 
-const INITIAL_MODEL = convertToMap<keyof any>({
+const INITIAL_MODEL = convertToMap<keyof ReportLink>({
   name: ''
 })
 
 export function useReportLinksModel(props: IReportLinksFormProps) {
-  const map = useMap<keyof any, any>(new Map())
+  const map = useMap<keyof ReportLink, ReportLink>(new Map())
 
   useEffect(() => {
     if (props.edit) map.$set(convertToMap(props.edit))
