@@ -44,6 +44,11 @@ export function useTextControlChange({
   type
 }: ITextControlProps) {
   return useCallback((_event, value) => {
-    model.set(name, type === 'number' ? Number.parseInt(value) : transformValue(value, options))
+    model.set(
+      name,
+      type === 'number'
+        ? Number.parseInt(value)
+        : transformValue(value, options)
+    )
   }, [])
 }

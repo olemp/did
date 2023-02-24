@@ -3,8 +3,7 @@ query ReportLinks {
     name
     description
     externalUrl
-    year 
-    month
+    linkRef
     createdAt
     updatedAt
     published

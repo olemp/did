@@ -18,7 +18,7 @@ import { PeriodColumn } from '../PeriodColumn'
  */
 export function useColumns(): IListColumn[] {
   const { state } = useContext(ReportsContext)
-  const periods = (state.preset?.periods || []) as any[]
+  const periods = (state.queryPreset?.periods || []) as any[]
   const userColumn = useUserListColumn({
     size: PersonaSize.size24,
     hidePersonaDetails: isMobile

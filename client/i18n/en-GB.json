@@ -224,7 +224,17 @@
       "updateError": "We can't update the report link at the moment. Please try again later.",
       "createError": "We can't create the report link at the moment. Please try again later.",
       "confirmDeleteTitle": "Delete report link",
-      "confirmDeleteSubText": "Are you sure you want to delete the report link {{name}}?"
+      "confirmDeleteSubText": "Are you sure you want to delete the report link {{name}}?",
+      "displayLabel": "Display mode",
+      "displayPlaceholder": "Select display mode",
+      "displayWelcomePage": "Frontpage",
+      "displayDescription": "Where to dislay the report link to the users. On the frontpage or in one of the report tabs.",
+      "yearLabel": "Year",
+      "yearPlaceholder": "Choose year",
+      "yearDescription": "Choose the year for the report. If the report is for a specific month, choose the month below.",
+      "monthLabel": "Month",
+      "monthPlaceholder": "Choose month",
+      "monthDescription": "Choose the month for the report if applicable. If the report is for a whole year, leave this blank."
     }
   },
   "reports": {
@@ -440,7 +450,8 @@
     "vacationCalculationTypeConfirmed": "Confirmed vacation",
     "vacationCalculationTypePlannedDescription": "Everything in your calendar categorized with IAM VAC.",
     "vacationCalculationTypeConfirmedDescription": "Vacation confirmed as part of your timesheet.",
-    "vacationSummaryTooltipConfirmed": "The vacation calculation is for the whole year, and is based on {{usedHours}} hours of vacation confirmed as part of your timesheet (each vacation day is 8 hours)."
+    "vacationSummaryTooltipConfirmed": "The vacation calculation is for the whole year, and is based on {{usedHours}} hours of vacation confirmed as part of your timesheet (each vacation day is 8 hours).",
+    "updatedLabel": "Updated"
   },
   "navigation": {
     "TimesheetPage": "Timesheet",

@@ -1,7 +1,7 @@
 import { useFormControls } from 'components/FormControl'
 import { IReportLinksFormProps } from './types'
-import { useReportsFormSubmit } from './useReportsFormSubmit'
 import { useReportLinksModel } from './useReportLinksModel'
+import { useReportsFormSubmit } from './useReportsFormSubmit'
 
 export function useReportLinksForm(props: IReportLinksFormProps) {
   const model = useReportLinksModel(props)

@@ -1,6 +1,6 @@
 import { createReducer, current } from '@reduxjs/toolkit'
 import _, { find } from 'underscore'
-import { IReportsState } from '../types'
+import { IReportsQuery, IReportsState } from '../types'
 import {
   ADD_SAVED_FILTER,
   CHANGE_QUERY,
@@ -27,6 +27,9 @@ export default ({ initialState, queries }) =>
               resource: find(users, (u) => u.id === entry.resource.id)
             }))
           }
+        }
+        if (payload.reportLinksQuery?.data) {
+          state.reportLinks = payload.reportLinksQuery.data.reportLinks ?? []
         }
       })
       .addCase(SET_FILTER, (state, { payload }) => {
@@ -55,10 +58,12 @@ export default ({ initialState, queries }) =>
         state.activeFilter = null
       })
       .addCase(CHANGE_QUERY, (state, { payload }) => {
-        state.preset = _.find(
+        const queryPreset = _.find<IReportsQuery>(
           queries,
           (q) => q.itemKey === payload?.itemKey
-        ) as any
+        )
+        const reportLinks = _.filter(current(state).reportLinks, ({ linkRef }) => linkRef === queryPreset.reportLinkRef)
+        state.queryPreset = { ...queryPreset, reportLinks }
       })
       .addCase(SET_FILTER_STATE, (state, { payload }) => {
         state.filterState = payload

@@ -4,8 +4,8 @@ import { ReusableComponent } from 'components/types'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import _ from 'underscore'
-import { IDropdownControlProps } from './types'
 import styles from './DropdownControl.module.scss'
+import { IDropdownControlProps } from './types'
 
 /**
  * Text field based on `<Dropdown />` from [@fluentui/react](@fluentui/react)

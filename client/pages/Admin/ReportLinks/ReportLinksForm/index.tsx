@@ -1,7 +1,11 @@
-import { FormControl } from 'components/FormControl'
+import { DropdownControl, FormControl } from 'components/FormControl'
 import { TextControl } from 'components/FormControl/TextControl'
 import { TextControlOptions } from 'components/FormControl/TextControl/types'
-import { ToggleControl, ToggleControlOptions } from 'components/FormControl/ToggleControl'
+import {
+  ToggleControl,
+  ToggleControlOptions
+} from 'components/FormControl/ToggleControl'
+import $date from 'DateUtils'
 import React, { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import _ from 'underscore'
@@ -48,6 +52,25 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
         placeholder={t('admin.reportLinks.externalUrlPlaceholder')}
         description={t('admin.reportLinks.externalUrlDescription')}
         required={!props.edit}
+      />
+      <TextControl
+        {...register<TextControlOptions>('year')}
+        type='number'
+        spellCheck={false}
+        maxLength={4}
+        label={t('admin.reportLinks.yearLabel')}
+        placeholder={t('admin.reportLinks.yearPlaceholder')}
+        description={t('admin.reportLinks.yearDescription')}
+      />
+      <DropdownControl
+        {...register<TextControlOptions>('month')}
+        label={t('admin.reportLinks.monthLabel')}
+        placeholder={t('admin.reportLinks.monthPlaceholder')}
+        description={t('admin.reportLinks.monthDescription')}
+        options={$date.getMonthNames().map((month, index) => ({
+          key: index,
+          text: month
+        }))}
       />
       <ToggleControl
         {...register<ToggleControlOptions>('published')}

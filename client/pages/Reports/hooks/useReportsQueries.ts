@@ -10,6 +10,7 @@ import report_current_year from './queries/report-current-year.gql'
 import report_forecast from './queries/report-forecast.gql'
 import report_last_month from './queries/report-last-month.gql'
 import report_last_year from './queries/report-last-year.gql'
+import report_links from './queries/report-links.gql'
 import report_summary from './queries/report-summary.gql'
 
 /**
@@ -25,24 +26,27 @@ import report_summary from './queries/report-summary.gql'
  */
 export function useLastMonthQuery(query = report_last_month): IReportsQuery {
   const { t } = useTranslation()
-  const { monthName } = new DateObject().add('-1month').toObject()
+  const dateObject = new DateObject().add('-1month').toObject()
   return {
     itemKey: 'last_month',
     headerText: t('common.exportTypeLastMonth', {
-      monthName: isBrowser ? `(${monthName})` : ''
+      monthName: isBrowser ? `(${dateObject.monthName})` : ''
     }),
     itemIcon: 'CalendarDay',
     query,
-    exportFileName: `TimeEntries-${s.capitalize(monthName)}-{0}.xlsx`,
+    exportFileName: `TimeEntries-${s.capitalize(dateObject.monthName)}-{0}.xlsx`,
     variables: {
       userQuery: { hiddenFromReports: false }
-    }
+    },
+    reportLinkRef: [dateObject.year, dateObject.month].join('_')
   } as IReportsQuery
 }
 
 /**
  * Returns query properties for preset
- * **CURRENT_MONTH**
+ * **CURRENT_MONTH**. Report link ref (`reportLinkRef`)
+ * is added to find potential report links for
+ * this query..
  *
  * @remarks Made as generic so it can also be used by
  * `<UserReports />` which are using `IChoiceGroupOption`
@@ -55,24 +59,27 @@ export function useCurrentMonthQuery(
   query = report_current_month
 ): IReportsQuery {
   const { t } = useTranslation()
-  const { monthName } = new DateObject().toObject()
+  const dateObject = new DateObject().toObject()
   return {
     itemKey: 'current_month',
     headerText: t('common.exportTypeCurrentMonth', {
-      monthName: isBrowser ? `(${monthName})` : ''
+      monthName: isBrowser ? `(${dateObject.monthName})` : ''
     }),
     itemIcon: 'Calendar',
     query,
-    exportFileName: `TimeEntries-${s.capitalize(monthName)}-{0}.xlsx`,
+    exportFileName: `TimeEntries-${s.capitalize(dateObject.monthName)}-{0}.xlsx`,
     variables: {
       userQuery: { hiddenFromReports: false }
-    }
+    },
+    reportLinkRef: [dateObject.year, dateObject.month].join('_')
   } as IReportsQuery
 }
 
 /**
  * Returns query properties for preset
- * **LAST_YEAR**
+ * **LAST_YEAR**. Report link ref (`reportLinkRef`)
+ * is added to find potential report links for
+ * this query.
  *
  * @remarks Made as generic so it can also be used by
  * `<UserReports />` which are using `IChoiceGroupOption`
@@ -83,8 +90,8 @@ export function useCurrentMonthQuery(
  */
 export function useLastYearQuery(query = report_last_year): IReportsQuery {
   const { t } = useTranslation()
-  const object = new DateObject().toObject('year')
-  const year = object.year - 1
+  const dateObject = new DateObject().toObject('year')
+  const year = dateObject.year - 1
   return {
     itemKey: 'last_year',
     headerText: t('common.exportTypeLastYear', {
@@ -92,13 +99,16 @@ export function useLastYearQuery(query = report_last_year): IReportsQuery {
     }),
     itemIcon: 'Previous',
     query,
-    exportFileName: `TimeEntries-${year}-{0}.xlsx`
+    exportFileName: `TimeEntries-${year}-{0}.xlsx`,
+    reportLinkRef: year.toString()
   } as IReportsQuery
 }
 
 /**
  * Returns query properties for preset
- * **CURRENT_YEAR**
+ * **CURRENT_YEAR**. Report link ref (`reportLinkRef`)
+ * is added to find potential report links for
+ * this query..
  *
  * @remarks Made as generic so it can also be used by
  * `<UserReports />` which are using `IChoiceGroupOption`
@@ -122,7 +132,8 @@ export function useCurrentYearQuery(
     exportFileName: `TimeEntries-${year}-{0}.xlsx`,
     variables: {
       userQuery: { hiddenFromReports: false }
-    }
+    },
+    reportLinkRef: year.toString()
   } as IReportsQuery
 }
 
@@ -197,3 +208,4 @@ export function useReportsQueries(): IReportsQuery[] {
 }
 
 export { default as default_query } from './queries/report-current-month.gql'
+export { report_links }

@@ -21,7 +21,7 @@ export const Reports: FC = () => {
     <ReportsContext.Provider value={context}>
       <TabContainer
         className={styles.root}
-        defaultSelectedKey={defaultSelectedKey}
+        selectedKey={defaultSelectedKey}
         items={queries}
         fixedLinkWidth={true}
         itemProps={{

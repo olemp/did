@@ -71,6 +71,14 @@ export class ReportLink {
   month: number
 
   @Field({ nullable: true, defaultValue: null })
+  get linkRef(): string {
+    return [this.year, this.month].filter(Boolean).join('_')
+  }
+
+  /**
+   * Whether the report is published or not (`true` or `false`)
+   */
+  @Field({ nullable: true, defaultValue: null })
   published?: boolean
 
   /**

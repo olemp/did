@@ -24,7 +24,7 @@ export function useReportsFormSubmit(
     try {
       await mutate({
         variables: {
-          reportLink: _.omit(model.$, '__typename'),
+          reportLink: _.omit(model.$, '__typename', 'createdAt', 'updatedAt'),
           update: !!props.edit
         }
       })
@@ -36,10 +36,7 @@ export function useReportsFormSubmit(
       })
       model.reset()
       props.onSave(model.$)
-    // eslint-disable-next-line unicorn/prefer-optional-catch-binding
-    } catch(error) {
-      // eslint-disable-next-line no-console
-      console.log(error)
+    } catch {
       setToast({
         text: !props.edit
           ? t('admin.reportLinks.createError')
@@ -52,8 +49,7 @@ export function useReportsFormSubmit(
   /**
    * Checks if form is valid
    */
-  const isFormValid = (): boolean =>
-    !s.isBlank(model.value('name', ''))
+  const isFormValid = (): boolean => !s.isBlank(model.value('name', ''))
 
   return {
     toast,

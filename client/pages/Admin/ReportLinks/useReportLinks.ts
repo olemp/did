@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMutation, useQuery } from '@apollo/client'
+import { useConfirmationDialog } from 'pzl-react-reusable-components/lib/ConfirmDialog'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ReportLink } from '../../../../server/graphql'
+import $deleteReportLink from './deleteReportLink.gql'
 import $reportLinks from './reportLinks.gql'
 import { IReportLinksFormProps } from './ReportLinksForm'
 import { useColumns } from './useColumns'
-import { useConfirmationDialog } from 'pzl-react-reusable-components/lib/ConfirmDialog'
-import { useTranslation } from 'react-i18next'
-import $deleteReportLink from './deleteReportLink.gql'
 
 /**
  * Component logic hook for `<ReportLinks />`. Handles querying
- * the GraphQL API for report links and managing the form state, 
+ * the GraphQL API for report links and managing the form state,
  * with callback functions for save, edit, delete and dismiss.
  *
  * @category Reports
@@ -57,7 +57,9 @@ export function useReportLinks() {
         responses: [[t('common.yes'), true, true], [t('common.no')]]
       })
       if (response === true) {
-        deleteReportLink({ variables: { name: reportLink.name } }).then(query.refetch)
+        deleteReportLink({ variables: { name: reportLink.name } }).then(
+          query.refetch
+        )
       }
     },
     [deleteReportLink]
@@ -66,7 +68,7 @@ export function useReportLinks() {
   useEffect(() => {
     query.refetch()
   }, [form])
-  
+
   const columns = useColumns({ onEdit, onDelete })
 
   return {

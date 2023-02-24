@@ -1,7 +1,7 @@
 import { IContextualMenuItem, IPivotItemProps } from '@fluentui/react'
 import { IListGroupProps, ListFilterState } from 'components/List/types'
 import { TFunction } from 'i18next'
-import { Project, TimesheetPeriodObject, User } from 'types'
+import { Project, ReportLink, TimesheetPeriodObject, User } from 'types'
 
 /**
  * @category Reports
@@ -21,6 +21,19 @@ export interface IReportsQuery extends IPivotItemProps {
    * Export file name
    */
   exportFileName?: string
+
+  /**
+   * Report link reference
+   */
+  reportLinkRef?: string
+
+  /**
+   * Report links for the current query. They
+   * are matched by the `reportLinkRef` property 
+   * on the query to the `ref` property on the
+   * report link.
+   */
+  reportLinks?: ReportLink[]
 
   [key: string]: any
 }
@@ -74,6 +87,11 @@ export interface IReportsState {
   data?: IReportsData
 
   /**
+   * All report links
+   */
+  reportLinks?: ReportLink[]
+
+  /**
    * Filter panel open
    */
   isFiltersOpen?: boolean
@@ -81,7 +99,7 @@ export interface IReportsState {
   /**
    * Query preset
    */
-  preset?: IReportsQuery
+  queryPreset?: IReportsQuery
 
   /**
    * Group by properties

@@ -51,7 +51,7 @@ export const ReportsList: TabComponent = () => {
         }}
         columns={columns}
         commandBar={commandBar}
-        exportFileName={context.state.preset?.exportFileName}
+        exportFileName={context.state.queryPreset?.exportFileName}
         filterValues={context.state?.activeFilter?.values}
         onFilter={(state) => context.dispatch(SET_FILTER_STATE(state))}
         filterPanelActions={
@@ -62,7 +62,7 @@ export const ReportsList: TabComponent = () => {
         hidden={
           !_.isEmpty(context.state.data.timeEntries) ||
           context.state.loading ||
-          !context.state.preset
+          !context.state.queryPreset
         }
         text={t('reports.noEntriesText')}
       />
