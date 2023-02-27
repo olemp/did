@@ -9,6 +9,22 @@ import $addOrUpdateReportLink from './addOrUpdateReportLink.gql'
 import { IReportLinksFormProps } from './types'
 import { useReportLinksModel } from './useReportLinksModel'
 
+/**
+ * Check if URL is valid using HTML5 input type url validation.
+ *
+ * @param urlString URL string to validate
+ */
+const isValidUrl = (urlString: string) => {
+  if (s.isBlank(urlString) || s.isBlank(urlString.trim())) {
+    return false
+  }
+  const inputElement = document.createElement('input')
+  inputElement.type = 'url'
+  inputElement.value = urlString
+
+  return !inputElement.checkValidity() ? false : true
+}
+
 export function useReportsFormSubmit(
   props: IReportLinksFormProps,
   model: ReturnType<typeof useReportLinksModel>
@@ -49,7 +65,10 @@ export function useReportsFormSubmit(
   /**
    * Checks if form is valid
    */
-  const isFormValid = (): boolean => !s.isBlank(model.value('name', ''))
+  const isFormValid = (): boolean =>
+    !s.isBlank(model.value('name', '')) &&
+    isValidUrl(model.value('externalUrl', '')) &&
+    !s.isBlank(model.value('description', ''))
 
   return {
     toast,

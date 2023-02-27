@@ -33,8 +33,8 @@ export const ReportsList: TabComponent = () => {
         />
       )}
       {_.isEmpty(context.state.data.timeEntries) &&
-        !context.state.loading &&
-        context.state.queryPreset ? (
+      !context.state.loading &&
+      context.state.queryPreset ? (
         <UserMessage text={t('reports.noEntriesText')} />
       ) : (
         <List

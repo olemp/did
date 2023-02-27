@@ -9,7 +9,7 @@ import { ReportLinkTooltip } from './ReportLinkTooltip'
 
 /**
  * Report links. This component is used when the report links are available.
- * Renders a list of links to external reports with a tooltip with more information 
+ * Renders a list of links to external reports with a tooltip with more information
  * like description, who updated the report and when.
  *
  * @category Reports
@@ -22,7 +22,8 @@ export const ReportLinks: FC = () => {
       <UserMessage
         iconName='PageData'
         text={t('reports.availableReportLinks')}
-        styles={{ root: { marginBottom: 20 } }} />
+        styles={{ root: { marginBottom: 20 } }}
+      />
       {context.state.queryPreset.reportLinks.map((link, index) => (
         <ReportLinkTooltip key={index} link={link}>
           <ActionButton

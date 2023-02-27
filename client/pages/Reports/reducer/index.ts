@@ -77,7 +77,7 @@ export default ({ initialState, queries }) =>
           queries,
           (q) => q.itemKey === payload?.itemKey
         )
-        if(payload.force) {
+        if (payload.force) {
           state.queryPreset = queryPreset
           return
         }

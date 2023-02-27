@@ -11,16 +11,16 @@ import { IReportsSavedFilter } from '../types'
 /**
  * category Reports Actions
  */
-export const DATA_UPDATED =
-  createAction<{
-    result: LazyQueryResult<any, any>
-    reportLinksQuery?: QueryResult<any, OperationVariables>
-  }>('DATA_UPDATED')
+export const DATA_UPDATED = createAction<{
+  result: LazyQueryResult<any, any>
+  reportLinksQuery?: QueryResult<any, OperationVariables>
+}>('DATA_UPDATED')
 
 /**
  * @category Reports Actions
  */
-export const CHANGE_QUERY = createAction<{ itemKey: string, force?: boolean }>('FILTER_UPDATED')
+export const CHANGE_QUERY =
+  createAction<{ itemKey: string; force?: boolean }>('FILTER_UPDATED')
 
 /**
  * @category Reports Actions
