@@ -37,8 +37,8 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
       />
       <TextControl
         {...register<TextControlOptions>('description')}
-        spellCheck={false}
-        maxLength={20}
+        multiline={true}
+        rows={10}
         label={t('admin.reportLinks.descriptionLabel')}
         placeholder={t('admin.reportLinks.descriptionPlaceholder')}
         description={t('admin.reportLinks.descriptionDescription')}
@@ -47,7 +47,6 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
       <TextControl
         {...register<TextControlOptions>('externalUrl')}
         spellCheck={false}
-        maxLength={20}
         label={t('admin.reportLinks.externalUrlLabel')}
         placeholder={t('admin.reportLinks.externalUrlPlaceholder')}
         description={t('admin.reportLinks.externalUrlDescription')}

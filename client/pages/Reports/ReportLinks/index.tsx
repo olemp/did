@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ActionButton } from '@fluentui/react'
+import { ActionButton, DefaultButton } from '@fluentui/react'
 import { UserMessage } from 'components'
 import React, { FC, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,11 +35,10 @@ export const ReportLinks: FC = () => {
         </ReportLinkTooltip>
       ))}
       <div style={{ marginTop: 25 }}>
-        <ActionButton
+        <DefaultButton
           text={t('reports.fetchDataButton')}
           iconProps={{
-            iconName: 'Refresh',
-            styles: { root: { color: 'green' } }
+            iconName: 'Refresh'
           }}
           onClick={() => context.dispatch(CHANGE_QUERY({ itemKey: context.state.queryPreset.itemKey, force: true }))}
         />

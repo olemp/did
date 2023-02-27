@@ -3,7 +3,7 @@ import { TooltipHost } from '@fluentui/react'
 import $date from 'DateUtils'
 import React, { FC } from 'react'
 import { ReportLink } from 'types'
-import styles from './Reports.module.scss'
+import styles from './ReportLinkTooltip.module.scss'
 
 /**
  * Report link tooltip
@@ -15,9 +15,9 @@ export const ReportLinkTooltip: FC<{ link: ReportLink }> = ({ link, children }) 
         <TooltipHost
             content={(
                 <div className={styles.root}>
-                    <h2>{link.name}</h2>
-                    <p>{link.description}</p>
-                    <p>Updated by Steffen R. Norby on {$date.formatDate(link.updatedAt, 'MMM DD, YYYY HH:mm')}</p>
+                    <div className={styles.name}>{link.name}</div>
+                    <p className={styles.description}>{link.description}</p>
+                    <p className={styles.updated}>Updated by Steffen R. Norby on {$date.formatDate(link.updatedAt, 'MMM DD, YYYY HH:mm')}</p>
                 </div>
             )}>
             {children}
