@@ -9,5 +9,6 @@ query ReportLinks {
     createdBy
     updatedBy
     published
+    promoted
   }
 }

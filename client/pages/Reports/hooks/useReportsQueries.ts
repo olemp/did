@@ -168,8 +168,7 @@ export function useForecastQuery(query = report_forecast): IReportsQuery {
 }
 
 /**
- * Returns query properties for
- * Summary view
+ * Returns query properties for Summary view.
  *
  * @category Reports
  */

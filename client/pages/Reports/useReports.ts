@@ -29,7 +29,7 @@ export function useReports() {
   const { t } = useTranslation()
   const queries = useReportsQueries()
   const [state, dispatch] = useReportsReducer(queries)
-  const options = useReportsQueryOptions({ queries, dispatch })
+  const options = useReportsQueryOptions({ queries, state, dispatch })
   const query = useReportsQuery({ state, dispatch })
 
   useLayoutEffect(() => {

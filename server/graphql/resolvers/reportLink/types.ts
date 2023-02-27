@@ -18,9 +18,15 @@ export class ReportLinkInput {
   @Field({ nullable: true, defaultValue: '' })
   description: string
 
+  /**
+   * External URL to the report (e.g. Google Drive, Sharepoint, etc.)
+   */
   @Field()
   externalUrl: string
 
+  /**
+   * Year number for the report in format `YYYY`
+   */
   @Field({ nullable: true, defaultValue: null })
   year: number
 
@@ -30,8 +36,18 @@ export class ReportLinkInput {
   @Field({ nullable: true, defaultValue: null })
   month: number
 
+  /**
+   * Whether the report is published or not (`true` or `false`).
+   */
   @Field({ nullable: true, defaultValue: null })
   published?: boolean
+
+  /**
+   * Whether the report is promoted or not (`true` or `false`). If the
+   * report is promoted, it will be shown on the Reports front page.
+   */
+  @Field({ nullable: true, defaultValue: null })
+  promoted?: boolean
 }
 
 /**
@@ -41,6 +57,9 @@ export class ReportLinkInput {
 export class ReportLinkQuery {
   @Field({ nullable: true })
   published?: boolean
+
+  @Field({ nullable: true })
+  promoted?: boolean
 }
 
 /**
@@ -116,6 +135,13 @@ export class ReportLink {
    */
   @Field({ nullable: true, defaultValue: null })
   published?: boolean
+
+  /**
+   * Whether the report is promoted or not (`true` or `false`). If the
+   * report is promoted, it will be shown on the Reports front page.
+   */
+  @Field({ nullable: true, defaultValue: null })
+  promoted?: boolean
 
   /**
    * Constructs a new ReportLink

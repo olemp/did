@@ -49,7 +49,7 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
         label={t('admin.reportLinks.externalUrlLabel')}
         placeholder={t('admin.reportLinks.externalUrlPlaceholder')}
         description={t('admin.reportLinks.externalUrlDescription')}
-        required={!props.edit}
+        required={true}
       />
       <TextControl
         {...register<TextControlOptions>('year')}
@@ -73,6 +73,11 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
         {...register<ToggleControlOptions>('published')}
         label={t('admin.reportLinks.publishedLabel')}
         description={t('admin.reportLinks.publishedDescription')}
+      />
+      <ToggleControl
+        {...register<ToggleControlOptions>('promoted')}
+        label={t('admin.reportLinks.promotedLabel')}
+        description={t('admin.reportLinks.promotedDescription')}
       />
     </FormControl>
   )
