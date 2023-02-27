@@ -28,8 +28,6 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
     >
       <TextControl
         {...register<TextControlOptions>('name')}
-        spellCheck={false}
-        maxLength={20}
         label={t('admin.reportLinks.nameLabel')}
         placeholder={t('admin.reportLinks.namePlaceholder')}
         description={t('admin.reportLinks.nameDescription')}
@@ -55,7 +53,6 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
       <TextControl
         {...register<TextControlOptions>('year')}
         type='number'
-        spellCheck={false}
         maxLength={4}
         label={t('admin.reportLinks.yearLabel')}
         placeholder={t('admin.reportLinks.yearPlaceholder')}
