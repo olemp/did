@@ -86,7 +86,6 @@
     "createOutlookCategoryFieldLabel": "Automatically create category in Outlook",
     "createOutlookCategoryFieldDescription": "Create category {{id}} in Outlook. \nThis makes it easier to associate your Outlook events with the right project and customer.",
     "keyFieldLabel": "Project key",
-    "unknownErrorText": "An unknown",
     "createNewText": "Create new",
     "nameFieldDescription": "The name of the project. This will be visible in your Timesheet, and in the project overview. Minimum {{PROJECT_NAME_MIN_LENGTH}} characters.",
     "descriptionFieldDescription": "Describe the project in more detail. [Markdown](https://www.markdownguide.org/basic-syntax/) is supported.",
