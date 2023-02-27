@@ -27,6 +27,11 @@ export class Context {
   public userId?: string
 
   /**
+   * User object
+   */
+  public user?: Express.User
+
+  /**
    * User configuration
    */
   public userConfiguration?: Record<string, any>
@@ -105,6 +110,7 @@ export const createContext = async (
       context.permissions = permissions
       context.subscription = subscription
     } else {
+      context.user = get(request, 'user')
       context.userId = get(request, 'user.id')
       context.userConfiguration = tryParseJson<Record<string, any>>(
         get(request, 'user.configuration'),

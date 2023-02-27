@@ -23,7 +23,7 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
    *
    * @param context - Injected context through `typedi`
    */
-  constructor(@Inject('CONTEXT') readonly context: Context) {
+  constructor(@Inject('CONTEXT') public readonly context: Context) {
     super(context, 'report_links')
   }
 
@@ -63,7 +63,8 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
     try {
       const result = await this.insert({
         _id: this._generateId(reportLink),
-        ...reportLink
+        ...reportLink,
+        createdBy: this.context.user.displayName
       })
       return result
     } catch (error) {
@@ -78,7 +79,10 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
    */
   public async updateReportLink(reportLink: ReportLink): Promise<void> {
     try {
-      await this.update(_.pick(reportLink, 'name'), reportLink)
+      await this.update(_.pick(reportLink, 'name'), {
+        ...reportLink,
+        updatedBy: this.context.user.displayName
+      })
     } catch (error) {
       throw error
     }
