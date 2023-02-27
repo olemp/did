@@ -4,7 +4,14 @@ import { useTimesheetPeriods } from 'hooks'
 import { isBrowser } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import s from 'underscore.string'
-import { report_last_month, report_current_month, report_last_year, report_current_year, report_forecast, report_summary } from '../queries'
+import {
+  report_current_month,
+  report_current_year,
+  report_forecast,
+  report_last_month,
+  report_last_year,
+  report_summary
+} from '../queries'
 import { IReportsQuery } from '../types'
 
 /**

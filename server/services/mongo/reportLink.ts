@@ -37,7 +37,7 @@ export class ReportLinkService extends MongoDocumentService<ReportLink> {
   }
 
   /**
-   * Get report links
+   * Get report links using the specified query.
    *
    * @param query - Query
    */

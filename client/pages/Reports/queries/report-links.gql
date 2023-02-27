@@ -1,5 +1,5 @@
 query ReportLinks {
-  reportLinks {
+  reportLinks(query: { published: true }) {
     name
     description
     externalUrl

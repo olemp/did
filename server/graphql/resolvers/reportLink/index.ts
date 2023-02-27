@@ -5,7 +5,7 @@ import { Service } from 'typedi'
 import { ReportLinkService } from '../../../services/mongo'
 import { IAuthOptions } from '../../authChecker'
 import { BaseResult } from '../types'
-import { ReportLink, ReportLinkInput } from './types'
+import { ReportLink, ReportLinkInput, ReportLinkQuery } from './types'
 
 /**
  * Resolver for `ReportLink`.
@@ -28,12 +28,14 @@ export class ReportLinkResolver {
   constructor(private readonly _reportLink: ReportLinkService) {}
 
   /**
-   * Get report links
+   * Get report links using the specified query.
    */
   @Authorized()
-  @Query(() => [ReportLink], { description: 'Get report links' })
-  reportLinks() {
-    return this._reportLink.getReportLinks()
+  @Query(() => [ReportLink], { description: 'Get report links using the specified query' })
+  reportLinks(
+    @Arg('query', () => ReportLinkQuery, { nullable: true }) query: ReportLinkQuery
+  ): Promise<ReportLink[]> {
+    return this._reportLink.getReportLinks(query)
   }
 
   /**

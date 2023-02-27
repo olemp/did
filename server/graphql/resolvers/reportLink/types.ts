@@ -35,6 +35,15 @@ export class ReportLinkInput {
 }
 
 /**
+ * @category GraphQL InputType
+ */
+@InputType({ description: 'Input object for ReportLink query' })
+export class ReportLinkQuery {
+  @Field({ nullable: true })
+  published?: boolean
+}
+
+/**
  * A type that describes a ReportLink
  *
  * @category GraphQL ObjectType
@@ -52,21 +61,39 @@ export class ReportLink {
   @Field({ nullable: true, defaultValue: '' })
   description: string
 
+  /**
+   * External URL to the report (e.g. Google Drive, Sharepoint, etc.)
+   */
   @Field()
   externalUrl: string
 
+  /**
+   * Date when the report was created
+   */
   @Field()
   createdAt: Date
 
+  /**
+   * Date when the report was last updated
+   */
   @Field()
   updatedAt: Date
 
+  /**
+   * User display name for the user who created the report
+   */
   @Field({ nullable: true, defaultValue: null })
   createdBy: string
 
+  /**
+   * User display name for the user who last updated the report
+   */
   @Field({ nullable: true, defaultValue: null })
   updatedBy: string
 
+  /**
+   * Year number for the report in format `YYYY`
+   */
   @Field({ nullable: true, defaultValue: null })
   year: number
 
@@ -76,9 +103,12 @@ export class ReportLink {
   @Field({ nullable: true, defaultValue: null })
   month: number
 
+  /**
+   * Link reference. The format is `YYYY_MM` where January is `1` (not zero-indexed)
+   */
   @Field({ nullable: true, defaultValue: null })
   get linkRef(): string {
-    return [this.year, this.month].filter(Boolean).join('_')
+    return [this.year, this.month + 1].filter(Boolean).join('_')
   }
 
   /**
