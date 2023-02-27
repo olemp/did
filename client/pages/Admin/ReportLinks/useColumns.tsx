@@ -16,12 +16,29 @@ export function useColumns({ onEdit, onDelete }) {
       'published',
       t('admin.reportLinks.publishedLabel'),
       {
-        minWidth: 60,
-        maxWidth: 60
+        minWidth: 75,
+        maxWidth: 75
       },
       (reportLink: ReportLink) => (
         <div style={{textAlign: 'center'}}>
           {reportLink.published ? (
+            <Icon iconName='CheckMark' style={{ color: 'green' }} />
+          ) : (
+            <Icon iconName='Cancel' style={{ color: 'red' }} />
+          )}
+        </div>
+      )
+    ),
+    col(
+      'promoted',
+      t('admin.reportLinks.promotedLabel'),
+      {
+        minWidth: 75,
+        maxWidth: 75
+      },
+      (reportLink: ReportLink) => (
+        <div style={{textAlign: 'center'}}>
+          {reportLink.promoted ? (
             <Icon iconName='CheckMark' style={{ color: 'green' }} />
           ) : (
             <Icon iconName='Cancel' style={{ color: 'red' }} />
