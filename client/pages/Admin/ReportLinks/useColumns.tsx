@@ -13,6 +13,23 @@ export function useColumns({ onEdit, onDelete }) {
   const { t } = useTranslation()
   return [
     col(
+      'published',
+      t('admin.reportLinks.publishedLabel'),
+      {
+        minWidth: 60,
+        maxWidth: 60
+      },
+      (reportLink: ReportLink) => (
+        <div style={{textAlign: 'center'}}>
+          {reportLink.published ? (
+            <Icon iconName='CheckMark' style={{ color: 'green' }} />
+          ) : (
+            <Icon iconName='Cancel' style={{ color: 'red' }} />
+          )}
+        </div>
+      )
+    ),
+    col(
       'name',
       t('admin.reportLinks.nameLabel'),
       { maxWidth: 180 },
@@ -29,22 +46,6 @@ export function useColumns({ onEdit, onDelete }) {
       maxWidth: 300,
       data: { hidden: isMobile }
     }),
-    col(
-      'published',
-      t('admin.reportLinks.publishedLabel'),
-      {
-        minWidth: 100
-      },
-      (reportLink: ReportLink) => (
-        <div>
-          {reportLink.published ? (
-            <Icon iconName='CheckMark' style={{ color: 'green' }} />
-          ) : (
-            <Icon iconName='Cancel' style={{ color: 'red' }} />
-          )}
-        </div>
-      )
-    ),
     col(
       'createdAt',
       t('common.createdLabel'),
