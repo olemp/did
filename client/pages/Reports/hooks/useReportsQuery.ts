@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FetchPolicy, useLazyQuery, useQuery } from '@apollo/client'
 import { useLayoutEffect } from 'react'
+import { report_links } from '../queries'
 import { DATA_UPDATED } from '../reducer/actions'
-import { default_query, report_links } from './useReportsQueries'
+import { default_query } from './useReportsQueries'
 
 /**
  * Hook for Reports Query.
