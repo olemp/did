@@ -32,6 +32,7 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
         placeholder={t('admin.reportLinks.namePlaceholder')}
         description={t('admin.reportLinks.nameDescription')}
         required={!props.edit}
+        disabled={!!props.edit}
       />
       <TextControl
         {...register<TextControlOptions>('description')}
