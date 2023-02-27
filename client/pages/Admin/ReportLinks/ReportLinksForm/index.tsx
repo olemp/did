@@ -1,3 +1,4 @@
+import { IconPicker } from 'components'
 import { DropdownControl, FormControl } from 'components/FormControl'
 import { TextControl } from 'components/FormControl/TextControl'
 import { TextControlOptions } from 'components/FormControl/TextControl/types'
@@ -14,7 +15,7 @@ import { useReportLinksForm } from './useReportLinksForm'
 
 export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
   const { t } = useTranslation()
-  const { register, submit } = useReportLinksForm(props)
+  const { model, register, submit } = useReportLinksForm(props)
   return (
     <FormControl
       submitProps={submit}
@@ -43,9 +44,26 @@ export const ReportLinksForm: FC<IReportLinksFormProps> = (props) => {
         description={t('admin.reportLinks.descriptionDescription')}
         required={!props.edit}
       />
+      <IconPicker
+        name='icon'
+        model={model}
+        label={t('common.iconFieldLabel')}
+        description={t('admin.reportLinks.iconDescription')}
+        placeholder={t('common.iconSearchPlaceholder')}
+        width={300}
+        defaultSelected={model.$.icon}
+        iconProps={{ styles: { root: { color: model.$.iconColor } } }}
+        required={true}
+      />
+      <TextControl
+        {...register<TextControlOptions>('iconColor')}
+        label={t('admin.reportLinks.iconColorLabel')}
+        placeholder={t('admin.reportLinks.iconColorPlaceholder')}
+        description={t('admin.reportLinks.iconColorDescription')}
+        required={true}
+      />
       <TextControl
         {...register<TextControlOptions>('externalUrl')}
-        spellCheck={false}
         label={t('admin.reportLinks.externalUrlLabel')}
         placeholder={t('admin.reportLinks.externalUrlPlaceholder')}
         description={t('admin.reportLinks.externalUrlDescription')}

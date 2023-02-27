@@ -2,11 +2,11 @@
 import 'reflect-metadata'
 import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql'
 import { Service } from 'typedi'
+import { PermissionScope } from '../../../../shared/config/security'
 import { ReportLinkService } from '../../../services/mongo'
 import { IAuthOptions } from '../../authChecker'
 import { BaseResult } from '../types'
 import { ReportLink, ReportLinkInput, ReportLinkQuery } from './types'
-import { PermissionScope } from '../../../../shared/config/security'
 
 /**
  * Resolver for `ReportLink`.

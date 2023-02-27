@@ -20,7 +20,7 @@ export function useColumns({ onEdit, onDelete }) {
         maxWidth: 75
       },
       (reportLink: ReportLink) => (
-        <div style={{textAlign: 'center'}}>
+        <div style={{ textAlign: 'center' }}>
           {reportLink.published ? (
             <Icon iconName='CheckMark' style={{ color: 'green' }} />
           ) : (
@@ -37,7 +37,7 @@ export function useColumns({ onEdit, onDelete }) {
         maxWidth: 75
       },
       (reportLink: ReportLink) => (
-        <div style={{textAlign: 'center'}}>
+        <div style={{ textAlign: 'center' }}>
           {reportLink.promoted ? (
             <Icon iconName='CheckMark' style={{ color: 'green' }} />
           ) : (
@@ -49,9 +49,13 @@ export function useColumns({ onEdit, onDelete }) {
     col(
       'name',
       t('admin.reportLinks.nameLabel'),
-      { maxWidth: 180 },
+      { maxWidth: 220 },
       (reportLink: ReportLink) => (
         <div>
+          <Icon
+            iconName={reportLink.icon}
+            styles={{ root: { marginRight: 8, color: reportLink.iconColor } }}
+          />
           <Link href={reportLink.externalUrl} target='_blank'>
             {reportLink.name}
           </Link>

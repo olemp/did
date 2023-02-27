@@ -25,6 +25,13 @@ const isValidUrl = (urlString: string) => {
   return !inputElement.checkValidity() ? false : true
 }
 
+/**
+ * Hook for handling the form submit. Handles the GraphQL
+ * mutation and messages to the user using a toast.
+ *
+ * @param props Props from `<ReportLinksForm />`
+ * @param model Model from `useReportLinksModel`
+ */
 export function useReportsFormSubmit(
   props: IReportLinksFormProps,
   model: ReturnType<typeof useReportLinksModel>
@@ -68,6 +75,8 @@ export function useReportsFormSubmit(
   const isFormValid = (): boolean =>
     !s.isBlank(model.value('name', '')) &&
     isValidUrl(model.value('externalUrl', '')) &&
+    !s.isBlank(model.value('icon', '')) &&
+    !s.isBlank(model.value('iconColor', '')) &&
     !s.isBlank(model.value('description', ''))
 
   return {

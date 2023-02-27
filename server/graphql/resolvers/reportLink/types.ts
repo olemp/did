@@ -18,6 +18,12 @@ export class ReportLinkInput {
   @Field({ nullable: true, defaultValue: '' })
   description: string
 
+  @Field({ nullable: true, defaultValue: 'ExcelDocument' })
+  icon: string
+
+  @Field({ nullable: true, defaultValue: '#008000' })
+  iconColor: string
+
   /**
    * External URL to the report (e.g. Google Drive, Sharepoint, etc.)
    */
@@ -79,6 +85,12 @@ export class ReportLink {
 
   @Field({ nullable: true, defaultValue: '' })
   description: string
+
+  @Field({ nullable: true, defaultValue: 'ExcelDocument' })
+  icon: string
+
+  @Field({ nullable: true, defaultValue: '#008000' })
+  iconColor: string
 
   /**
    * External URL to the report (e.g. Google Drive, Sharepoint, etc.)
