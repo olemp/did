@@ -62,6 +62,12 @@ export class ReportLink {
   updatedAt: Date
 
   @Field({ nullable: true, defaultValue: null })
+  createdBy: string
+
+  @Field({ nullable: true, defaultValue: null })
+  updatedBy: string
+
+  @Field({ nullable: true, defaultValue: null })
   year: number
 
   /**

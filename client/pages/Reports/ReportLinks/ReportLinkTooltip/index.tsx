@@ -2,22 +2,25 @@
 import { TooltipHost } from '@fluentui/react'
 import $date from 'DateUtils'
 import React, { FC } from 'react'
-import { ReportLink } from 'types'
+import { useTranslation } from 'react-i18next'
+import { IReportLinkTooltipProps } from './types'
 import styles from './ReportLinkTooltip.module.scss'
 
 /**
- * Report link tooltip
+ * Report link tooltip. Displays a tooltip with more information about the report link
+ * like description, who updated the report and when.
  *
  * @category Reports
  */
-export const ReportLinkTooltip: FC<{ link: ReportLink }> = ({ link, children }) => {
+export const ReportLinkTooltip: FC<IReportLinkTooltipProps> = ({ link, children }) => {
+    const { t } = useTranslation()
     return (
         <TooltipHost
             content={(
                 <div className={styles.root}>
                     <div className={styles.name}>{link.name}</div>
                     <p className={styles.description}>{link.description}</p>
-                    <p className={styles.updated}>Updated by Steffen R. Norby on {$date.formatDate(link.updatedAt, 'MMM DD, YYYY HH:mm')}</p>
+                    <p className={styles.updated}>{t('reports.reportLinkUpdatedText', { ...link, updatedAt: $date.formatDate(link.updatedAt, 'MMM DD, YYYY HH:mm') })}</p>
                 </div>
             )}>
             {children}

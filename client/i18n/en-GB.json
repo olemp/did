@@ -254,8 +254,9 @@
     "filterDescriptionPlaceholder": "Note",
     "summaryHeaderText": "Summary",
     "applyFilterText": "Apply filter",
-    "availableReportLinks": "There is reports available for this query. Use the buttons below to download the reports, or click below to fetch fresh data from the server.",
-    "fetchDataButton": "Fetch fresh data from the server"
+    "availableReportLinks": "There is reports available for this query. Use the buttons below to download the reports, and hover over the buttons to see more information about the report.",
+    "fetchDataButton": "Fetch fresh data from the server",
+    "reportLinkUpdatedText": "Updated by {{updatedBy}} on {{updatedAt}}."
   },
   "common": {
     "headerTotalDuration": " ({{duration}})",

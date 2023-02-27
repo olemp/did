@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ActionButton, DefaultButton } from '@fluentui/react'
+import { ActionButton } from '@fluentui/react'
 import { UserMessage } from 'components'
 import React, { FC, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReportsContext } from '../context'
-import { CHANGE_QUERY } from '../reducer/actions'
+import styles from './ReportLinks.module.scss'
 import { ReportLinkTooltip } from './ReportLinkTooltip'
 
 /**
@@ -18,15 +18,15 @@ export const ReportLinks: FC = () => {
   const { t } = useTranslation()
   const context = useContext(ReportsContext)
   return (
-    <div>
+    <div className={styles.root}>
       <UserMessage
         iconName='PageData'
         text={t('reports.availableReportLinks')}
-        styles={{ root: { marginBottom: 20 } }}
-      />
+        styles={{ root: { marginBottom: 20 } }} />
       {context.state.queryPreset.reportLinks.map((link, index) => (
         <ReportLinkTooltip key={index} link={link}>
           <ActionButton
+            className={styles.link}
             text={link.name}
             href={link.externalUrl}
             target='_blank'
@@ -34,15 +34,6 @@ export const ReportLinks: FC = () => {
           />
         </ReportLinkTooltip>
       ))}
-      <div style={{ marginTop: 25 }}>
-        <DefaultButton
-          text={t('reports.fetchDataButton')}
-          iconProps={{
-            iconName: 'Refresh'
-          }}
-          onClick={() => context.dispatch(CHANGE_QUERY({ itemKey: context.state.queryPreset.itemKey, force: true }))}
-        />
-      </div>
     </div>
   )
 }

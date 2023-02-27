@@ -6,6 +6,8 @@ query ReportLinks {
     linkRef
     createdAt
     updatedAt
+    createdBy
+    updatedBy
     published
   }
 }
