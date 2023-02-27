@@ -37,7 +37,6 @@ export function useColumns({ setPanel, onDelete }) {
       <div style={{ display: 'flex' }}>
         <EditLink
           style={{ marginRight: 12 }}
-          hidden={role.readOnly}
           onClick={() => {
             setPanel({
               headerText: t('admin.editRole'),

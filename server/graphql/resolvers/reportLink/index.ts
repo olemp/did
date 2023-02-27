@@ -6,6 +6,7 @@ import { ReportLinkService } from '../../../services/mongo'
 import { IAuthOptions } from '../../authChecker'
 import { BaseResult } from '../types'
 import { ReportLink, ReportLinkInput, ReportLinkQuery } from './types'
+import { PermissionScope } from '../../../../shared/config/security'
 
 /**
  * Resolver for `ReportLink`.
@@ -42,12 +43,13 @@ export class ReportLinkResolver {
   }
 
   /**
-   * Add or update report link
+   * Add or update report link. Permission scope `MANAGE_REPORT_LINKS` is
+   * required.
    *
    * @param reportLink - Report link
    * @param update - Update flag
    */
-  @Authorized<IAuthOptions>({ userContext: true })
+  @Authorized<IAuthOptions>({ scope: PermissionScope.MANAGE_REPORT_LINKS })
   @Mutation(() => BaseResult, { description: 'Add or update report link' })
   async addOrUpdateReportLink(
     @Arg('reportLink', () => ReportLinkInput) reportLink: ReportLinkInput,
@@ -61,11 +63,12 @@ export class ReportLinkResolver {
   }
 
   /**
-   * Delete report link by name
+   * Delete report link by name. Permission scope `MANAGE_REPORT_LINKS` is
+   * required.
    *
    * @param name - Name
    */
-  @Authorized<IAuthOptions>({ userContext: true })
+  @Authorized<IAuthOptions>({ scope: PermissionScope.MANAGE_REPORT_LINKS })
   @Mutation(() => BaseResult, { description: 'Delete report link by name' })
   async deleteReportLink(@Arg('name') name: string): Promise<BaseResult> {
     await this._reportLink.deleteReportLink(name)

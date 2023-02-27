@@ -50,7 +50,7 @@ export const Admin = () => {
       />
       <ReportLinks
         headerText={t('admin.reportLinks.headerText')}
-        permission={PermissionScope.MANAGE_SUBSCRIPTION}
+        permission={PermissionScope.MANAGE_REPORT_LINKS}
       />
       <ApiTokens
         headerText={t('admin.apiTokens.headerText')}

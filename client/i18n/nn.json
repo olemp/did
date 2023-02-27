@@ -488,7 +488,9 @@
     "manageSubscription": "Administrer abonnementet",
     "manageSubscriptionDescription": "Administrer abonnementsinnstillingar og faktureringsinformasjon.",
     "listUsers": "Hente brukere",
-    "listUsersDescription": "Hente ut alle brukere for abonnementet."
+    "listUsersDescription": "Hente ut alle brukere for abonnementet.",
+    "manageReportLinks": "Administrer rapportkoblinger",
+    "manageReportLinksDescription": "Administrer rapportkoblinger. Legg til, rediger og slett rapportkoblinger."
   },
   "notifications": {
     "moreLinkText": "Les meir her",
