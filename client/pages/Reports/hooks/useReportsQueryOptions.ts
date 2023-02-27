@@ -57,9 +57,10 @@ export function useReportsQueryOptions({
     ...promotedReportLinks.map<IChoiceGroupOption>((link) => ({
       key: link.name,
       text: link.name,
+      title: link.description,
       iconProps: {
-        iconName: 'ExcelDocument',
-        styles: { root: { color: 'green' } }
+        iconName: link.icon,
+        styles: { root: { color: link.iconColor } }
       },
       onClick: () => window.open(link.externalUrl, '_blank'),
       styles
