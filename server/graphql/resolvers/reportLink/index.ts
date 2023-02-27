@@ -31,9 +31,12 @@ export class ReportLinkResolver {
    * Get report links using the specified query.
    */
   @Authorized()
-  @Query(() => [ReportLink], { description: 'Get report links using the specified query' })
+  @Query(() => [ReportLink], {
+    description: 'Get report links using the specified query'
+  })
   reportLinks(
-    @Arg('query', () => ReportLinkQuery, { nullable: true }) query: ReportLinkQuery
+    @Arg('query', () => ReportLinkQuery, { nullable: true })
+    query: ReportLinkQuery
   ): Promise<ReportLink[]> {
     return this._reportLink.getReportLinks(query)
   }
