@@ -29,8 +29,7 @@ export class Context {
   /**
    * User object
    */
-  public user?: Express.User
-
+  public user?: Record<string, any>
   /**
    * User configuration
    */
