@@ -43,7 +43,7 @@ export const LabelForm: FC<ILabelFormProps> = (props) => {
       />
       <ColorPickerField
         label={t('common.colorLabel')}
-        color={model.value('color')}
+        fillColor={model.value('color')}
         onChanged={(value) => model.set('color', value)}
       />
       <div>

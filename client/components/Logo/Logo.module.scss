@@ -4,12 +4,16 @@
   flex-direction: column;
 
   .logo {
-    letter-spacing: .4rem;
-    margin: .8rem 0 1.1rem 0;
+    margin: 1rem 0 2rem 0;
+  }
+  .motto {
+    font-size: 20px;
+    font-family: 'Space Grotesk', 'Inter', 'Helvetica', 'Segoe UI', sans-serif;
+    font-style: italic;
+    color: #3a0960;
   }
 
   .dropShadow {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
-      rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    filter: drop-shadow(0px 14px 5px rgba(0, 0, 0, 0.2));
   }
 }

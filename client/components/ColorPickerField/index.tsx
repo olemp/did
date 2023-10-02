@@ -35,13 +35,13 @@ export const ColorPickerField: ReusableComponent<IColorPickerFieldProps> = (
             <div
               ref={ref}
               className={styles.colorPreview}
-              style={{ backgroundColor: props.color }}
+              style={{ backgroundColor: props.fillColor }}
             ></div>
           </div>
         </PopoverTrigger>
         <PopoverSurface>
           <SketchPicker
-            color={props.color}
+            color={props.fillColor}
             onChange={({ hex }) => props.onChanged(hex)}
           />
         </PopoverSurface>
