@@ -26,8 +26,8 @@ export interface CreateOrUpdateProjectVariables extends OperationVariables {
   project: Partial<ProjectInput>
 
   /*
-  * Flag that decides whether to update or create a project.
-  */
+   * Flag that decides whether to update or create a project.
+   */
   update?: boolean
 
   /**

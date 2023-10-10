@@ -41,13 +41,13 @@ export const useProjectFormSubmit: FormSubmitHook<
       displayToast(
         variables.update
           ? t('projects.updateSuccess', {
-            ...variables.project,
-            projectId: model.projectId
-          })
+              ...variables.project,
+              projectId: model.projectId
+            })
           : t('projects.createError', {
-            ...variables.project,
-            projectId: model.projectId
-          }),
+              ...variables.project,
+              projectId: model.projectId
+            }),
         'success'
       )
       model.reset()
@@ -56,9 +56,9 @@ export const useProjectFormSubmit: FormSubmitHook<
       displayToast(
         variables.update
           ? t('projects.updateError', {
-            ...variables.project,
-            projectId: model.projectId
-          })
+              ...variables.project,
+              projectId: model.projectId
+            })
           : t('projects.createError'),
         'error'
       )

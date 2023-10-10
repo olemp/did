@@ -49,10 +49,7 @@ export const useSubmitFeedback: FormSubmitHook<
           'success'
         )
       } else {
-        appContext.displayToast(
-          t('feedback.submitErrorMessageText'),
-          'warning'
-        )
+        appContext.displayToast(t('feedback.submitErrorMessageText'), 'warning')
       }
       model.reset()
       props.onDismiss()

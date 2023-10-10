@@ -50,7 +50,8 @@ export const useReportsFormSubmit: FormSubmitHook<
           update: !!props.edit
         }
       })
-      displayToast(props.edit
+      displayToast(
+        props.edit
           ? t('admin.reportLinks.updateSuccess', model.$)
           : t('admin.reportLinks.createSuccess', model.$),
         'success'

@@ -46,7 +46,12 @@ export interface IAppContext extends IAppProps {
    * @param duration - The duration in seconds to display the toast message (default: **6**).
    * @param additionalProps - Additional properties to pass to the toast message.
    */
-  displayToast: (text: IToastProps['text'], intent?: IToastProps['intent'], duration?: number, additionalProps?: Partial<IToastProps>) => void
+  displayToast: (
+    text: IToastProps['text'],
+    intent?: IToastProps['intent'],
+    duration?: number,
+    additionalProps?: Partial<IToastProps>
+  ) => void
 }
 
 export const AppContext = createContext<IAppContext>(null)

@@ -8,7 +8,7 @@ import { useSubscriptionSettings } from './useSubscriptionSettings'
 
 export const SubscriptionSettings: TabComponent = () => {
   const { t } = useTranslation()
-  const {  context, onSaveSettings, hasChanges, tabs } =
+  const { context, onSaveSettings, hasChanges, tabs } =
     useSubscriptionSettings()
 
   return (

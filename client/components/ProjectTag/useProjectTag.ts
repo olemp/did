@@ -32,10 +32,7 @@ export function useProjectTag(props: IProjectTagProps) {
         )
         setHasOutlookCategory(true)
       } else {
-        appContext.displayToast(
-          t('common.outlookCategoryError'),
-          'error'
-        )
+        appContext.displayToast(t('common.outlookCategoryError'), 'error')
       }
     }
   }

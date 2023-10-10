@@ -42,12 +42,19 @@ export function useApp(props: IAppProps) {
    * @param duration - The duration in seconds to display the toast message (default: **6**).
    * @param additionalProps - Additional properties to pass to the toast message.
    */
-  const displayToast = (text: IToastProps['text'], intent:IToastProps['intent'] = 'info', duration: number = 6, additionalProps: Partial<IToastProps> = {}) => {
-    context.dispatch(SET_TOAST({
-      text,
-      intent,
-      ...additionalProps
-    }))
+  const displayToast = (
+    text: IToastProps['text'],
+    intent: IToastProps['intent'] = 'info',
+    duration: number = 6,
+    additionalProps: Partial<IToastProps> = {}
+  ) => {
+    context.dispatch(
+      SET_TOAST({
+        text,
+        intent,
+        ...additionalProps
+      })
+    )
     setTimeout(() => {
       context.dispatch(SET_TOAST(null))
     }, duration * 1000)

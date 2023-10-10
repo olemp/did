@@ -50,7 +50,8 @@ export const useCustomerFormSubmit: FormSubmitHook<
               `/customers/information/${variables.customer.key}`
             )
           }
-        })
+        }
+      )
       model.reset()
       context.refetch()
     } catch {

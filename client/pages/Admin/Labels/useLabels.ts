@@ -52,15 +52,9 @@ export function useLabels() {
         await deleteLabel({ variables: { name: selectedLabel.name } }).then(
           refetch
         )
-        displayToast(
-          t('admin.labels.deleteSuccess', selectedLabel),
-          'success'
-        )
+        displayToast(t('admin.labels.deleteSuccess', selectedLabel), 'success')
       } catch {
-        displayToast(
-          t('admin.labels.deleteError', selectedLabel),
-          'error'
-        )
+        displayToast(t('admin.labels.deleteError', selectedLabel), 'error')
       }
     }
   }, [deleteLabel, selectedLabel])

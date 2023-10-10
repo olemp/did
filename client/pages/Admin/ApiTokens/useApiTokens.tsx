@@ -23,7 +23,7 @@ export function useApiTokens() {
   const [selectedToken, onSelectionChanged] = useState<ApiToken>(null)
   const [newToken, setNewToken] = useState<ApiToken>(null)
   const [confirmationDialog, getResponse] = useConfirmationDialog()
-  const {displayToast} = useAppContext()
+  const { displayToast } = useAppContext()
 
   /**
    * Deletes the `selectedToken` and shows a success toast message.
@@ -44,7 +44,7 @@ export function useApiTokens() {
     })
     if (!response) return
     await deleteApiToken({ variables: { name: selectedToken.name } })
-    displayToast( t('admin.tokenDeletedText', selectedToken), 'success')
+    displayToast(t('admin.tokenDeletedText', selectedToken), 'success')
     refetch()
   }, [selectedToken])
 
@@ -67,10 +67,7 @@ export function useApiTokens() {
    * Sets a success toast message and clears the API key from state.
    */
   const onKeyCopied = useCallback((token: ApiToken) => {
-    displayToast(
-       t('admin.apiTokens.apiKeyCopied', token),
-       'success'
-    )
+    displayToast(t('admin.apiTokens.apiKeyCopied', token), 'success')
     setNewToken(null)
   }, [])
 
