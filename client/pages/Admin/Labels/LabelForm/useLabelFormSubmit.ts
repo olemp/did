@@ -25,7 +25,10 @@ export const useLabelFormSubmit: FormSubmitHook<
   ReturnType<typeof useLabelModel>
 > = (props, model) => {
   const { t } = useTranslation()
-  const [createOrUpdateLabel, { loading }] = useMutation<any, CreateOrUpdateLabelVariables>($addOrUpdateLabel)
+  const [createOrUpdateLabel, { loading }] = useMutation<
+    any,
+    CreateOrUpdateLabelVariables
+  >($addOrUpdateLabel)
   const { displayToast } = useAppContext()
 
   /**

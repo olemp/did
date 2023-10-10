@@ -43,7 +43,6 @@ export default function useAppReducer(initialState: IAppState) {
         state.nav = null
       })
       .addCase(SET_TOAST, (state, { payload }) => {
-        console.log('SET_TOAST', payload)
         state.toast = payload as any
       })
   )
