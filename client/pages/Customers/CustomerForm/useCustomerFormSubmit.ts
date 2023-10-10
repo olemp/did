@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/client'
 import { FormSubmitHook, useFormControlModel } from 'components/FormControl'
 import { useToast } from 'components/Toast'
 import { useTranslation } from 'react-i18next'
-import { Customer } from 'types'
 import { omitTypename } from 'utils'
 import { useCustomersContext } from '../context'
 import $create_or_update_customer from './create-or-update-customer.gql'
@@ -24,24 +23,26 @@ export const useCustomerFormSubmit: FormSubmitHook<
   const { t } = useTranslation()
   const { refetch } = useCustomersContext()
   const [toast, setToast, isToastShowing] = useToast(8000)
-  const [mutate, { loading }] = useMutation($create_or_update_customer)
+  const [createOrUpdateCustomer, { loading }] = useMutation($create_or_update_customer)
 
   /**
    * On form submit
    */
   async function onClick() {
+    const variables = {
+      customer: omitTypename(model.$),
+      update: !!props.edit
+    }
     try {
-      await mutate({
-        variables: {
-          customer: omitTypename(model.$),
-          update: !!props.edit
-        }
-      })
+      await createOrUpdateCustomer({ variables })
       setToast({
-        text: t('customers.createSuccess', model.$ as Customer),
+        text: variables.update
+          ? t('customers.updateSuccess', variables.customer)
+          : t('customers.createSuccess', variables.customer),
         onClick: () => {
+          if (variables.update) return
           window.location.replace(
-            `/customers/information/${model.value('key')}`
+            `/customers/information/${variables.customer.key}`
           )
         },
         intent: 'success'
@@ -51,6 +52,13 @@ export const useCustomerFormSubmit: FormSubmitHook<
         refetch()
       }, 1000)
     } catch {
+      if (variables.update) {
+        setToast({
+          text: t('customers.updateError', variables.customer),
+          intent: 'error'
+        })
+        return
+      }
       setToast({
         text: t('customers.createError'),
         intent: 'error'

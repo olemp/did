@@ -140,7 +140,8 @@
     "descriptionWarning": "Me tilrår å inkludera ei rask oppsummering av kunden. Dette vil gi ei kortfatta oversikt og hjelpa andre raskt å forstå essensen til kunden.",
     "keyNotUniqueError": "Kundenøkkelen {{key}} er allerede i bruk av kunden {{name}}.",
     "nameNotUniqueError": "Det ser ut til at det allerede er en kunde med samme navn.",
-    "noLabelsSelectedText": "Legg til merkelapper på kunden for kategorisering."
+    "noLabelsSelectedText": "Legg til merkelapper på kunden for kategorisering.",
+    "updateSuccess": "Kunden **{{name}}** blei oppdatert heilt utan problem."
   },
   "admin": {
     "apiTokens": {
