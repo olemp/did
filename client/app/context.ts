@@ -67,7 +67,6 @@ export function useAppContext(): IAppContext {
   const context = useContext(AppContext)
   const getUserConfiguration = (path: string) =>
     get(context.user.configuration, path)
-
   return {
     ...context,
     isAuthenticated: !!context.user?.id,

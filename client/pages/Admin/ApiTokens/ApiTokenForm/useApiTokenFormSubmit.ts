@@ -27,7 +27,7 @@ export const useApiTokenFormSubmit: FormSubmitHook<
           token: model.$
         }
       })
-      displayToast(t('admin.tokenGeneratedText'), 'info', 20)
+      displayToast(t('admin.tokenGeneratedText'), 'success', 20)
       model.reset()
       props.onTokenAdded({
         ...(model.$ as ApiToken),

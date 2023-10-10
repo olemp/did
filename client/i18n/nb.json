@@ -187,7 +187,7 @@
       "nameLabel": "Navn på merkelapp",
       "namePlaceholder": "Navn på merkelapp",
       "nameDescription": "Navn på merkelapp. \nIngen spesialtegn. \nBare bokstaver og mellomrom.",
-      "createError": "Vi kan ikke oppdatere merkelappen for øyeblikket. \nPrøv igjen senere.",
+      "createError": "Vi kan ikke opprette merkelappen for øyeblikket. Prøv igjen senere.",
       "createSuccess": "Den nye merkelappen din **{{name}}** ble opprettet",
       "updateSuccess": "Merkelappen din **{{name}}** ble oppdatert",
       "defaultTitle": "ny merkelapp",
@@ -195,7 +195,8 @@
       "editText": "Rediger merkelapp",
       "editLabels": "Klikk for å redigere merkelapper",
       "deleteSuccess": "Merkelappen **{{name}}** ble slettet uten problemer.",
-      "deleteError": "Det oppsto et problem med å slette etiketten **{{name}}**. Vennligst prøv igjen, eller spør en voksen."
+      "deleteError": "Det oppsto et problem med å slette etiketten **{{name}}**. Vennligst prøv igjen, eller spør en voksen.",
+      "updateError": "Vi kan ikke oppdatere merkelappen for øyeblikket. Prøv igjen senere."
     },
     "subscriptionSettings": {
       "headerText": "Abonnement"
@@ -259,7 +260,7 @@
     "noTimeEntriesText": "Det er ingen bekreftede timer for de valgte månedene/ukene i det valgte året.",
     "editRole": "Rediger rolle",
     "permissonsLabel": "Tilganger",
-    "tokenGeneratedText": "Sørg for å kopiere den nye API-nøkkelen din nå. \nDen forsvinner når du navigerer bort!",
+    "tokenGeneratedText": "API-nøkkelen ble generert uten problemer. Sørg for å kopiere nøkkelen.",
     "tokenErrorText": "Det skjedde en feil under generering av nøkkel. Prøv igjen senere.",
     "tokenDeletedText": "Nøkkelen **{{name}}** ble slettet.",
     "subscriptionSettingsUpdateSuccess": "Abonnementsinnstillingene er oppdatert.",
