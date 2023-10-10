@@ -141,7 +141,8 @@
     "keyNotUniqueError": "Kundenøkkelen {{key}} er allerede i bruk av kunden {{name}}.",
     "nameNotUniqueError": "Det ser ut til at det allerede er en kunde med samme navn.",
     "noLabelsSelectedText": "Legg til merkelapper på kunden for kategorisering.",
-    "updateSuccess": "Kunden **{{name}}** blei oppdatert heilt utan problem."
+    "updateSuccess": "Kunden **{{name}}** blei oppdatert heilt utan problem.",
+    "updateError": "Me kan ikkje oppdatera kunden **{{name}}** akkurat no. Ver vennleg og prøv igjen seinare, eller spør ein voksen om råd."
   },
   "admin": {
     "apiTokens": {

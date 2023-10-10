@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client'
+import { useAppContext } from 'AppContext'
 import { FormSubmitHook, useFormControlModel } from 'components/FormControl'
-import { useToast } from 'components/Toast'
 import { useTranslation } from 'react-i18next'
 import { omitTypename } from 'utils'
 import { useCustomersContext } from '../context'
 import $create_or_update_customer from './create-or-update-customer.gql'
-import { ICustomerFormProps } from './types'
+import { CreateOrUpdateCustomerVariables, ICustomerFormProps } from './types'
 
 /**
  * Returns submit props used by `<FormControl />
@@ -21,15 +21,15 @@ export const useCustomerFormSubmit: FormSubmitHook<
   ReturnType<typeof useFormControlModel>
 > = (props, model) => {
   const { t } = useTranslation()
-  const { refetch } = useCustomersContext()
-  const [toast, setToast, isToastShowing] = useToast(8000)
-  const [createOrUpdateCustomer, { loading }] = useMutation($create_or_update_customer)
+  const context = useCustomersContext()
+  const { setToast } = useAppContext()
+  const [createOrUpdateCustomer, { loading }] = useMutation<any, CreateOrUpdateCustomerVariables>($create_or_update_customer)
 
   /**
    * On form submit
    */
   async function onClick() {
-    const variables = {
+    const variables: CreateOrUpdateCustomerVariables = {
       customer: omitTypename(model.$),
       update: !!props.edit
     }
@@ -47,10 +47,8 @@ export const useCustomerFormSubmit: FormSubmitHook<
         },
         intent: 'success'
       })
-      window.setTimeout(() => {
-        model.reset()
-        refetch()
-      }, 1000)
+      model.reset()
+      context.refetch()
     } catch {
       if (variables.update) {
         setToast({
@@ -66,9 +64,8 @@ export const useCustomerFormSubmit: FormSubmitHook<
     }
   }
   return {
-    toast,
     text: props.edit ? t('common.save') : t('common.add'),
     onClick,
-    disabled: loading || isToastShowing
+    disabled: loading
   }
 }
