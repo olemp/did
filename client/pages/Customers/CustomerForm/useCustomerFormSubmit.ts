@@ -8,8 +8,7 @@ import $create_or_update_customer from './create-or-update-customer.gql'
 import { CreateOrUpdateCustomerVariables, ICustomerFormProps } from './types'
 
 /**
- * Returns submit props used by `<FormControl />
-`
+ * Returns submit props used by `<FormControl />.
  *
  * @param props - Props
  * @param model - Model
@@ -23,7 +22,10 @@ export const useCustomerFormSubmit: FormSubmitHook<
   const { t } = useTranslation()
   const context = useCustomersContext()
   const { setToast } = useAppContext()
-  const [createOrUpdateCustomer, { loading }] = useMutation<any, CreateOrUpdateCustomerVariables>($create_or_update_customer)
+  const [createOrUpdateCustomer, { loading }] = useMutation<
+    any,
+    CreateOrUpdateCustomerVariables
+  >($create_or_update_customer)
 
   /**
    * On form submit
