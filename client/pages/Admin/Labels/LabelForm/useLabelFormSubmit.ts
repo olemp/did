@@ -26,7 +26,7 @@ export const useLabelFormSubmit: FormSubmitHook<
 > = (props, model) => {
   const { t } = useTranslation()
   const [mutate, { loading }] = useMutation($addOrUpdateLabel)
-  const { setToast } = useAppContext()
+  const { displayToast } = useAppContext()
 
   /**
    * On save label
@@ -39,21 +39,21 @@ export const useLabelFormSubmit: FormSubmitHook<
           update: !!props.edit
         }
       })
-      setToast({
-        text: props.edit
+      displayToast(
+        props.edit
           ? t('admin.labels.updateSuccess', model.$)
           : t('admin.labels.createSuccess', model.$),
-        intent: 'success'
-      })
+        'success'
+      )
       model.reset()
       props.onSave(model.$)
     } catch {
-      setToast({
-        text: props.edit
+      displayToast(
+        props.edit
           ? t('admin.labels.createError')
           : t('admin.labels.createError'),
-        intent: 'error'
-      })
+        'error'
+      )
     }
   }, [model, mutate, props])
 

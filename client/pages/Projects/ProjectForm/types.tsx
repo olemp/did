@@ -19,7 +19,7 @@ export interface IProjectFormProps
 /**
  * Variables for creating or updating a customer.
  */
-export interface CreateOrUpdateCustomerVariables extends OperationVariables {
+export interface CreateOrUpdateProjectVariables extends OperationVariables {
   /**
    * The project input object.
    */

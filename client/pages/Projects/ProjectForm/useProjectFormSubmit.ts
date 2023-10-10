@@ -3,7 +3,7 @@ import { useAppContext } from 'AppContext'
 import { FormSubmitHook } from 'components/FormControl'
 import { useTranslation } from 'react-i18next'
 import $create_or_update_project from './create-or-update-project.gql'
-import { CreateOrUpdateCustomerVariables, IProjectFormProps } from './types'
+import { CreateOrUpdateProjectVariables, IProjectFormProps } from './types'
 import { useProjectFormOptions } from './useProjectFormOptions'
 import { useProjectModel } from './useProjectModel'
 
@@ -21,25 +21,25 @@ export const useProjectFormSubmit: FormSubmitHook<
   ReturnType<typeof useProjectFormOptions>
 > = (props, model, options) => {
   const { t } = useTranslation()
-  const { setToast } = useAppContext()
-  const [createOrUpdateCustomer, { loading }] = useMutation<
+  const { displayToast } = useAppContext()
+  const [createOrUpdateProjct, { loading }] = useMutation<
     any,
-    CreateOrUpdateCustomerVariables
+    CreateOrUpdateProjectVariables
   >($create_or_update_project)
 
   /**
    * On form submit
    */
   async function onClick() {
-    const variables: CreateOrUpdateCustomerVariables = {
+    const variables: CreateOrUpdateProjectVariables = {
       project: model.$,
       options: options.$,
       update: !!props.edit
     }
     try {
-      await createOrUpdateCustomer({ variables })
-      setToast({
-        text: variables.update
+      await createOrUpdateProjct({ variables })
+      displayToast(
+        variables.update
           ? t('projects.updateSuccess', {
             ...variables.project,
             projectId: model.projectId
@@ -48,20 +48,20 @@ export const useProjectFormSubmit: FormSubmitHook<
             ...variables.project,
             projectId: model.projectId
           }),
-        intent: 'success'
-      })
+        'success'
+      )
       model.reset()
       props.refetch()
     } catch {
-      setToast({
-        text: variables.update
+      displayToast(
+        variables.update
           ? t('projects.updateError', {
             ...variables.project,
             projectId: model.projectId
           })
           : t('projects.createError'),
-        intent: 'error'
-      })
+        'error'
+      )
     }
   }
   return {

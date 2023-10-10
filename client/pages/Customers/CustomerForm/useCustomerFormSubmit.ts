@@ -21,7 +21,7 @@ export const useCustomerFormSubmit: FormSubmitHook<
 > = (props, model) => {
   const { t } = useTranslation()
   const context = useCustomersContext()
-  const { setToast } = useAppContext()
+  const { displayToast } = useAppContext()
   const [createOrUpdateCustomer, { loading }] = useMutation<
     any,
     CreateOrUpdateCustomerVariables
@@ -37,32 +37,28 @@ export const useCustomerFormSubmit: FormSubmitHook<
     }
     try {
       await createOrUpdateCustomer({ variables })
-      setToast({
-        text: variables.update
+      displayToast(
+        variables.update
           ? t('customers.updateSuccess', variables.customer)
           : t('customers.createSuccess', variables.customer),
-        onClick: () => {
-          if (variables.update) return
-          window.location.replace(
-            `/customers/information/${variables.customer.key}`
-          )
-        },
-        intent: 'success'
-      })
+        'success',
+        6,
+        {
+          onClick: () => {
+            if (variables.update) return
+            window.location.replace(
+              `/customers/information/${variables.customer.key}`
+            )
+          }
+        })
       model.reset()
       context.refetch()
     } catch {
       if (variables.update) {
-        setToast({
-          text: t('customers.updateError', variables.customer),
-          intent: 'error'
-        })
+        displayToast(t('customers.updateError', variables.customer), 'error')
         return
       }
-      setToast({
-        text: t('customers.createError'),
-        intent: 'error'
-      })
+      displayToast(t('customers.createError'), 'error')
     }
   }
   return {
