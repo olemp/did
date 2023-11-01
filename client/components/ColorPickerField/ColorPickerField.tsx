@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prevent-abbreviations */
 import {
   Label,
   Popover,
@@ -12,12 +11,7 @@ import styles from './ColorPickerField.module.scss'
 import { IColorPickerFieldProps } from './types'
 import { useColorPickerField } from './useColorPickerField'
 
-/**
- * Field to pick an color using `<SketchPicker />` from
- * [react-color](https://www.npmjs.com/package/react-color)
- *
- * @category Reusable Component
- */
+
 export const ColorPickerField: ReusableComponent<IColorPickerFieldProps> = (
   props
 ) => {
@@ -35,21 +29,19 @@ export const ColorPickerField: ReusableComponent<IColorPickerFieldProps> = (
             <div
               ref={ref}
               className={styles.colorPreview}
-              style={{ backgroundColor: props.fillColor }}
+              style={{ backgroundColor: props.color }}
             ></div>
           </div>
         </PopoverTrigger>
         <PopoverSurface>
           <SketchPicker
-            color={props.fillColor}
-            onChange={({ hex }) => props.onChanged(hex)}
-          />
+            color={props.color}
+            onChange={({ hex }) => props.onChanged(hex)} />
         </PopoverSurface>
       </Popover>
     </div>
   )
 }
 
+ColorPickerField.displayName = 'ColorPickerField'
 ColorPickerField.className = styles.colorPickerField
-
-export * from './types'
