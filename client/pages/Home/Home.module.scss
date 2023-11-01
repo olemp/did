@@ -3,6 +3,10 @@
   align-items: center;
   flex-direction: column;
 
+  .logo {
+    margin: 1rem 0 2rem 0;
+  }
+
   .signIn {
     margin: 50px 0 0 0;
     display: flex;

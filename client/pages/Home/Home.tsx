@@ -26,7 +26,7 @@ export const Home: PageComponent = () => {
 
   return (
     <div className={Home.className}>
-      <Logo showMotto={true} dropShadow={true} />
+      <Logo showMotto={true} dropShadow={true} className={styles.logo} />
       {error && (
         <UserMessage
           className={styles.error}

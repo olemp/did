@@ -13,6 +13,7 @@ import { UserMenu } from '../UserMenu'
 import { UserNotifications } from '../UserNotifications'
 import styles from './Navigation.module.scss'
 import { NavItem } from './NavItem'
+import { Logo } from 'components/Logo'
 
 /**
  * @category Function Component
@@ -38,7 +39,12 @@ export const Navigation: StyledComponent = () => {
             className={styles.logo}
             title={`${packageFile.name} - ${packageFile.description}`}
           >
-            {packageFile.name}
+            <Logo
+              strokeColor='#F6F586'
+              fillColor='#ffffff'
+              width='100%'
+              height='50px'
+            />
           </Link>
           <ul className={styles.nav}>
             {pages.map((page, index) => (

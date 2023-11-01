@@ -3,14 +3,12 @@
   align-items: center;
   flex-direction: column;
 
-  .logo {
-    margin: 1rem 0 2rem 0;
-  }
   .motto {
     font-size: 20px;
     font-family: 'Space Grotesk', 'Inter', 'Helvetica', 'Segoe UI', sans-serif;
     font-style: italic;
     color: #3a0960;
+    margin-top: 1rem;
   }
 
   .dropShadow {
