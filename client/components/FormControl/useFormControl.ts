@@ -21,7 +21,7 @@ export const useFormControl: ComponentLogicHook<
   }
 > = (props) => {
   const [state, dispatch] = useFormControlReducer()
-  const validateForm = useFormControlValidation(dispatch)
+  const validateForm = useFormControlValidation(props, dispatch)
 
   const submitAction = useMemo<IDynamicButtonProps>(
     () => ({
@@ -29,8 +29,8 @@ export const useFormControl: ComponentLogicHook<
       onClick: async (event: any) => {
         dispatch(CLEAR_VALIDATION_MESSAGES())
         if (await validateForm(props.children as ReactElement[])) {
-          if (props.panelProps?.onDismiss) {
-            props.panelProps.onDismiss(event)
+          if (props.panel?.onDismiss) {
+            props.panel.onDismiss()
           }
           return props.submitProps.onClick(event)
         }

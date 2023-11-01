@@ -1,17 +1,12 @@
 /* eslint-disable unicorn/no-negated-condition */
-import { Icon } from '@fluentui/react'
 import { mergeClasses } from '@fluentui/react-components'
-import {
-  CustomerLink,
-  ProjectLink,
-  ProjectPopover,
-  UserMessage
-} from 'components'
+import { CustomerLink, ProjectLink, UserMessage } from 'components'
 import React, { ReactElement } from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import { StyledComponent } from 'types'
 import _ from 'underscore'
+import { getFluentIcon } from 'utils'
 import { useTimesheetContext } from '../../../context'
 import {
   CLEAR_MANUAL_MATCH,
@@ -42,18 +37,13 @@ export const ProjectColumn: StyledComponent<IProjectColumnProps> = ({
       <>
         {includeCustomerLink && <CustomerLink customer={event.customer} />}
         <div className={styles.content}>
-          <ProjectPopover project={event.project}>
-            <ProjectLink project={event.project} />
-          </ProjectPopover>
-          {!_.isEmpty(event.project.labels) && (
-            <Icon iconName='Tag' className={styles.labelIcon} />
-          )}
-          {event.manualMatch && !state.selectedPeriod.isConfirmed && (
-            <ClearManualMatchButton
-              onClick={() => dispatch(CLEAR_MANUAL_MATCH({ id: event.id }))}
-              className={styles.clearButton}
-            />
-          )}
+          <ProjectLink project={event.project} withPopover />
+          {!_.isEmpty(event.project.labels) &&
+            getFluentIcon('TagMultiple', { size: 16 })}
+          <ClearManualMatchButton
+            hidden={state.selectedPeriod.isConfirmed || !event.manualMatch}
+            onClick={() => dispatch(CLEAR_MANUAL_MATCH({ id: event.id }))}
+          />
         </div>
       </>
     )

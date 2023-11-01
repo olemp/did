@@ -16,53 +16,70 @@ import {
 /**
  * Use Customers reducer. It will create the initial state
  * and return a reducer and its state.
- *
- * @param urlParameters - URL parameters
  */
 export function useCustomersReducer() {
   const { t } = useTranslation()
   const initialState: ICustomersState = {
-    customers: []
+    customers: [],
+    projectForm: {
+      panel: {
+        open: false
+      }
+    },
+    customerForm: {
+      panel: {
+        open: false
+      }
+    }
   }
   const urlParameters = useParams<ICustomersUrlParameters>()
   return useReducer(initialState, (builder) =>
     builder
       .addCase(DATA_UPDATED, (state, { payload }) => {
-        state.customers = payload.data?.customers || []
-        state.selected = _.find(state.customers, ({ key }) =>
-          fuzzyStringEqual(key, urlParameters.currentTab)
-        )
+        state.customers = payload.data?.customers ?? []
+        const selectedKey = state.selected?.key ?? urlParameters.currentTab
+        if (selectedKey) {
+          state.selected = _.find(state.customers, ({ key }) =>
+            fuzzyStringEqual(key, selectedKey)
+          )
+        }
       })
       .addCase(SET_SELECTED_CUSTOMER, (state, { payload }) => {
         state.selected = payload
       })
       .addCase(OPEN_PROJECT_PANEL, (state, { payload }) => {
         state.projectForm = {
-          panelProps: {
-            isOpen: true,
-            headerText: t('customers.projectFormHeaderText', state.selected),
-            scroll: true,
+          panel: {
+            open: true,
+            title: t('customers.projectFormHeaderText', state.selected),
             onDismiss: payload.onDismissCallback
           }
         }
       })
       .addCase(CLOSE_PROJECT_PANEL, (state) => {
-        state.projectForm = null
+        state.projectForm = {
+          panel: {
+            open: false
+          }
+        }
       })
       .addCase(OPEN_CUSTOMER_PANEL, (state, { payload }) => {
         state.customerForm = {
           edit: state.selected,
-          panelProps: {
-            isOpen: true,
-            headerText: state.selected.name,
-            onDismiss: payload.onDismissCallback,
-            scroll: true
+          panel: {
+            open: true,
+            title: state.selected.name,
+            onDismiss: payload.onDismissCallback
           }
         }
       })
       .addCase(CLOSE_CUSTOMER_PANEL, (state) => {
-        if (state.customerForm?.panelProps) {
-          state.customerForm = null
+        if (state.customerForm?.panel) {
+          state.customerForm = {
+            panel: {
+              open: false
+            }
+          }
         }
       })
   )

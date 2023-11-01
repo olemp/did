@@ -1,15 +1,15 @@
 {
   "name": "did-shared",
   "includeVersion": true,
-  "out": "shared/.docs",
+  "out": "./.docs",
   "readme": "none",
   "excludeInternal": true,
   "hideGenerator": true,
   "gitRevision": "dev",
-  "tsconfig": "./client/tsconfig.json",
+  "tsconfig": "../client/tsconfig.json",
   "categorizeByGroup": true,
   "entryPoints": [
-    "shared/config/security/index.ts",
-    "shared/utils/date.ts"
+    "./config/security/index.ts",
+    "./utils/date.ts"
   ]
 }

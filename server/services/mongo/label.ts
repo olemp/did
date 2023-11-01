@@ -6,7 +6,7 @@ import {
 } from 'mongodb'
 import { Inject, Service } from 'typedi'
 import _ from 'underscore'
-import { Context } from '../../graphql/context'
+import { RequestContext } from '../../graphql/requestContext'
 import { LabelObject as Label } from '../../graphql/resolvers/types'
 import { MongoDocumentService } from './@document'
 
@@ -24,7 +24,7 @@ export class LabelService extends MongoDocumentService<Label> {
    *
    * @param context - Injected context through `typedi`
    */
-  constructor(@Inject('CONTEXT') readonly context: Context) {
+  constructor(@Inject('CONTEXT') readonly context: RequestContext) {
     super(context, 'labels', LabelService.name)
   }
 
@@ -69,7 +69,7 @@ export class LabelService extends MongoDocumentService<Label> {
         _id: this._generateId(label),
         ...label
       })
-      await this.cache.clear({ key: 'labels' })
+      await this.cache.clear('labels')
       return result
     } catch (error) {
       throw error
@@ -83,8 +83,8 @@ export class LabelService extends MongoDocumentService<Label> {
    */
   public async updateLabel(label: Label): Promise<void> {
     try {
+      await this.cache.clear('labels')
       await this.update(_.pick(label, 'name'), label)
-      await this.cache.clear({ key: 'labels' })
     } catch (error) {
       throw error
     }
@@ -97,8 +97,8 @@ export class LabelService extends MongoDocumentService<Label> {
    */
   public async deleteLabel(name: string): Promise<DeleteWriteOpResultObject> {
     try {
+      await this.cache.clear('labels')
       const result = await this.collection.deleteOne({ name })
-      await this.cache.clear({ key: 'labels' })
       return result
     } catch (error) {
       throw error

@@ -35,7 +35,7 @@ export function useUpdateUserConfiguration(
   params?: UseUpdateUserConfigurationParamType
 ): UseUpdateUserConfigurationReturnType {
   const [updateUserConfiguration] = useMutation($updateUserConfiguration)
-  const stringValue = JSON.stringify(params?.config || {})
+  const stringValue = JSON.stringify(params?.config ?? {})
 
   const updateLastActive = useCallback(async () => {
     await updateUserConfiguration({

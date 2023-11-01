@@ -1,5 +1,5 @@
 import { SelectionMode } from '@fluentui/react'
-import { List, Toast } from 'components'
+import { List } from 'components'
 import { ListMenuItem } from 'components/List/ListToolbar'
 import { TabComponent } from 'components/Tabs'
 import { usePermissions } from 'hooks'
@@ -29,7 +29,6 @@ export const ApiTokens: TabComponent = () => {
     columns,
     onTokenAdded,
     confirmationDialog,
-    toast,
     onKeyCopied,
     onDelete,
     onSelectionChanged,
@@ -39,7 +38,6 @@ export const ApiTokens: TabComponent = () => {
   const [, hasPermission] = usePermissions()
   return (
     <div className={ApiTokens.className}>
-      <Toast {...toast} />
       <ApiKeyDisplay
         label={t('admin.apiTokens.apiKeyGenerated')}
         apiKey={newToken?.apiKey}
@@ -53,7 +51,7 @@ export const ApiTokens: TabComponent = () => {
           new ListMenuItem(t('admin.apiTokens.addNew'))
             .withIcon('Add')
             .setDisabled(!hasPermission($.MANAGE_API_TOKENS))
-            .setOnClick(() => setForm({ isOpen: true })),
+            .setOnClick(() => setForm({ open: true })),
           new ListMenuItem(t('admin.apiTokens.delete'))
             .setOnClick(onDelete)
             .withIcon('Delete')
@@ -61,12 +59,12 @@ export const ApiTokens: TabComponent = () => {
             .setDisabled(!selectedToken || !hasPermission($.MANAGE_API_TOKENS))
         ]}
       />
-      {form.isOpen && (
+      {form.open && (
         <ApiTokenForm
           {...form}
           tokens={items}
           onTokenAdded={onTokenAdded}
-          onDismiss={() => setForm({ isOpen: false })}
+          onDismiss={() => setForm({ open: false })}
         />
       )}
       {confirmationDialog}

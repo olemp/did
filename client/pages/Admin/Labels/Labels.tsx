@@ -4,7 +4,7 @@ import { ListMenuItem } from 'components/List/ListToolbar'
 import { TabComponent } from 'components/Tabs'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { LabelForm } from './LabelForm'
+import { LabelForm } from './LabelForm/LabelForm'
 import styles from './Labels.module.scss'
 import { useLabels } from './useLabels'
 
@@ -32,7 +32,7 @@ export const Labels: TabComponent = () => {
         selectionProps={[SelectionMode.single, onSelectionChanged]}
         menuItems={[
           new ListMenuItem(t('admin.labels.addNewText'))
-            .setOnClick(() => setForm({ isOpen: true }))
+            .setOnClick(() => setForm({ open: true }))
             .withIcon('Tag'),
           new ListMenuItem(t('common.editLabel'))
             .withIcon('NoteEdit')

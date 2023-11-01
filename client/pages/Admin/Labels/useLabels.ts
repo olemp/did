@@ -1,11 +1,12 @@
 import { useMutation } from '@apollo/client'
+import { useAppContext } from 'AppContext'
 import { useLabelsQuery } from 'graphql-queries/labels'
 import { useConfirmationDialog } from 'pzl-react-reusable-components/lib/ConfirmDialog'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LabelObject } from 'types'
-import $deleteLabel from './deleteLabel.gql'
 import { ILabelFormProps } from './LabelForm'
+import $deleteLabel from './deleteLabel.gql'
 import { useColumns } from './useColumns'
 
 /**
@@ -16,25 +17,30 @@ import { useColumns } from './useColumns'
 export function useLabels() {
   const { t } = useTranslation()
   const [items, { loading, refetch }] = useLabelsQuery()
-  const [deleteLabel] = useMutation($deleteLabel)
+  const [deleteLabel] = useMutation<any, { name: string }>($deleteLabel)
   const [form, setForm] = useState<ILabelFormProps>({
-    isOpen: false
+    open: false
   })
   const [selectedLabel, onSelectionChanged] = useState<LabelObject>(null)
   const [ConfirmationDialog, getResponse] = useConfirmationDialog()
+  const { displayToast } = useAppContext()
 
   const onDismiss = useCallback(() => {
-    setForm({ isOpen: false })
+    setForm({ open: false })
   }, [])
 
   const onSave = useCallback(() => {
-    refetch().then(() => setForm({ isOpen: false }))
+    refetch().then(() => setForm({ open: false }))
   }, [])
 
   const onEdit = useCallback(() => {
-    setForm({ isOpen: true, edit: selectedLabel })
+    setForm({ open: true, edit: selectedLabel })
   }, [selectedLabel])
 
+  /**
+   * Deletes the currently selected label and displays a success toast if successful,
+   * or an error toast if not.
+   */
   const onDelete = useCallback(async () => {
     const response = await getResponse({
       title: t('admin.labels.confirmDeleteTitle'),
@@ -42,7 +48,14 @@ export function useLabels() {
       responses: [[t('common.yes'), true, true], [t('common.no')]]
     })
     if (response === true) {
-      deleteLabel({ variables: { name: selectedLabel.name } }).then(refetch)
+      try {
+        await deleteLabel({ variables: { name: selectedLabel.name } }).then(
+          refetch
+        )
+        displayToast(t('admin.labels.deleteSuccess', selectedLabel), 'success')
+      } catch {
+        displayToast(t('admin.labels.deleteError', selectedLabel), 'error')
+      }
     }
   }, [deleteLabel, selectedLabel])
 

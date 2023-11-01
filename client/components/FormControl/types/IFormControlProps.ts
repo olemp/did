@@ -1,4 +1,4 @@
-import { IBasePanelProps } from 'components/BasePanel'
+import { IPanelProps } from 'components/Panel'
 import { useMap } from 'hooks/common/useMap'
 import { HTMLAttributes } from 'react'
 import { ISubmitProps } from './ISubmitProps'
@@ -19,7 +19,7 @@ export interface IFormControlProps<T = any>
    * Specify panel props to open the form control in
    * a `<Panel />`
    */
-  panelProps?: IBasePanelProps
+  panel?: IPanelProps
 
   /**
    * Enable validation on blur
@@ -30,6 +30,11 @@ export interface IFormControlProps<T = any>
    * Model of type `T` to be edited
    */
   edit?: T
+
+  /**
+   * Skip validation for the form control.
+   */
+  skipValidation?: boolean
 
   /**
    * Running in debug mode will show the model JSON in the bottom of the form.

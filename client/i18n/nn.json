@@ -26,7 +26,7 @@
     "noProjectMatchFoundText": "Fann ikkje noko treff på prosjekt. Har du satt en kategori på kalenderoppføringa i Outlook? Klikk for å løyse kalenderoppføringa manuelt.",
     "resolveProjectButtonLabel": "Løys manuelt",
     "ignoreEventActionTooltip": "Klikk for å ignorere hendelsen {{title}}.",
-    "clearProjectMatchTooltipText": "Fjern match",
+    "clearProjectMatchTooltipText": "Fjern manuell prosjekttilkopling. Hugs: Det er alltid betre å automatisk tagga hendingane dine i Outlook. Du veit korleis!",
     "matchOutlookInfoText": "**Tips:** Prøv å sørge for at <a href='{{webLink}}' target='_blank'>kalenderoppføringa i Outlook</a> blir tilkobla et prosjekt automatisk. I nokre tilfelle kan det likevel vere nødvendig å løyse kalenderoppføringa manuelt.",
     "didYouMeanText": "Meinte du <Link>{{tag}}</Link>?",
     "eventNotFullyMatchedText": "Kalenderoppføringa kunne ikkje matchast. Vi fann matchande kunde **{{name}}**, men ikkje noko prosjekt med den spesifiserte nøkkelen.",
@@ -50,9 +50,15 @@
       "customerChartTitle": "Kundar",
       "projectChartTitle": "Prosjekt",
       "noDataText": "Ingen data å visa for den valde perioden.",
-      "customerChartDescription": "Viser allokering per kunde for perioden",
-      "projectChartDescription": "Viser allokering per prosjekt for perioden",
-      "loadingLabel": "Laster data og genererer diagrammer..."
+      "customerChartDescription": "Viser allokering per kunde for perioden. Se hvordan dine **{0}** timer er fordelt på **{1}** kunder.",
+      "projectChartDescription": "Viser allokering per prosjekt for perioden. Se hvordan dine **{0}** timer er fordelt på **{1}** prosjekter.",
+      "loadingLabel": "Laster data og genererer diagrammer...",
+      "unconfirmedHoursDescription": "Timer som ikke er avsatt til et prosjekt.  Pass på at du merker hendelsene dine i Outlook for å spare deg for det manuelle arbeidet med å løse disse manuelt.",
+      "ignoredHoursDescription": "Ignorerte timer (enten manuelt eller av systemet).  Gjør det enklere for deg selv og bruk en **IGNORE** Outlook-kategori, eller bruk `[IGNORE]` i emnet eller brødteksten til hendelsen.",
+      "tooltipDetailsInfoText": "Det kan være mer informasjon tilgjengelig. Klikk for å vise alle detaljer.",
+      "customerChartLoadingText": "Laster inn kunderallokeringen din for perioden ...",
+      "projectChartLoadingText": "Laster inn prosjektallokering din for perioden ...",
+      "navigateToEntityInfoText": "Klikk igjen for å navigere til entiteten."
     },
     "matchEventPanelSearchPlaceholder": "Søk i prosjekter...",
     "eventDurationModifiedMessage": "Varigheita til hendinga har automatisk vorte endra frå {{originalDuration}} til {{modifiedDuration}}. Om du ikkje vil at dette skal skje i framtida, kan funksjonen skruast av i brukarinnstillingar.",
@@ -63,12 +69,14 @@
     "monthConfirmedText": "Totalt **{{hours}}** stadfesta denne månaden. Du har stadfesta {{confirmedPeriodsCount}} av {{periodsCount}} periodar. Du må vere i *Oversikt*-visninga for å gjere justeringar.",
     "ignoreAllTooltip": "Ignorer alle hendingar som ikkje er tilkopla eitt prosjekt.",
     "eventNoTitleErrorText": "Legg inn eit emne for denne hendinga. Arrangement utan emne vil ikkje bli inkludert i timelista.",
-    "eventDurationModifiedTitle": "Automatisk endret hendelsesvarighet"
+    "eventDurationModifiedTitle": "Automatisk endret hendelsesvarighet",
+    "timesheet": {
+      "projectLabelsTooltipText": "hei"
+    }
   },
   "projects": {
     "inactiveText": "Dette prosjektet er markert som inaktivt.",
     "searchPlaceholder": "Søk i prosjekt",
-    "categoryOutlookText": "Dette prosjektet har ein Outlook-kategori.",
     "workspaceLabel": "Prosjektområde",
     "createOutlookCategoryLabel": "Lag ein Outlook-kategori",
     "noTimeEntriesText": "Ingen timar registrerte på dette prosjektet.",
@@ -78,7 +86,7 @@
     "myProjectsSearchPlaceholder": "Søk i prosjekta mine...",
     "exportTimeEntriesLabel": "Eksporter til Excel",
     "keyFieldDescription": "Ein unik identifikator for prosjektet. \nBlir brukt saman med kundenøkkelen for å lage nøkkelen som blir brukt til å merke kalenderoppføringer i Outlook. \nHold det kort, mellom {{PROJECT_KEY_MIN_LENGTH}} og {{PROJECT_KEY_MAX_LENGTH}} teikn.",
-    "createSuccess": "Prosjektet **{{name}}** vart oppretta. Bruk **{{projectId}}** til å merke kalenderoppføringane dine i Outlook.",
+    "createSuccess": "Prosjektet **{{name}}** vart oppretta. Bruk **{{projectId}}** til å merke kalenderoppføringane dine i Outlook. Klikk for å gå direkte til det nyoppretta prosjektet, eller bli her for å oppretta eit nytt.",
     "editLabel": "Rediger prosjekt",
     "inactiveFieldDescription": "Marker prosjektet som inaktivt. Det kan ikkje lenger stadfestast timar for prosjektet.",
     "idPreviewText": "Du merkar kalenderoppføringane dine i Outlook med **{{projectId}}**. Du kan automatisk oppretta ein kategori i Outlook ved å huke av for **Opprett automatisk kategori i Outlook**.",
@@ -100,7 +108,7 @@
     "applyLabelsHeaderText": "Legg til merkelappar på dette prosjektet",
     "tagLabel": "Nøkkel",
     "editButtonLabel": "Rediger prosjekt",
-    "toggleInactive": "Vis/skjul inaktive prosjekter",
+    "toggleInactive": "Vis/skjul inaktive prosjekter ({{count}})",
     "searchTimeEntriesPlaceholder": "Søk i tidsoppføringar...",
     "keyInvalid": "Prosjektnøkkelen må være mellom {{min}} og {{max}} tegn.",
     "descriptionWarning": "Me tilrår å inkludera ei rask oppsummering av prosjektet. Dette vil gi ei kortfatta oversikt og hjelpa andre raskt å forstå essensen for prosjektet.",
@@ -114,7 +122,7 @@
     "webLinkText": "Webside",
     "externalSystemUrlText": "Eksternt forretningssystem",
     "keyFieldDescription": "Ein unik identifikator for kunden. Haldt det kort, mellom {{min}} og {{max}} teikn. Bruk berre store bokstavar. Vel - faktisk har vi vært ganske irriterende - vi tillater ikke små bokstaver i feltet.",
-    "createSuccess": "Kunden **{{name}}** ble opprettet. \nKlikk for å gå direkte til den nyopprettede kunden, eller ikke bli her og opprette en ny.",
+    "createSuccess": "Kunden **{{name}}** vart oppretta. Klikk for å gå direkte til den nyoppretta kunden, eller bli her for å oppretta ein ny.",
     "createNewText": "Opprett ny",
     "keyFieldLabel": "Kundenøkkel",
     "iconFieldDescription": "Bruk eit ikon for å gjere kunden meir synleg på timelista og kundesida. \nEit tilfeldig ikon blir valt for deg viss du ikkje vel eit sjølv.",
@@ -123,7 +131,7 @@
     "createError": "Vi får dessverre ikkje oppretta kunden akkurat no. Prøv igjen seinare, eller spør ein av dei vaksne.",
     "searchProjectsPlaceholder": "Søk i prosjekter for {{name}}...",
     "editButtonLabel": "Rediger kunde",
-    "toggleInactive": "Vis/skjul inaktive kundar",
+    "toggleInactive": "Vis/skjul inaktive kundar ({{count}})",
     "inactiveFieldDescription": "Merk kunden som inaktiv. Timer for kunden kan ikke lenger bekreftes.",
     "projectsHeaderText": "Prosjekter",
     "informationHeaderText": "Informasjon",
@@ -134,7 +142,9 @@
     "descriptionWarning": "Me tilrår å inkludera ei rask oppsummering av kunden. Dette vil gi ei kortfatta oversikt og hjelpa andre raskt å forstå essensen til kunden.",
     "keyNotUniqueError": "Kundenøkkelen {{key}} er allerede i bruk av kunden {{name}}.",
     "nameNotUniqueError": "Det ser ut til at det allerede er en kunde med samme navn.",
-    "noLabelsSelectedText": "Legg til merkelapper på kunden for kategorisering."
+    "noLabelsSelectedText": "Legg til merkelapper på kunden for kategorisering.",
+    "updateSuccess": "Kunden **{{name}}** blei oppdatert heilt utan problem.",
+    "updateError": "Me kan ikkje oppdatera kunden **{{name}}** akkurat no. Ver vennleg og prøv igjen seinare, eller spør ein voksen om råd."
   },
   "admin": {
     "apiTokens": {
@@ -171,7 +181,15 @@
       "addNewUser": "Legg til ny",
       "userFieldAdSync": "Feltet blir synkronisert automatisk frå Azure AD når brukaren loggar seg på, og kan ikkje endrast i Did.",
       "syncUsersLabel": "Synkroniser brukeregenskaper",
-      "synchronizingUserProperties": "Synkroniserer brukaregenskaper..."
+      "synchronizingUserProperties": "Synkroniserer brukaregenskaper...",
+      "updateSuccess": "Brukaren **{{displayName}}** vart oppdatert utan problem.",
+      "createSuccess": "Brukaren **{{displayName}}** er oppretta og er no klar til å byrja å registrera timar.",
+      "updateError": "Det oppstod ein feil under oppdatering av brukar **{{displayName}}**.",
+      "createError": "Det oppstod ein feil under oppretting av brukar **{{displayName}}**.",
+      "editUserPanelTitle": "Rediger brukar",
+      "addNewUserPanelTitle": "Legg til ny brukar",
+      "editUserPanelDescription": "Endre rolle eller rediger eigenskapar som ikkje automatisk blir synkronisert frå Azure Active Directory. Du kan også skjula brukaren frå timeoversikter.",
+      "addNewUserPanelDescription": "Velg en bruker fra Azure Active Directory, sett en rolle, og eventuelt endre på egenskaper som ikke sykroniseres automatisk."
     },
     "labels": {
       "confirmDeleteTitle": "Slett merkelapp",
@@ -179,13 +197,15 @@
       "nameLabel": "Namn på merkelapp",
       "namePlaceholder": "Namn på merkelapp",
       "nameDescription": "Namn på merkelapp. \nIngen spesialtegn. \nKun bokstavar og mellomrom.",
-      "createError": "Vi kan ikkje oppdatere merkelappen for øyeblikket. \nForsøk igjen seinare.",
+      "createError": "Vi kan ikke opprette merkelappen for øyeblikket. Prøv igjen senere.",
       "createSuccess": "Den nye merkelappen din **{{name}}** vert oppretta.",
       "updateSuccess": "Merkelappen din **{{name}}** vart oppdatert",
       "defaultTitle": "ny merkelapp",
       "addNewText": "Opprett ny merkelapp",
       "editText": "Rediger merkelapp",
-      "editLabels": "Klikk for å redigere merkelappar"
+      "editLabels": "Klikk for å redigere merkelappar",
+      "deleteSuccess": "Merkelappen **{{name}}** vart sletta utan problem.",
+      "deleteError": "Det oppstod eit problem med å sletta etiketten **{{name}}* . Ver vennleg og prøv igjen, eller spør ein voksen."
     },
     "subscriptionSettings": {
       "headerText": "Abonnement"
@@ -294,7 +314,7 @@
   "reports": {
     "generatingReportProgressText": "Vennligst vent mens vi genererer rapporten for deg...",
     "generatingReportDescription": "For å gi deg dei ferskaste resultata, genererer vi rapporten frå nyast mulege data ...",
-    "noEntriesText": "Det er ingen tidsoppføringar for dette tidspunktet.",
+    "noEntriesText": "Det er ingen tidsoppføringar tilgjengeleg for **{{text}}**.",
     "selectReportText": "Vel ein rapport nedanfor. Ver merksam på at enkelte rapportar kan ta fleire minutt å laste. For nokre rapportar kan det kan vere ein førehandsgenerert versjon tilgjengeleg med formatering og layout.",
     "selectReportLabel": "Vel rapport",
     "forecast": "Prognose",
@@ -308,7 +328,7 @@
     "filterDescriptionPlaceholder": "Merknad",
     "summaryHeaderText": "Samandrag",
     "applyFilterText": "Bruk filter",
-    "availableReportLinks": "Det er rapporter tilgjengelig for denne spørringen. Bruk knappene nedenfor for å laste ned rapportene, eller klikk nedenfor for å hente ferske data fra serveren.",
+    "availableReportLinks": "Det er rapporter tilgjengelig for denne spørringen. Bruk knappene nedenfor for å laste ned rapportene, og hold musepekeren over knappene for å se mer informasjon om rapporten.",
     "fetchDataButton": "Hent ferske data fra serveren",
     "reportLinkUpdatedText": "Oppdatert av {{updatedBy}} {{updatedAt}}.",
     "welcomeHeaderText": "Heim"
@@ -444,8 +464,8 @@
     "userReports": "Rapportane mine",
     "export": "Eksporter",
     "exportTypeLastMonth": "Førre månad {{monthName}}",
-    "exportTypeCurrentMonth": "Inneverande månad {{monthName}}",
-    "exportTypeCurrentYear": "Inneverande år {{year}}",
+    "exportTypeCurrentMonth": "Inneverande månad",
+    "exportTypeCurrentYear": "Inneverande år",
     "subscription": "Abonnement",
     "nameLabel": "Namn",
     "expiresLabel": "Går ut på dato",
@@ -453,15 +473,15 @@
     "departmentLabel": "Avdeling",
     "mobilePhoneLabel": "Mobiltelefon",
     "searchUserLabel": "Søk...",
-    "exportTypeLastYear": "I fjor {{year}}",
+    "exportTypeLastYear": "I fjor",
     "fromDateLabel": "Frå:",
     "toDateLabel": "Til:",
     "rangeLabel": "Tidsrom",
     "totalHours": "Timar totalt",
-    "userReportSummary": "Du har jobba **{{hours}}** timar for {{projects}} prosjekt {{preset}}. \nKlikk _Eksporter til Excel_ for å eksportere timane dine til Excel.",
+    "userReportSummary": "Du har jobba **{{hours}}** timar for **{{projects}}** prosjekt _{{preset}}_. Klikk på knappen til høgre for å eksportera timane dine til Excel.",
     "exportExcel": "Eksporter til Excel",
     "errorFallbackHeader": "Det virkar som noko gjekk gale",
-    "tryAgainText": "Prøv igjen, det kan teoretisk sett fungere ...",
+    "tryAgainText": "Prøv igjen, det kan teoretisk sett fungere.",
     "githubIssueReportLinkText": "Rapporter problem på GitHub",
     "ownerLabel": "Eier",
     "periodColumnTooltipTitle": "{{week}}/{{month}}",
@@ -523,7 +543,8 @@
     "outlookCategoryRemove": "Gå til Outlook for å fjerne kategorien om du ikke trenger den lenger.",
     "tagFieldLabel": "Prosjektnøkkel",
     "outlookCategoryAdded": "Prosjektnøkkelen **{{tag}}** ble lagt til i Outlook som en kategori.",
-    "projectTagCopiedToClipboard": "Prosjektnøkkelen **{{tag}}** ble kopiert til utklippstavlen."
+    "projectTagCopiedToClipboard": "Prosjektnøkkelen **{{tag}}** ble kopiert til utklippstavlen.",
+    "ignoredHours": "Ignorerte timer"
   },
   "navigation": {
     "TimesheetPage": "Timeliste",

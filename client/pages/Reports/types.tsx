@@ -8,7 +8,7 @@ import { Project, ReportLink, TimesheetPeriodObject, User } from 'types'
 /**
  * @category Reports
  */
-export interface IReportsQuery extends ITabProps {
+export interface IReportsQuery<QueryType = any> extends ITabProps {
   /**
    * Unique query identifier
    */
@@ -17,12 +17,12 @@ export interface IReportsQuery extends ITabProps {
   /**
    * GraphQL query
    */
-  query: any
+  query: QueryType
 
   /**
    * GraphQL query variables
    */
-  variables?: any
+  variables?: Record<string, any>
 
   /**
    * Export file name template. {0} will be replaced
@@ -47,6 +47,9 @@ export interface IReportsQuery extends ITabProps {
    */
   reportLinks?: ReportLink[]
 
+  /**
+   * Date periods for the summary report.
+   */
   periods?: IDatePeriod[]
 }
 
@@ -87,16 +90,6 @@ export interface IReportsData {
    * Projects
    */
   projects: Project[]
-}
-
-/**
- * @category Reports
- */
-export interface IReportsState {
-  /**
-   * Data
-   */
-  data?: IReportsData
 
   /**
    * Report links
@@ -104,14 +97,24 @@ export interface IReportsState {
   reportLinks?: ReportLink[]
 
   /**
+   * Loading state
+   */
+  loading?: boolean
+}
+
+/**
+ * @category Reports
+ */
+export interface IReportsState {
+  /**
+   * Data for the current query
+   */
+  data?: Partial<IReportsData>
+
+  /**
    * Whether the filter panel is open
    */
   isFiltersOpen?: boolean
-
-  /**
-   * Selected query preset
-   */
-  queryPreset?: IReportsQuery
 
   /**
    * Group by properties
@@ -193,5 +196,5 @@ export const getGroupByOptions = (t: TFunction): IGroupByOption[] => [
  * @category Reports
  */
 export interface IReportsParameters {
-  query: string
+  queryPreset: string
 }

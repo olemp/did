@@ -1,5 +1,5 @@
 import { SelectionMode } from '@fluentui/react'
-import { List, Toast } from 'components'
+import { List } from 'components'
 import { ListMenuItem } from 'components/List/ListToolbar'
 import { ITabProps } from 'components/Tabs/types'
 import React from 'react'
@@ -16,7 +16,6 @@ export const RolesPermissions: StyledComponent<ITabProps> = () => {
     columns,
     panel,
     setPanel,
-    toast,
     confirmationDialog,
     onSelectionChanged,
     selectedRole,
@@ -24,7 +23,6 @@ export const RolesPermissions: StyledComponent<ITabProps> = () => {
   } = useRoles()
   return (
     <div className={RolesPermissions.className}>
-      <Toast {...toast} />
       <List
         enableShimmer={query.loading && !query.previousData}
         items={query?.data?.roles}
@@ -34,8 +32,8 @@ export const RolesPermissions: StyledComponent<ITabProps> = () => {
           new ListMenuItem(t('admin.addNewRole'))
             .setOnClick(() =>
               setPanel({
-                panelProps: {
-                  headerText: t('admin.addNewRole'),
+                panel: {
+                  title: t('admin.addNewRole'),
                   onDismiss: () => setPanel(null)
                 }
               })
@@ -44,8 +42,8 @@ export const RolesPermissions: StyledComponent<ITabProps> = () => {
           new ListMenuItem(t('admin.editRole'))
             .setOnClick(() =>
               setPanel({
-                panelProps: {
-                  headerText: t('admin.editRole'),
+                panel: {
+                  title: t('admin.editRole'),
                   onDismiss: () => setPanel(null)
                 },
                 edit: selectedRole

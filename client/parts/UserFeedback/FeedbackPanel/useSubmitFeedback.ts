@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
-import { IPanelProps } from '@fluentui/react'
 import { useAppContext } from 'AppContext'
 import { FormSubmitHook, useFormControlModel } from 'components/FormControl'
+import { IPanelProps } from 'components/Panel'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BaseResult } from 'types'
@@ -44,15 +44,12 @@ export const useSubmitFeedback: FormSubmitHook<
     onClick: async () => {
       const result = await onSubmitFeedback()
       if (result.success) {
-        appContext.setToast({
-          text: t('feedback.submitSuccessMessageText', result),
-          intent: 'success'
-        })
+        appContext.displayToast(
+          t('feedback.submitSuccessMessageText', result),
+          'success'
+        )
       } else {
-        appContext.setToast({
-          text: t('feedback.submitErrorMessageText'),
-          intent: 'warning'
-        })
+        appContext.displayToast(t('feedback.submitErrorMessageText'), 'warning')
       }
       model.reset()
       props.onDismiss()

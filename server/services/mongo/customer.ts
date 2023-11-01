@@ -1,7 +1,7 @@
 import { FilterQuery } from 'mongodb'
 import { Inject, Service } from 'typedi'
 import _ from 'underscore'
-import { Context } from '../../graphql/context'
+import { RequestContext } from '../../graphql/requestContext'
 import { Customer } from '../../graphql/resolvers/types'
 import { MongoDocumentService } from './@document'
 import { LabelService } from './label'
@@ -21,7 +21,7 @@ export class CustomerService extends MongoDocumentService<Customer> {
    * @param _labelSvc - Injected `LabelService` through `typedi`
    */
   constructor(
-    @Inject('CONTEXT') readonly context: Context,
+    @Inject('CONTEXT') readonly context: RequestContext,
     private readonly _labelSvc: LabelService
   ) {
     super(context, 'customers', CustomerService.name)
@@ -34,7 +34,7 @@ export class CustomerService extends MongoDocumentService<Customer> {
    */
   public async addCustomer(customer: Customer): Promise<void> {
     try {
-      await this.cache.clear({ key: 'getcustomers' })
+      await this.cache.clear('getcustomers')
       await this.insert({
         _id: customer.key,
         ...customer
@@ -51,7 +51,7 @@ export class CustomerService extends MongoDocumentService<Customer> {
    */
   public async updateCustomer(customer: Customer): Promise<void> {
     try {
-      await this.cache.clear({ key: 'getcustomers' })
+      await this.cache.clear('getcustomers')
       await this.update(_.pick(customer, 'key'), customer)
     } catch (error) {
       throw error
@@ -65,7 +65,7 @@ export class CustomerService extends MongoDocumentService<Customer> {
    */
   public async deleteCustomer(key: string): Promise<void> {
     try {
-      await this.cache.clear({ key: 'getcustomers' })
+      await this.cache.clear('getcustomers')
       await this.collection.deleteOne({ key })
     } catch (error) {
       throw error

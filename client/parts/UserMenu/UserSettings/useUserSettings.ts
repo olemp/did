@@ -15,20 +15,14 @@ export function useUserSettings() {
   const onSaveUserSettings = async () => {
     await updateUserSettings(model)
     panel.setFalse()
-    appContext.setToast(
-      {
-        text: t('common.userSettingsSaved'),
-        intent: 'success'
-      },
-      5
-    )
+    appContext.displayToast(t('common.userSettingsSaved'), 'success')
   }
 
   const formControlProps: IFormControlProps = {
     model,
-    panelProps: {
-      headerText: t('common.userSettingsPanelHeaderText'),
-      isOpen: panel.value,
+    panel: {
+      title: t('common.userSettingsPanelHeaderText'),
+      open: panel.value,
       onDismiss: () => panel.setFalse()
     },
     submitProps: {

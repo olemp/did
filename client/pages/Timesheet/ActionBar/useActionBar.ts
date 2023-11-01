@@ -16,7 +16,7 @@ export function useActionBar() {
    */
   const checkedValues: ToolbarProps['checkedValues'] = useMemo(
     () => ({
-      dateRange: state.dateRangeType && [state.dateRangeType.toString()],
+      dateRangeType: state.dateRangeType && [state.dateRangeType.toString()],
       period: state.selectedPeriod && [state.selectedPeriod?.id]
     }),
     [state.dateRangeType, state.selectedPeriod?.id]
@@ -30,7 +30,7 @@ export function useActionBar() {
   const onCheckedValueChange: ToolbarProps['onCheckedValueChange'] =
     useCallback((_, data) => {
       switch (data?.name) {
-        case 'dateRange': {
+        case 'dateRangeType': {
           const dateRangeType = Number.parseInt(data?.checkedItems[0], 10)
           dispatch(CHANGE_DATE_RANGE_TYPE(dateRangeType))
         }
@@ -40,5 +40,6 @@ export function useActionBar() {
         }
       }
     }, [])
+
   return { checkedValues, onCheckedValueChange }
 }

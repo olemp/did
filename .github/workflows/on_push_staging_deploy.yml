@@ -2,16 +2,8 @@ name: Build and deploy to didapp/staging
 
 on:
   push:
-    branches:
-      - feat/*
-    paths:
-      - 'server/**'
-      - 'client/**'
-      - 'shared/**'
-      - 'webpack/**'
-      - 'package.json'
-      - '.deployment'
-      - '.deploy/**'
+    tags:
+      - 'v*'
 
 jobs:
   package:
@@ -20,7 +12,6 @@ jobs:
     concurrency: 
       group: ${{ github.ref }}_on_push_staging_deploy
       cancel-in-progress: true
-    if: "!contains(github.event.head_commit.message, '[no-ci]')"
 
     steps:
     - uses: actions/checkout@master
@@ -38,6 +29,7 @@ jobs:
         NODE_ENV: production
         INCLUDE_NODE_MODULES: '0'
         INCLUDE_PACKAGE_LOCK_FILE: '0'
+        DISPLAY_VERSION_DETAILS: '1'
 
     - uses: actions/upload-artifact@v3
       with:

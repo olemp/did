@@ -2,7 +2,7 @@ import { FilterQuery } from 'mongodb'
 import { Inject, Service } from 'typedi'
 import _ from 'underscore'
 import { CustomerService } from '.'
-import { Context } from '../../graphql/context'
+import { RequestContext } from '../../graphql/requestContext'
 import {
   Customer,
   LabelObject as Label,
@@ -33,7 +33,7 @@ export class ProjectService extends MongoDocumentService<Project> {
    * @param _labelSvc - Injected `LabelService` through `typedi`
    */
   constructor(
-    @Inject('CONTEXT') readonly context: Context,
+    @Inject('CONTEXT') readonly context: RequestContext,
     private readonly _customerSvc: CustomerService,
     private readonly _labelSvc: LabelService
   ) {
@@ -49,7 +49,7 @@ export class ProjectService extends MongoDocumentService<Project> {
    */
   public async addProject(project: Project): Promise<string> {
     try {
-      await this.cache.clear({ key: 'getprojectsdata' })
+      await this.cache.clear('getprojectsdata')
       const tag = [project.customerKey, project.key].join(' ')
       const { insertedId } = await this.insert({
         _id: tag,
@@ -71,7 +71,7 @@ export class ProjectService extends MongoDocumentService<Project> {
    */
   public async updateProject(project: Project): Promise<boolean> {
     try {
-      await this.cache.clear({ key: 'getprojectsdata' })
+      await this.cache.clear('getprojectsdata')
       const filter: FilterQuery<Project> = _.pick(project, 'key', 'customerKey')
       const { result } = await this.update(filter, project)
       return result.ok === 1

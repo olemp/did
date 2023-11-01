@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - feat/*
     paths:
       - 'server/**'
       - 'client/**'
@@ -20,8 +21,7 @@ jobs:
     concurrency: 
       group: ${{ github.ref }}_on_push_dev_deploy
       cancel-in-progress: true
-    if: "!contains(github.event.head_commit.message, '[no-ci]')"
-
+    if: "!contains(github.event.head_commit.message, '[skip-ci]') && !contains(github.event.head_commit.message, '[skip-deploy]')"
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v3
@@ -38,6 +38,7 @@ jobs:
         NODE_ENV: production
         INCLUDE_NODE_MODULES: '0'
         INCLUDE_PACKAGE_LOCK_FILE: '0'
+        DISPLAY_VERSION_DETAILS: '1'
 
     - uses: actions/upload-artifact@v3
       with:

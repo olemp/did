@@ -5,24 +5,25 @@ import {
   useFormControls
 } from 'components/FormControl'
 import get from 'get-value'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { User } from 'types'
+import { User, UserInput } from 'types'
 import _ from 'underscore'
-import { IUserFormProps } from './types'
+import { useUsersContext } from '../context'
+import { IUserFormProps, createUserInput } from './types'
 import { useUserFormSubmit } from './useUserFormSubmit'
 
+/**
+ * A custom hook that returns the necessary props and functions for the user form.
+ *
+ * @param props - The props for the user form.
+ */
 export function useUserForm(props: IUserFormProps) {
   const { t } = useTranslation()
   const appContext = useAppContext()
-  const model = useFormControlModel<keyof User, User>(props.user, (user) => {
-    // A bit nasty temp-hack to fix the role type
-    return {
-      ...user,
-      photo: null,
-      role: user.role['name']
-    }
-  })
+  const context = useUsersContext()
+  const initialModel = useMemo(() => createUserInput(props.user), [props.user])
+  const model = useFormControlModel<keyof UserInput, UserInput>(initialModel)
   const register = useFormControls<keyof User>(model)
   const submitProps = useUserFormSubmit(props, model)
 
@@ -39,6 +40,11 @@ export function useUserForm(props: IUserFormProps) {
     disabled: _.contains(adSyncProperties, key)
   })
 
+  /**
+   * Callback function that sets the form model with the data of the selected user, or resets the model if no user is selected.
+   *
+   * @param item The selected user item.
+   */
   const onSelectUser = useCallback((item) => {
     if (item?.data) {
       for (const key in item.data) {
@@ -51,5 +57,13 @@ export function useUserForm(props: IUserFormProps) {
 
   const isEditMode = !!props.user
 
-  return { isEditMode, inputProps, model, register, submitProps, onSelectUser }
+  return {
+    isEditMode,
+    inputProps,
+    model,
+    register,
+    submitProps,
+    onSelectUser,
+    ...context.state
+  }
 }

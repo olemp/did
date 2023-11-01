@@ -6,7 +6,8 @@ import { FluentIconName } from 'utils/getFluentIcon'
 /**
  * Props for the ProjectLink component.
  */
-export interface IProjectLinkProps extends HTMLProps<HTMLDivElement> {
+export interface IProjectLinkProps
+  extends Pick<HTMLProps<HTMLDivElement>, 'hidden' | 'onClick' | 'target'> {
   /**
    * The project to link to.
    */
@@ -28,6 +29,11 @@ export interface IProjectLinkProps extends HTMLProps<HTMLDivElement> {
   appearance?: ButtonProps['appearance'] | 'link'
 
   /**
+   * The size of the button.
+   */
+  size?: ButtonProps['size']
+
+  /**
    * Link template to use when generating the link.
    */
   linkTemplate?: string
@@ -36,4 +42,9 @@ export interface IProjectLinkProps extends HTMLProps<HTMLDivElement> {
    * Whether to show the customer icon.
    */
   showIcon?: boolean
+
+  /**
+   * Renders the link with a popover (`ProjectPopover`).
+   */
+  withPopover?: boolean
 }

@@ -4,7 +4,7 @@
  *
  * @module Components
  */
-export * from './BasePanel'
+export * from './Panel'
 export * from './Breadcrumb'
 export * from './ColorPickerField'
 export * from './ConditionalWrapper'
@@ -15,7 +15,6 @@ export * from './DynamicSearchBox'
 export * from './EditLink'
 export * from './EntityLabel'
 export * from './EventList'
-export * from './FilterPanel'
 export * from './FormControl'
 export * from './FormControl/AutocompleteControl'
 export * from './HotkeyModal'
