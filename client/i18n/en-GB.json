@@ -159,14 +159,13 @@
       "editPermissionsDescription": "Click to manage or customize permissions for this API token. Please note that permissions cannot be updated after creation.",
       "apiKeyGenerated": "Click the key to copy it to your clipboard.",
       "apiKeyCopied": "API key for **{{name}}** successfully copied to clipboard.",
-      "noPermissionsSelected": "Select desired permissions for the API key. Click **{{buttonLabel}}** and select permissions by category.",
       "delete": "Delete",
       "yearPlural": "{{years}} years",
       "keyLabel": "Secret key",
       "displaySecretKeyButtonTooltip": "Click to reveal the secret for {{displayDuration}} seconds, then click the fields to copy it.",
       "displaySecretKeyButtonLabel": "Show me the secret",
       "permissionsRequired": "You need to provide at least one permission for the API-key. No point in having a role if you can't do anything with it? It's like having a job with no tasks.",
-      "tokenDescriptionDescription": "Describe a bit about how you intend to use the API-token, and explain briefly why you need the selected permissions.",
+      "tokenDescriptionDescription": "Describe briefly (minimum {{minLength}} characters) how you intend to use the API-token, and explain briefly why you need the selected permissions.",
       "warningTooManyPermissions": "You've selected {{count}} permissions. We recommend not too be too greedy with permissions, but if you know what you're doing - sure."
     },
     "labels": {
@@ -302,7 +301,6 @@
     },
     "deleteRole": "Delete role",
     "permissionsRequired": "You need to provide at least one permission for the role. No point in having a role if you can't do anything with it? It's like having a job with no tasks.",
-    "noPermissionsSelected": "Select desired permissions for the user. Click **{{buttonLabel}}** and select permissions by category.",
     "timesheet": "Timesheet",
     "timesheetDayFormatDescription": "Select the date format for the days in the timesheet. This is the format used in the grouping of hours in the timesheet. Example: dddd DD. See preview on the right.",
     "timesheetDayFormatLabel": "Date format for days in the Timesheet",
@@ -312,7 +310,7 @@
   "reports": {
     "generatingReportProgressText": "Please wait while we generate the report for you...",
     "generatingReportDescription": "To give you the freshest results, we're generating a report from the latest data...",
-    "noEntriesText": "There's no time entries available for {{query}}.",
+    "noEntriesText": "There's no time entries available for ``{{text}}``.",
     "selectReportText": "Select a report below. Be aware that some reports can take several minutes to load. For some reports, there might be a pre-generated version available with formatting and layout already applied.",
     "selectReportLabel": "Select report",
     "forecast": "Forecast",
@@ -329,7 +327,8 @@
     "availableReportLinks": "There is reports available for this query. Use the buttons below to download the reports, and hover over the buttons to see more information about the report.",
     "fetchDataButton": "Fetch fresh data from the server",
     "reportLinkUpdatedText": "Updated by {{updatedBy}} on {{updatedAt}}.",
-    "welcomeHeaderText": "Home"
+    "welcomeHeaderText": "Home",
+    "filterIconPlaceholder": "Search for a filter icon..."
   },
   "common": {
     "headerTotalDuration": " ({{duration}})",
@@ -461,7 +460,7 @@
     "showAllFiltersText": "Show all ({{count}})",
     "userReports": "My reports",
     "export": "Export",
-    "exportTypeLastMonth": "Last month {{monthName}}",
+    "exportTypeLastMonth": "Last month",
     "exportTypeCurrentMonth": "Current month",
     "exportTypeCurrentYear": "This year",
     "subscription": "Subscription",
@@ -637,5 +636,8 @@
     "minLengthMessage": "The {{label}} field must contain at least {{options.validator.minLength}} characters.",
     "requiredFieldMessage": "The {{label}} field is mandatory.",
     "regexMessage": "The field {{label}} does not match the required pattern."
+  },
+  "autocomplete": {
+    "noResultsMessage": "No results found. Enter at least {{minCharacters}} characters to search."
   }
 }

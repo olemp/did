@@ -1,42 +1,19 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import { useMutation } from '@apollo/client'
-import { TypedMap } from 'hooks'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import $updateUserConfiguration from './update-user-configuration.gql'
 
-export type UseUpdateUserConfigurationParamType<T = any> = {
-  config?: T
-  autoUpdate?: boolean
-}
-
-export type UseUpdateUserConfigurationReturnType = {
-  updateLastActive?: () => Promise<void>
-  updateUserSettings?: (user: TypedMap<any, any, any>) => Promise<boolean>
-}
-
 /**
- * Update user configuration hook
- *
- * Retrieves config JSON and update (boolean) and uses useMutation.
- * It will only execute the mutation if update is equal to true, and
- * the value has changed.
- *
- * If `autoUpdate` is set to true, the mutation is ran on every
- * change to the specifie `config` using `useEffect`
- *
- * @remarks For now this is how we update user configuration,
- * but it might be better ways. For now this should do.
- *
- * @param params Parameters
+ * Update user configuration hook.
  *
  * @category React Hook
  */
-export function useUpdateUserConfiguration(
-  params?: UseUpdateUserConfigurationParamType
-): UseUpdateUserConfigurationReturnType {
+export function useUpdateUserConfiguration() {
   const [updateUserConfiguration] = useMutation($updateUserConfiguration)
-  const stringValue = JSON.stringify(params?.config ?? {})
 
+  /**
+   * Updates the user's last active timestamp in the user configuration.
+   */
   const updateLastActive = useCallback(async () => {
     await updateUserConfiguration({
       variables: {
@@ -45,25 +22,19 @@ export function useUpdateUserConfiguration(
     })
   }, [])
 
-  const updateUserSettings = useCallback(
-    async (user: TypedMap<any, any, any>) => {
-      await updateUserConfiguration({
-        variables: {
-          user: JSON.stringify(user.$)
-        }
-      })
-      return true
-    },
-    []
-  )
-
-  useEffect(() => {
-    if (params?.autoUpdate) {
-      updateUserConfiguration({
-        variables: { configuration: stringValue }
-      })
-    }
-  }, [stringValue])
+  /**
+   * Updates the user configuration with the provided user object.
+   *
+   * @param user The user object to update the configuration with.
+   */
+  const updateUserSettings = useCallback(async (user: Record<string, any>) => {
+    await updateUserConfiguration({
+      variables: {
+        user: JSON.stringify(user)
+      }
+    })
+    return true
+  }, [])
 
   return {
     updateUserSettings,

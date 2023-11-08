@@ -1,8 +1,5 @@
 /* eslint-disable unicorn/prefer-ternary */
-import { Caption1, Persona, Text, Tooltip } from '@fluentui/react-components'
-import { Tag } from '@fluentui/react-tags-preview'
-import { CustomerLink, ProjectLink, ProjectTag } from 'components'
-import { DateObject } from 'DateUtils'
+import { Caption1, Text, Tooltip } from '@fluentui/react-components'
 import get from 'get-value'
 import React, { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -10,30 +7,23 @@ import { StyledComponent } from 'types'
 import { useListContext } from '../context'
 import styles from './ItemColumn.module.scss'
 import { IItemColumnProps } from './types'
+import { createRenderMap } from './createRenderMap'
 
-export const ItemColumn: StyledComponent<IItemColumnProps> = ({
-  column,
-  item
-}) => {
+export const ItemColumn: StyledComponent<IItemColumnProps> = (props) => {
   const context = useListContext()
-  const fieldValue = get(item, column.fieldName)
-  const style = context.props.getColumnStyle(item)
-
+  const fieldValue = get(props.item, props.column.fieldName)
+  const style = context.props.getColumnStyle(props.item)
   if (!fieldValue) return null
-  let renderProps = {}
-  if (column.createRenderProps) {
-    renderProps = column.createRenderProps(item)
-  }
-
+  const renderMap = createRenderMap(fieldValue, props)
   let element: ReactElement = null
-  if (column.isMultiline && fieldValue?.length > 80) {
+  if (props.column.isMultiline && fieldValue?.length > 80) {
     element = (
       <Tooltip
         relationship='description'
         content={
           <div style={{ padding: '8px 20px' }}>
             <Text block weight='semibold' size={300}>
-              {column.name}
+              {props.column.name}
             </Text>
             <Caption1>
               <ReactMarkdown>{fieldValue}</ReactMarkdown>
@@ -45,30 +35,12 @@ export const ItemColumn: StyledComponent<IItemColumnProps> = ({
       </Tooltip>
     )
   } else {
-    switch (column.renderAs) {
-      case 'timeFromNow': {
-        return <Caption1>{new DateObject(fieldValue).$.fromNow()}</Caption1>
-      }
-      case 'customerLink': {
-        return <CustomerLink customer={fieldValue} {...renderProps} />
-      }
-      case 'projectLink': {
-        return <ProjectLink project={fieldValue} {...renderProps} />
-      }
-      case 'projectTag': {
-        return <ProjectTag project={fieldValue} {...renderProps} />
-      }
-      case 'tag': {
-        return <Tag {...renderProps}>{fieldValue}</Tag>
-      }
-      case 'persona': {
-        return <Persona {...renderProps} />
-      }
-      default: {
-        if (column.onRender) {
-          element = column.onRender(item)
-        } else element = <Text size={200}>{fieldValue}</Text>
-      }
+    if (renderMap.has(props.column.renderAs)) {
+      return renderMap.get(props.column.renderAs)
+    } else {
+      if (props.column.onRender) {
+        element = props.column.onRender(props.item)
+      } else element = <Text size={200}>{fieldValue}</Text>
     }
   }
 
