@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-ternary */
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import $date from 'DateUtils'
 import { TFunction } from 'i18next'
@@ -38,6 +39,8 @@ export enum GetEventsOption {
   IgnoredEvents
 }
 
+type UIIgnoredEvent = { eventId: string, ignoredAt: Date }
+
 /**
  * Handles a part of a `TimesheetScope`. Represented
  * by the combination of weeek number, month index and
@@ -66,9 +69,9 @@ export class TimesheetPeriod {
   private events: EventObject[] = []
 
   /**
-   * UI ignored events for the period
+   * UI ignored events for the period with `eventId` and `timestamp`.
    */
-  private _uiIgnoredEvents: string[] = []
+  private _uiIgnoredEvents: UIIgnoredEvent[] = []
 
   /**
    * UI matched events for the period
@@ -83,7 +86,7 @@ export class TimesheetPeriod {
   /**
    * Ignored events for the period persisted in browser storage
    */
-  private _uiIgnoredEventsStorage: BrowserStorage<string[]>
+  private _uiIgnoredEventsStorage: BrowserStorage<UIIgnoredEvent[]>
 
   /**
    * Initialize the `TimesheetPeriod` object from a `TimesheetPeriodObject`.
@@ -169,7 +172,7 @@ export class TimesheetPeriod {
     return [...(this.events || [])]
       .filter((event) => {
         const isIgnored =
-          this._uiIgnoredEvents.includes(event.id) || !!event.isSystemIgnored
+          this._uiIgnoredEvents.some(({ eventId }) => event.id === eventId) || !!event.isSystemIgnored
         switch (option) {
           case GetEventsOption.AllEventsIncludingIgnored: {
             return true
@@ -196,8 +199,13 @@ export class TimesheetPeriod {
   /**
    * Get ignored events for the period
    */
-  public get ignoredEvents(): string[] {
-    return this._uiIgnoredEvents
+  public get ignoredEvents(): EventObject[] {
+    return this.events.map((event) => {
+      const ignoredAt = this._uiIgnoredEvents.find(
+        ({ eventId }) => eventId === event.id
+      )?.ignoredAt
+      return ignoredAt ? { ...event, ignoredAt } : null
+    }).filter(Boolean)
   }
 
   /**
@@ -262,15 +270,23 @@ export class TimesheetPeriod {
    * @param eventId - Event id
    */
   public ignoreEvent(eventId: string) {
-    this._uiIgnoredEvents = [...this._uiIgnoredEvents, eventId]
+    this._uiIgnoredEvents = [...this._uiIgnoredEvents, { eventId, ignoredAt: new Date() }]
     this._uiIgnoredEventsStorage.set(this._uiIgnoredEvents)
   }
 
   /**
-   * Clear ignored events from browser storage
+   * Clear ignored events from browser storage. If `eventId` is
+   * provided, only the event with the specified id is removed.
+   * Otherwise all ignored events are removed.
+   * 
+   * @param eventId - Event id
    */
-  public clearIgnoredEvents() {
-    this._uiIgnoredEvents = []
+  public clearIgnoredEvents(eventId?: string) {
+    if (eventId) {
+      this._uiIgnoredEvents = this._uiIgnoredEvents.filter(({ eventId: id }) => id !== eventId)
+    } else {
+      this._uiIgnoredEvents = []
+    }
     this._uiIgnoredEventsStorage.set(this._uiIgnoredEvents)
   }
 
@@ -281,7 +297,7 @@ export class TimesheetPeriod {
     this._uiIgnoredEvents = _.uniq([
       ...this._uiIgnoredEvents,
       ...this.getEvents(GetEventsOption.UnmatchedEvents).map(
-        (event) => event.id
+        (event) => ({ eventId: event.id, ignoredAt: new Date() })
       )
     ])
     this._uiIgnoredEventsStorage.set(this._uiIgnoredEvents)

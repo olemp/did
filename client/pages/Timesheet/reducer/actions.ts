@@ -117,7 +117,7 @@ export const IGNORE_EVENT = createAction<{ id: string }>('IGNORE_EVENT')
  *
  * @category Timesheet Actions
  */
-export const CLEAR_IGNORES = createAction('CLEAR_IGNORES')
+export const CLEAR_IGNORES = createAction<string>('CLEAR_IGNORES')
 
 /**
  * Ignore all unmatched events action

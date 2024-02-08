@@ -11,7 +11,8 @@ export class BrowserStorage<T = unknown> {
 
   constructor(
     key: string,
-    private _store = localStorage
+    private _store = localStorage,
+    private _fallback: T = null
   ) {
     this._key = `did_${key}`
   }
@@ -19,9 +20,9 @@ export class BrowserStorage<T = unknown> {
   /**
    * Get value
    *
-   * @param fallback - Fallback value
+   * @param fallback - Fallback value (defaults to `this._fallback`)
    */
-  public get(fallback: T = null): T {
+  public get(fallback: T = this._fallback): T {
     return tryParseJson(this._store.getItem(this._key), fallback)
   }
 

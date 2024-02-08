@@ -69,20 +69,20 @@ export function useTimesheetReducer() {
       .addCase(SUBMITTING_PERIOD, (state, { payload }) => {
         state.loading = payload.forecast
           ? {
-              text: t('timesheet.forecastingPeriodLabel')
-            }
+            text: t('timesheet.forecastingPeriodLabel')
+          }
           : {
-              text: t('timesheet.confirmingPeriodLabel')
-            }
+            text: t('timesheet.confirmingPeriodLabel')
+          }
       })
       .addCase(UNSUBMITTING_PERIOD, (state, { payload }) => {
         state.loading = payload.forecast
           ? {
-              text: t('timesheet.unforecastingPeriodLabel')
-            }
+            text: t('timesheet.unforecastingPeriodLabel')
+          }
           : {
-              text: t('timesheet.unconfirmingPeriodLabel')
-            }
+            text: t('timesheet.unconfirmingPeriodLabel')
+          }
       })
       .addCase(CHANGE_PERIOD, (state, { payload }) => {
         state.selectedPeriod = _.find(
@@ -176,8 +176,12 @@ export function useTimesheetReducer() {
           p.id === state.selectedPeriod.id ? state.selectedPeriod : p
         )
       })
-      .addCase(CLEAR_IGNORES, (state) => {
-        state.selectedPeriod.clearIgnoredEvents()
+      .addCase(CLEAR_IGNORES, (state, { payload }) => {
+        if (payload) {
+          state.selectedPeriod.clearIgnoredEvents(payload)
+        } else {
+          state.selectedPeriod.clearIgnoredEvents()
+        }
         state.periods = state.periods.map((p) =>
           p.id === state.selectedPeriod.id ? state.selectedPeriod : p
         )

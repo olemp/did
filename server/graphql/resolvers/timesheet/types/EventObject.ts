@@ -82,6 +82,8 @@ export class EventObject {
 
   categories?: string[]
 
+  ignoredAt?: Date
+
   /**
    * Constructs a new EventObject
    *

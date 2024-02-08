@@ -44,6 +44,15 @@ export interface IUserMessageProps extends Omit<MessageBarProps, 'action'> {
    * The name of the Fluent UI icon to display for the message (optional).
    */
   iconName?: FluentIconName
+
+  /**
+   * Render a `Popover` from [@fluentui/react-components](@fluentui/react-components) based on the presence of
+   * the `popover` prop.
+   */
+  popover?: {
+    text?: string
+    children?: JSX.Element
+  }
 }
 
 /**

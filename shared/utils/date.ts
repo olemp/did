@@ -104,12 +104,13 @@ export class DateUtils {
    */
   formatDate(
     dateTime: ConfigType,
-    template: string,
+    template: string | 'relativeTime',
     locale?: string,
     fallback = null
   ): string {
     if (!dateTime) return fallback
     if (locale) return $dayjs(dateTime).locale(locale).format(template)
+    if(template === 'relativeTime') return $dayjs(dateTime).fromNow()
     return $dayjs(dateTime).format(template)
   }
 

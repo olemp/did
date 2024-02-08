@@ -3,6 +3,7 @@ import $date from 'DateUtils'
 import { IUserMessageProps } from 'components/UserMessage/types'
 import { useArray } from 'hooks/common/useArray'
 import { CLEAR_IGNORES, IGNORE_ALL } from 'pages/Timesheet/reducer/actions'
+import React from 'react'
 import { isMobile } from 'react-device-detect'
 import { useTranslation } from 'react-i18next'
 import _ from 'underscore'
@@ -148,7 +149,55 @@ export function useStatusBar() {
       onClick: () => dispatch(CLEAR_IGNORES()),
       iconName: 'ArrowUndo'
     },
-    intent: 'warning'
+    intent: 'warning',
+    popover: {
+      children: (
+        <div style={{ width: 300 }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {selectedPeriod.ignoredEvents.map((event) => (
+              <li key={event.id}>
+                <a href='#'>{event.title}</a> ignored {$date.formatDate(event.ignoredAt, 'relativeTime')}
+              </li>
+            ))}
+            </ul>
+          {/* <List
+            items={selectedPeriod.ignoredEvents}
+            columns={[
+              {
+                key: 'title',
+                name: 'Title',
+                fieldName: 'title',
+                minWidth: 100,
+                maxWidth: 200,
+                isResizable: true
+              },
+              {
+                key: 'ignoredAt',
+                name: 'Ignored At',
+                fieldName: 'ignoredAt',
+                minWidth: 100,
+                maxWidth: 200,
+                isResizable: true,
+                onRender: (item) => $date.formatDate(item.ignoredAt, 'relativeTime')
+              },
+              {
+                key: 'undoIgnore',
+                name: '',
+                fieldName: 'undoIgnore',
+                minWidth: 50,
+                maxWidth: 50,
+                isResizable: false,
+                onRender: (item) => (
+                  <DynamicButton
+                    iconName='ArrowUndo'
+                    onClick={() => dispatch(CLEAR_IGNORES(item.id))} 
+                    />
+                )
+              }
+            ]} /> */}
+        </div>
+      )
+    }
   }
 
   /**
