@@ -1,5 +1,6 @@
 import { DateRangeType } from '@fluentui/react'
 import $date from 'DateUtils'
+import { DynamicButton, List } from 'components'
 import { IUserMessageProps } from 'components/UserMessage/types'
 import { useArray } from 'hooks/common/useArray'
 import { CLEAR_IGNORES, IGNORE_ALL } from 'pages/Timesheet/reducer/actions'
@@ -152,15 +153,15 @@ export function useStatusBar() {
     intent: 'warning',
     popover: {
       children: (
-        <div style={{ width: 300 }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <div style={{ width: 400 }}>
+          {/* <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {selectedPeriod.ignoredEvents.map((event) => (
               <li key={event.id}>
                 <a href='#'>{event.title}</a> ignored {$date.formatDate(event.ignoredAt, 'relativeTime')}
               </li>
             ))}
-            </ul>
-          {/* <List
+            </ul> */}
+           <List
             items={selectedPeriod.ignoredEvents}
             columns={[
               {
@@ -194,7 +195,7 @@ export function useStatusBar() {
                     />
                 )
               }
-            ]} /> */}
+            ]} />
         </div>
       )
     }
