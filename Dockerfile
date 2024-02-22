@@ -15,8 +15,10 @@ ENV NODE_ENV production
 RUN apk add --no-cache python3 make g++
 
 
-# Copy the rest of the source files into the image.
+# Copy all files from the current directory to the working directory.
 COPY ./ .
+
+# Set the working directory to root.
 WORKDIR /
 
 # # Download dependencies as a separate step to take advantage of Docker's caching.
@@ -26,15 +28,25 @@ WORKDIR /
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=optional --no-audit --no-fund
+    npm ci --omit=dev --no-audit --no-fund
 
+# Build the application server.
 RUN npm run build:server
+
+# Copy the node_modules directory to the app directory
+RUN cp -r node_modules /app
+
+# Copy the package json file to the app directory
+COPY package.json ./app
+
+# Changes the working directory to the app directory
+WORKDIR /app
 
 # Run the application as a non-root user.
 USER node
 
 # Expose the port that the application listens on.
-EXPOSE 9001
+EXPOSE 80
 
 # Run the application.
 CMD npm start
