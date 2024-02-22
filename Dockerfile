@@ -28,7 +28,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=optional --no-audit --no-fund
 
-RUN npm run build
+RUN npm run build:server
 
 # Run the application as a non-root user.
 USER node
