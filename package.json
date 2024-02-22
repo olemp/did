@@ -19,19 +19,20 @@
     ]
   },
   "config": {
-    "BUNDLE_FILE_NAME": "'did.[name].[fullhash].js"
+    "BUNDLE_FILE_NAME": "did.[name].[fullhash].js"
   },
   "scripts": {
+    "start": "node ./server/index.js",
+    "docker:compose": "docker compose build",
     "watch": "node .tasks/watch.js",
-    "package": "node .tasks/package.js",
     "lint": "eslint --ext .ts,.tsx ./client ./server --color --quiet",
     "lint:fix": "eslint --ext .ts,.tsx ./client ./server --color --quiet --fix",
     "prettier": " prettier '**/*.ts*' --log-level silent",
     "prettier:write": "prettier '**/*.ts*' --log-level silent --write",
     "test": "ava --verbose",
-    "start": "node ./server/index.js",
-    "package:client": "webpack --config webpack/config.js",
-    "build:server": "tsc --project tsconfig.json && copyfiles -u 1 \"server/public/**/*\" dist/server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "webpack --config webpack/config.js",
+    "build:server": "tsc --project tsconfig.json && copyfiles -u 1 \"server/public/**/*\" dist/server && copyfiles -u 1 \"server/views/**/*\" dist/server",
     "debug:server": "npm run build:server; ts-node ./server/index.ts -T --inspect --wait",
     "create-env": "node .tasks/createDotEnv.js",
     "tag": "node .tasks/git-tag.js",
