@@ -11,6 +11,7 @@ import _ from 'underscore'
 import { useProjectsContext } from '../../context'
 import styles from './ProjectInformation.module.scss'
 import { BudgetTracking } from './BudgetTracking'
+import ReactMarkdown from 'react-markdown'
 
 /**
  * Shows details about the selected project.
@@ -37,6 +38,13 @@ export const ProjectInformation: StyledComponent = () => {
             hasOutlookCategory={!!context.state.selected?.outlookCategory}
           />
         )}
+        isDataLoaded={!context.loading}
+      />
+      <InformationProperty
+        hidden={!context.state.selected?.description}
+        title={t('common.descriptionFieldLabel')}
+        value={context.state.selected?.description}
+        onRenderValue={(value) => <ReactMarkdown>{value}</ReactMarkdown>}
         isDataLoaded={!context.loading}
       />
       <BudgetTracking />
