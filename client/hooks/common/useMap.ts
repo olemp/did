@@ -4,6 +4,16 @@ import setValue from 'set-value'
 import s from 'underscore.string'
 
 /**
+ * Options for the `useMap` hook.
+ */
+export type UseMapOptions = {
+  /**
+   * If `true`, the keys of the map are treated as nested property paths.
+   */
+  useNestedKeys?: boolean
+}
+
+/**
  * Hook for using a `Map` as a state object. A set of
  * functions are returned for setting the map, setting
  * a key on the map, getting the value of a key, getting
@@ -25,7 +35,10 @@ export function useMap<
   KeyType = string,
   ObjectType = Record<any, any>,
   ValueType = any
->(initialMap = new Map()): TypedMap<KeyType, ObjectType, ValueType> {
+>(
+  initialMap = new Map(),
+  options: UseMapOptions = {}
+): TypedMap<KeyType, ObjectType, ValueType> {
   const [$map, $set] = useState<Map<KeyType, ValueType>>(initialMap)
 
   const reset = () => $set(initialMap)
@@ -54,20 +67,11 @@ export function useMap<
       KeyType,
       ...string[]
     ]
-    if (_.isEmpty(nestedKeys)) return $set(new Map($map).set(property, value))
+    if (_.isEmpty(nestedKeys) || !options.useNestedKeys)
+      return $set(new Map($map).set(key, value))
     else {
-      // eslint-disable-next-line no-console
-      console.log('$map', $map)
       let newValue = $map.get(property) ?? ({} as any)
       newValue = _.set(newValue, nestedKeys.join('.'), value)
-      // eslint-disable-next-line no-console
-      console.log(
-        `Current value is ${JSON.stringify(
-          $map.get(property) ?? ({} as any)
-        )}, new value is ${JSON.stringify(
-          newValue
-        )} property is ${property}, value is ${value}`
-      )
       return $set(new Map($map).set(property, newValue))
     }
   }
@@ -86,11 +90,15 @@ export function useMap<
    */
   function value<T = ValueType>(key?: KeyType, _defaultValue: T = null): T {
     if (!key) return $ as unknown as T
-    const propertyPath = key.toString().split('.')
-    const value = $map.get(propertyPath[0] as KeyType)
-    if (propertyPath.length === 1)
-      return (value as unknown as T) ?? _defaultValue
-    return _.get(value, propertyPath.slice(1).join('.'), _defaultValue) as T
+    const [property, ...nestedKeys] = key.toString().split('.') as [
+      KeyType,
+      ...string[]
+    ]
+    let value = $map.get(key) as unknown as T
+    if (_.isEmpty(nestedKeys) || !options.useNestedKeys)
+      return value ?? _defaultValue
+    value = $map.get(property) as unknown as T
+    return _.get(value, nestedKeys.join('.'), _defaultValue) as T
   }
 
   /**
