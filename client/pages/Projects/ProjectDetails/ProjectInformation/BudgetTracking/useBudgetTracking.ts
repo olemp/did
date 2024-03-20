@@ -25,7 +25,8 @@ export const useBudgetTracking = () => {
   )
 
   const tracking = context.state.selected?.budgetTracking ?? {}
-  const used = Number.parseFloat((hours / tracking.hours).toFixed(2))
+  let used = Number.parseFloat((hours / tracking.hours).toFixed(2))
+  used = used > 1 ? 1 : used
   const getValidationStateFromThreshold = () => {
     if (used > tracking.criticalThreshold) return 'error'
     if (used > tracking.warningThreshold) return 'warning'

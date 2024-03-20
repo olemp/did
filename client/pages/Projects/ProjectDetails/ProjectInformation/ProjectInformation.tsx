@@ -10,6 +10,7 @@ import { LabelObject as Label, StyledComponent } from 'types'
 import _ from 'underscore'
 import { useProjectsContext } from '../../context'
 import styles from './ProjectInformation.module.scss'
+import { BudgetTracking } from './BudgetTracking'
 
 /**
  * Shows details about the selected project.
@@ -38,16 +39,16 @@ export const ProjectInformation: StyledComponent = () => {
         )}
         isDataLoaded={!context.loading}
       />
-      {!_.isEmpty(context.state.selected?.labels) && (
-        <InformationProperty
-          title={t('common.labelsText')}
-          isDataLoaded={!context.loading}
-        >
-          {(context.state.selected?.labels as Label[]).map((label, index) => (
-            <EntityLabel key={index} label={label} />
-          ))}
-        </InformationProperty>
-      )}
+      <BudgetTracking />
+      <InformationProperty
+        hidden={_.isEmpty(context.state.selected?.labels)}
+        title={t('common.labelsText')}
+        isDataLoaded={!context.loading}
+      >
+        {(context.state.selected?.labels as Label[]).map((label, index) => (
+          <EntityLabel key={index} label={label} />
+        ))}
+      </InformationProperty>
     </div>
   )
 }
