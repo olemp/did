@@ -9,6 +9,9 @@ import s from 'underscore.string'
 export type UseMapOptions = {
   /**
    * If `true`, the keys of the map are treated as nested property paths.
+   * For instance `set('a.b', 1)` will set the value of `b` on the object
+   * at the key `a`. If `false`, the key is treated as a single key even
+   * if it contains one or serveral dots.
    */
   useNestedKeys?: boolean
 }
@@ -83,8 +86,8 @@ export function useMap<
    * If the key is a nested property path, the value
    * is retrieved using `_.get`.
    *
-   * @param key - Key of the value to retrieve
-   * @param _defaultValue - Default value (default: `null`)
+   * @param key Key of the value to retrieve
+   * @param _defaultValue Default value (default: `null`)
    *
    * @returns Model value from the converted object
    */

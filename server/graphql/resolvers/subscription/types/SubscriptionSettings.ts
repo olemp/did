@@ -25,6 +25,7 @@ import {
   SubscriptionBrandSetting,
   SubscriptionBrandSettingInput
 } from './SubscriptionBrandSetting'
+import { SubscriptionBudgetTrackingSettings, SubscriptionBudgetTrackingSettingsInput } from './SubscriptionBudgetTrackingSettings'
 
 /**
  * @category GraphQL ObjectType
@@ -48,6 +49,9 @@ export class SubscriptionSettings {
 
   @Field(() => SubscriptionTimesheetSettings, { nullable: true })
   timesheet?: SubscriptionTimesheetSettings
+
+  @Field(() => SubscriptionBudgetTrackingSettings, { nullable: true })
+  budgetTracking?: SubscriptionBudgetTrackingSettings
 }
 
 /**
@@ -72,4 +76,7 @@ export class SubscriptionSettingsInput {
 
   @Field(() => SubscriptionTimesheetSettingsInput, { nullable: true })
   timesheet?: SubscriptionTimesheetSettingsInput
+
+  @Field(() => SubscriptionBudgetTrackingSettingsInput, { nullable: true })
+  budgetTracking?: SubscriptionBudgetTrackingSettingsInput
 }

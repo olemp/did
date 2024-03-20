@@ -124,7 +124,7 @@
     "budgetTrackingEnabledDescription": "Skru på budsjettoppfølging for dette prosjektet.",
     "budgetHours": "Budsjett i timar",
     "budgetHoursDescription": "Budsjettet for dette prosjektet i antall timer. Vi tar ikke hensyn til ulike timepriser på dette tidspunktet.",
-    "budgetWarningThreshold": "Budsjettadvarselsterskel",
+    "budgetWarningThreshold": "Advarsel terskel for budsjett",
     "budgetCriticalThreshold": "Kritisk terskel for budsjett",
     "budgetCriticalThresholdDescription": "Prosentandelen av budsjettet der en feil vises."
   },
@@ -330,7 +330,9 @@
     "teamsMissingSubmissionsSinglePeriodText": "Meldingsmal for påminnelse for enkeltperioder",
     "teamsMissingSubmissionsMultiplePeriodsText": "Meldingsmal for påminnelse om flere perioder",
     "teamsMissingSubmissionsMultiplePeriodsTextDescription": "Angi meldingsmalen for en påminnelse for flere perioder. Tokenet `{0}` vil bli erstattet med de faktiske periodene.",
-    "teamsMissingSubmissionsSinglePeriodTextDescription": "Angi meldingsmalen for en påminnelse for flere perioder. Tokenet `{0}` vil bli erstattet med den faktiske perioden."
+    "teamsMissingSubmissionsSinglePeriodTextDescription": "Angi meldingsmalen for en påminnelse for flere perioder. Tokenet `{0}` vil bli erstattet med den faktiske perioden.",
+    "budgetTracking": "Budsjettoppfølging",
+    "budgetTrackingEnabledLabel": "Aktiver budsjettoppfølging"
   },
   "reports": {
     "generatingReportProgressText": "Vennligst vent mens vi genererer rapporten for deg...",

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import s from 'underscore.string'
 import { useFormContext } from '../context'
 import { CLEAR_VALIDATION_MESSAGE } from '../reducer'
@@ -63,11 +63,6 @@ export function useInputControl(props: IInputControlProps) {
   )
 
   const value = props.model.value<string>(props.name, '')
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('useInputControl', props.name, value)
-  }, [props.model])
 
   return { onChange, value }
 }
