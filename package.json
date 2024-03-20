@@ -343,6 +343,10 @@
     "colours": true
   },
   "gitmoji": {
+    "component": [
+      "🚀",
+      "Added a new React component"
+    ],
     "build": [
       "🏗️",
       "Make architectural changes"
@@ -445,6 +449,10 @@
     "templates": [
       "📃",
       "Added or updated issue or PR templates"
+    ],
+    "other": [
+      "🔧",
+      "Other changes that don't fit into any of the other categories"
     ]
   },
   "terser": {
