@@ -1,11 +1,10 @@
-import { StyledComponent } from 'types'
-import { useProjectsContext } from '../../../context'
+import { Field, ProgressBar } from '@fluentui/react-components'
+import { InformationProperty } from 'components'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { InformationProperty } from 'components'
-import { Field, ProgressBar } from '@fluentui/react-components'
-import { useBudgetTracking } from './useBudgetTracking'
+import { StyledComponent } from 'types'
 import styles from './BudgetTracking.module.scss'
+import { useBudgetTracking } from './useBudgetTracking'
 
 /**
  * Shows details about the selected project.
@@ -14,8 +13,8 @@ import styles from './BudgetTracking.module.scss'
  */
 export const BudgetTracking: StyledComponent = () => {
   const { t } = useTranslation()
-  const context = useProjectsContext()
   const {
+    loading,
     budgetTrackingEnabled,
     hours,
     budget,
@@ -26,8 +25,7 @@ export const BudgetTracking: StyledComponent = () => {
   return (
     <InformationProperty
       hidden={!budgetTrackingEnabled}
-      title='Budget'
-      value={'a'}
+      title={t('projects.budgetTracking')}
       onRenderValue={() => (
         <div className={styles.budgetTracking}>
           <Field
@@ -41,7 +39,7 @@ export const BudgetTracking: StyledComponent = () => {
           </Field>
         </div>
       )}
-      isDataLoaded={!context.loading}
+      isDataLoaded={!loading}
     />
   )
 }

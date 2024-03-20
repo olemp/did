@@ -1,16 +1,29 @@
+import { useQuery } from '@apollo/client'
 import { useProjectsContext } from '../../../context'
+import timeentriesQuery from './timeentries.gql'
 
 /**
- * Custom hook for budget tracking. For now the used hours
- * are hardcoded to `40` but in the future this should be
- * in the state of the component.
- *
- * @param hours The number of hours.
+ * Custom hook for budget tracking. Queries GraphQL API with the
+ * query specified in `timeentries.gql` and calculates the used
+ * hours.
  *
  * @returns An object containing budget tracking information.
  */
-export const useBudgetTracking = (hours = 40) => {
+export const useBudgetTracking = () => {
   const context = useProjectsContext()
+  const { loading, data } = useQuery(timeentriesQuery, {
+    variables: {
+      query: { projectId: context.state.selected?.tag }
+    },
+    skip: !context.state.selected
+  })
+
+  const hours = (data?.timeEntries ?? []).reduce(
+    (duration: number, entry: { duration: number }) =>
+      duration + entry.duration,
+    0
+  )
+
   const tracking = context.state.selected?.budgetTracking ?? {}
   const used = Number.parseFloat((hours / tracking.hours).toFixed(2))
   const getValidationStateFromThreshold = () => {
@@ -19,6 +32,7 @@ export const useBudgetTracking = (hours = 40) => {
     return 'none'
   }
   return {
+    loading,
     budgetTrackingEnabled: tracking.trackingEnabled,
     hours,
     budget: tracking.hours,
