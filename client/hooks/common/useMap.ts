@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { useState } from 'react'
 import setValue from 'set-value'
 import s from 'underscore.string'
@@ -41,19 +42,42 @@ export function useMap<
   )
 
   /**
-   * Set `key` of `model`
+   * Set `key` of `model`. If the key is a nested
+   * property path, the value is set using `_.set`.
    *
    * @param key - Key
    * @param value - Value
    */
   const set = (key: KeyType, value: ValueType) => {
-    $set((_state) => new Map(_state).set(key, value))
+    if (!key) return
+    const [property, ...nestedKeys] = key.toString().split('.') as [
+      KeyType,
+      ...string[]
+    ]
+    if (_.isEmpty(nestedKeys)) return $set(new Map($map).set(property, value))
+    else {
+      // eslint-disable-next-line no-console
+      console.log('$map', $map)
+      let newValue = $map.get(property) ?? ({} as any)
+      newValue = _.set(newValue, nestedKeys.join('.'), value)
+      // eslint-disable-next-line no-console
+      console.log(
+        `Current value is ${JSON.stringify(
+          $map.get(property) ?? ({} as any)
+        )}, new value is ${JSON.stringify(
+          newValue
+        )} property is ${property}, value is ${value}`
+      )
+      return $set(new Map($map).set(property, newValue))
+    }
   }
 
   /**
    * Get model value. The value is retrived
    * from the converted object. If the value
    * is `undefined` the default value is returned.
+   * If the key is a nested property path, the value
+   * is retrieved using `_.get`.
    *
    * @param key - Key of the value to retrieve
    * @param _defaultValue - Default value (default: `null`)
@@ -62,7 +86,11 @@ export function useMap<
    */
   function value<T = ValueType>(key?: KeyType, _defaultValue: T = null): T {
     if (!key) return $ as unknown as T
-    return ($map.get(key) ?? _defaultValue) as T
+    const propertyPath = key.toString().split('.')
+    const value = $map.get(propertyPath[0] as KeyType)
+    if (propertyPath.length === 1)
+      return (value as unknown as T) ?? _defaultValue
+    return _.get(value, propertyPath.slice(1).join('.'), _defaultValue) as T
   }
 
   /**
