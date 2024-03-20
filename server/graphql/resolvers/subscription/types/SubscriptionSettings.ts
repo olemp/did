@@ -25,7 +25,10 @@ import {
   SubscriptionBrandSetting,
   SubscriptionBrandSettingInput
 } from './SubscriptionBrandSetting'
-import { SubscriptionBudgetTrackingSettings, SubscriptionBudgetTrackingSettingsInput } from './SubscriptionBudgetTrackingSettings'
+import {
+  SubscriptionBudgetTrackingSettings,
+  SubscriptionBudgetTrackingSettingsInput
+} from './SubscriptionBudgetTrackingSettings'
 
 /**
  * @category GraphQL ObjectType

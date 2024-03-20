@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { StyledComponent } from 'types'
 import styles from './BudgetTracking.module.scss'
 import { useBudgetTracking } from './useBudgetTracking'
+import { useSubscriptionSettings } from 'AppContext'
 
 /**
  * Shows details about the selected project.
@@ -13,6 +14,7 @@ import { useBudgetTracking } from './useBudgetTracking'
  */
 export const BudgetTracking: StyledComponent = () => {
   const { t } = useTranslation()
+  const { budgetTracking } = useSubscriptionSettings()
   const {
     loading,
     budgetTrackingEnabled,
@@ -22,9 +24,11 @@ export const BudgetTracking: StyledComponent = () => {
     getValidationStateFromThreshold
   } = useBudgetTracking()
 
+  if (!budgetTrackingEnabled || !budgetTracking.enabled) {
+    return null
+  }
   return (
     <InformationProperty
-      hidden={!budgetTrackingEnabled}
       title={t('projects.budgetTracking')}
       onRenderValue={() => (
         <div className={styles.budgetTracking}>

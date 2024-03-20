@@ -9,7 +9,7 @@ import { Field, InputType, ObjectType } from 'type-graphql'
   description: 'A type that describes Subscription budget tracking settings'
 })
 export class SubscriptionBudgetTrackingSettings {
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   enabled?: boolean
 }
 
@@ -20,6 +20,6 @@ export class SubscriptionBudgetTrackingSettings {
   description: 'A input that describes Subscription budget tracking settings'
 })
 export class SubscriptionBudgetTrackingSettingsInput {
-  @Field({ nullable: true})
+  @Field({ nullable: true })
   enabled?: boolean
 }

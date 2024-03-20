@@ -21,6 +21,7 @@ import {
   useValidateUniqueKeyFunction
 } from './validation'
 import { Pivot, PivotItem } from '@fluentui/react'
+import { useSubscriptionSettings } from 'AppContext'
 
 /**
  * ProjectForm component is used to create and edit projects.
@@ -28,6 +29,7 @@ import { Pivot, PivotItem } from '@fluentui/react'
  * @category Projects
  */
 export const ProjectForm: TabComponent<IProjectFormProps> = (props) => {
+  const { budgetTracking } = useSubscriptionSettings()
   const { t } = useTranslation()
   const { model, register, options, formControlProps, isCustomerContext } =
     useProjectForm(props)
@@ -38,7 +40,16 @@ export const ProjectForm: TabComponent<IProjectFormProps> = (props) => {
   )
   return (
     <FormControl {...formControlProps}>
-      <Pivot styles={{ itemContainer: { paddingTop: 15 } }}>
+      <Pivot
+        styles={{
+          link: {
+            display: budgetTracking?.enabled ? 'initial' : 'none'
+          },
+          itemContainer: {
+            paddingTop: budgetTracking?.enabled ? 15 : 0
+          }
+        }}
+      >
         <PivotItem
           headerText={t('common.general')}
           itemIcon='Info'
@@ -125,47 +136,49 @@ export const ProjectForm: TabComponent<IProjectFormProps> = (props) => {
             hidden={!!props.edit}
           />
         </PivotItem>
-        <PivotItem
-          headerText={t('projects.budget')}
-          itemIcon='LineChart'
-          itemKey='budget'
-        >
-          <CheckboxControl
-            {...register('budgetTracking.trackingEnabled')}
-            label={t('projects.budgetTrackingEnabled')}
-            description={t('projects.budgetTrackingEnabledDescription')}
-            hidden={!props.edit}
-          />
-          <InputControl
-            {...register<InputControlOptions>('budgetTracking.hours', {})}
-            label={t('projects.budgetHours')}
-            description={t('projects.budgetHoursDescription')}
-            type='number'
-            hidden={!model.value('budgetTracking.trackingEnabled' as any)}
-          />
-          <SliderControl
-            {...register('budgetTracking.warningThreshold')}
-            label={t('projects.budgetWarningThreshold')}
-            description={t('projects.budgetWarningThresholdDescription')}
-            formatValue={(value) => `${value * 100}%`}
-            min={0}
-            max={1}
-            step={0.01}
-            defaultValue={0.8}
-            hidden={!model.value('budgetTracking.trackingEnabled' as any)}
-          />
-          <SliderControl
-            {...register('budgetTracking.criticalThreshold')}
-            label={t('projects.budgetCriticalThreshold')}
-            description={t('projects.budgetCriticalThresholdDescription')}
-            formatValue={(value) => `${value * 100}%`}
-            min={0}
-            max={1}
-            step={0.01}
-            defaultValue={0.9}
-            hidden={!model.value('budgetTracking.trackingEnabled' as any)}
-          />
-        </PivotItem>
+        {budgetTracking?.enabled && (
+          <PivotItem
+            headerText={t('projects.budget')}
+            itemIcon='LineChart'
+            itemKey='budget'
+          >
+            <CheckboxControl
+              {...register('budgetTracking.trackingEnabled')}
+              label={t('projects.budgetTrackingEnabled')}
+              description={t('projects.budgetTrackingEnabledDescription')}
+              hidden={!props.edit}
+            />
+            <InputControl
+              {...register<InputControlOptions>('budgetTracking.hours', {})}
+              label={t('projects.budgetHours')}
+              description={t('projects.budgetHoursDescription')}
+              type='number'
+              hidden={!model.value('budgetTracking.trackingEnabled' as any)}
+            />
+            <SliderControl
+              {...register('budgetTracking.warningThreshold')}
+              label={t('projects.budgetWarningThreshold')}
+              description={t('projects.budgetWarningThresholdDescription')}
+              formatValue={(value) => `${value * 100}%`}
+              min={0}
+              max={1}
+              step={0.01}
+              defaultValue={0.8}
+              hidden={!model.value('budgetTracking.trackingEnabled' as any)}
+            />
+            <SliderControl
+              {...register('budgetTracking.criticalThreshold')}
+              label={t('projects.budgetCriticalThreshold')}
+              description={t('projects.budgetCriticalThresholdDescription')}
+              formatValue={(value) => `${value * 100}%`}
+              min={0}
+              max={1}
+              step={0.01}
+              defaultValue={0.9}
+              hidden={!model.value('budgetTracking.trackingEnabled' as any)}
+            />
+          </PivotItem>
+        )}
       </Pivot>
     </FormControl>
   )
