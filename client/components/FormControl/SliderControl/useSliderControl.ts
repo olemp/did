@@ -11,10 +11,14 @@ import { ISliderControlProps } from './types'
  */
 export function useSliderControl(props: ISliderControlProps) {
   const context = useFormContext()
-  const onChange = useCallback((_event, value) => {
-    context.dispatch(CLEAR_VALIDATION_MESSAGE({ name: props.name }))
-    props.model.set(props.name, value)
-  }, [])
+
+  const onChange = useCallback(
+    (_event, value) => {
+      context.dispatch(CLEAR_VALIDATION_MESSAGE({ name: props.name }))
+      props.model.set(props.name, value)
+    },
+    [props.model]
+  )
 
   const value = props.model.value<number>(props.name, props.defaultValue)
 
