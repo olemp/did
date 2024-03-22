@@ -1,22 +1,17 @@
-/* eslint-disable unicorn/prevent-abbreviations */
-import { useEffect, useMemo, useRef } from 'react'
-import { FluentIconName } from 'utils'
+import { useEffect, useRef } from 'react'
 import { useAutocompleteControlReducer } from './reducer'
-import { INIT, RESET } from './reducer/actions'
+import { INIT, RESET_SELECTION } from './reducer/actions'
 import { IAutocompleteControlProps } from './types'
+import _ from 'lodash'
 
 /**
  * Component logic hook for AutocompleteControl component. This hook is responsible for
  * managing the state of the component and providing the necessary callbacks.
  *
  * - Uses `useAutocompleteReducer` to manage the state of the component.
- * - Uses `useAutocompleteEvents` to provide the necessary callbacks.
- * - Uses `useLayoutEffect` to initialize the state of the component when
  * `props.items` or `props.defaultSelectedKey` changes.
  * - Uses `useEffect` to reset the state of the component when `props.selectedKey`
  * is `null` or `undefined`.
- * - Uses `useMemo` to memoize the `suggestions` array.
- * - Uses `useRef` and `useEffect` to focus the search box when `props.autoFocus` is `true`.
  *
  * @param props - Props
  *
@@ -25,28 +20,22 @@ import { IAutocompleteControlProps } from './types'
 export function useAutocompleteControl(props: IAutocompleteControlProps) {
   const [state, dispatch] = useAutocompleteControlReducer(props)
 
-  useEffect(
-    () => dispatch(INIT({ props })),
-    [props.defaultSelectedKey, props.items]
-  )
+  useEffect(() => {
+    dispatch(INIT({ props }))
+  }, [props.items, props.selectedKey])
 
   useEffect(() => {
-    if (props.selectedKey === null) dispatch(RESET())
+    if (props.selectedKey === null && state.selectedItem) {
+      dispatch(RESET_SELECTION())
+    }
   }, [props.selectedKey])
+
+  useEffect(() => {
+    if (_.isEmpty(state.items)) return
+    props.onSelected(state.selectedItem ?? null)
+  }, [state.selectedItem])
 
   const ref = useRef<HTMLDivElement>(null)
 
-  const iconName = useMemo<FluentIconName>(() => {
-    if (props.getIcon && state.selectedItem) {
-      return props.getIcon(state.selectedItem)
-    }
-    return null
-  }, [props.getIcon])
-
-  return {
-    state,
-    dispatch,
-    ref,
-    iconName
-  }
+  return { ref, state, dispatch }
 }

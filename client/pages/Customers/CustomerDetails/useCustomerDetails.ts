@@ -5,20 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { ProjectList } from '../../Projects'
 import { CustomersContext } from '../context'
 import { CLOSE_PROJECT_PANEL, OPEN_PROJECT_PANEL } from '../reducer/actions'
-import { CustomerInformation } from './CustomerInformation'
 import { useProjectsQuery } from './useProjectsQuery'
 
 export function useCustomerDetails() {
   const { t } = useTranslation()
   const context = useContext(CustomersContext)
   const selected = context.state.selected
-  const [projects, { loading, error, refetch }] = useProjectsQuery(selected)
+  const [projects, { error, refetch }] = useProjectsQuery(selected)
   const tabs: TabItems = useMemo(
     () => ({
-      information: [
-        CustomerInformation,
-        { text: t('customers.informationHeaderText'), iconName: 'Info' }
-      ],
       projects: [
         ProjectList,
         { text: t('customers.projectsHeaderText'), iconName: 'Collections' },
@@ -48,11 +43,5 @@ export function useCustomerDetails() {
     }),
     [context.state, context.loading, selected, projects]
   )
-  return {
-    loading,
-    error,
-    tabs,
-    selected,
-    refetch
-  }
+  return { projects, error, tabs, refetch }
 }

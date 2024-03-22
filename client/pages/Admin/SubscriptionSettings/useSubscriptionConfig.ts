@@ -1,11 +1,12 @@
+import { useTheme } from '@fluentui/react'
 import { CheckboxProps, SliderProps } from '@fluentui/react-components'
 import { useAppContext } from 'AppContext'
 import { DateObject } from 'DateUtils'
+import _ from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { SubscriptionSettings } from 'types'
 import { ISettingsSectionProps } from './SettingsSection/types'
 import { SubscriptionSettingField } from './types'
-import { useTheme } from '@fluentui/react'
 
 /**
  * Component logic for `SubscriptionSettings` component. Handles the
@@ -67,6 +68,54 @@ export function useSubscriptionConfig() {
             description: t('admin.subscriptionSettings.companyLogoDescription')
           }
         } as SubscriptionSettingField
+      ]
+    },
+    {
+      id: 'security',
+      text: t('admin.security'),
+      icon: 'LockOpen',
+      fields: [
+        {
+          id: 'securityGroupEnabled',
+          type: 'bool',
+          props: {
+            label: t('admin.securityGroupEnabledLabel'),
+            description: t('admin.securityGroupEnabledDescription')
+          }
+        },
+        {
+          id: 'securityGroupId',
+          type: 'text',
+          hiddenIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.securityGroupEnabled'),
+          props: {
+            label: t('admin.securityGroupIdLabel'),
+            description: t('admin.securityGroupIdDescription')
+          }
+        },
+        {
+          id: 'domainRestrictionEnabled',
+          type: 'bool',
+          disabledIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.securityGroupEnabled'),
+          props: {
+            label: t('admin.domainRestrictionEnabledLabel'),
+            description: t('admin.domainRestrictionEnabledDescription')
+          }
+        },
+        {
+          id: 'domainRestriction',
+          type: 'text',
+          disabledIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.securityGroupEnabled'),
+          hiddenIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.domainRestrictionEnabled'),
+          props: {
+            label: t('admin.domainRestrictionLabel'),
+            description: t('admin.domainRestrictionDescription'),
+            contentBefore: '@'
+          }
+        }
       ]
     },
     {
@@ -194,6 +243,21 @@ export function useSubscriptionConfig() {
             description: t('admin.vacationEventCategoryDescription')
           }
         } as SubscriptionSettingField
+      ]
+    },
+    {
+      id: 'budgetTracking',
+      text: t('admin.budgetTracking'),
+      icon: 'ChartMultiple',
+      fields: [
+        {
+          id: 'enabled',
+          type: 'bool',
+          props: {
+            label: t('admin.budgetTrackingEnabledLabel'),
+            description: t('admin.budgetTrackingEnabledDescription')
+          }
+        }
       ]
     },
     {

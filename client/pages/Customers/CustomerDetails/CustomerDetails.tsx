@@ -1,6 +1,6 @@
 import { Tabs } from 'components/Tabs'
 import { UserMessage } from 'components/UserMessage'
-import { ProjectForm } from 'pages/Projects'
+import { ProjectForm, ProjectsContext } from 'pages/Projects'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyledComponent } from 'types'
@@ -9,6 +9,7 @@ import styles from './CustomerDetails.module.scss'
 import { CustomerHeader } from './CustomerHeader'
 import { useCustomerDetails } from './useCustomerDetails'
 import { CustomerForm } from '../CustomerForm'
+import { CustomerInformation } from './CustomerInformation'
 
 /**
  * Displays the details of a customer, including a list of projects.
@@ -18,7 +19,7 @@ import { CustomerForm } from '../CustomerForm'
 export const CustomerDetails: StyledComponent = () => {
   const { t } = useTranslation()
   const context = useCustomersContext()
-  const { error, tabs, refetch } = useCustomerDetails()
+  const { projects, error, tabs, refetch } = useCustomerDetails()
 
   return (
     <div className={CustomerDetails.className}>
@@ -26,9 +27,12 @@ export const CustomerDetails: StyledComponent = () => {
       {error && (
         <UserMessage intent='error'>{t('common.genericErrorText')}</UserMessage>
       )}
+      <CustomerInformation />
       <Tabs items={tabs} level={3} />
       <CustomerForm {...context.state.customerForm} />
-      <ProjectForm {...context.state.projectForm} refetch={refetch} />
+      <ProjectsContext.Provider value={{ state: { projects } }}>
+        <ProjectForm {...context.state.projectForm} refetch={refetch} />
+      </ProjectsContext.Provider>
     </div>
   )
 }

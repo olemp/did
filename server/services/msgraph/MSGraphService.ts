@@ -176,24 +176,28 @@ export class MSGraphService {
   /**
    * Create Outlook category.
    *
-   * @param category - Category
+   * @param category The category to create
+   * @param colorPresetIndex The color preset index (optional, default: `-1`)
    *
    * @public
    *
    * @memberof MSGraphService
    */
   public async createOutlookCategory(
-    category: string
+    category: string,
+    colorPresetIndex = -1
   ): Promise<MSGraphOutlookCategory> {
     try {
-      const colorIndex =
-        category
-          .split('')
-          .map((c) => c.charCodeAt(0))
-          .reduce((a, b) => a + b) % 24
+      if (colorPresetIndex === -1) {
+        colorPresetIndex =
+          category
+            .split('')
+            .map((c) => c.charCodeAt(0))
+            .reduce((a, b) => a + b) % 24
+      }
       const content = JSON.stringify({
         displayName: category,
-        color: `preset${colorIndex}`
+        color: `preset${colorPresetIndex}`
       })
       const client = await this._getClient()
       const result = await client
@@ -308,6 +312,31 @@ export class MSGraphService {
         )
     } catch (error) {
       throw new MSGraphError('getEvents', error.message)
+    }
+  }
+
+  /**
+   * Checks if a user is a member of a security group.
+   *
+   * @param groupId The ID of the security group.
+   * @param mail The email address of the user.
+   *
+   * @public
+   *
+   * @memberof MSGraphService
+   */
+  public async isUserMemberOfSecurityGroup(
+    groupId: string,
+    mail: string
+  ): Promise<boolean> {
+    try {
+      const client = await this._getClient()
+      const response = await (client
+        .api(`/groups/${groupId}/members?$select=id,mail`)
+        .get() as Promise<{ value: any[] }>)
+      return response.value.some((member) => member.mail === mail)
+    } catch {
+      return false
     }
   }
 }

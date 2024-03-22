@@ -8,11 +8,12 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import _ from 'underscore'
+import { getFluentIconWithFallback } from 'utils'
 import styles from './AutocompleteControl.module.scss'
 import { ON_SEARCH, SET_SELECTED } from './reducer/actions'
+import { renderOption } from './renderOption'
 import { IAutocompleteControlProps } from './types'
 import { useAutocompleteControl } from './useAutocompleteControl'
-import { renderOption } from './renderOption'
 
 /**
  * Autocomplete component using `<SearchBox />`, `<Callout />`,
@@ -42,19 +43,26 @@ export const AutocompleteControl: FormInputControlComponent<
             'hidden'
           )}
         >
-          <div ref={ref}>
+          <div ref={ref} className={styles.container}>
+            {state.value &&
+              props.iconPreview &&
+              getFluentIconWithFallback(state.value, {
+                size: 18
+              })}
             <Combobox
               className={styles.field}
-              placeholder={props.placeholder}
+              placeholder={state.placeholder}
               disabled={props.disabled}
               value={state.selectedItem?.text ?? state.value ?? ''}
               defaultValue={state.value}
               onOptionSelect={(_, data) => dispatch(SET_SELECTED(data))}
               onChange={(event) => dispatch(ON_SEARCH(event.target.value))}
               onBlur={context?.onBlurCallback}
+              expandIcon={null}
+              onDoubleClick={() => dispatch(ON_SEARCH(''))}
               freeform
             >
-              {state.suggestions.map((option) => (
+              {_.take(state.suggestions, props.maxSuggestions).map((option) => (
                 <Option
                   key={option.key}
                   value={option.key as string}
@@ -81,7 +89,8 @@ export const AutocompleteControl: FormInputControlComponent<
 AutocompleteControl.displayName = 'AutocompleteControl'
 AutocompleteControl.className = styles.autocompleteControl
 AutocompleteControl.defaultProps = {
-  minCharacters: 1
+  minCharacters: 1,
+  maxSuggestions: 15
 }
 
 export * from './types'

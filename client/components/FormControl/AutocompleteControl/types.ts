@@ -51,11 +51,6 @@ export interface IAutocompleteControlProps<T = any>
   noSuggestionsText?: string
 
   /**
-   * Default selected key.
-   */
-  defaultSelectedKey?: string
-
-  /**
    * Max height of the autocomplete component.
    */
   maxHeight?: number
@@ -74,6 +69,26 @@ export interface IAutocompleteControlProps<T = any>
    * Optional min characters to trigger search.
    */
   minCharacters?: number
+
+  /**
+   * Enable icon preview.
+   */
+  iconPreview?: boolean
+
+  /**
+   * Initial filter to apply to the search.
+   */
+  initialFilter?: Record<string, any>
+
+  /**
+   * Placeholder to display when the initial filter is applied.
+   */
+  intialFilterPlaceholder?: string
+
+  /**
+   * The maximum number of suggestions to display.
+   */
+  maxSuggestions?: number
 }
 
 /**
@@ -96,11 +111,6 @@ export interface IAutocompleteControlState<T = any> {
   suggestions?: ISuggestionItem<T>[]
 
   /**
-   * A boolean indicating whether the suggestion dropdown is disabled.
-   */
-  isSuggestionDisabled?: boolean
-
-  /**
    * The current value of the input field.
    */
   value?: string
@@ -109,4 +119,9 @@ export interface IAutocompleteControlState<T = any> {
    * The currently selected suggestion item.
    */
   selectedItem?: ISuggestionItem
+
+  /**
+   * The placeholder to display.
+   */
+  placeholder?: string
 }

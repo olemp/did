@@ -1,4 +1,6 @@
 import {
+  ChevronDownRegular,
+  ChevronDownFilled,
   ArrowUploadRegular,
   ArrowUploadFilled,
   AddCircle24Filled,
@@ -144,13 +146,35 @@ import {
   ColorRegular,
   ColorFilled,
   DesignIdeasRegular,
-  DesignIdeasFilled
+  DesignIdeasFilled,
+  BoxSearchRegular,
+  BoxSearchFilled,
+  ChartMultipleRegular,
+  ChartMultipleFilled,
+  LockOpenRegular,
+  LockOpenFilled
 } from '@fluentui/react-icons'
 
 /**
  * An object containing the available Fluent icons and their corresponding regular and filled versions.
  */
 export const iconCatalog = {
+  LockOpen: {
+    regular: LockOpenRegular,
+    filled: LockOpenFilled
+  },
+  ChartMultiple: {
+    regular: ChartMultipleRegular,
+    filled: ChartMultipleFilled
+  },
+  BoxSearch: {
+    regular: BoxSearchRegular,
+    filled: BoxSearchFilled
+  },
+  ChevronDown: {
+    regular: ChevronDownRegular,
+    filled: ChevronDownFilled
+  },
   ArrowUpload: {
     regular: ArrowUploadRegular,
     filled: ArrowUploadFilled
