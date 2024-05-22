@@ -1,4 +1,8 @@
 import {
+  AccessibilityRegular,
+  AccessibilityFilled,
+  AccessibilityQuestionMarkRegular,
+  AccessibilityQuestionMarkFilled,
   ChevronDownRegular,
   ChevronDownFilled,
   ArrowUploadRegular,
@@ -148,13 +152,51 @@ import {
   DesignIdeasRegular,
   DesignIdeasFilled,
   BoxSearchRegular,
-  BoxSearchFilled
+  BoxSearchFilled,
+  ChartMultipleRegular,
+  ChartMultipleFilled,
+  LockOpenRegular,
+  LockOpenFilled,
+  AppsRegular,
+  AppsFilled,
+  BriefcaseRegular,
+  BriefcaseFilled,
+  GroupRegular,
+  GroupFilled
 } from '@fluentui/react-icons'
 
 /**
  * An object containing the available Fluent icons and their corresponding regular and filled versions.
  */
 export const iconCatalog = {
+  Accessibility: {
+    regular: AccessibilityRegular,
+    filled: AccessibilityFilled
+  },
+  AccessibilityQuestionMark: {
+    regular: AccessibilityQuestionMarkRegular,
+    filled: AccessibilityQuestionMarkFilled
+  },
+  Group: {
+    regular: GroupRegular,
+    filled: GroupFilled
+  },
+  Apps: {
+    regular: AppsRegular,
+    filled: AppsFilled
+  },
+  Briefcase: {
+    regular: BriefcaseRegular,
+    filled: BriefcaseFilled
+  },
+  LockOpen: {
+    regular: LockOpenRegular,
+    filled: LockOpenFilled
+  },
+  ChartMultiple: {
+    regular: ChartMultipleRegular,
+    filled: ChartMultipleFilled
+  },
   BoxSearch: {
     regular: BoxSearchRegular,
     filled: BoxSearchFilled

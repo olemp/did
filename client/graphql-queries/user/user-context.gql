@@ -21,6 +21,9 @@ query UserContext {
         totalDays
         eventCategory
       }
+      budgetTracking {
+        enabled
+      }
       teams {
         enabled
         missingSubmissionsEnabled
@@ -30,6 +33,22 @@ query UserContext {
       timesheet {
         dayFormat
         timeFormat
+      }
+      security {
+        securityGroupEnabled
+        securityGroupId
+        domainRestrictionEnabled
+        domainRestriction
+      }
+      customers {
+        keyMaxLength
+      }
+      projects {
+        showMyProjectsByDefault
+        keyMaxLength
+        enableResourceManagement
+        resourceMetadata
+        enableProjectRoles
       }
     }
   }

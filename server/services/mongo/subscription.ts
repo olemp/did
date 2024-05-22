@@ -6,7 +6,7 @@ import {
   SubscriptionSettings
 } from '../../graphql/resolvers/types'
 import { environment } from '../../utils'
-import { MongoDocumentService } from './@document'
+import { MongoDocumentService } from './document'
 
 /**
  * Subscription service
@@ -20,7 +20,8 @@ export class SubscriptionService extends MongoDocumentService<Subscription> {
   /**
    * Constructor for `SubscriptionService`
    *
-   * @param context - Injected context through `typedi`
+   * @param context Injected context through `typedi`
+   * @param _msgraphSvc MS Graph service
    */
   constructor(@Inject('CONTEXT') readonly context: RequestContext) {
     super(

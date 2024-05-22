@@ -122,6 +122,19 @@ export class User {
 
   @Field({ nullable: true })
   accountEnabled?: boolean
+
+  @Field(() => GraphQLDateTime, { nullable: true })
+  employmentStartDate?: Date
+
+  @Field(() => GraphQLDateTime, { nullable: true })
+  employmentEndDate?: Date
+
+  /**
+   * If the user is enrolled in did through a security group,
+   * this will be the security group id.
+   */
+  @Field({ nullable: true })
+  securityGroupId?: string
 }
 
 /**
@@ -172,6 +185,19 @@ export class UserInput {
 
   @Field({ nullable: true })
   accountEnabled?: boolean
+
+  @Field(() => GraphQLDateTime, { nullable: true })
+  employmentStartDate?: Date
+
+  @Field(() => GraphQLDateTime, { nullable: true })
+  employmentEndDate?: Date
+
+  /**
+   * If the user is enrolled in did through a security group,
+   * this will be the security group id.
+   */
+  @Field({ nullable: true })
+  securityGroupId?: string
 }
 
 /**

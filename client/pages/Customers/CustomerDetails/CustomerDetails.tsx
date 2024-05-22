@@ -9,6 +9,7 @@ import styles from './CustomerDetails.module.scss'
 import { CustomerHeader } from './CustomerHeader'
 import { useCustomerDetails } from './useCustomerDetails'
 import { CustomerForm } from '../CustomerForm'
+import { CustomerInformation } from './CustomerInformation'
 
 /**
  * Displays the details of a customer, including a list of projects.
@@ -19,16 +20,18 @@ export const CustomerDetails: StyledComponent = () => {
   const { t } = useTranslation()
   const context = useCustomersContext()
   const { projects, error, tabs, refetch } = useCustomerDetails()
-
   return (
     <div className={CustomerDetails.className}>
-      <CustomerHeader />
-      {error && (
-        <UserMessage intent='error'>{t('common.genericErrorText')}</UserMessage>
-      )}
-      <Tabs items={tabs} level={3} />
-      <CustomerForm {...context.state.customerForm} />
       <ProjectsContext.Provider value={{ state: { projects } }}>
+        <CustomerHeader />
+        {error && (
+          <UserMessage intent='error'>
+            {t('common.genericErrorText')}
+          </UserMessage>
+        )}
+        <CustomerInformation />
+        <Tabs items={tabs} level={3} />
+        <CustomerForm {...context.state.customerForm} />
         <ProjectForm {...context.state.projectForm} refetch={refetch} />
       </ProjectsContext.Provider>
     </div>

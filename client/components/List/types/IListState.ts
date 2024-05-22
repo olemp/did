@@ -1,12 +1,13 @@
 import { IFilter, IFilterPanelProps } from 'components/FilterPanel'
 import { ColumnHeaderContextMenu } from './ColumnHeaderContextMenu'
 import { IListColumn } from './IListColumn'
+import { IListProps } from './IListProps'
 
 /**
  * @category List
  */
 
-export interface IListState<T = any> {
+export interface IListState<T = any> extends Pick<IListProps, 'filterValues'> {
   /**
    * Search term
    */
@@ -21,6 +22,12 @@ export interface IListState<T = any> {
    * Current items
    */
   items?: T[]
+
+  /**
+   * Items before filters are applied,
+   * but after search term is applied.
+   */
+  itemsPreFilter?: T[]
 
   /**
    * Current filters

@@ -1,7 +1,15 @@
+/* eslint-disable unicorn/prefer-type-error */
 /* eslint-disable max-classes-per-file */
 import 'reflect-metadata'
 import { Field, ID, InputType, ObjectType } from 'type-graphql'
 import { Customer, LabelObject as Label, OutlookCategory } from '../types'
+
+type ProjectExtensionObject = {
+  description: string
+  properties: Record<string, any>
+}
+
+type ProjectExtensions = string | Record<string, ProjectExtensionObject>
 
 /**
  * @category GraphQL InputType
@@ -66,6 +74,13 @@ export class ProjectInput {
    */
   @Field(() => [String], { nullable: true })
   labels?: string[]
+
+  /**
+   * The extensions of the project. This is a JSON string instead
+   * of being strongly typed to allow for flexibility in the future.
+   */
+  @Field(() => String, { nullable: true, defaultValue: '{}' })
+  extensions: ProjectExtensions
 }
 
 /**
@@ -154,8 +169,15 @@ export class Project {
   /**
    * The labels of the project.
    */
-  @Field(() => [Label])
+  @Field(() => [Label], { nullable: true })
   public labels?: Label[] | string[]
+
+  /**
+   * The extensions of the project. This is a JSON string instead
+   * of being strongly typed to allow for flexibility in the future.
+   */
+  @Field(() => String, { nullable: true, defaultValue: '{}' })
+  extensions: ProjectExtensions
 
   /**
    * Constructs a new Project.
@@ -163,7 +185,7 @@ export class Project {
    * @param input - The input to construct the project from.
    */
   constructor(input?: ProjectInput) {
-    Object.assign(this, input || {})
+    Object.assign(this, input ?? {})
   }
 }
 

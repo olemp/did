@@ -36,3 +36,5 @@ doc/
 schema.gql
 *.mp3
 revision.txt
+*.csv
+.vscode/chrome-debug-user-data

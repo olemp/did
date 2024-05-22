@@ -1,0 +1,47 @@
+.projectTooltip {
+  margin: 0;
+  padding: 8px 10px;
+  width: 400px;
+  position: relative;
+
+  .container {
+    .header {
+      padding: 0 0 0 8px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+
+      .iconContainer {
+        align-self:  center;
+      }
+
+      .title {
+        font-size: 13pt;
+        margin: 0;
+        flex: 1;
+      }
+
+      .subTitle {
+        font-size: 8pt;
+        margin: 0 0 10px 0;
+      }
+    }
+
+    .labels {
+      margin: 15px 0;
+    }
+
+    .description {
+      margin: 10px 0;
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 25px 0 0 0;
+      box-sizing: border-box;
+      width: 100%;
+    }
+  }
+}
