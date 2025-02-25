@@ -1,10 +1,19 @@
-import { IDynamicButtonProps, IFormControlContext } from 'components'
+import {
+  CONTROL_REGISTRY,
+  IDynamicButtonProps,
+  IFormControlContext
+} from 'components'
 import { ComponentLogicHook } from 'hooks'
+import _ from 'lodash'
 import { useMemo } from 'react'
-import { ReactElement } from 'react-markdown/lib/react-markdown'
 import { CLEAR_VALIDATION_MESSAGES, useFormControlReducer } from './reducer'
 import { IFormControlProps } from './types'
 import { useFormControlValidation } from './useFormControlValidation'
+
+type UseFormControlReturnType = {
+  context: IFormControlContext
+  submitAction: IDynamicButtonProps
+}
 
 /**
  * Hook that returns an object with `footerActions` to be used in a form control.
@@ -15,10 +24,7 @@ import { useFormControlValidation } from './useFormControlValidation'
  */
 export const useFormControl: ComponentLogicHook<
   IFormControlProps,
-  {
-    context: IFormControlContext
-    submitAction: IDynamicButtonProps
-  }
+  UseFormControlReturnType
 > = (props) => {
   const [state, dispatch] = useFormControlReducer()
   const validateForm = useFormControlValidation(props, dispatch)
@@ -28,7 +34,8 @@ export const useFormControl: ComponentLogicHook<
       ...props.submitProps,
       onClick: async (event: any) => {
         dispatch(CLEAR_VALIDATION_MESSAGES())
-        if (await validateForm(props.children as ReactElement[])) {
+        const fields = Object.values(CONTROL_REGISTRY[props.id])
+        if (await validateForm(fields)) {
           if (props.panel?.onDismiss) {
             props.panel.onDismiss()
           }
@@ -40,18 +47,37 @@ export const useFormControl: ComponentLogicHook<
     [props.submitProps]
   )
 
+  /**
+   * Retrieves the value of a specific extension property for a given key and extension ID.
+   *
+   * @param key - The key of the extension property.
+   * @param extensionId - The ID of the extension.
+   *
+   * @returns The value of the extension property, or undefined if not found.
+   */
+  const getExtensionValue = <T = any>(key: string, extensionId: string) => {
+    return _.get(
+      props.model.$,
+      `extensions.${extensionId}.properties.${key}`
+    ) as T
+  }
+
   const context = useMemo<IFormControlContext>(
     () => ({
       ...state,
-      model: props.model,
+      ..._.pick(props, [
+        'model',
+        'register',
+        'additionalContext',
+        'isEditMode'
+      ]),
+      getExtensionValue,
       dispatch,
-      onBlurCallback: (event) => {
+      onBlurCallback: ({ target }) => {
         if (props.validateOnBlur) {
-          const [, name] = event.target.id.split('_')
-          const field = (props.children as ReactElement[]).find(
-            ({ props }) => props['name'] === name
-          )
-          validateForm([field])
+          const [, name] = target.id.split('_')
+          const fields = Object.values(CONTROL_REGISTRY[props.id])
+          validateForm(fields.filter((f) => f.name === name))
         }
       }
     }),

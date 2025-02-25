@@ -1,8 +1,10 @@
+import get from 'get-value'
 import { findBestMatch } from 'string-similarity'
 import _ from 'underscore'
 import s from 'underscore.string'
-import { Customer, EventObject } from '../../graphql/resolvers/types'
-import { ProjectsData } from '../mongo/project'
+import { Customer, EventObject, Project } from '../../graphql/resolvers/types'
+import { tryParseJson } from '../../utils'
+import { ProjectResourcesExtensionId, ProjectsData } from '../mongo/project'
 import { ProjectMatch } from './types'
 
 /**
@@ -197,6 +199,10 @@ export default class TimesheetMatchingEngine {
       )
     }
 
+    if (event.project) {
+      event.role = this._findProjectRole(event.project)
+    }
+
     // If a customer is found but no project is found, look for project
     // suggestions based on the customer and a project key
     if (event.customer && !event.project) {
@@ -215,6 +221,27 @@ export default class TimesheetMatchingEngine {
     // Fix the duration of the event if necessary
     event = this._fixDuration(event)
     return event
+  }
+
+  private _findProjectRole(project: Project) {
+    const extensions = tryParseJson(
+      get(project, 'extensions', { default: 'null' })
+    )
+    if (!extensions) return null
+    const resources = get(
+      extensions,
+      `${ProjectResourcesExtensionId}.properties.resources`,
+      { default: [] }
+    )
+    const resource = _.find(
+      resources,
+      ({ id }) => id === this._configuration.userId
+    )
+    if (!resource) return null
+    return {
+      name: resource.projectRole,
+      hourlyRate: resource.hourlyRate
+    }
   }
 
   /**

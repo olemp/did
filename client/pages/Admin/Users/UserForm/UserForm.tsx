@@ -1,6 +1,7 @@
 import {
   AutocompleteControl,
   CheckboxControl,
+  DateControl,
   DropdownControl,
   FormControl,
   InputControl
@@ -27,6 +28,7 @@ export const UserForm: StyledComponent<IUserFormProps> = (props) => {
 
   return (
     <FormControl
+      id={UserForm.displayName}
       model={model}
       panel={{
         ...props,
@@ -42,9 +44,9 @@ export const UserForm: StyledComponent<IUserFormProps> = (props) => {
       {!isEditMode && (
         <AutocompleteControl
           {...register('_' as any, {
+            required: !model.value('id'),
             validators: t('common.adUserRequired')
           })}
-          required={!model.value('id')}
           label={t('common.adUserLabel')}
           placeholder={t('common.searchPlaceholder')}
           items={availableAdUsers.map((u) => ({
@@ -89,6 +91,16 @@ export const UserForm: StyledComponent<IUserFormProps> = (props) => {
           value: role.name,
           text: role.name
         }))}
+      />
+      <DateControl
+        {...register('employmentStartDate')}
+        label={t('admin.users.employmentStartDateLabel')}
+        description={t('admin.users.employmentStartDateDescription')}
+      />
+      <DateControl
+        {...register('employmentEndDate')}
+        label={t('admin.users.employmentEndDateLabel')}
+        description={t('admin.users.employmentEndDateDescription')}
       />
       {isEditMode && (
         <CheckboxControl

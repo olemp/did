@@ -13,6 +13,7 @@ import { IListColumn } from './IListColumn'
 import { IListGroupProps } from './IListGroupProps'
 import { ListFilterState } from './ListFilterState'
 import { IFilterPanelProps } from 'components/FilterPanel'
+import { IListContext } from '../context'
 
 /**
  * @category List
@@ -103,14 +104,15 @@ export interface IListProps<T = any>
   onFilter?: (filterState: ListFilterState) => void
 
   /**
-   * Filter values
+   * Filter values to apply to the list.
    */
   filterValues?: Record<string, any>
 
   /**
    * Menu items to show in `<Toolbar />` if using the preview mode.
+   * This can also be a function that returns the menu items.
    */
-  menuItems?: ListMenuItem[]
+  menuItems?: ListMenuItem[] | ((context: IListContext) => ListMenuItem[])
 
   /**
    * Hide the toolbar

@@ -30,6 +30,7 @@ export const InputField: ReusableComponent<IInputFieldProps> = (props) => {
             'defaultValue',
             'onChange',
             'disabled',
+            'minLength',
             'maxLength',
             'rows',
             'onBlur'
@@ -41,23 +42,31 @@ export const InputField: ReusableComponent<IInputFieldProps> = (props) => {
           {..._.pick(
             props,
             'id',
+            'className',
             'placeholder',
             'type',
             'value',
             'defaultValue',
             'onChange',
             'disabled',
+            'minLength',
             'maxLength',
             'onBlur',
             'contentBefore',
             'contentAfter'
           )}
+          onKeyDown={({ key, currentTarget }) => {
+            if (key === 'Enter' && props.onEnter) {
+              props.onEnter(currentTarget.value)
+            }
+          }}
         />
       )}
     </Field>
   )
 }
 
+InputField.displayName = 'InputField'
 InputField.className = styles.inputField
 InputField.defaultProps = {
   rows: 1

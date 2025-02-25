@@ -3,7 +3,7 @@ import { Inject, Service } from 'typedi'
 import _ from 'underscore'
 import { RequestContext } from '../../graphql/requestContext'
 import { Customer } from '../../graphql/resolvers/types'
-import { MongoDocumentService } from './@document'
+import { MongoDocumentService } from './document'
 import { LabelService } from './label'
 
 /**
@@ -93,7 +93,7 @@ export class CustomerService extends MongoDocumentService<Customer> {
           })
           return _customers
         },
-        { key: 'getcustomers' }
+        { key: ['getcustomers', query] }
       )
     } catch (error) {
       throw error

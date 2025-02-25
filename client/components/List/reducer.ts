@@ -8,7 +8,8 @@ import {
   ColumnHeaderContextMenu,
   IListColumn,
   IListProps,
-  IListState
+  IListState,
+  SortOptions
 } from './types'
 
 export const PROPS_UPDATED = createAction<IListProps>('PROPS_UPDATED')
@@ -26,10 +27,44 @@ export const SET_GROUP_BY = createAction<{ column: IListColumn }>(
 export const SET_FILTER_BY = createAction<{ column: IListColumn }>(
   'SET_FILTER_BY'
 )
+export const SET_SORT = createAction<{
+  column: IListColumn
+  direction: 'asc' | 'desc'
+}>('SET_SORT')
 export const TOGGLE_FILTER_PANEL = createAction('TOGGLE_FILTER_PANEL')
 export const FILTERS_UPDATED = createAction<{ filters: IFilter[] }>(
   'FILTERS_UPDATED'
 )
+
+/**
+ * Applies filters to an array of items based on the provided filter values.
+ * Also supports negation by prefixing the key with '!'.
+ *
+ * @param items The array of items to filter.
+ * @param filterValues The filter values to apply.
+ */
+function applyFilters<T = any>(
+  items: T[],
+  filterValues: IListState['filterValues'] = {}
+) {
+  return items.filter(
+    (item) =>
+      _.filter(Object.keys(filterValues), (key) => {
+        const filterValue = filterValues[key]
+        const isNeg = key.startsWith('!')
+        key = isNeg ? key.slice(1) : key
+        const value = get(item as any, key, '')
+        switch (typeof filterValue) {
+          case 'boolean': {
+            return isNeg ? value !== filterValue : value === filterValue
+          }
+          default: {
+            return filterValue?.includes(value)
+          }
+        }
+      }).length === Object.keys(filterValues).length
+  )
+}
 
 /**
  * Reducer for Timesheet
@@ -42,28 +77,18 @@ export default (initialState: IListState) => {
       builder
         .addCase(PROPS_UPDATED, (state, { payload }) => {
           state.origItems = payload.items ?? []
-          state.items = state.origItems
-            .filter((item) =>
-              searchObject({
-                item,
-                searchTerm: state.searchTerm
-              })
-            )
-            .filter((item) => {
-              return (
-                _.filter(Object.keys(payload.filterValues), (key) => {
-                  return payload.filterValues[key].includes(get(item, key, ''))
-                }).length === Object.keys(payload.filterValues).length
-              )
-            })
+          state.itemsPreFilter = state.origItems
+          state.filterValues = payload.filterValues ?? {}
+          state.items = applyFilters(state.itemsPreFilter, state.filterValues)
         })
         .addCase(EXECUTE_SEARCH, (state, { payload }) => {
-          state.items = current(state).origItems.filter((item) =>
+          state.itemsPreFilter = current(state).origItems.filter((item) =>
             searchObject({
               item,
               searchTerm: payload.searchTerm
             })
           )
+          state.items = applyFilters(state.itemsPreFilter, state.filterValues)
           state.searchTerm = payload.searchTerm
         })
         .addCase(INIT_COLUMN_HEADER_CONTEXT_MENU, (state, { payload }) => {
@@ -83,6 +108,15 @@ export default (initialState: IListState) => {
           state.filterPanel = {
             open: true
           }
+        })
+        .addCase(SET_SORT, (state, { payload }) => {
+          const newSortBy = [
+            payload.column.fieldName,
+            payload.direction
+          ] as SortOptions
+          state.sortOpts = _.isEqual(state.sortOpts, newSortBy)
+            ? null
+            : newSortBy
         })
         .addCase(TOGGLE_FILTER_PANEL, (state) => {
           state.filterPanel = {

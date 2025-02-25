@@ -2,7 +2,7 @@
 import { useReduxReducer as useReducer } from 'hooks'
 import { useParams } from 'react-router-dom'
 import _ from 'underscore'
-import { fuzzyStringEqual } from 'utils'
+import { fuzzyStringEqual, tryParseJson } from 'utils'
 import { IProjectsState, IProjectsUrlParameters } from '../types'
 import {
   CLOSE_EDIT_PANEL,
@@ -10,6 +10,8 @@ import {
   OPEN_EDIT_PANEL,
   SET_SELECTED_PROJECT
 } from './actions'
+import { Project } from 'types'
+import { current } from '@reduxjs/toolkit'
 
 /**
  * Use Projects reducer.
@@ -18,6 +20,7 @@ export function useProjectsReducer() {
   const urlParams = useParams<IProjectsUrlParameters>()
   const initialState: IProjectsState = {
     projects: [],
+    myProjects: [],
     outlookCategories: [],
     selected: null,
     editProject: null
@@ -31,8 +34,10 @@ export function useProjectsReducer() {
             ...p,
             outlookCategory: _.find(state.outlookCategories, (c) =>
               fuzzyStringEqual(c.displayName, p.tag)
-            )
+            ),
+            extensions: tryParseJson(p.extensions as string, {})
           }))
+          state.myProjects = payload.data.myProjects.map((p) => p.tag)
           const selectedTag = state.selected?.tag ?? urlParams.currentTab
           if (selectedTag) {
             state.selected = _.find(state.projects, ({ tag }) =>
@@ -43,7 +48,12 @@ export function useProjectsReducer() {
         state.error = payload.error as any
       })
       .addCase(SET_SELECTED_PROJECT, (state, { payload }) => {
-        state.selected = payload
+        state.selected =
+          typeof payload === 'string'
+            ? _.find(current(state).projects, ({ tag }) =>
+                fuzzyStringEqual(tag, payload)
+              )
+            : (payload as Project)
       })
       .addCase(OPEN_EDIT_PANEL, (state, { payload }) => {
         state.editProject = payload

@@ -1,7 +1,6 @@
-import { InactiveCheckboxMenuItem, List } from 'components'
+import { List } from 'components'
 import { TabComponent } from 'components/Tabs'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { useProjectsContext } from '../context'
 import { IProjectListProps } from './types'
 import { useProjectList } from './useProjectList'
@@ -13,27 +12,24 @@ import { useProjectList } from './useProjectList'
  * @category Projects
  */
 export const ProjectList: TabComponent<IProjectListProps> = (props) => {
-  const { t } = useTranslation()
   const context = useProjectsContext()
-  const { projects, inactiveProjects, columns, showInactive, getKey } =
-    useProjectList(props)
+  const { items, columns, menuItems, showInactive } = useProjectList(props)
   return (
     <>
       <List
         {...props}
         enableShimmer={context.loading}
-        items={projects}
+        items={items}
         columns={columns}
         groups={props.groups}
-        getKey={getKey}
-        menuItems={[
-          inactiveProjects.length > 0 &&
-            InactiveCheckboxMenuItem(
-              t('projects.toggleInactive', { count: inactiveProjects.length }),
-              showInactive.toggle
-            ),
-          ...props.menuItems
-        ]}
+        menuItems={menuItems}
+        filterValues={
+          showInactive.value
+            ? {}
+            : {
+                '!inactive': true
+              }
+        }
       />
       {props.children}
     </>
@@ -41,6 +37,5 @@ export const ProjectList: TabComponent<IProjectListProps> = (props) => {
 }
 
 ProjectList.defaultProps = {
-  items: [],
   menuItems: []
 }

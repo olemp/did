@@ -1,12 +1,14 @@
+/* eslint-disable unicorn/prevent-abbreviations */
 import { IFilter, IFilterPanelProps } from 'components/FilterPanel'
 import { ColumnHeaderContextMenu } from './ColumnHeaderContextMenu'
 import { IListColumn } from './IListColumn'
+import { IListProps } from './IListProps'
 
 /**
  * @category List
  */
 
-export interface IListState<T = any> {
+export interface IListState<T = any> extends Pick<IListProps, 'filterValues'> {
   /**
    * Search term
    */
@@ -23,6 +25,12 @@ export interface IListState<T = any> {
   items?: T[]
 
   /**
+   * Items before filters are applied,
+   * but after search term is applied.
+   */
+  itemsPreFilter?: T[]
+
+  /**
    * Current filters
    */
   filters?: IFilter[]
@@ -33,17 +41,24 @@ export interface IListState<T = any> {
   columnHeaderContextMenu?: ColumnHeaderContextMenu
 
   /**
-   * Group by column
+   * Group by options - column
    */
   groupBy?: IListColumn
 
   /**
-   * Filter by column
+   * Filter by options - column
    */
   filterBy?: IListColumn
+
+  /**
+   * Sort by options - column and direction
+   */
+  sortOpts?: SortOptions
 
   /**
    * Is filter panel open
    */
   filterPanel?: Pick<IFilterPanelProps, 'open'>
 }
+
+export type SortOptions = [string, 'asc' | 'desc']

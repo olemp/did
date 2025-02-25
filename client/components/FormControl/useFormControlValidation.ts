@@ -4,7 +4,6 @@
 /* eslint-disable unicorn/no-lonely-if */
 import { AnyAction } from '@reduxjs/toolkit'
 import { useTranslation } from 'react-i18next'
-import { ReactElement } from 'react-markdown/lib/react-markdown'
 import { SET_VALIDATION_MESSAGES } from './reducer'
 import {
   FormInputControlBase,
@@ -22,7 +21,11 @@ import { validateField } from './validateField'
  * @returns True if the control should be validated, false otherwise.
  */
 function shouldValidateField(field: FormInputControlBase) {
-  return !!field.name && (field.required || !!field.options?.validators)
+  if (!field) return false
+  return (
+    Boolean(field.name) &&
+    (field.required || Boolean(field.options?.validators))
+  )
 }
 
 /**
@@ -40,17 +43,17 @@ export function useFormControlValidation(
   dispatch: React.Dispatch<AnyAction>
 ) {
   const { t } = useTranslation()
-  const validateForm = async (fields: ReactElement[]) => {
+  const validateForm = async (fields: FormInputControlBase[]) => {
     if (props.skipValidation) return true
     const formFieldsToValidate = fields
-      .filter((f) => f && shouldValidateField(f.props))
-      .map<FormInputControlBase>((f) => f.props)
+      .filter(Boolean)
+      .filter((f) => shouldValidateField(f))
     const _validationMessages = new Map<string, ValidationResult>()
     for (const field of formFieldsToValidate) {
       if (_validationMessages.has(field.name)) {
         continue
       }
-      const validationResult = await validateField(field, t)
+      const validationResult = await validateField(field, props, t)
       if (validationResult) {
         _validationMessages.set(field.name, validationResult)
       }

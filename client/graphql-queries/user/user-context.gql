@@ -21,6 +21,9 @@ query UserContext {
         totalDays
         eventCategory
       }
+      budgetTracking {
+        enabled
+      }
       teams {
         enabled
         missingSubmissionsEnabled
@@ -30,6 +33,25 @@ query UserContext {
       timesheet {
         dayFormat
         timeFormat
+        timebankEnabled
+      }
+      security {
+        securityGroupEnabled
+        securityGroupId
+        domainRestrictionEnabled
+        domainRestriction
+      }
+      customers {
+        keyMaxLength
+      }
+      projects {
+        showMyProjectsByDefault
+        keyMaxLength
+        enableResourceManagement
+        resourceMetadata
+        enableProjectRoles
+        enableSimpleHierachy
+        autoLoadTimeEntries
       }
     }
   }
@@ -48,6 +70,14 @@ query UserContext {
     configuration
     photo {
       base64
+    }
+    timebank {
+      balance
+      lastUpdated
+      entries {
+        id
+        balanceAdjustment
+      }
     }
   }
   authProviders

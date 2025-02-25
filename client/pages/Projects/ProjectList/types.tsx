@@ -6,7 +6,8 @@ import { Project } from 'types'
  *
  * @category Projects
  */
-export interface IProjectListProps extends Omit<IListProps<Project>, 'role'> {
+export interface IProjectListProps
+  extends Omit<IListProps<Project>, 'role' | 'items'> {
   /**
    * Determines whether to render a link for each project.
    */
@@ -24,7 +25,10 @@ export interface IProjectListProps extends Omit<IListProps<Project>, 'role'> {
   hideColumns?: string[]
 
   /**
-   * Id of the tab.
+   * ID of the tab.
+   *
+   * - `'s'` - Show all projects tab.
+   * - `'m'` - Show My projects (projects with category in the user's outlook) tab.
    */
   id?: 's' | 'm'
 }

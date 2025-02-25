@@ -25,6 +25,22 @@ import {
   SubscriptionBrandSetting,
   SubscriptionBrandSettingInput
 } from './SubscriptionBrandSetting'
+import {
+  SubscriptionBudgetTrackingSettings,
+  SubscriptionBudgetTrackingSettingsInput
+} from './SubscriptionBudgetTrackingSettings'
+import {
+  SubscriptionSecuritySettings,
+  SubscriptionSecuritySettingsInput
+} from './SubscriptionSecuritySettings'
+import {
+  SubscriptionProjectsSettings,
+  SubscriptionProjectsSettingsInput
+} from './SubscriptionProjectsSettings'
+import {
+  SubscriptionCustomersSettings,
+  SubscriptionCustomersSettingsInput
+} from './SubscriptionCustomersSettings'
 
 /**
  * @category GraphQL ObjectType
@@ -48,6 +64,18 @@ export class SubscriptionSettings {
 
   @Field(() => SubscriptionTimesheetSettings, { nullable: true })
   timesheet?: SubscriptionTimesheetSettings
+
+  @Field(() => SubscriptionBudgetTrackingSettings, { nullable: true })
+  budgetTracking?: SubscriptionBudgetTrackingSettings
+
+  @Field(() => SubscriptionSecuritySettings, { nullable: true })
+  security?: SubscriptionSecuritySettings
+
+  @Field(() => SubscriptionCustomersSettings, { nullable: true })
+  customers?: SubscriptionCustomersSettings
+
+  @Field(() => SubscriptionProjectsSettings, { nullable: true })
+  projects?: SubscriptionProjectsSettings
 }
 
 /**
@@ -72,4 +100,16 @@ export class SubscriptionSettingsInput {
 
   @Field(() => SubscriptionTimesheetSettingsInput, { nullable: true })
   timesheet?: SubscriptionTimesheetSettingsInput
+
+  @Field(() => SubscriptionBudgetTrackingSettingsInput, { nullable: true })
+  budgetTracking?: SubscriptionBudgetTrackingSettingsInput
+
+  @Field(() => SubscriptionSecuritySettingsInput, { nullable: true })
+  security?: SubscriptionSecuritySettingsInput
+
+  @Field(() => SubscriptionCustomersSettingsInput, { nullable: true })
+  customers?: SubscriptionCustomersSettingsInput
+
+  @Field(() => SubscriptionProjectsSettingsInput, { nullable: true })
+  projects?: SubscriptionProjectsSettingsInput
 }

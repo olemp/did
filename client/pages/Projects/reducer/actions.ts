@@ -4,11 +4,15 @@ import { Project } from 'types'
 import { IProjectsState } from '../types'
 
 type DATA_UPDTED_PAYLOAD = QueryResult<
-  Pick<IProjectsState, 'projects' | 'outlookCategories'>
+  Pick<IProjectsState, 'projects' | 'outlookCategories'> & {
+    myProjects: {
+      tag: string
+    }[]
+  }
 >
 
 export const DATA_UPDATED = createAction<DATA_UPDTED_PAYLOAD>('DATA_UPDATED')
-export const SET_SELECTED_PROJECT = createAction<Project>(
+export const SET_SELECTED_PROJECT = createAction<Project | string>(
   'SET_SELECTED_PROJECT'
 )
 export const OPEN_EDIT_PANEL = createAction<Project>('OPEN_EDIT_PANEL')
