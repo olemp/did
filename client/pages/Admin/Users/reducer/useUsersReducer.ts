@@ -5,8 +5,11 @@ import {
   CLEAR_PROGRESS,
   DATA_UPDATED,
   HIDE_ADD_MULTIPLE_PANEL,
+  HIDE_INVITE_EXTERNAL_USER_FORM,
   HIDE_USER_FORM,
+  RESET_SELECTION,
   SET_ADD_MULTIPLE_PANEL,
+  SET_INVITE_EXTERNAL_USER_FORM,
   SET_PROGRESS,
   SET_SELECTED_USERS,
   SET_USER_FORM
@@ -36,6 +39,9 @@ export function useUsersReducer() {
           activeDirectoryUsers,
           (x) => !_.any(users, (y) => y.id === x.id) && Boolean(x.mail)
         )
+        state.invitations = get(payload, 'query.data.invitations', {
+          default: []
+        })
         state.loading = payload.query.loading
       })
       .addCase(SET_USER_FORM, (state, { payload }) => {
@@ -58,6 +64,16 @@ export function useUsersReducer() {
       })
       .addCase(HIDE_USER_FORM, (state) => {
         state.userForm = null
+      })
+      .addCase(SET_INVITE_EXTERNAL_USER_FORM, (state, { payload }) => {
+        state.inviteExternaluserForm = payload
+      })
+      .addCase(HIDE_INVITE_EXTERNAL_USER_FORM, (state) => {
+        state.inviteExternaluserForm = null
+      })
+      .addCase(RESET_SELECTION, (state) => {
+        state.selectedUsers = []
+        state.setKey = Date.now().toString()
       })
   )
 }

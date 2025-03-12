@@ -161,13 +161,25 @@ export class User {
 
   @Field(() => User, { nullable: true })
   manager?: User
+
+  @Field({ nullable: true })
+  tenantId?: string
+
+  @Field({ nullable: true })
+  isExternal?: boolean
+
+  @Field({ nullable: true })
+  invitationId?: string
+
+  @Field({ nullable: true })
+  invitedAt?: Date
 }
 
 /**
  * @category GraphQL InputType
  */
 @InputType({
-  description: 'Input object for Role used in Mutation addOrUpdateUser/addUsers'
+  description: 'Input object for User used in Mutation addOrUpdateUser'
 })
 export class UserInput {
   @Field()
@@ -230,6 +242,12 @@ export class UserInput {
 
   @Field(() => UserInput, { nullable: true })
   manager?: UserInput
+
+  @Field({ nullable: true })
+  isExternal?: boolean
+
+  @Field({ nullable: true })
+  invitedAt?: Date
 }
 
 /**

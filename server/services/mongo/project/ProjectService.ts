@@ -43,25 +43,31 @@ export class ProjectService extends MongoDocumentService<Project> {
   }
 
   /**
-   * Add project
+   * Adds a new project to the database.
    *
-   * Returns the ID of the added project
+   * @param project - The project object to be added.
+   * @returns A promise that resolves to the ID of the inserted project.
    *
-   * @param project - Project to add
+   * @remarks
+   * This method clears the cache for 'getprojectsdata' before adding the new project.
+   * The project's key and customer key are converted to uppercase and used as the `_id` in the database.
    */
   public async addProject(project: Project): Promise<string> {
-    try {
-      await this.cache.clear()
-      const tag = [project.customerKey, project.key].join(' ')
-      const { insertedId } = await this.insert({
-        _id: tag,
-        tag,
-        ...project
-      })
-      return insertedId
-    } catch (error) {
-      throw error
-    }
+    const customerKey = project.customerKey.toUpperCase()
+    const key = project.key.toUpperCase()
+    const tag = `${customerKey} ${key}`
+
+    await this.cache.clear('getprojectsdata')
+
+    const { insertedId } = await this.insert({
+      _id: tag,
+      ...project,
+      customerKey,
+      key,
+      tag
+    })
+
+    return insertedId
   }
 
   /**
@@ -73,13 +79,26 @@ export class ProjectService extends MongoDocumentService<Project> {
    */
   public async updateProject(project: Project): Promise<boolean> {
     try {
-      await this.cache.clear()
+      await this.cache.clear('getprojectsdata')
       const filter: FilterQuery<Project> = _.pick(project, 'key', 'customerKey')
       const { result } = await this.update(filter, project)
       return result.ok === 1
     } catch (error) {
       throw error
     }
+  }
+
+  /**
+   * Delete a project from the database by ID.
+   *
+   * @param projectId - The ID of the project to delete
+   */
+  public async deleteProject(projectId: string): Promise<boolean> {
+    await this.cache.clear('getprojectsdata')
+    const { result } = await this.collection.deleteOne({
+      _id: projectId
+    })
+    return result.ok === 1 && result.n === 1
   }
 
   /**
@@ -136,7 +155,6 @@ export class ProjectService extends MongoDocumentService<Project> {
         },
         {
           key: ['getprojectsdata', query],
-          hash: 'sha256',
           disabled: !mergedOptions.cache
         }
       )

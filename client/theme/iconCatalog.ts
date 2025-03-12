@@ -1,4 +1,12 @@
 import {
+  ColumnSingleCompareRegular,
+  ColumnSingleCompareFilled,
+  PersonDeleteRegular,
+  PersonDeleteFilled,
+  GlobePersonRegular,
+  GlobePersonFilled,
+  GlobeRegular,
+  GlobeFilled,
   TimeAndWeatherRegular,
   TimeAndWeatherFilled,
   ThumbLikeRegular,
@@ -172,13 +180,39 @@ import {
   GroupRegular,
   GroupFilled,
   LockClosedRegular,
-  LockClosedFilled
+  LockClosedFilled,
+  ErrorCircleRegular,
+  ErrorCircleFilled,
+  ChevronUpRegular,
+  ChevronUpFilled,
+  ArrowLeftRegular,
+  ArrowLeftFilled
 } from '@fluentui/react-icons'
 
 /**
  * An object containing the available Fluent icons and their corresponding regular and filled versions.
  */
 export const iconCatalog = {
+  ColumnSingleCompare: {
+    regular: ColumnSingleCompareRegular,
+    filled: ColumnSingleCompareFilled
+  },
+  ErrorCircle: {
+    regular: ErrorCircleRegular,
+    filled: ErrorCircleFilled
+  },
+  PersonDelete: {
+    regular: PersonDeleteRegular,
+    filled: PersonDeleteFilled
+  },
+  Globe: {
+    regular: GlobeRegular,
+    filled: GlobeFilled
+  },
+  GlobePerson: {
+    regular: GlobePersonRegular,
+    filled: GlobePersonFilled
+  },
   LockClosed: {
     regular: LockClosedRegular,
     filled: LockClosedFilled
@@ -222,6 +256,10 @@ export const iconCatalog = {
   ChevronDown: {
     regular: ChevronDownRegular,
     filled: ChevronDownFilled
+  },
+  ChevronUp: {
+    regular: ChevronUpRegular,
+    filled: ChevronUpFilled
   },
   ArrowUpload: {
     regular: ArrowUploadRegular,
@@ -526,5 +564,9 @@ export const iconCatalog = {
   HourGlassHalf: {
     regular: HourglassHalfRegular,
     filled: HourglassHalfFilled
+  },
+  ArrowLeft: {
+    regular: ArrowLeftRegular,
+    filled: ArrowLeftFilled
   }
 }

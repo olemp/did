@@ -143,6 +143,18 @@ export function useSubscriptionConfig() {
           }
         },
         {
+          id: 'enableInvoiceEstimation',
+          type: 'bool',
+          hiddenIf: (settings: SubscriptionSettings) =>
+            !settings?.projects?.resourceMetadata?.includes('hourlyRate'),
+          props: {
+            label: t('admin.budgetTrackingEnableInvoiceEstimationLabel'),
+            description: t(
+              'admin.budgetTrackingEnableInvoiceEstimationDescription'
+            )
+          }
+        },
+        {
           id: 'enableProjectRoles',
           type: 'bool',
           props: {
@@ -217,6 +229,30 @@ export function useSubscriptionConfig() {
           props: {
             label: t('admin.domainRestrictionLabel'),
             description: t('admin.domainRestrictionDescription'),
+            contentBefore: '@'
+          }
+        },
+        {
+          id: 'domainRestrictionExternalEnabled',
+          type: 'bool',
+          disabledIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.securityGroupEnabled'),
+          props: {
+            label: t('admin.domainRestrictionExternalEnabledLabel'),
+            description: t('admin.domainRestrictionExternalEnabledDescription')
+          }
+        },
+        {
+          id: 'domainRestrictionExternal',
+          type: 'list',
+          hiddenIf: (settings: SubscriptionSettings) =>
+            !_.get(settings, 'security.domainRestrictionExternalEnabled'),
+          onAddMessage: t('admin.domainRestrictionAddMessage'),
+          onRemoveMessage: t('admin.domainRestrictionRemoveMessage'),
+          props: {
+            label: t('admin.domainRestrictionExternalLabel'),
+            description: t('admin.domainRestrictionExternalDescription'),
+            placeholder: t('admin.domainRestrictionExternalPlaceholder'),
             contentBefore: '@'
           }
         }

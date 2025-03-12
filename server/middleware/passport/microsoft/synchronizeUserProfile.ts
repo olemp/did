@@ -1,9 +1,12 @@
+/* eslint-disable prefer-const */
 import createDebug from 'debug'
-import _ from 'underscore'
+import _ from 'lodash'
 import { User } from '../../../graphql'
 import { MSGraphService, UserService } from '../../../services'
 import MSOAuthService from '../../../services/msoauth'
-const debug = createDebug('middleware/passport/synchronizeUserProfile')
+const debug = createDebug(
+  'server/middleware/passport/microsoft/synchronizeUserProfile'
+)
 
 /**
  * Check if user profile synchronization is needed. If needed, return
@@ -12,6 +15,7 @@ const debug = createDebug('middleware/passport/synchronizeUserProfile')
  * @param user - User object
  * @param properties - Properties to check
  * @param data - Data to compare
+ * @param syncManager - Sync manager information
  */
 function evaluateUserSync(
   user: User,
@@ -40,18 +44,29 @@ function evaluateUserSync(
  *
  * @param user - User
  * @param userSvc - User service
+ * @param syncManager - Sync manager information
  */
 export async function synchronizeUserProfile(
   user: User,
-  userSvc: UserService
+  userSvc: UserService,
+  syncManager = true
 ): Promise<void> {
-  const { properties, syncUserPhoto } = user?.subscription?.settings?.adsync
+  let { properties, syncUserPhoto } = user?.subscription?.settings?.adsync
+  if (!syncManager) {
+    debug('Manager synchronization is turned off for external users.')
+    properties = _.without(properties, 'manager')
+  }
   if (_.isEmpty(properties)) {
     debug(
       'User profile synchronization is turned on, but no properties are selected.'
     )
     return
   }
+  debug(
+    'Synchronizing user profile properties %s from Azure AD for %s.',
+    properties.join(', '),
+    user.id
+  )
   try {
     const msGraphSvc = new MSGraphService(new MSOAuthService({ user }))
     const [data, userPhoto] = await Promise.all([

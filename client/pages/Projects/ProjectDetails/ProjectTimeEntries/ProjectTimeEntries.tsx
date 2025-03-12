@@ -1,5 +1,5 @@
 import { EventList, UserColumn, UserMessage } from 'components'
-import { ListMenuItem } from 'components/List/ListToolbar'
+import { ListMenuItem } from 'components/List'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyledComponent } from 'types'
@@ -13,11 +13,11 @@ import { useProjectTimeEntries } from './useProjectTimeEntries'
  */
 export const ProjectTimeEntries: StyledComponent = () => {
   const { t } = useTranslation()
-  const { loading, timeEntries, onExport, error, skip } =
+  const { loading, selected, timeEntries, onExport, error, skip } =
     useProjectTimeEntries()
   return (
     <div className={ProjectTimeEntries.className}>
-      <div hidden={skip.value}>
+      <div hidden={skip.value && !loading}>
         {error && (
           <UserMessage
             intent='error'
@@ -40,7 +40,7 @@ export const ProjectTimeEntries: StyledComponent = () => {
 
       <EventList
         items={timeEntries}
-        enableShimmer={loading}
+        enableShimmer={loading || !Boolean(selected)}
         additionalColumns={[
           {
             key: 'resource.displayName',
@@ -48,7 +48,9 @@ export const ProjectTimeEntries: StyledComponent = () => {
             name: t('common.employeeLabel'),
             minWidth: 100,
             maxWidth: 150,
-            onRender: ({ resource }) => <UserColumn user={resource} />
+            onRender: ({ resource, role }) => (
+              <UserColumn user={resource} role={role} />
+            )
           }
         ]}
         dateFormat='MMM DD YYYY HH:mm'
@@ -71,6 +73,7 @@ export const ProjectTimeEntries: StyledComponent = () => {
             .setGroup('actions')
             .setDisabled(_.isEmpty(timeEntries))
         ]}
+        hidden={!loading && _.isEmpty(timeEntries)}
       />
     </div>
   )

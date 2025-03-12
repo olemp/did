@@ -1,0 +1,66 @@
+query UsersAdmin {
+  activeDirectoryUsers {
+    id
+    displayName
+    givenName
+    surname
+    jobTitle
+    mobilePhone
+    mail
+    preferredLanguage
+    accountEnabled
+    manager {
+      id
+      mail
+      displayName
+    }
+  }
+  users {
+    id
+    displayName
+    givenName
+    surname
+    jobTitle
+    mail
+    hiddenFromReports
+    provider
+    lastActive
+    accountEnabled
+    preferredLanguage
+    role {
+      name
+      description
+      icon
+      permissions
+      readOnly
+    }
+    manager {
+      id
+      displayName
+    }
+    photo {
+      base64
+    }
+    employmentStartDate
+    employmentEndDate
+    isExternal
+    invitedAt
+  }
+  roles {
+    name
+    description
+    icon
+    permissions
+    readOnly
+    enabledForExternalUsers
+  }
+  invitations: externalInvitations {
+    id
+    name  
+    mail
+    role
+    invitedAt
+    invitedBy
+    status
+  }
+}

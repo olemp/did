@@ -1,7 +1,7 @@
 {
   "name": "did",
   "description": "the calendar is your timesheet",
-  "version": "0.13.4-4",
+  "version": "0.14.10",
   "private": true,
   "repository": {
     "url": "https://github.com/Puzzlepart/did"
@@ -51,13 +51,13 @@
     "@fluentui/react-components": "9.53.0",
     "@fluentui/react-datepicker-compat": "0.4.39",
     "@fluentui/react-portal-compat": "9.0.147",
-    "@fluentui/react-search-preview": "0.2.0",
     "@fluentui/react-tags-preview": "0.4.0",
     "@microsoft/microsoft-graph-client": "2.2.1",
     "@octokit/auth-app": "3.3.0",
     "@octokit/request": "5.4.14",
     "@primer/css": "16.0.2",
     "@reduxjs/toolkit": "1.6.0",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "@uifabric/icons": "7.9.5",
     "activity-detector": "^3.0.0",
     "archiver": "^5.3.0",
@@ -105,6 +105,7 @@
     "pzl-react-reusable-components": "0.3.5-2",
     "randomcolor": "0.6.2",
     "react": "17.0.2",
+    "react-beautiful-dnd": "^13.1.1",
     "react-color": "2.19.3",
     "react-copy-to-clipboard": "5.1.0",
     "react-device-detect": "2.1.2",
@@ -189,7 +190,7 @@
     "prettier": "3.0.3",
     "prettier-plugin-organize-imports": "3.2.3",
     "rimraf": "3.0.2",
-    "sexy-commits": "^0.3.17-6",
+    "sexy-commits": "^0.4.5-5",
     "terser-webpack-plugin": "^5.3.6",
     "webpack-bundle-analyzer": "4.10.2",
     "webpack-livereload-plugin": "3.0.2"
@@ -346,6 +347,10 @@
     "colours": true
   },
   "gitmoji": {
+    "lazy": [
+      "🍺",
+      "Can't remember what I did"
+    ],
     "services": [
       "🚀",
       "Updated or added new services"

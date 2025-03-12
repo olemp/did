@@ -1,6 +1,5 @@
 import { Tabs } from 'components/Tabs'
 import React, { FC } from 'react'
-import { useTranslation } from 'react-i18next'
 import { ProjectsContext } from './context'
 import { ProjectDetails } from './ProjectDetails'
 import { ProjectForm } from './ProjectForm'
@@ -12,8 +11,8 @@ import { useProjects } from './useProjects'
  * @category Function Component
  */
 export const Projects: FC = () => {
-  const { t } = useTranslation()
-  const { context, renderDetails, defaultTab } = useProjects()
+  const { t, context, renderDetails, defaultTab, createListProps } =
+    useProjects()
 
   return (
     <ProjectsContext.Provider value={{ ...context }}>
@@ -23,24 +22,11 @@ export const Projects: FC = () => {
         <Tabs
           defaultSelectedValue={defaultTab}
           items={{
-            s: [
-              ProjectList,
-              t('common.search'),
-              {
-                enableShimmer: context.loading,
-                searchBox: {
-                  placeholder: t('common.searchPlaceholder')
-                }
-              }
-            ],
+            s: [ProjectList, t('common.search'), createListProps('s')],
             m: [
               ProjectList,
               t('projects.myProjectsText'),
-              {
-                searchBox: {
-                  placeholder: t('projects.myProjectsSearchPlaceholder')
-                }
-              }
+              createListProps('m')
             ],
             new: [ProjectForm, t('projects.createNewText')]
           }}

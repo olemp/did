@@ -1,10 +1,11 @@
-import { merge } from '@fluentui/react'
+import { IDetailsHeaderProps, merge } from '@fluentui/react'
 import { mergeClasses } from '@fluentui/react-components'
 import React, { useRef } from 'react'
 import { StyledComponent } from 'types'
 import { useListContext } from '../context'
-import { ListToolbar } from '../ListToolbar'
 import styles from './ListHeader.module.scss'
+import { ListToolbar } from './ListToolbar'
+import { SearchBox } from './SearchBox'
 import { IListHeaderProps } from './types'
 
 export const ListHeader: StyledComponent<IListHeaderProps> = ({
@@ -12,7 +13,10 @@ export const ListHeader: StyledComponent<IListHeaderProps> = ({
   defaultRender
 }) => {
   const context = useListContext()
-  const mergedHeaderProps = merge(headerProps, context.props.columnHeaderProps)
+  const mergedHeaderProps = merge<IDetailsHeaderProps>(
+    headerProps,
+    context.props.columnHeaderProps
+  )
   const root = useRef(null)
   const hideToolbar =
     context.props.menuItems?.length === 0 &&
@@ -59,7 +63,10 @@ export const ListHeader: StyledComponent<IListHeaderProps> = ({
         context.props.minmalHeaderColumns && styles.minimalHeaderColumns
       )}
     >
-      {!hideToolbar && <ListToolbar />}
+      {context.props.searchBox?.fullWidth && (
+        <SearchBox {...context.props.searchBox} />
+      )}
+      <ListToolbar />
       {defaultRender(mergedHeaderProps)}
     </div>
   )

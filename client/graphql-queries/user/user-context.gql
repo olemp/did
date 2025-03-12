@@ -40,6 +40,8 @@ query UserContext {
         securityGroupId
         domainRestrictionEnabled
         domainRestriction
+        domainRestrictionExternalEnabled
+        domainRestrictionExternal
       }
       customers {
         keyMaxLength
@@ -49,6 +51,7 @@ query UserContext {
         keyMaxLength
         enableResourceManagement
         resourceMetadata
+        enableInvoiceEstimation
         enableProjectRoles
         enableSimpleHierachy
         autoLoadTimeEntries
@@ -79,6 +82,7 @@ query UserContext {
         balanceAdjustment
       }
     }
+    isExternal
   }
   authProviders
 }

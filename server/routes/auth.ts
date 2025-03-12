@@ -6,16 +6,18 @@
  *
  * @module AuthRoute
  */
+import createDebug from 'debug'
 import { NextFunction, Request, Response, Router } from 'express'
 import passport from 'passport'
 import _ from 'underscore'
 import url from 'url'
 import {
-  SigninError,
-  GENERIC_SIGNIN_FAILED
+  GENERIC_SIGNIN_FAILED,
+  SigninError
 } from '../middleware/passport/errors'
 import { environment } from '../utils'
 const auth = Router()
+const debug = createDebug('server/routes/auth')
 
 const REDIRECT_URL_PROPERTY = '__redirectUrl'
 type AuthProvider = 'azuread-openidconnect' | 'google'
@@ -36,7 +38,13 @@ export const signInHandler =
   }
 
 /**
- * Handler for `/auth/azuread-openidconnect/callback` and  `/auth/google/callback`
+ * Handler for `/auth/azuread-openidconnect/callback` and  `/auth/google/callback`.
+ *
+ * Authenticates the user using the provided strategy, then redirects the user to
+ * the root path if the user is not authenticated.
+ *
+ * For now it uses the deprecated `url.format` method to redirect the user to the
+ * root path with an error message if the user is not authenticated.
  */
 export const authCallbackHandler =
   (strategy: AuthProvider) =>
@@ -45,17 +53,20 @@ export const authCallbackHandler =
       if (error || !user) {
         const _error =
           error instanceof SigninError ? error : GENERIC_SIGNIN_FAILED
+        debug('Error authenticating user: %s', _error.message)
         return response.redirect(
           url.format({
             pathname: '/',
             query: {
-              error: _error?.toString()
+              client_code: _error.code,
+              client_response: _error?.toString()
             }
           })
         )
       }
       request.logIn(user, (error_) => {
         if (error_) {
+          debug('Error logging in user: %s', error_.message)
           return response.render('index', { error: JSON.stringify(error_) })
         }
         const redirectUrl =

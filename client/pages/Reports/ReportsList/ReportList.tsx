@@ -1,10 +1,10 @@
 import { CheckboxVisibility } from '@fluentui/react'
-import { List, UserMessage } from 'components'
+import { List } from 'components'
 import { Progress } from 'components/Progress'
 import { TabComponent } from 'components/Tabs'
 import React from 'react'
-import _ from 'underscore'
 import { SET_FILTER_STATE } from '../reducer/actions'
+import styles from './ReportsList.module.scss'
 import { SaveFilterForm } from './SaveFilterForm'
 import { useReportsList } from './useReportsList'
 
@@ -14,13 +14,20 @@ import { useReportsList } from './useReportsList'
  * @category Reports
  */
 export const ReportsList: TabComponent = () => {
-  const { t, context, columns, menuItems } = useReportsList()
+  const {
+    t,
+    context,
+    columns,
+    menuItems,
+    createPlaceholder,
+    createContentAfter
+  } = useReportsList()
   return (
-    <div>
+    <div className={ReportsList.className}>
       {context.state.loading && (
         <Progress
+          className={styles.progress}
           text={t('reports.generatingReportProgressText')}
-          padding='10px 0 20px 18px'
         />
       )}
       <List
@@ -35,15 +42,19 @@ export const ReportsList: TabComponent = () => {
         filterPanel={{
           headerElements: <SaveFilterForm />
         }}
+        searchBox={{
+          fullWidth: true,
+          persist: true,
+          hidden: context.state.loading,
+          placeholder: createPlaceholder,
+          contentAfter: createContentAfter
+        }}
+        enableViewColumnsEdit
+        persistViewColumns={ReportsList.displayName}
       />
-      {_.isEmpty(context.state.data.timeEntries) &&
-        !context.state.loading &&
-        context.queryPreset && (
-          <UserMessage
-            text={t('reports.noEntriesText', context.queryPreset)}
-            style={{ marginTop: -15 }}
-          />
-        )}
     </div>
   )
 }
+
+ReportsList.displayName = 'ReportsList'
+ReportsList.className = styles.reportList

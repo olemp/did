@@ -1,3 +1,4 @@
+import { useSubscriptionSettings } from 'AppContext'
 import {
   EntityLabel,
   InformationProperty,
@@ -5,21 +6,16 @@ import {
   ProjectTag,
   UserMessage
 } from 'components'
+import { SET_SELECTED_PROJECT } from 'pages/Projects/reducer'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  LabelObject as Label,
-  StyledComponent,
-  SubscriptionProjectsSettings
-} from 'types'
+import ReactMarkdown from 'react-markdown'
+import { LabelObject as Label, StyledComponent } from 'types'
 import _ from 'underscore'
 import { useProjectsContext } from '../../context'
-import styles from './ProjectInformation.module.scss'
 import { BudgetTracking } from './BudgetTracking'
-import ReactMarkdown from 'react-markdown'
+import styles from './ProjectInformation.module.scss'
 import { ProjectResources } from './ProjectResources'
-import { SET_SELECTED_PROJECT } from 'pages/Projects/reducer'
-import { useSubscriptionSettings } from 'AppContext'
 
 /**
  * Shows details about the selected project.
@@ -29,8 +25,9 @@ import { useSubscriptionSettings } from 'AppContext'
 export const ProjectInformation: StyledComponent = () => {
   const { t } = useTranslation()
   const context = useProjectsContext()
-  const settings =
-    useSubscriptionSettings<SubscriptionProjectsSettings>('projects')
+  const enableSimpleHierachy = useSubscriptionSettings<boolean>(
+    'projects.enableSimpleHierachy'
+  )
 
   return (
     <div className={ProjectInformation.className}>
@@ -39,7 +36,19 @@ export const ProjectInformation: StyledComponent = () => {
         text={t('projects.inactiveText')}
         intent='warning'
       />
+      <UserMessage
+        hidden={Boolean(context.state.selected) || context.loading}
+        headerText={t('projects.projecNotReadyOrNotFoundTitle')}
+        text={t('projects.projecNotReadyOrNotFound')}
+        intent='warning'
+        action={{
+          iconName: 'Refresh',
+          text: t('common.refreshText'),
+          onClick: () => document.location.reload()
+        }}
+      />
       <InformationProperty
+        hidden={!context.state.selected?.tag}
         title={t('projects.tagLabel')}
         onRenderValue={() => (
           <ProjectTag
@@ -64,14 +73,14 @@ export const ProjectInformation: StyledComponent = () => {
         title={t('common.labelsText')}
         isDataLoaded={!context.loading}
       >
-        {(context.state.selected?.labels as Label[]).map((label, index) => (
-          <EntityLabel key={index} label={label} />
-        ))}
+        {((context.state.selected?.labels ?? []) as Label[]).map(
+          (label, index) => (
+            <EntityLabel key={index} label={label} />
+          )
+        )}
       </InformationProperty>
       <InformationProperty
-        hidden={
-          !context.state.selected?.parent || !settings?.enableSimpleHierachy
-        }
+        hidden={!context.state.selected?.parent || !enableSimpleHierachy}
         title={t('projects.parentLabel')}
         onRenderValue={() => (
           <ProjectLink
@@ -87,8 +96,7 @@ export const ProjectInformation: StyledComponent = () => {
       />
       <InformationProperty
         hidden={
-          _.isEmpty(context.state.selected?.children) ||
-          !settings?.enableSimpleHierachy
+          _.isEmpty(context.state.selected?.children) || !enableSimpleHierachy
         }
         title={t('projects.childrenLabel')}
         onRenderValue={() => (

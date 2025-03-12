@@ -9,7 +9,7 @@ import { IDropdownControlProps } from './types'
 import { useDropdownControlChange } from './useDropdownControlChange'
 
 /**
- * Text field based on `<Dropdown />` from [@fluentui/react](@fluentui/react)
+ * Dropdown field based on `<Dropdown />` from [@fluentui/react](@fluentui/react)
  *
  * @category Reusable Component
  */
@@ -22,10 +22,11 @@ export const DropdownControl: FormInputControlComponent<
       const modelValue = props.model.value(props.name)
       const option = _.findWhere(props.values, { value: modelValue })
       if (option && modelValue) {
-        return option.text
+        return option.text ?? null
       }
+      return null
     }
-    return props.defaultValue
+    return props.defaultValue ?? null
   }, [props.defaultValue, props.model, props.name])
 
   return (
@@ -38,6 +39,7 @@ export const DropdownControl: FormInputControlComponent<
             value={value}
             onOptionSelect={onChange}
             onBlur={context.onBlurCallback}
+            disabled={props.disabled}
           >
             {_.map(props.values, (option, index) => (
               <Option key={index} value={option.value}>

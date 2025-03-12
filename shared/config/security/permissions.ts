@@ -55,7 +55,6 @@ export const getPermissions = (
     name: t('permissions.deleteProjects'),
     description: t('permissions.deleteProjectsDescription'),
     iconName: 'DeleteTable',
-    disabled: true,
     api: true,
     category: 'projects'
   },
@@ -129,5 +128,11 @@ export const getPermissions = (
     description: t('permissions.manageApiTokensDescription'),
     iconName: 'AzureAPIManagement',
     category: 'api'
+  },
+  [PermissionScope.INVITE_EXTERNAL_USERS]: {
+    name: t('permissions.inviteExternalUsers'),
+    description: t('permissions.inviteExternalUsersDescription'),
+    iconName: 'Globe',
+    category: 'admin'
   }
 })

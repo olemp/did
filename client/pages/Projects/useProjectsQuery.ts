@@ -1,9 +1,22 @@
 import { useQuery } from '@apollo/client'
 import { AnyAction } from '@reduxjs/toolkit'
 import { Dispatch, useEffect } from 'react'
-import $projects_outlook from './projects-query.gql'
+import $projectsQuery from './projectsQuery.gql'
 import { DATA_UPDATED } from './reducer/actions'
 import { IProjectsState } from './types'
+
+type ProjectsQueryResultType = Pick<
+  IProjectsState,
+  'projects' | 'myProjects' | 'outlookCategories'
+> & {
+  myProjects: {
+    tag: string
+  }[]
+}
+
+type ProjectsQueryVariables = {
+  sortBy: string
+}
 
 /**
  * Hook tha uses `useQuery` from `@apollo/client` to fetch data
@@ -11,19 +24,22 @@ import { IProjectsState } from './types'
  * reducer using `DATA_UPDATED` action.
  *
  * @param dispatch - Dispatch
+ * @param sortBy - Sort by property
  */
-export function useProjectsQuery(dispatch: Dispatch<AnyAction>) {
-  const query = useQuery<
-    Pick<IProjectsState, 'projects' | 'myProjects' | 'outlookCategories'> & {
-      myProjects: {
-        tag: string
-      }[]
+export function useProjectsQuery(
+  dispatch: Dispatch<AnyAction>,
+  sortBy = 'name'
+) {
+  const query = useQuery<ProjectsQueryResultType, ProjectsQueryVariables>(
+    $projectsQuery,
+    {
+      variables: { sortBy },
+      fetchPolicy: 'cache-and-network'
     }
-  >($projects_outlook, {
-    variables: { sortBy: 'name' },
-    fetchPolicy: 'cache-and-network'
-  })
+  )
+
   useEffect(() => dispatch(DATA_UPDATED(query)), [query])
+
   return {
     ...query,
     loading: query.loading && !query.previousData

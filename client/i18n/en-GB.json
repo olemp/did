@@ -88,14 +88,14 @@
   },
   "projects": {
     "inactiveText": "This project has been marked as inactive.",
-    "searchPlaceholder": "Search in projects...",
+    "searchPlaceholder": "Search {{count}} projects...",
     "workspaceLabel": "Project workspace",
     "createOutlookCategoryLabel": "Create category in Outlook",
     "noTimeEntriesText": "No time entries registered for the project.",
     "timeEntriesErrorText": "An error occured loading time entries for the project.",
     "timeEntriesLoadingLabel": "Loading time entries for project",
     "myProjectsText": "My projects",
-    "myProjectsSearchPlaceholder": "Search my projects...",
+    "myProjectsSearchPlaceholder": "Search my {{count}} projects...",
     "exportTimeEntriesLabel": "Export to Excel",
     "keyFieldDescription": "A unique identifier for the project. Used together with the customer key to form the key used to tag events in Outlook. Keep it short, between {{min}} and {{max}} characters.",
     "createSuccess": "The project **{{name}}** was succesfully created. Use **{{projectId}}** to tag your events in Outlook. Click to go directly to the newly created project, or stay here and create another one.",
@@ -154,7 +154,8 @@
       "hourlyRatePlaceholder": "Enter the hourly rate for the role.",
       "defaultRoleLabel": "Default",
       "defaultRoleDescription": "This role will be assigned to all new project members by default if no other role is specified for them.",
-      "defaultRoleError": "A default role already exists. Please remove the default role {{role}} before adding another."
+      "defaultRoleError": "A default role already exists. Please remove the default role {{role}} before adding another.",
+      "hourlyRateInfo": "Use the up and down arrow keys to adjust the hourly rate up and down by 10."
     },
     "resourcesLabel": "Project Resources",
     "hourlyRate": "kr {{rate}} / hour",
@@ -164,7 +165,23 @@
     "parentLabel": "Parent Project",
     "childrenLabel": "Child Projects",
     "parentProjectDisabledText": "You can only select a parent project under the same customer, and there's no customer selected, or no projects under the selected customer.",
-    "loadTimeEntriesLabel": "Load time entries"
+    "loadTimeEntriesLabel": "Load time entries",
+    "deleteButtonLabel": "Delete project",
+    "deleteError": "This project has {{count}} associated time entries. To proceed with deleting the project, please remove all related time entries first.",
+    "deleteConfirmation": "Are you sure you want to delete the project **{{name}}** for customer **{{customer}}**? Before proceeding, we will check if there are any time entries associated with this project. If time entries are found, the project cannot be deleted until they are removed.",
+    "deleteDialogTitle": "Delete Project",
+    "deleteCheckLabel": "Verifying associated time entries",
+    "deleteCheckHint": "We are checking whether this project has any associated time entries. This process may take some time depending on the total number of entries...",
+    "checkSuccess": "No time entries found. The project can be safely deleted.",
+    "checkButtonLabel": "Go ahead",
+    "deleteFailed": "An unexpected error occurred while attempting to delete project **{{name}}**. Please try again later or contact support if the issue persists.",
+    "deleteFailedTitle": "Project Deletion Failed",
+    "deleteSuccessTitle": "Project Deleted Successfully",
+    "deleteSuccess": "Deletion of project **{{name}}** completed successfully. The project is no longer available in the system. You will be redirected to the Project page in 5 seonds.",
+    "projecNotReadyOrNotFound": "The project is currently unavailable. If it was just created, please try again in a few moments. Otherwise, it may not exist.",
+    "projecNotReadyOrNotFoundTitle": "Project Not Found or Still Processing",
+    "homeButtonLabel": "Go back to Projects page",
+    "projectOwner": "Project Owner"
   },
   "customers": {
     "inactiveText": "This customer has been marked as inactive.",
@@ -287,7 +304,29 @@
       "employmentEndDateLabel": "Employment End Date",
       "employmentEndDateDescription": "The date the user's employment ends. If the user is no longer employed, set this date to the last day of employment.",
       "employmentStartDateDescription": "The date the user's employment starts. If the user is already employed, set this date to the first day of employment.",
-      "searchUsersLabel": "Search users..."
+      "searchUsersLabel": "Search {{usersCount}} active users...",
+      "invitationsHeaderText": "Pending invitations",
+      "inviteExternalUserError": "An error occurred while inviting the external user.",
+      "inviteExternalUserSuccess": "User {{mail}} invited successfully. Ask the user to login to complete the registration.",
+      "inviteExternalUser": "Invite External User",
+      "noPendingInvitations": "No pending external invitations at the moment.",
+      "invitedString": "Invited {{invitedAt}}",
+      "cancelInvitation": "Cancel invitation",
+      "pendingInvitations": "Pending Invitations",
+      "cancelInvitationError": "There was an error cancelling the invitation: {{error}}",
+      "cancelInvitationSuccess": "Successfully cancelled invitation.",
+      "invitationNamePlaceholder": "Enter the name of the user you want to invite...",
+      "invitationNameDescription": "The name of the user you want to invite — it's recommended to fill this out, but not required.",
+      "invitationEmailDescription": "The e-mail of the user you want to invite. There might be limitations on supported domains.",
+      "invitationNameRecommended": "It is recommended to provide a name for the individual you want to invite.",
+      "invitationRoleDescription": "Please select a role for the invited user. Only roles that have been explicitly enabled for external users are available for selection in this list. If no roles are visible, it means no roles are currently enabled for external invitations.",
+      "invitedByString": "Invited by {{displayName}}",
+      "inviteExternalUserSubmit": "Send invitation",
+      "removeExternalUser": "Revoke access",
+      "removeExternalUserError": "Please try again. If the problem continues, contact an administrator.",
+      "removeExternalUserSuccess": "Their access to the system has been removed. If you ever need to invite them again, you can do it easily from the user management page.",
+      "removeExternalUserErrorTitle": "Something went wrong while removing external user {{displayName}}.",
+      "removeExternalUserSuccessTitle": "Success! External user {{displayName}} no longer has access."
     },
     "weekStatus": {
       "headerText": "Week status",
@@ -415,7 +454,19 @@
     "projectsHeader": "Projects",
     "timesheetTimebankEnabledLabel": "Enable Timebank",
     "timesheetTimebankEnabledDescription": "When the time bank is enabled, employees can accumulate overtime hours that can be used for time off at a later date. This provides flexibility and the opportunity for a better work-life balance.",
-    "subscriptionSettingsUpdateError": "An error occurred while updating the subscription settings."
+    "subscriptionSettingsUpdateError": "An error occurred while updating the subscription settings.",
+    "enabledForExternalUsers": "Enabled for external users",
+    "enabledForExternalUsersDescription": "The role will be available for external users.",
+    "inviteExternalUser": "Invite External User",
+    "domainRestrictionExternalEnabledLabel": "Enable domain restriction for external users",
+    "domainRestrictionExternalEnabledDescription": "External sharing is limited to the following approved domains to ensure secure communication with trusted partners.",
+    "domainRestrictionExternalLabel": "Restrict access to external users in the following domains",
+    "domainRestrictionExternalDescription": "Specify which external domains your users are allowed to share with.",
+    "domainRestrictionExternalPlaceholder": "Enter a domain and press enter to add it...",
+    "domainRestrictionAddMessage": "Domain **{0}** successfully added to the allowlist.",
+    "domainRestrictionRemoveMessage": "Domain **{0}** successfully removed from the allowlist. Existing users will still have access and be able to log in.",
+    "budgetTrackingEnableInvoiceEstimationLabel": "Enable income estimation",
+    "budgetTrackingEnableInvoiceEstimationDescription": "Enabling this setting will display estimated invoicing based on the hourly rates of the resources under each project."
   },
   "reports": {
     "generatingReportProgressText": "Please wait while we generate the report for you...",
@@ -438,7 +489,11 @@
     "fetchDataButton": "Fetch fresh data from the server",
     "reportLinkUpdatedText": "Updated by {{updatedBy}} on {{updatedAt}}.",
     "welcomeHeaderText": "Home",
-    "filterIconPlaceholder": "Search for a filter icon..."
+    "filterIconPlaceholder": "Search for a filter icon...",
+    "searchPlaceholder": "Search in {{count}} time entries ({{hours}} hours) for {{preset}}..",
+    "searchCount": "Showing {{count}} of {{total}} time entries",
+    "viewColumnsLabel": "Show or hide columns",
+    "periodColumnDescription": "Displays the period of the entry in week, month, and year format."
   },
   "common": {
     "datePicker": {
@@ -741,7 +796,7 @@
     "outlookCategoryError": "There was an error creating the category in Outlook. If you just created it, it might take some moments before it shows up here.",
     "tagFieldLabel": "Tag",
     "ignoredHours": "Ignored hours",
-    "signInDisabledMessage": "We'",
+    "signInDisabledMessage": "Sign-in is temporarily unavailable. We're working to resolve the issue. Please check back soon!",
     "general": "General",
     "projectRoleLabel": "Project Role",
     "hourlyRate": "Hourly Rate",
@@ -757,7 +812,42 @@
     "hourlyRateLabel": "Hourly Rate",
     "noManagerLabel": "No Manager Assigned",
     "reason": "Reason",
-    "parentProject": "Parent Project"
+    "parentProject": "Parent Project",
+    "invalidEmailValidation": "You've entered an invalid email.",
+    "emailLabel": "Mail",
+    "invalidEmailDomainValidation": "{{domain}} is not a supported domain.",
+    "idLabel": "ID",
+    "invitedAtLabel": "Invited at",
+    "invitedByLabel": "Invited by",
+    "cancelButtonDisabledTooltip": "Cancelling invitations is currently not supported.",
+    "ok": "OK",
+    "dismiss": "Dismiss",
+    "pending": "Pending",
+    "expired": "Expired",
+    "abort": "Abort",
+    "refreshText": "Refresh the page",
+    "noResults": "No elements are available. This may be due to active filters or because there are no elements to display.",
+    "noResultsWithCriteria": "No items match your search criteria **{{searchTerm}}**.",
+    "estimatedIncome": "Estimated income",
+    "autoMatchScoreLabel": "Automatic Matching Score ({{score}}%)",
+    "autoMatchScoreHint": "You have auto-matched **{{autoMatch}}%** of the total entries, meaning that **{{manualMatch}}%** of the entries have been matched to a project manually in the application.",
+    "autoMatchWarning": "The automatic matching score is below 85%. To improve accuracy, please ensure your Outlook calendar events are consistently categorized and consider adding the relevant project tag to the subject or body of your events.",
+    "autoMatchError": "The automatic matching score is critically low (below 70%). To achieve better matching results, please categorize your Outlook events appropriately and include the correct project tag in the event subject or body.",
+    "autoMatchSuccess": "The automatic matching score is very high (above 95%). Your Outlook events appear well-structured with correct categories and project tags. Keep this up to ensure accurate time tracking.",
+    "periodLabel": "Period",
+    "duration": "{{h}}h, {{m}}m",
+    "startTimeLabel_MMM_DD": "Start time (Date Only)",
+    "endTimeLabel_MMM_DD": "End time (Date Only)",
+    "employeeWithRoleLabel": "Employee (with role details)",
+    "employeeWithRoleDescription": "Displays the employee associated with the time entry, including details of the role they hold within the project during the recorded period.",
+    "externalLabel": "External",
+    "preferredLanguage_en-US": "🇺🇸 English (United States)",
+    "preferredLanguage_en-GB": "🇬🇧 English (United Kingdom)",
+    "preferredLanguage_nb-NO": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nb": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nn-NO": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nn": "🇳🇴 Norsk (nynorsk)",
+    "currencySymbol": "kr"
   },
   "navigation": {
     "TimesheetPage": "Timesheet",
@@ -807,7 +897,9 @@
     "manageApiTokensDescription": "Manage (create new, delete existing, and view existing keys) API keys. It is good to be careful about who gets this access, as there is quite a lot that can be done with this much power.",
     "manageApiTokens": "Manage API-tokens",
     "listApiTokens": "List API-tokens",
-    "listApiTokensDescription": "List existing API tokens. You only have access to basic information about the keys. Name, description, created date and when they expire. You do not have the option of extracting the actual key needed to run the query from third-party systems."
+    "listApiTokensDescription": "List existing API tokens. You only have access to basic information about the keys. Name, description, created date and when they expire. You do not have the option of extracting the actual key needed to run the query from third-party systems.",
+    "inviteExternalUsers": "Invite External Users",
+    "inviteExternalUsersDescription": "Allows inviting users outside of the organization to collaborate and access resources."
   },
   "notifications": {
     "moreLinkText": "Read more here",
@@ -861,7 +953,20 @@
       "additionalMetadata": "Additional metadata",
       "addUser": "Add",
       "displayName": "Name",
-      "removeUser": "Remove"
+      "removeUser": "Remove",
+      "searchTerm": " Search for \"{{searchTerm}}\"",
+      "clearSearch": "Click to clear search"
+    },
+    "listControl": {
+      "editingInfo": "You are currently editing an item. Click **Enter** to save or click outside the input field to abort."
+    }
+  },
+  "list": {
+    "viewColumnsPanel": {
+      "title": "Edit view columns",
+      "description": "Select the columns to display in the list view. To change the order, you can drag and drop or use the up and down arrows next to each column. Changes here does not affect the export to Excel.",
+      "moveUp": "Move column up",
+      "moveDown": "Move column down"
     }
   }
 }

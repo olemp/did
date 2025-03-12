@@ -4,10 +4,12 @@ import React from 'react'
 import { ScrollablePaneWrapper } from '../ScrollablePaneWrapper'
 import { ColumnHeaderContextMenu } from './ColumnHeaderContextMenu'
 import { ListContext } from './context'
+import { EmptyMessage } from './EmptyMessage'
 import styles from './List.module.scss'
 import { ListFilterPanel } from './ListFilterPanel'
 import { IListProps } from './types'
 import { useList } from './useList'
+import { ViewColumnsPanel } from './ViewColumnsPanel'
 
 /**
  * List component using  `<ShimmeredDetailsList />` from `@fluentui/react`.
@@ -24,14 +26,17 @@ export const List: ReusableComponent<IListProps> = (props) => {
       <ListContext.Provider value={context}>
         <ScrollablePaneWrapper condition={!!props.height} height={props.height}>
           <ShimmeredDetailsList {...listProps} />
+          <EmptyMessage items={listProps.items} />
           <ColumnHeaderContextMenu />
           <ListFilterPanel />
+          <ViewColumnsPanel />
         </ScrollablePaneWrapper>
       </ListContext.Provider>
     </div>
   )
 }
 
+List.displayName = 'List'
 List.className = styles.list
 List.defaultProps = {
   items: [],
@@ -50,5 +55,6 @@ List.defaultProps = {
   menuItems: [],
   getColumnStyle: () => ({}),
   minmalHeaderColumns: true,
-  selectionProps: [SelectionMode.none]
+  selectionProps: [SelectionMode.none],
+  setKey: List.displayName
 }

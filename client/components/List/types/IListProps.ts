@@ -6,14 +6,52 @@ import {
   IShimmeredDetailsListProps,
   SelectionMode
 } from '@fluentui/react'
-import { SearchBoxProps } from '@fluentui/react-search-preview'
+import { SearchBoxProps } from '@fluentui/react-components'
 import { CSSProperties, HTMLProps } from 'react'
-import { ListMenuItem } from '../ListToolbar'
+import { ListMenuItem } from '../ListHeader'
 import { IListColumn } from './IListColumn'
 import { IListGroupProps } from './IListGroupProps'
-import { ListFilterState } from './ListFilterState'
-import { IFilterPanelProps } from 'components/FilterPanel'
+import { IFilter, IFilterPanelProps } from 'components/FilterPanel'
 import { IListContext } from '../context'
+import { IListState } from './IListState'
+
+export type ListFilterState = {
+  filters: IFilter[]
+  isFiltered: boolean
+}
+
+interface SearchBox
+  extends Omit<SearchBoxProps, 'placeholder' | 'contentAfter'> {
+  /**
+   * Enable full width for the `SearchBox`. It will be standalone
+   * and full width, not inside the `ToolBar`.
+   */
+  fullWidth?: boolean
+
+  /**
+   * Persist the search term in the URL hash.
+   */
+  persist?: boolean
+
+  /**
+   * Placeholder text or function that returns the placeholder text.
+   */
+  placeholder?:
+    | SearchBoxProps['placeholder']
+    | ((state: IListState<any>) => SearchBoxProps['placeholder'])
+
+  /**
+   * Content after the search box or function that returns the content.
+   */
+  contentAfter?:
+    | SearchBoxProps['contentAfter']
+    | ((state: IListState<any>) => SearchBoxProps['contentAfter'])
+
+  /**
+   * Delay in milliseconds before executing the search (default: 300).
+   */
+  searchDelayMs?: number
+}
 
 /**
  * @category List
@@ -45,7 +83,7 @@ export interface IListProps<T = any>
   /**
    * Search box props
    */
-  searchBox?: SearchBoxProps
+  searchBox?: SearchBox
 
   /**
    * Selection props
@@ -129,4 +167,21 @@ export interface IListProps<T = any>
    * uppercase letters, some letter spacing and text shadows.
    */
   minmalHeaderColumns?: boolean
+
+  /**
+   * Always hide the empty message, even if there are no items.
+   */
+  hideEmptyMessage?: boolean
+
+  /**
+   * Enable view columns edit mode in the view columns panel.
+   * This feature is (for now) not enabled by default.
+   */
+  enableViewColumnsEdit?: boolean
+
+  /**
+   * Persist view columns in the local storage
+   * using the provided key.
+   */
+  persistViewColumns?: string
 }

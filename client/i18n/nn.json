@@ -89,14 +89,14 @@
   },
   "projects": {
     "inactiveText": "Dette prosjektet er markert som inaktivt.",
-    "searchPlaceholder": "Søk i prosjekt",
+    "searchPlaceholder": "Søk i {{count}} prosjekter...",
     "workspaceLabel": "Prosjektområde",
     "createOutlookCategoryLabel": "Lag ein Outlook-kategori",
     "noTimeEntriesText": "Ingen timar registrerte på dette prosjektet.",
     "timeEntriesErrorText": "Det oppstod ein feil ved innlasting av timane for dette prosjektet.",
     "timeEntriesLoadingLabel": "Lastar inn timer for prosjektet",
     "myProjectsText": "Prosjekta mine",
-    "myProjectsSearchPlaceholder": "Søk i prosjekta mine...",
+    "myProjectsSearchPlaceholder": "Søk i mine {{count}} prosjekt...",
     "exportTimeEntriesLabel": "Eksporter til Excel",
     "keyFieldDescription": "Ein unik identifikator for prosjektet. Blir brukt saman med kundenøkkelen for å lage nøkkelen som blir brukt til å merke kalenderoppføringer i Outlook. Hold det kort, mellom {{min}} og {{max}} teikn.",
     "createSuccess": "Prosjektet **{{name}}** vart oppretta. Bruk **{{projectId}}** til å merke kalenderoppføringane dine i Outlook. Klikk for å gå direkte til det nyoppretta prosjektet, eller bli her for å oppretta eit nytt.",
@@ -154,7 +154,8 @@
       "rolePlaceholder": "Skriv inn navnet på rollen.",
       "defaultRoleLabel": "Standardrolle",
       "defaultRoleDescription": "Denne rollen vil bli tildelt alle nye prosjektmedlemmer som standard hvis ingen annen rolle er spesifisert for dem.",
-      "defaultRoleError": "Ei standardrolle eksisterer allereie. Fjern standardrolla {{role}} før du legg til ein annan."
+      "defaultRoleError": "Ei standardrolle eksisterer allereie. Fjern standardrolla {{role}} før du legg til ein annan.",
+      "hourlyRateInfo": "Bruk piltastene opp og ned for å justere timeprisen opp og ned med 10."
     },
     "resourcesLabel": "Prosjektressurser",
     "hourlyRate": "kr {{rate}} / time",
@@ -164,7 +165,23 @@
     "parentLabel": "Overordna prosjekt",
     "childrenLabel": "Underordna prosjekter",
     "parentProjectDisabledText": "Du kan bare velge et overordnet prosjekt under samme kunde, og det er ikke valgt noen kunde, eller er det ingen prosjekter under den valgte kunden.",
-    "loadTimeEntriesLabel": "Last inn tidsoppføringer"
+    "loadTimeEntriesLabel": "Last inn tidsoppføringer",
+    "deleteButtonLabel": "Slett prosjekt",
+    "deleteError": "Dette prosjektet har {{count}} tilknyttede tidsregistreringer. Vennligst slett alle relaterte tidsregistreringer før du prøver å slette prosjektet.",
+    "deleteConfirmation": "Er du sikker på at du vil slette prosjektet **{{name}}** for kunde **{{customer}}**? Før vi fortsetter, vil vi kontrollere om det finnes tidsregistreringer tilknyttet dette prosjektet. Hvis det finnes tidsregistreringer, må disse slettes før prosjektet kan fjernes.",
+    "deleteDialogTitle": "Slett prosjekt",
+    "deleteCheckLabel": "Kontrollerer tilknyttede tidsregistreringer",
+    "deleteCheckHint": "Vi undersøker om dette prosjektet har tilknyttede tidsregistreringer. Denne prosessen kan ta litt tid, avhengig av det totale antallet registreringer...",
+    "checkSuccess": "Ingen tidsoppføringer funnet. Prosjektet kan trygt slettes.",
+    "checkButtonLabel": "Gå videre",
+    "deleteFailedTitle": "Sletting av prosjekt mislyktes",
+    "deleteFailed": "En uventet feil oppstod under forsøket på å slette prosjektet **{{name}}**. Vennligst prøv igjen senere eller kontakt support hvis problemet vedvarer.",
+    "deleteSuccessTitle": "Prosjekt slettet",
+    "deleteSuccess": "Prosjektet **{{name}}** ble slettet. Operasjonen ble fullført uten feil. Du blir omdirigert til prosjektsiden om 5 sekunder.",
+    "projecNotReadyOrNotFound": "Prosjektet er foreløpig ikke tilgjengelig. Hvis det nettopp ble opprettet, kan du prøve igjen om noen få øyeblikk. Ellers kan det hende at det ikke eksisterer.",
+    "projecNotReadyOrNotFoundTitle": "Prosjektet er utilgjengelig",
+    "homeButtonLabel": "Klikk for å gå tilbake til prosjektsiden",
+    "projectOwner": "Prosjekteier"
   },
   "customers": {
     "inactiveText": "Denne kunden er markert som inaktiv.",
@@ -242,7 +259,29 @@
       "employmentStartDateDescription": "Datoen brukerens ansettelse starter. \nHvis brukeren allerede er ansatt, sett denne datoen til første arbeidsdag.",
       "employmentEndDateLabel": "Sluttdato for ansettelse",
       "employmentStartDateLabel": "Startdato for ansettelse",
-      "searchUsersLabel": "Søk i brukarar..."
+      "searchUsersLabel": "Søk i {{usersCount}} aktive brukere...",
+      "invitationsHeaderText": "Aktive invitasjoner",
+      "inviteExternalUserError": "Det oppstod en feil mens du inviterte den eksterne brukeren.",
+      "inviteExternalUserSuccess": "Invitasjonen til {{mail}} ble sendt. Be brukeren fullføre registreringen ved å logge inn.",
+      "inviteExternalUser": "Inviter ekstern bruker",
+      "noPendingInvitations": "Ingen ventende eksterne invitasjoner for øyeblikket.",
+      "invitedString": "Invitert {{invitedAt}}",
+      "cancelInvitation": "Kanseller invitasjon",
+      "pendingInvitations": "Eksterne invitasjoner",
+      "cancelInvitationError": "Det skjedde en feil under kansellering av invitasjonen: {{error}}",
+      "cancelInvitationSuccess": "Invitasjonen er nå kansellert.",
+      "invitationNamePlaceholder": "Skriv inn navnet på brukeren du vil invitere...",
+      "invitationNameDescription": "Navnet på brukeren du vil invitere - det anbefales å fylle ut dette, men ikke påkrevd.",
+      "invitationEmailDescription": "E-posten til brukeren du vil invitere. Det kan være begrensninger på støttede domener.",
+      "invitationNameRecommended": "Det anbefales å oppgi et navn på personen du vil invitere.",
+      "invitationRoleDescription": "Vennligst velg en rolle for den inviterte brukeren. Kun roller som eksplisitt er aktivert for eksterne brukere er tilgjengelige i denne listen. Hvis ingen roller vises, betyr det at ingen roller for øyeblikket er aktivert for eksterne invitasjoner.",
+      "invitedByString": "Invitert av {{displayName}}",
+      "inviteExternalUserSubmit": "Send invitasjon",
+      "removeExternalUser": "Fjern tilgang",
+      "removeExternalUserError": "Prøv igjen. Om problemet held fram, kontakt ein administrator.",
+      "removeExternalUserSuccess": "Vi har fjerna tilgangen deira til systemet. Om du vil invitere dei igjen seinare, kan du enkelt gjere det frå brukarstyringssida.",
+      "removeExternalUserErrorTitle": "Noko gjekk galt ved fjerning av ekstern brukar {{displayName}}.",
+      "removeExternalUserSuccessTitle": "Ekstern brukar {{displayName}} er no fjerna frå systemet."
     },
     "labels": {
       "confirmDeleteTitle": "Slett merkelapp",
@@ -414,7 +453,19 @@
     "projectsHeader": "Prosjekter",
     "timesheetTimebankEnabledLabel": "Aktiver Tidsbank",
     "timesheetTimebankEnabledDescription": "Når tidbank er aktivert, kan ansatte akkumulere overtidstimer som kan brukes til fritid på et senere tidspunkt. Dette gir fleksibilitet og mulighet for bedre balanse mellom arbeid og fritid.",
-    "subscriptionSettingsUpdateError": "En feil oppstod under oppdatering av abonnementsinnstillinger."
+    "subscriptionSettingsUpdateError": "En feil oppstod under oppdatering av abonnementsinnstillinger.",
+    "enabledForExternalUsers": "Tilgjengelig for eksterne brukere",
+    "enabledForExternalUsersDescription": "Rollen vil være tilgjengelig for eksterne brukere.",
+    "inviteExternalUser": "Inviter ekstern bruker",
+    "domainRestrictionExternalEnabledLabel": "Aktiver domenebegrensning for eksterne brukere",
+    "domainRestrictionExternalEnabledDescription": "Ekstern deling er begrenset til følgende godkjente domener for å sikre sikker kommunikasjon med pålitelige partnere.",
+    "domainRestrictionExternalLabel": "Begrens tilgangen til eksterne brukere i følgende domener",
+    "domainRestrictionExternalDescription": "Spesifiser hvilke eksterne domener brukerne dine har lov til å dele med.",
+    "domainRestrictionExternalPlaceholder": "Skriv inn et domene og trykk Enter for å legge det til...",
+    "domainRestrictionAddMessage": "Domenet **{0}** er lagt til og kan nå brukes for ekstern deling.",
+    "domainRestrictionRemoveMessage": "Domene **{0}** er fjernet og kan ikke lenger brukes for ekstern deling. Eksisterende brukere vil fortsatt ha tilgang og kunne logge inn.",
+    "budgetTrackingEnableInvoiceEstimationDescription": "Når dette er aktivert, vil estimerte fakturabeløp vises under hvert prosjekt, basert på timeprisene til ressursene.",
+    "budgetTrackingEnableInvoiceEstimationLabel": "Aktiver inntektsestimering"
   },
   "reports": {
     "generatingReportProgressText": "Vennligst vent mens vi genererer rapporten for deg...",
@@ -437,7 +488,11 @@
     "fetchDataButton": "Hent ferske data fra serveren",
     "reportLinkUpdatedText": "Oppdatert av {{updatedBy}} {{updatedAt}}.",
     "welcomeHeaderText": "Heim",
-    "filterIconPlaceholder": "Søk etter et ikon for filteret..."
+    "filterIconPlaceholder": "Søk etter et ikon for filteret...",
+    "searchPlaceholder": "Søk i {{count}} tidsregistreringer ({{hours}} timer) for {{preset}}...",
+    "searchCount": "Viser {{count}} av {{total}} tidsregistreringer",
+    "viewColumnsLabel": " Vis eller skjul kolonner",
+    "periodColumnDescription": "Viser perioden for oppføringa i veke, månad og år format."
   },
   "common": {
     "datePicker": {
@@ -754,7 +809,43 @@
     "hourlyRateLabel": "Timepris",
     "noManagerLabel": "Ingen leder tildelt",
     "reason": "Begrunning",
-    "parentProject": "Overordna prosjekt"
+    "parentProject": "Overordna prosjekt",
+    "invalidEmailValidation": "Du har skrevet inn en ugyldig e-post.",
+    "emailLabel": "E-postadresse",
+    "invalidEmailDomainValidation": "{{domain}} er ikke et støttet domene for eksterne brukere.",
+    "idLabel": "Id",
+    "invitedAtLabel": "Invitert",
+    "invitedByLabel": "Invitert av",
+    "cancelButtonDisabledTooltip": "Å avbryte invitasjoner støttes foreløpig ikke.",
+    "ok": "OK",
+    "dismiss": "Avvis",
+    "signInDisabledMessage": "Pålogging er midlertidig utilgjengelig. Vi jobber for å løse problemet. Vennligst kom tilbake snart!",
+    "pending": "Venter",
+    "expired": "Utløpt",
+    "abort": "Avbryt",
+    "refreshText": "Last siden på nytt",
+    "noResults": "Ingen elementer tilgjengelig. Dette kan skyldes aktive filtre eller at det ikke finnes noen elementer å vise.",
+    "noResultsWithCriteria": "Ingen elementer samsvarer med søkekriteriene dine **{{searchTerm}}**.",
+    "estimatedIncome": "Estimert inntekt",
+    "autoMatchScoreLabel": "Automatch-score ({{score}}%)",
+    "autoMatchScoreHint": "Du har automatisk matchet **{{autoMatch}}%** av de totale tidsoppføringene, noe som betyr at **{{manualMatch}}%** av oppføringene har blitt matchet manuelt i applikasjonen.",
+    "autoMatchError": "Den automatiske matchingsscoren er kritisk lav (under 70 %). For bedre resultater bør du kategorisere Outlook-avtalene dine og inkludere korrekt prosjekttagg i emnefeltet eller brødteksten.",
+    "autoMatchWarning": "Den automatiske matchingsscoren er under 85 %. For å forbedre nøyaktigheten, bør du sørge for at Outlook-avtalene dine er riktig kategorisert, og gjerne legge til prosjekttagg i emnefeltet eller brødteksten til avtalene.",
+    "autoMatchSuccess": "Den automatiske matchingsscoren er veldig høy (over 95 %). Outlook-avtalene dine ser ut til å være godt strukturert med riktige kategorier og prosjekttagger. Fortsett med dette for å sikre presis registrering.",
+    "periodLabel": "Periode",
+    "duration": "{{h}}t, {{m}}m",
+    "startTimeLabel_MMM_DD": "Starttid (kun dato)",
+    "endTimeLabel_MMM_DD": "Sluttid (kun dato)",
+    "employeeWithRoleLabel": "Tilsett (med rolledetaljer)",
+    "employeeWithRoleDescription": "Viser den tilsette knytte til timeregistreringa, inkludert detaljar om rolla vedkommande har i prosjektet i den aktuelle perioden.",
+    "externalLabel": "Ekstern",
+    "preferredLanguage_en-US": "🇺🇸 English (United States)",
+    "preferredLanguage_en-GB": "🇬🇧 English (United Kingdom)",
+    "preferredLanguage_nb-NO": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nb": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nn-NO": "🇳🇴 Norsk (bokmål)",
+    "preferredLanguage_nn": "🇳🇴 Norsk (nynorsk)",
+    "currencySymbol": "kr"
   },
   "navigation": {
     "TimesheetPage": "Timeliste",
@@ -804,7 +895,9 @@
     "manageApiTokens": "Administrere API-nøkler",
     "manageApiTokensDescription": "Administere (opprette nye, slette eksisterende, og se eksisterende nøkler) API-nøkler. Det er greit å være forsiktig med hvem som får denne tilgangen, da det er ganske mye som kan gjøres med så mye krefter.",
     "listApiTokens": "Liste ut API-nøkler",
-    "listApiTokensDescription": "Se eksisterende API-nøkler. Du har kun tilgang til grunnleggende informasjon om nøklene. Navn, beskrivelse, opprettet dato og når de utløper. Du har ikke mulighet for å hente ut selve nøkkelen som trengs for å kjøre spørringen fra tredjeapartssystemer."
+    "listApiTokensDescription": "Se eksisterende API-nøkler. Du har kun tilgang til grunnleggende informasjon om nøklene. Navn, beskrivelse, opprettet dato og når de utløper. Du har ikke mulighet for å hente ut selve nøkkelen som trengs for å kjøre spørringen fra tredjeapartssystemer.",
+    "inviteExternalUsers": "Invitere eksterne brukere",
+    "inviteExternalUsersDescription": "Gir rettighet til å invitere brukere utenfor organisasjonen for samarbeid og tilgang til ressurser."
   },
   "notifications": {
     "moreLinkText": "Les meir her",
@@ -858,7 +951,20 @@
       "additionalMetadata": "Ekstra informasjon",
       "addUser": "Legg til",
       "displayName": "Namn",
-      "removeUser": "Fjern"
+      "removeUser": "Fjern",
+      "searchTerm": "Søk etter \"{{searchTerm}}\"",
+      "clearSearch": "Klikk for å tømme søk"
+    },
+    "listControl": {
+      "editingInfo": "Du redigerer akkurat no eit element. Klikk **Enter** for å lagra eller trykk utenfor feltet for å avbryta redigeringa."
+    }
+  },
+  "list": {
+    "viewColumnsPanel": {
+      "title": "Rediger visningskolonner",
+      "description": "Vel kolonnane som skal visast i listevisninga for deg. Om du vil endra rekkjefølgja, kan du dra og sleppa eller bruka opp- og ned-pila ved sida av kvar kolonne. Endringar her påverkar ikkje Excel-eksporten.",
+      "moveUp": "Flytt kolonna opp",
+      "moveDown": "Flytt kolonna ned"
     }
   }
 }

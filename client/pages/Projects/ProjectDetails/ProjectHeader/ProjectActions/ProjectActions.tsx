@@ -7,6 +7,7 @@ import { StyledComponent } from 'types'
 import { useProjectsContext } from '../../../context'
 import { OPEN_EDIT_PANEL } from '../../../reducer/actions'
 import styles from './ProjectActions.module.scss'
+import { useProjectDeleteAction } from './DeleteAction'
 
 /**
  * @category Projects
@@ -15,6 +16,7 @@ export const ProjectActions: StyledComponent = (props) => {
   const { state, dispatch } = useProjectsContext()
   const [, hasPermission] = usePermissions()
   const { t } = useTranslation()
+  const onDelete = useProjectDeleteAction()
 
   return (
     <div className={ProjectActions.className} hidden={props.hidden}>
@@ -22,20 +24,31 @@ export const ProjectActions: StyledComponent = (props) => {
         <DynamicButton
           hidden={!state.selected?.webLink}
           text={t('projects.workspaceLabel')}
-          appearance='transparent'
           iconName='WebAsset'
           onClick={() =>
             window.open(state.selected?.externalSystemURL, '_blank')
           }
+          disabled={!Boolean(state.selected)}
+          transparent
+        />
+        <DynamicButton
+          hidden={!hasPermission($.DELETE_PROJECTS)}
+          text={t('projects.deleteButtonLabel')}
+          iconName='Delete'
+          {...onDelete}
+          disabled={!Boolean(state.selected)}
+          transparent
         />
         <DynamicButton
           hidden={!hasPermission($.MANAGE_PROJECTS)}
           text={t('projects.editButtonLabel')}
-          appearance='transparent'
           iconName='Edit'
           onClick={() => dispatch(OPEN_EDIT_PANEL(state.selected))}
+          disabled={!Boolean(state.selected)}
+          transparent
         />
       </div>
+      {onDelete.dialog}
     </div>
   )
 }
