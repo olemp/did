@@ -16,8 +16,8 @@ export const CustomerList: TabComponent = (props) => {
         enableShimmer={context.loading}
         items={context.state.customers}
         columns={columns}
-        menuItems={(_context) => {
-          return context.state.customers.some((c) => c.inactive)
+        menuItems={(_context) =>
+          context.state.customers.some((c) => c.inactive)
             ? [
                 InactiveCheckboxMenuItem(
                   t('customers.toggleInactive', {
@@ -29,7 +29,7 @@ export const CustomerList: TabComponent = (props) => {
                 )
               ]
             : []
-        }}
+        }
         getColumnStyle={(customer) => ({
           opacity: customer.inactive ? 0.4 : 1
         })}
