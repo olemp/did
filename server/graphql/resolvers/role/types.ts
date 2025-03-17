@@ -27,6 +27,9 @@ export class Role {
 
   @Field({ nullable: true })
   enabledForExternalUsers?: boolean
+
+  @Field({ nullable: true })
+  allowDelete?: boolean
 }
 
 /**
@@ -53,4 +56,7 @@ export class RoleInput {
 
   @Field({ nullable: true })
   enabledForExternalUsers?: boolean
+
+  @Field({ nullable: true })
+  allowDelete?: boolean
 }

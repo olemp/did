@@ -39,19 +39,21 @@ export function useColumnHeaderContextMenu(): IContextualMenuProps {
         canCheck: true,
         checked: _.isEqual(context.state.sortOpts, [column.fieldName, 'asc'])
       } as IContextualMenuItem),
-    columnData.isFilterable && {
-      key: 'DIVIDER_0',
-      itemType: ContextualMenuItemType.Divider
-    },
-    columnData.isFilterable && {
-      key: 'FILTER_BY',
-      text: t('common.filterByColumn', column),
-      canCheck: true,
-      checked: context.state.filterBy?.fieldName === column.fieldName,
-      onClick: () => {
-        context.dispatch(SET_FILTER_BY({ column }))
-      }
-    },
+    columnData.isFilterable &&
+      context.props.filters && {
+        key: 'DIVIDER_0',
+        itemType: ContextualMenuItemType.Divider
+      },
+    columnData.isFilterable &&
+      context.props.filters && {
+        key: 'FILTER_BY',
+        text: t('common.filterByColumn', column),
+        canCheck: true,
+        checked: context.state.filterBy?.fieldName === column.fieldName,
+        onClick: () => {
+          context.dispatch(SET_FILTER_BY({ column }))
+        }
+      },
     columnData.isGroupable && {
       key: 'DIVIDER_1',
       itemType: ContextualMenuItemType.Divider

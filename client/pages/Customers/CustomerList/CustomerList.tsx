@@ -12,7 +12,14 @@ export const CustomerList: TabComponent = (props) => {
   return (
     <>
       <List
-        searchBox={{ placeholder: t('common.searchPlaceholder') }}
+        searchBox={{
+          persist: true,
+          disabled: context.loading,
+          placeholder: (state) =>
+            t('customers.searchPlaceholder', {
+              count: state.origItems?.length ?? 0
+            })
+        }}
         enableShimmer={context.loading}
         items={context.state.customers}
         columns={columns}

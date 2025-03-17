@@ -56,10 +56,14 @@ export function useListProps({
       })
     : items
   return {
-    getKey: context.props.getKey,
-    setKey: context.props.setKey,
-    styles: context.props.styles,
-    enableShimmer: context.props.enableShimmer,
+    ..._.pick(
+      context.props,
+      'getKey',
+      'setKey',
+      'styles',
+      'enableShimmer',
+      'error'
+    ),
     isPlaceholderData: context.props.enableShimmer,
     selection: selectionMode === SelectionMode.none ? undefined : selection,
     columns,
