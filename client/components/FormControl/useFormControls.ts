@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { useMap } from 'hooks/common/useMap'
 import { FC, useCallback } from 'react'
-import { FormInputControlBase } from './types'
+import { BaseControlOptions, FormInputControlBase } from './types'
 import _ from 'lodash'
 
 /**
  * Registry of controls. The key is the ID of the form control, and the value is an array of form controls.
  * This is used to keep track of all form controls that are registered with a specific form control ID.
  */
-export const CONTROL_REGISTRY: Record<string, Record<string, any>> = {}
+export const CONTROL_REGISTRY: Record<
+  string,
+  Record<string, FormInputControlBase>
+> = {}
 
 /**
  * Register control for a form control with the given name and options.
@@ -27,7 +30,7 @@ function registerControl<TOptions = any, KeyType = string>(
   options?: TOptions,
   id?: string
 ): FormInputControlBase<TOptions, KeyType> {
-  const control = {
+  const control: FormInputControlBase<TOptions, KeyType> = {
     id: `formcontrol_${name}`,
     name,
     model,
@@ -85,7 +88,7 @@ export function useFormControls<KeyType extends string = any>(
   component?: FC
 ) {
   return useCallback(
-    <TOptions = {}>(
+    <TOptions = BaseControlOptions>(
       name: KeyType,
       options?: TOptions,
       extensionId?: string
