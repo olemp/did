@@ -1,5 +1,5 @@
 <!-- ⚠️ This README has been generated from the file(s) ".changelog/CHANGELOG.md" ⚠️-->
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#changelog)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#changelog)
 
 # ➤ Changelog
 
@@ -12,89 +12,100 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <summary>📖 Table of Contents</summary>
 <br />
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#table-of-contents)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#table-of-contents)
 
 ## ➤ Table of Contents
 
 * [➤ Changelog](#-changelog)
-	* [➤ 0.15.0 - 19.03.2025](#-0150---19032025)
+	* [➤ 0.15.1 - 19.03.2025](#-0151---19032025)
 		* [Fixed](#fixed)
-	* [➤ 0.14.18 - 18.03.2025](#-01418---18032025)
+	* [➤ 0.15.0 - 19.03.2025](#-0150---19032025)
 		* [Fixed](#fixed-1)
-	* [➤ 0.14.17 - 18.03.2025](#-01417---18032025)
+	* [➤ 0.14.18 - 18.03.2025](#-01418---18032025)
 		* [Fixed](#fixed-2)
-	* [➤ 0.14.16 - 18.03.2025](#-01416---18032025)
+	* [➤ 0.14.17 - 18.03.2025](#-01417---18032025)
 		* [Fixed](#fixed-3)
+	* [➤ 0.14.16 - 18.03.2025](#-01416---18032025)
+		* [Fixed](#fixed-4)
 	* [➤ 0.14.15 - 17.03.2025](#-01415---17032025)
 		* [Changed](#changed)
-		* [Fixed](#fixed-4)
+		* [Fixed](#fixed-5)
 	* [➤ 0.14.12 - 13.03.2025](#-01412---13032025)
 		* [Added](#added)
-		* [Fixed](#fixed-5)
-	* [➤ 0.13.3 - 25.02.2025](#-0133---25022025)
 		* [Fixed](#fixed-6)
+	* [➤ 0.13.3 - 25.02.2025](#-0133---25022025)
+		* [Fixed](#fixed-7)
 		* [Changed](#changed-1)
 		* [Added](#added-1)
 	* [➤ 0.13.2 - 22.02.2024](#-0132---22022024)
-		* [Fixed](#fixed-7)
-	* [➤ 0.13.1 - 21.02.2024](#-0131---21022024)
 		* [Fixed](#fixed-8)
-	* [➤ 0.13.0 - 21.02.2024](#-0130---21022024)
+	* [➤ 0.13.1 - 21.02.2024](#-0131---21022024)
 		* [Fixed](#fixed-9)
+	* [➤ 0.13.0 - 21.02.2024](#-0130---21022024)
+		* [Fixed](#fixed-10)
 		* [Added](#added-2)
 		* [Changed](#changed-2)
 	* [➤ 0.12.0 - 17.04.2023](#-0120---17042023)
 		* [Added](#added-3)
-		* [Fixed](#fixed-10)
+		* [Fixed](#fixed-11)
 		* [Changed](#changed-3)
 	* [➤ 0.11.4 - 21.12.2022](#-0114---21122022)
 		* [Added](#added-4)
-		* [Fixed](#fixed-11)
+		* [Fixed](#fixed-12)
 		* [Changed](#changed-4)
 	* [➤ 0.11.3 - 25.11.2022](#-0113---25112022)
-		* [Fixed](#fixed-12)
-	* [➤ 0.11.2 - 18.11.2022](#-0112---18112022)
 		* [Fixed](#fixed-13)
-	* [➤ 0.11.1 - 18.11.2022](#-0111---18112022)
+	* [➤ 0.11.2 - 18.11.2022](#-0112---18112022)
 		* [Fixed](#fixed-14)
+	* [➤ 0.11.1 - 18.11.2022](#-0111---18112022)
+		* [Fixed](#fixed-15)
 	* [➤ 0.11.0 - 16.11.2022](#-0110---16112022)
 		* [Added](#added-5)
-		* [Fixed](#fixed-15)
+		* [Fixed](#fixed-16)
 		* [Changed](#changed-5)
 	* [➤ 0.10.0 - 27.04.2021](#-0100---27042021)
 		* [Added](#added-6)
-		* [Fixed](#fixed-16)
+		* [Fixed](#fixed-17)
 		* [Changed](#changed-6)
 	* [➤ 0.9.0 - 15.12.2020](#-090---15122020)
 		* [Added](#added-7)
-		* [Fixed](#fixed-17)
+		* [Fixed](#fixed-18)
 		* [Changed](#changed-7)
 		* [Removed](#removed)
 	* [➤ 0.8.0 - 15.10.2020](#-080---15102020)
 		* [Added](#added-8)
-		* [Fixed](#fixed-18)
+		* [Fixed](#fixed-19)
 	* [➤ 0.7.0 - 09.09.2020](#-070---09092020)
 		* [Added](#added-9)
-		* [Fixed](#fixed-19)
+		* [Fixed](#fixed-20)
 	* [➤ 0.6.0 - N/A](#-060---na)
 	* [➤ 0.5.0 - 22.5.2020](#-050---2252020)
 		* [Added](#added-10)
-		* [Fixed](#fixed-20)
+		* [Fixed](#fixed-21)
 	* [➤ 0.4.0 - 11.5.2020](#-040---1152020)
 		* [Added](#added-11)
-		* [Fixed](#fixed-21)
 		* [Fixed](#fixed-22)
+		* [Fixed](#fixed-23)
 	* [➤ 0.3.1 - 16.04.2020](#-031---16042020)
 		* [Added](#added-12)
-		* [Fixed](#fixed-23)
-	* [➤ 0.3.0 - 20.03.2020](#-030---20032020)
 		* [Fixed](#fixed-24)
+	* [➤ 0.3.0 - 20.03.2020](#-030---20032020)
+		* [Fixed](#fixed-25)
 	* [➤ 0.2.0 - 05.03.2020](#-020---05032020)
 		* [Added](#added-13)
 </details>
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0150---19032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0151---19032025)
+
+## ➤ 0.15.1 - 19.03.2025
+
+### Fixed
+
+- Fixed critical bug in `SummaryView` for `Timesheet` page that caused the component when there were unmatched events
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0150---19032025)
 
 ## ➤ 0.15.0 - 19.03.2025
 
@@ -104,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Users with no hours in selected periods are now filtered out in the `SummaryView`
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#01418---18032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#01418---18032025)
 
 ## ➤ 0.14.18 - 18.03.2025
 
@@ -113,7 +124,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed unneccessary margin from the `EventList` component
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#01417---18032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#01417---18032025)
 
 ## ➤ 0.14.17 - 18.03.2025
 
@@ -123,7 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#01416---18032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#01416---18032025)
 
 ## ➤ 0.14.16 - 18.03.2025
 
@@ -138,7 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#01415---17032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#01415---17032025)
 
 ## ➤ 0.14.15 - 17.03.2025
 
@@ -150,7 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue with project roles when manually matching in the UI
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#01412---13032025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#01412---13032025)
 
 ## ➤ 0.14.12 - 13.03.2025
 
@@ -165,7 +176,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0133---25022025)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0133---25022025)
 
 ## ➤ 0.13.3 - 25.02.2025
 
@@ -193,7 +204,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0132---22022024)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0132---22022024)
 
 ## ➤ 0.13.2 - 22.02.2024
 
@@ -202,7 +213,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix for [#1207](https://github.com/Puzzlepart/did/issues/1207)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0131---21022024)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0131---21022024)
 
 ## ➤ 0.13.1 - 21.02.2024
 
@@ -211,7 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix for [#1200](https://github.com/Puzzlepart/did/issues/1200)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0130---21022024)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0130---21022024)
 
 ## ➤ 0.13.0 - 21.02.2024
 
@@ -233,7 +244,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrating to `@apollo/server@v4` [#1116](https://github.com/Puzzlepart/did/issues/1116)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0120---17042023)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0120---17042023)
 
 ## ➤ 0.12.0 - 17.04.2023
 
@@ -249,7 +260,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Vacation days reset per year by changing the user configuration format [#1086](https://github.com/Puzzlepart/did/pull/1086)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0114---21122022)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0114---21122022)
 
 ## ➤ 0.11.4 - 21.12.2022
 
@@ -267,7 +278,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Events without subject/title is now visible to the end user and displayed as an error that needs to be resolved before submitting [#1082](https://github.com/Puzzlepart/did/issues/1082)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0113---25112022)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0113---25112022)
 
 ## ➤ 0.11.3 - 25.11.2022
 
@@ -275,7 +286,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue with user reports [#1077](https://github.com/Puzzlepart/did/issues/1077)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0112---18112022)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0112---18112022)
 
 ## ➤ 0.11.2 - 18.11.2022
 
@@ -284,7 +295,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0111---18112022)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0111---18112022)
 
 ## ➤ 0.11.1 - 18.11.2022
 
@@ -293,7 +304,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0110---16112022)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0110---16112022)
 
 ## ➤ 0.11.0 - 16.11.2022
 
@@ -318,7 +329,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deleting API-keys and labels now requires confirmation [#953](https://github.com/Puzzlepart/did/issues/953)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#0100---27042021)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#0100---27042021)
 
 ## ➤ 0.10.0 - 27.04.2021
 
@@ -359,7 +370,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#090---15122020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#090---15122020)
 
 ## ➤ 0.9.0 - 15.12.2020
 ### Added
@@ -401,7 +412,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#080---15102020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#080---15102020)
 
 ## ➤ 0.8.0 - 15.10.2020
 ### Added
@@ -421,7 +432,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#070---09092020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#070---09092020)
 
 ## ➤ 0.7.0 - 09.09.2020
 ### Added
@@ -440,14 +451,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#060---na)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#060---na)
 
 ## ➤ 0.6.0 - N/A
 Need details.
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#050---2252020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#050---2252020)
 
 ## ➤ 0.5.0 - 22.5.2020
 
@@ -465,7 +476,7 @@ Need details.
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#040---1152020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#040---1152020)
 
 ## ➤ 0.4.0 - 11.5.2020
 
@@ -486,7 +497,7 @@ Need details.
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#031---16042020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#031---16042020)
 
 ## ➤ 0.3.1 - 16.04.2020
 
@@ -501,7 +512,7 @@ Need details.
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#030---20032020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#030---20032020)
 
 ## ➤ 0.3.0 - 20.03.2020
 
@@ -511,7 +522,7 @@ Need details.
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#020---05032020)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/cloudy.png)](#020---05032020)
 
 ## ➤ 0.2.0 - 05.03.2020
 
